@@ -1,0 +1,213 @@
+<div class="edit-question form-horizontal"
+    ng-class="{'fill-in': (question.type === 'FillInQuestion'),
+               'multiple-choice': (question.type === 'MultipleChoiceQuestion')}">
+
+    <!-- Header -->
+    <div class="question-header">
+
+        <!-- Question Number -->
+        <div class="question-number ng-cloak" ng-if="showQuestionNumber">{{questionNumber}}.</div>
+
+        <!-- Question Type Menu -->
+        <div class="question-type-menu btn-group btn-group-sm">
+            <button type="button" class="btn btn-default fill-in" ng-model="question.type" btn-radio="'FillInQuestion'">Fill In</button>
+            <button type="button" class="btn btn-default multiple-choice" ng-model="question.type" btn-radio="'MultipleChoiceQuestion'">Multiple Choice</button>
+        </div>
+
+        <!-- Question Actions Menu -->
+        <div class="question-actions-container">
+            <div class="question-actions">
+
+                <!-- Settings -->
+                <button tooltip="{{ui.showingSettings ? 'Hide Options' : 'Show Options'}}" class="toggle-settings btn btn-sm btn-default"
+                    ng-click="toggleSettings()" ng-class="{'active': ui.showingSettings}"
+                    type="button" tabindex="-1">
+                    <span class="glyphicon glyphicon-cog"></span>
+                </button>
+
+                <!-- Copy -->
+                <button tooltip="Copy" class="copy-question btn btn-sm btn-default" ng-if="showCopy"
+                    ng-click="onCopy(questionNumber)" type="button" tabindex="-1">
+                    <i class="fa fa-copy"></i>
+                </button>
+
+                <!-- Move -->
+                <span tooltip="Move" class="drag-handle btn btn-sm btn-default" ng-if="showReorder">
+                    <span class="glyphicon glyphicon-move"></span>
+                </span>
+
+                <!-- Delete -->
+                <!-- Use a wrapper elem because both the tooltip and the confirm-button directives
+                     want an isolate scope, so they can't both be on the same element. -->
+                <span class="delete-wrapper" tooltip="Delete">
+                    <button class="delete-question btn btn-sm btn-default" ng-if="showDelete" type="button"
+                        confirm-button="onDelete(questionNumber)" message="Are you sure you want to remove this question?"
+                        classes="confirm-popover" placement-callback='popoverPlacementCallback()' tabindex="-1">
+
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </span>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Question -->
+    <div class="question form-group">
+        <div class="question-editor rich-editor" ckedit="{{ckEditorConfig}}" ng-model="question.questionHtml" focus-on="newQuestionReady"></div>
+    </div>
+
+    <!-- Answer -->
+    <div class="answer form-group">
+
+        <!-- Fill In -->
+        <div ng-show="question.type === 'FillInQuestion'" class="question-editor-row answer-container fill-in">
+            <label class="control-label col-ms-2 col-sm-2">Answer:</label>
+            <div class="col-ms-10 col-sm-10">
+
+                <!-- Fill In Answer Field -->
+                <input type="text" name="answer" ng-model="question.answer" class="fill-in-answer form-control" placeholder="Answer"
+                    ng-keydown="handleAnswerKeypress($event)" auto-grow="auto-grow" max-width="443" >
+                
+                <!-- Settings Toggle Button -->
+                <!--
+                <button type="button" class="toggle-settings btn btn-default"
+                    ng-click="ui.showingSettings = !ui.showingSettings"
+                    ng-class="{'active': ui.showingSettings}">
+                    <span class="fa fa-caret-right" ng-show="!ui.showingSettings"></span>
+                    <span class="fa fa-caret-down" ng-show="ui.showingSettings"></span>
+                    <span class="glyphicon glyphicon-cog"></span>
+                </button>
+                -->
+
+            </div>
+        </div>
+
+        <!-- Multiple Choice -->
+        <div ng-show="question.type === 'MultipleChoiceQuestion'" class="answer-container multiple-choice">
+            <label class="control-label col-ms-2 col-sm-2">Choices:</label>
+            <div class="col-ms-10 col-sm-10">
+                <ul class="choices input-list">
+                    <li class="choice list-item" ng-repeat="(i, choice) in question.choices track by $index">
+                        <div class="choice-row list-item-row">
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-sm btn-default marker" ng-class="{correct: question.correctAnswerIndex === i}" ng-model="question.correctAnswerIndex" btn-radio="i">
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                    </button>
+                                </span>
+                                <input type="text" ng-model="question.choices[i]" class="editor choice-editor form-control"
+                                    auto-grow="auto-grow" max-width="443">
+                                <span class="item-actions choice-actions btn-group">
+                                    
+                                    <!-- No support yet for reordering choices
+                                    <button type="button" class="btn btn-sm btn-default drag-handle">
+                                        <span class="glyphicon glyphicon-move"></span>
+                                    </button>
+                                    -->
+
+                                    <button type="button" class="btn btn-sm btn-default remove-choice" ng-click="removeChoice(i)">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <button ng-click="addChoice()" type="button" class="btn btn-sm btn-default add-choice">
+                            <span class="glyphicon glyphicon-plus"></span> Add
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Options -->
+    <!-- (Note: To avoid jumpy toggle animations when collapsing/expanding, this top-level
+         element cannot have top/bottom margins.) -->
+    <div class="settings" collapse="!ui.showingSettings">
+
+        <!-- (Margins are OK here.) -->
+        <div class="form-group">
+
+            <!-- "Alternate Answers:" row (fill-in) -->
+            <div class="question-editor-row fill-in-alts-container" ng-show="question.type === 'FillInQuestion'">
+                <label class="control-label col-ms-2 col-sm-2">Alternate Answers:</label>
+                <div class="col-ms-10 col-sm-10">
+                    <ul class="fill-in-alts input-list">
+                        <li class="fill-in-alt list-item" ng-repeat="(i, ans) in question.alternativeAnswers track by $index">
+                            <div class="list-item-row">
+                                <div class="input-group input-group-sm">
+                                    <input type="text" ng-model="question.alternativeAnswers[i]" class="editor alt-answer-editor form-control"
+                                           auto-grow="auto-grow" max-width="443">
+                                    <span class="item-actions alt-ans-actions btn-group">
+                                        <button type="button" class="btn btn-sm btn-default remove-alt-ans" ng-click="removeAltAns(i)">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <button ng-click="addAltAns()" type="button" class="btn btn-sm btn-default add-alt-ans">
+                                <span class="glyphicon glyphicon-plus"></span> Add
+                            </button>
+                            <span class="help-icon fa fa-question-circle"
+                                  tooltip='Add other acceptable answers that should be marked as correct.'>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- "Options:" row -->
+            <!-- (Hide if multiple choice, since there aren't any additional options for multiple choice yet.) -->
+            <div class="question-editor-row" ng-hide="question.type === 'MultipleChoiceQuestion'">
+                <label class="control-label col-ms-2 col-sm-2">Options:</label>
+                <div class="col-ms-10 col-sm-10">
+
+                    <!-- Fill In Options -->
+                    <div class="settings-container fill-in" ng-show="question.type === 'FillInQuestion'">
+
+                        <!-- Ignore capitalization -->
+                        <div class="checkbox setting">
+                            <label>
+                                <input type="checkbox" ng-model="question.ignoreCase" class="ignore-case"> Ignore capitalization
+                            </label>
+                            <span class="help-icon fa fa-question-circle"
+                                  tooltip='Ignore differences in capitalization when grading submissions (consider "Answer" same as "answer").'>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- "Supplemental Information:" row -->
+            <div class="question-editor-row">
+                <div class="col-ms-2 col-sm-2">
+                    <label class="control-label">Supplemental Information:</label>
+                </div>
+                <div class="col-ms-10 col-sm-10">
+                    <div class="supplemental-info-editor rich-editor" ckedit="{{ckEditorConfig}}" ck-init-on="settingsOpened"
+                         contenteditable="true" ng-model="question.supplementalInfoHtml"></div>
+
+                    <!-- Help icon: the help text is fine, but the placement is starting to look a bit scattered. I will
+                         be adjusting the placement of help icons so that they're all next to the field label itself (on
+                         the left), and so that they all line up vertically. For now, I'm just commenting this out.
+                    <span class="help-icon fa fa-question-circle"
+                          tooltip-html-unsafe='Additional information to show <i>after</i> the question has been submitted (e.g., explanation of the correct answer, or links to external sources). If provided, this information will be shown regardless of whether the submission was correct.'>
+                    </span>
+                    -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+</div>

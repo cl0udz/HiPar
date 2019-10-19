@@ -1,0 +1,186 @@
+/*
+ * Take Quiz styles
+ * ---------------- */
+
+@max-question-width: 30em;
+@xxs-breakpoint: 570px;
+
+.hidden-xxs {
+    @media (max-width: @xxs-breakpoint) {
+        .responsive-invisibility();
+    }
+}
+
+#quiz-sidebar {
+    @media(min-width:992px) {
+        .make-md-column(3);
+        .make-lg-column(2);
+    }
+}
+
+.quiz-container {
+    .make-row();
+
+    // Move the entire container down a bit for any screens larger than mobile
+    @media(min-width:768px) { margin-top: 20px; }
+
+    .main {
+        .make-md-column(9);
+        .make-lg-column(8);
+
+        @media(min-width:1600px){
+            margin-left: 3em;
+            margin-right: 3em;
+        }
+    }
+
+    .quiz-body {
+
+        position: relative;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 0 1em;
+        overflow: auto;
+    }
+
+    .header {
+        max-width: @max-question-width;
+        margin: 1em auto;
+        border-bottom: 1px dotted #ccc;
+
+        a.disabled { color: #999; }
+        a.disabled:hover {
+            cursor: default;
+            text-decoration: none;
+        }
+
+        // Make room for the sidebar toggle button
+        @media(max-width:@xxs-breakpoint){
+            padding-left:  50px;
+            padding-right: 50px;
+        }
+
+        .header-row {
+            .make-row();
+            padding-bottom: 1em;
+
+            .prev,
+            .next {
+                .make-xs-column(3);
+                .make-sm-column(4);
+            }
+
+            .current {
+                .make-xs-column(6);
+                .make-sm-column(4);
+            }
+
+            .prev {
+                text-align: left;
+                @media(max-width:@xxs-breakpoint){ text-align: right; }
+            }
+            .current { text-align: center; font-weight: bold; }
+            .next {
+                text-align: right;
+                @media(max-width:@xxs-breakpoint){ text-align: left; }
+            }
+        }
+    }
+
+    .question-container,
+    .summary-container {
+        max-width: @max-question-width;
+        margin: 0 auto 1em;
+
+        .header h3 { margin: 5px 0; }
+    }
+
+    .summary-actions {
+        margin: 1.5em 0;
+    }
+
+    .summary-actions button { margin-bottom: .25em; }
+    .summary-actions button:not(:last-of-type) { margin-right: .25em; }
+
+    .score {
+        font-weight: bold;
+        font-size: 1.3em;
+        background: hsl(206, 79%, 97%);
+        padding: .1em .7em;
+        border: 1px solid #949AB3;
+        border-radius: 4px;
+    }
+
+    .score-percent {
+        margin-left: .5em;
+    }
+}
+
+#toggle-sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 24px;
+    color: #6C729D;
+    padding: 6px;
+    border-radius: 0 0 4px 0;
+    width: 46px;
+    height: 46px;
+    z-index: 2;
+}
+
+#toggle-sidebar:focus {
+    outline: 0;     // Focus outline looks bad on Chrome
+}
+
+#quiz-sidebar {
+
+    @media(max-width:991px){
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+
+    .sidebar-question {
+        .make-row();
+        line-height: 2;
+
+        .question {
+            .make-xs-column(11; @gutter: 0);
+        }
+
+        .status {
+            .make-xs-column(1; @gutter: 0);
+
+            .correct { color: #468847; }
+            .incorrect { color: #b94a48; }
+        }
+    }
+
+    .list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
+        background-color: rgba(66, 139, 202, 0.16);
+        border-color: #ddd;
+        color: black;
+    }
+
+    .progress-container {
+        .make-row();
+
+        padding: 0;
+
+        .progress {
+            .make-xs-column(12; @gutter: 0);
+            border-radius: 0;
+            margin-bottom: 0;
+            position: relative;
+        }
+    }
+
+    .score-tooltip { text-align: left; }
+    .sidebar-summary-row {
+        .make-row();
+        .summary {
+            .make-xs-column(12; @gutter: 0);
+            font-weight: bold;
+        }
+    }
+}

@@ -1,0 +1,9 @@
+(function() {
+
+    var utils = require("../TestUtils");
+
+    var secret = {password:"abc"};
+    secret = utils.source(secret, utils.HIGH_LEVEL, "test-source-secret");
+    utils.sink(secret.password); // VIOLATION
+
+})();

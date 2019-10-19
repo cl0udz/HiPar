@@ -1,0 +1,12 @@
+{
+    "steps":0,
+    "JSFlowHiddenImplicits":{
+      "direct":0,
+      "indirect":1,
+      "branchNotTaken":1
+    },"JSFlowHiddenImplicits2":{
+      "direct":0,
+      "indirect":0,
+      "branchNotTaken":1
+    }
+}

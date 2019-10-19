@@ -1,0 +1,13 @@
+{
+  "sources" : {
+    "http" : false,
+    "db" : false,
+    "fs": false
+  },
+  "sinks" : {
+    "exec" : true,
+    "fs" : true,
+    "http" : true,
+    "db" : true
+  }
+}

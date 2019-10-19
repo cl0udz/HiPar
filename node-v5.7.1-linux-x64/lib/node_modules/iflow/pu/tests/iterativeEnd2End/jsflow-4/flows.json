@@ -1,0 +1,13 @@
+{
+    "steps":0,
+    "JSFlowSetPropertyInSecretCtx":{
+      "direct":1,
+      "indirect":0,
+      "branchNotTaken":1
+    },
+    "JSFlowSetPropertyInSecretCtx2": {
+      "direct":2,
+      "indirect":1,
+      "branchNotTaken":0
+    }
+}

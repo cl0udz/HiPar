@@ -1,0 +1,171 @@
+/*
+ * My Quizzes
+ * ---------- */
+
+@import "../vendor/flexbox.less/flexbox.less";
+
+.my-quizzes {
+
+    .quizzes-container {
+        max-width: 40em;
+        margin: 0 auto 2em;
+    }
+
+    .topics-label {
+        margin: 8px 4px 12px;
+        font-size: 12px;
+        font-weight: 700;
+        color: #777;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .num-questions {
+        margin-left: 6px;
+        color: #666;
+    }
+
+    .current-topic {
+        .flexbox();
+        .flex-flow(row wrap);
+        margin: 10px 0 40px;
+    }
+
+    .topic-header {
+        .flex(@spec: 2013; @grow: 1; @shrink: 1; @basis: 100%);
+        .flexbox();
+        margin: 10px 0 25px 0;
+        border-bottom: 2px solid #428bca;
+
+        .topic-name-container {
+            .flex(@spec: 2013; @grow: 1; @shrink: 0; @basis: auto);
+
+            .topic-name {
+                margin: 0 0 -2px 0;
+                padding-bottom: 5px;
+                color: black;
+                border-bottom: 0;
+            }
+        }
+
+        .topic-actions {
+            .flex(@spec: 2013; @grow: 0; @shrink: 1; @basis: auto);
+            .align-self(center);
+            margin-right: 15px;
+
+            .edit-topic {
+                padding-left: 12px;
+                .caret { margin: 0 4px; }
+            }
+        }
+    }
+
+    .topic-quizzes {
+        .flex(@spec: 2013; @grow: 1; @shrink: 1; @basis: 100%);
+    }
+
+    .quiz {
+        .flexbox();
+        .quiz-info {
+            .flex(@spec: 2013; @grow: 1; @shrink: 0; @basis: auto);
+            .quiz-name {
+                font-size: 16pt;
+            }
+        }
+        .quiz-actions {
+            .flex(@spec: 2013; @grow: 0; @shrink: 1; @basis: auto);
+        }
+    }
+}
+
+.topics-sidebar {
+
+    .nav-item {
+        font-weight: normal;
+    }
+
+    .topic-name {
+        color: #00B7FF;
+    }
+
+    .nav-item > a {
+        outline: 0;     // Remove link outline in Firefox
+        text-decoration: none;
+    }
+
+    #topics {
+        margin-bottom: 12px;
+    }
+}
+
+.topic-nav-item {
+    padding: 10px 15px 10px 5px;    // Decrease left padding a bit
+}
+
+.topic-nav-item.active .toggle-subtopics > a,
+.topic-nav-item.active .topic-name {
+    color: white;
+}
+
+.topic-nav-item:not(.active):hover .topic-name {
+    color: #2a6496;
+}
+
+.toggle-subtopics {
+    display: inline-block;
+    width: 20px;
+
+    >a {
+        display: inline-block;
+        border: 1px solid transparent;
+        border-radius: 3px;
+        width: 20px;
+        text-align: center;
+        margin: -2px 0;
+        padding: 0;
+
+        &:hover {
+            border: 1px solid #ccc;
+        }
+    }
+
+    .toggle-icon {
+        padding: 0;
+        margin: 0;
+    }
+}
+
+.topic-nav-item > .editable-wrap {
+    vertical-align: top;
+    margin: -6px 0 -6px 14px;  // Make editable input field line up with other topics in same level of hierarchy.
+
+    .editable-buttons {
+        button { padding: 5px; }
+    }
+
+    .editable-error {
+        background-color: #f2dede;
+        border-radius: 4px;
+        border: 1px solid #ebccd1;
+        color: #a94442;
+        padding: 4px 6px;
+        max-width: 94%;
+        white-space: normal;
+    }
+}
+
+.topic-nav-item > .topic-name-form {
+    max-width: 70px;
+    .editable-buttons > button {
+        margin: 0;
+    }
+}
+
+.empty-placeholder {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    background-color: rgba(217, 237, 247, 0.1);
+    border: 1px solid rgba(164, 201, 209, 0.51);
+    color: rgba(49, 112, 143, 0.66);
+}

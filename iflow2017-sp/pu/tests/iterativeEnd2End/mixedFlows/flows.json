@@ -1,0 +1,8 @@
+{
+    "steps":2,
+    "MixedFlowsTest":{
+      "direct":7,
+      "indirect":1,
+      "branchNotTaken":1
+    }
+}

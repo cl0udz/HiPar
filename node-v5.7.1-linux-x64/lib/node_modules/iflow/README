@@ -1,0 +1,16 @@
+=== INSTALATION ===
+From the directory of the project run
+    sudo npm install -g
+This will install globaly in your system the tool under the name iflow. So it is already available as command line tool.
+
+=== USAGE ===
+To use iflow in a project you just need to import it in the following manner:
+    var iflow = require("iflow");
+This object further offers the following methods: addSource, addSink, source, sink.The command line
+tool can be used in the following ways:
+1. To run the basic tests
+    sudo iflow -t
+2. To instrument the current directory
+    iflow -i
+3. To run the current project
+    iflow -r MainClass.js

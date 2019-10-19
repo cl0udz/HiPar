@@ -1,0 +1,8 @@
+{
+    "steps":0,
+    "MarkFunctionSinksTest":{
+      "direct":2,
+      "indirect":0,
+      "branchNotTaken":0
+    }
+}

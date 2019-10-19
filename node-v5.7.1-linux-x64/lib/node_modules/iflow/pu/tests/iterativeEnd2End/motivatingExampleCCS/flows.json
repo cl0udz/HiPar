@@ -1,0 +1,13 @@
+{
+    "steps":0,
+    "SimplePassTest":{
+        "direct":0,
+        "indirect":0,
+        "branchNotTaken":1
+    },
+    "ComplexPassTest":{
+      "direct":2,
+      "indirect":1,
+      "branchNotTaken":0
+    }
+}

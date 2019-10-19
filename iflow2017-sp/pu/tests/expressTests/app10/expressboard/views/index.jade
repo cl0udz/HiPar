@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  #content.container
+    .wrapper
+      -if (!user)
+        .left.span6
+          .welcome-home
+            h2 
+              strong Greetings !
+            br
+            p Hello and welcome to expressboard. A simple message board app powered by node.js and the very awesome express web framework.
+            br
+            p Sign up now, and start discussing with your friends, and colleagues.
+            br
+        .right.span6
+          .signup-home
+            h2 Don't have an account yet?
+            h4.sub Sign up now it's free!
+            hr
+            include includes/signup_form
+

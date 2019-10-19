@@ -1,0 +1,22 @@
+<div>
+    <div class="modal-header">
+        <h3 class="modal-title">Settings</h3>
+    </div>
+
+    <div class="modal-body">
+        <form name="settingsForm" data-ng-submit="settingsVm.submit(settingsForm.$valid)" novalidate>
+            <div class="form-group"  data-ng-class="{ 'has-error' : settingsForm.interval.$invalid && !settingsForm.interval.$pristine }">
+                <label for="interval">Communication interval (ms):</label>
+                <input type="number" id="interval" name="interval" class="form-control input-sm" placeholder="interval"
+                       data-ng-model="settingsVm.settings.interval" required>
+                <p data-ng-show="settingsForm.interval.$invalid && !settingsForm.interval.$pristine" class="help-block">interval should be a positive number.</p>
+            </div>
+
+            <div class="modal-footer">
+                <button style="width: auto" class="btn btn-primary" type="submit">OK</button>
+                <button class="btn btn-primary" type="button" data-ng-click="settingsVm.cancel()">CANCEL</button>
+            </div>
+        </form>
+    </div>
+
+</div>

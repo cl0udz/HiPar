@@ -1,0 +1,59 @@
+.horizontal-tabs-panel {
+  border: 1px solid #eee;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+.horizontal-tabs-line > .nav-tabs {
+  border: none;
+  margin: 0px;
+}
+.horizontal-tabs-line > .nav-tabs > li {
+  margin-right: 2px;
+}
+.horizontal-tabs-line > .nav-tabs > li > a {
+  border: 0;
+  margin-right: 0;
+  color: #737373;
+}
+.horizontal-tabs-line > .nav-tabs > li > a > i {
+  color: #a6a6a6;
+}
+.horizontal-tabs-line > .nav-tabs > li.active {
+  border-bottom: 4px solid #f3565d;
+  position: relative;
+}
+.horizontal-tabs-line > .nav-tabs > li.active > a {
+  border: 0;
+  color: #333;
+}
+.horizontal-tabs-line > .nav-tabs > li.active > a > i {
+  color: #404040;
+}
+.horizontal-tabs-line > .tab-content {
+  margin-top: -3px;
+  background-color: #fff;
+  border: 0;
+  border-top: 1px solid #eee;
+  padding: 15px 0;
+}
+.horizontal-tabs-line > .nav-tabs > li.open,
+.horizontal-tabs-line > .nav-tabs > li:hover {
+  border-bottom: 4px solid #fbcdcf;
+}
+.horizontal-tabs-line > .nav-tabs > li.open > a,
+.horizontal-tabs-line > .nav-tabs > li:hover > a {
+  border: 0;
+  background: none !important;
+  color: #333;
+}
+.horizontal-tabs-line > .nav-tabs > li.open > a > i,
+.horizontal-tabs-line > .nav-tabs > li:hover > a > i {
+  color: #a6a6a6;
+}
+.horizontal-tabs-line > .nav-tabs > li.open .dropdown-menu,
+.horizontal-tabs-line > .nav-tabs > li:hover .dropdown-menu {
+  margin-top: 0px;
+}
+.portlet .horizontal-tabs-line > .tab-content {
+  padding-bottom: 0;
+}

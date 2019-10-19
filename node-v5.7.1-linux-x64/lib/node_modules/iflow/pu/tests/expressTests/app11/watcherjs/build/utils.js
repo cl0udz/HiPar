@@ -1,0 +1,5 @@
+/*
+watcher.js 2.5.3- app watcher
+Built on 2015-10-20
+*/
+"use strict";var events=require("events"),_=require("underscore"),async=require("async"),stampit=require("stampit"),eventDispatcher,eventDispatcherFactory,transactionalExecutor;eventDispatcher=stampit().state({emitter:void 0}).enclose(function(){this.on=function(a,b){this.emitter.on(a,b)},this.emit=function(a){return this.emitter.emit.apply(this.emitter,_.toArray(arguments))},this.removeAllListeners=function(a){this.emitter.removeAllListeners(a)}}),eventDispatcherFactory={create:function(){return eventDispatcher.create({emitter:new events.EventEmitter})}},transactionalExecutor={execute:function(a,b,c){b=b||_.noop,c=c||"series";var d="series"===c?async.series:async.waterfall,e=0,f=_.map(_.pluck(a,"execute"),function(a){return _.wrap(a,function(a,b){e++,a(b)})});d(f,function(c,d){if(c)for(var f=0;e-1>f;f++)a[f].rollback();b(c,d)})}},module.exports={eventDispatcher:eventDispatcher,eventDispatcherFactory:eventDispatcherFactory,transactionalExecutor:transactionalExecutor};

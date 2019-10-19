@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include partials/head %>
+    <link rel="stylesheet" type="text/css" href="/static/css/profile.css">
+  </head>
+  <body>
+    <header>
+      <% include partials/navbar %>
+    </header><br>
+    <form id="left-align" method="post" action="/logout?_method=DELETE">
+      <button type="submit" class="logout-btn">Logout</button>
+    </form><br>
+    <div class="column">
+	   <img src="http://www.mallorcacyclingtours.com/wp-content/uploads/2014/04/blank-profile-hi.png">
+     <ul class="list">
+			<li class="info">Username: <span class="white-font"><%= user.username %>!</span>&#9786</li>
+			<li class="info">Favorite languages: </li>
+			<li class="info">Location: </li>
+     </ul>
+	 </div>
+  </body>
+  <% include partials/login_modal %>
+</html>

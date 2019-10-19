@@ -1,0 +1,13 @@
+{
+    "steps":0,
+    "JSFlowDefineFunctionSecretContextHidden":{
+      "direct":1,
+      "indirect":2,
+      "branchNotTaken":0
+    },
+    "JSFlowDefineFunctionSecretContextHiddenFalse":{
+      "direct":1,
+      "indirect":2,
+      "branchNotTaken":0
+    }
+}

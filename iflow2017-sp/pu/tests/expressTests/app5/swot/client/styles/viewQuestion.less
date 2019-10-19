@@ -1,0 +1,116 @@
+@import "../vendor/flexbox.less/flexbox.less";
+
+.view-question {
+
+    .question {
+        margin-bottom: 2em;
+        max-width: @max-question-width;
+        line-height: 1.6;
+    }
+
+    .submission {
+        input {
+            margin: 6px 6px 6px 0;
+
+            @media(min-width:450px) {
+                display: inline;
+                width: 250px;
+            }
+        }
+
+        input[readonly] { cursor: default; }
+
+        .multiple-choice {
+            .choices {
+                margin-bottom: 1em;
+
+                .choice {
+                    margin-bottom: .5em;
+                }
+            }
+
+            .choice.correct {
+                border-color: #d6e9c6;
+                color: #3c763d;
+            }
+
+            .choice.selected.correct {
+                background-color: #dff0d8;
+            }
+
+            .choice.correct:not(.selected) {
+                font-weight: bold;
+                opacity: 1;
+            }
+
+            .choice.selected.incorrect {
+                background-color: #f2dede;
+                border-color: #ebccd1;
+                color: #a94442;
+            }
+        }
+    }
+
+    .result {
+        .flexbox();
+        .flex-flow(row wrap);
+
+        margin-top: 1em;
+        padding: 10px 15px;
+
+        .result-header .glyphicon { margin-right: 4px; }
+
+        .result-header {
+            .flex(@spec: 2013; @grow: 1; @shrink: 1; @basis: auto);
+            .align-self(center);
+        }
+
+        .detail-container {
+            .flex(@spec: 2013; @grow: 1; @shrink: 1; @basis: auto);
+            .align-self(center);
+            margin: .5em .8em .8em 0;
+
+            .supplemental-info { margin-top: .5em; }
+        }
+
+        .next-button-container {
+            .flex(@spec: 2013; @grow: 0; @shrink: 1; @basis: auto);
+            .align-self(center);
+        }
+
+        .glyphicon-info-sign {
+            margin-left: 3px;
+        }
+
+        .alt-ans-tooltip {
+            text-align: left;
+        }
+    }
+
+    // Layout adjustments if there's any amount of detail within the result box
+    // (e.g., if the answer is incorrect, or if there's supplemental information.)
+    .result.has-detail {
+        .result-header {
+
+            // A bit of extra spacing on top, since there's more content within
+            margin-top: 5px;
+
+            // Make the header ("Correct!" or "Incorrect!") appear on a row by itself
+            .flex(@spec: 2013; @grow: 1; @shrink: 1; @basis: 100%);
+        }
+    }
+
+    // Layout adjustments if there's supplemental information.
+    .result.has-supplemental-info {
+        .detail-container {
+
+            // Make the detail container (correct answer, supplemental information, etc.)
+            // appear on a row by itself
+            .flex(@spec: 2013; @grow: 1; @shrink: 1; @basis: 100%);
+
+            // The bottom margin can be a bit smaller since the <p> tags have margins.
+            // Otherwise, there's too much room between the detail and the Next button.
+            margin-bottom: .25em;
+        }
+    }
+}

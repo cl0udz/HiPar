@@ -1,0 +1,101 @@
+/*
+ * Edit Quiz
+ * --------- */
+
+// Screen width at which to display the quiz name and actions (save, etc.) on separate rows,
+// instead of on the same row.
+@header-breakpoint: 570px;
+
+.sortable-list-placeholder {
+    width: 100%;
+    margin: 8px 0;    
+    border: 1px dashed #ccc;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.edit-quiz {
+    max-width: 50em;
+    margin: 0 auto 5em;
+
+    .header-container {
+        .quiz-name-container {
+            .make-xs-column(6);
+
+            @media(max-width:@header-breakpoint) {
+                float: none;
+                width: 100%;
+            }
+        }
+        .quiz-actions {
+            .make-xs-column(6);
+
+            @media(max-width:@header-breakpoint) {
+                float: none;
+                width: 100%;
+                margin-top: 1em;
+                text-align: left;
+            }
+
+            text-align: right;
+
+            // Align dropdown menu items to the left
+            .btn-group { text-align: left; }
+
+            .action:not(.last) { margin-right: .4em; }
+
+            .messages {
+                display: inline-block;
+                line-height: 33px;
+
+                @media(max-width:@header-breakpoint) {
+                    float: right;
+                    margin-top: 4px;
+                }
+
+                .quiz-xhr-message {
+                    color: #aaa;
+                    font-style: italic;
+                    padding: 4px;
+                    background-color: white;
+
+                    // On really tiny screens, the "Saved" and "Loading" messages simply
+                    // won't fit. They're not that important, so don't show them.
+                    @media(max-width:400px) { display: none; }
+                }
+                .quiz-xhr-message, #save-spinner { margin-right: 1em; }
+                .quiz-xhr-message.error { color: #b94a48; background-color: #f2dede; }
+            }
+        }
+    }
+
+    .question-list-container {
+        margin-bottom: 1em;
+
+        .sortable-list-container { padding: 0; }
+
+        .placeholder-number {
+            margin-left: 12px;
+            color: #fff;
+            text-shadow: 1px 0 0 #888, 0 -1px 0 #888, 0 1px 0 #888, -1px 0 0 #888;
+            font-size: 48px;
+        }
+    }
+
+    .question-container {
+        width: 100%;
+        margin: 8px 0;
+        padding: 1em 2em;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: hsl(230, 32%, 97%);
+    }
+
+    .no-questions {
+        margin: 1em auto;
+        text-align: center;
+    }
+    
+    .alerts { margin: 1em 0; }
+}

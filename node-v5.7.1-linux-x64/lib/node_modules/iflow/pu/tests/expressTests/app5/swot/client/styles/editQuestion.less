@@ -1,0 +1,125 @@
+.edit-question {
+
+    .question-editor-row {
+        .make-row(@gutter: 0);
+        margin-top: 6px;
+
+        .control-label {
+            padding-left: 0;
+            padding-right: 0;
+            text-align: center;
+        }
+    }
+
+    // Generic list of inputs (e.g., choices in a multiple choice question,
+    // or alternate answers for a fill-in question)
+    .input-list {
+        padding-left: 0;
+        list-style: none;
+
+        .list-item {
+            padding-bottom: 6px;
+
+            .list-item-row {
+                display: table;
+                width: 60%;
+
+                .editor {
+                    border-right-color: transparent;
+
+                    // Remove the blue outline around the input when it has focus. It generally
+                    // looks nice, but it's not visible on the left/right because the buttons
+                    // are right next to it.
+                    &:focus {
+                        border-color: @input-border;
+                        border-right-color: transparent;
+                        box-shadow: none;
+                        -moz-box-shadow: none;
+                        -webkit-box-shadow: none;
+                    }
+                }
+
+                .item-actions {
+                    display: table-cell;
+                    .btn:first-child { border-radius: 0; }
+                }
+            }
+        }
+
+        .btn.correct {
+            color: @btn-success-color;
+            background-color: @btn-success-bg;
+            border-color: @btn-success-border;
+        }
+    }
+
+    .question-header {
+        .make-row();
+
+        margin-bottom: .5em;
+
+        .question-number {
+            .make-xs-column(1);
+
+            font-size: 1.1em;
+            font-weight: bold;
+            line-height: 2;
+        }
+
+        .question-type-menu {
+            .make-xs-column(7);
+        }
+
+        .question-actions-container {
+            .make-xs-column(4);
+
+            @media(min-width:@screen-xs) {
+                .question-actions{ float: right; }
+            }
+
+            .delete-wrapper { display: inline-block; }  // For consistent tooltip positioning
+
+            // Don't show the "Move" tooltip while dragging
+            .drag-handle.grabbing + .tooltip {
+                display: none !important;
+            }
+        }
+    }
+
+    .question { margin: 1em 0; }
+
+    .answer {
+
+        .fill-in-answer {
+            display: inline;
+            @media(max-width:@screen-xs) { margin-top: 6px; }
+            @media(min-width:@screen-xs) { width: 40%; }
+            //@media(min-width:@screen-xs) and (max-width:@screen-sm) { margin-left: 1em; }
+        }
+
+        .toggle-settings {
+            .fa { padding: 0; }
+            .fa.fa-caret-right {  }
+        }
+    }
+
+    .settings {
+
+        input[type="checkbox"] {
+            margin-top: 2px;
+        }
+
+        .supplemental-info-editor { min-height: 72px; }
+
+        .help-icon {
+            visibility: hidden;
+            display: inline;
+            font-size: 16px;
+            color: #9295CA;
+        }
+
+        &:hover .help-icon { visibility: visible; }
+    }
+
+    .fill-in-alts { margin-top: 7px; }
+}

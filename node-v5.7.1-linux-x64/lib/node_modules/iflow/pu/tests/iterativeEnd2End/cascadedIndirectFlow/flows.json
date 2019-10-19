@@ -1,0 +1,8 @@
+{
+    "steps":3,
+    "CascadedIndirectFlowTest":{
+      "direct":1,
+      "indirect":3,
+      "branchNotTaken":0
+    }
+}
