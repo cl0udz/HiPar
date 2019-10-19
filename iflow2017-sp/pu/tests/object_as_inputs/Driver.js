@@ -212,6 +212,8 @@ prepare(function() {
 //var tests = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,17,19,20,21];
 //  var tests = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24];
 // var tests = [13];
+
+// Only test Mongo-Parse
 var tests = [11];
 var resultsDir = "/tmp/res/";
 deleteFolderRecursive(resultsDir);
@@ -266,6 +268,7 @@ function run(bigTask) {
         if (bigTask.policy.sources[sourcesKeys[j]])
             fs.appendFileSync(path.resolve(projPath,'./setup.csv'), sourcesKeys[j]);
 
+    console.log(JSON.stringify(task));
     fs.writeFileSync(path.resolve(projPath,'./configs.json'), JSON.stringify(task));
     fs.writeFileSync(path.resolve(resDirName, "configs.json"), JSON.stringify(task));
 

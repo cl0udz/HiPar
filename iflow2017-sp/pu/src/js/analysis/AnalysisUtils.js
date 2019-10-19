@@ -35,9 +35,10 @@
 
     function instrumentFile(projePath, name) {
         if (name.match(/^.*\.js$/)) {
-            console.log("Instrumenting " + name);
+            console.log("Instrumenting ~" + name);
             var pathInstr = path.resolve(name);
             try {
+		console.log("node " + path.resolve(projePath, "./jalangi/src/js/instrument/esnstrument.js") + " "  + escapeShell(path.resolve(name)) + " --out " + escapeShell(pathInstr));
                 execSync("node " + path.resolve(projePath, "./jalangi/src/js/instrument/esnstrument.js") + " "  + escapeShell(path.resolve(name)) + " --out " + escapeShell(pathInstr));
             } catch (e) {
                 console.log("\nPreprocessor: Error when instrumenting " + name + ". Will ignore this file.\n" + e);

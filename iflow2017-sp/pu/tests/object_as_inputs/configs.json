@@ -3,13 +3,13 @@
     "exec" : false,
     "fs" : false,
     "http" : false,
-    "db" : false,
+    "db" : true,
     "intf" : false
   },
   "sinks" : {
     "exec" : true,
-    "fs" : false,
-    "http" : false,
-    "db" : false
+    "fs" : true,
+    "http" : true,
+    "db" : true
   }
 }
