@@ -1,20 +1,48 @@
-var esprima = require('esprima')
+var esprima = require('esprima');
+var fs = require('fs');
 
-function search_hidden_attr(domain, text) {
-    var domain, text;
+
+var attr_lst = [];
+
+function analyze_file(file_loc, domain){
+    var content = fs.readFileSync(file_loc, 'utf-8');
+    get_all_attr(file_loc, content);
+    var taint_lst = cal_taintable_attr(attr_lst, domain);
+    console.log(taint_lst);
+
+}
+module.exports = analyze_file;
+
+
+//calculate taintable attributes according to dynamic taint result
+function cal_taintable_attr(domain){
+    var domain;
+    var taint_lst = [];
+    for (const attr of attr_lst){
+        for (const d of domain){
+            if (attr.startsWith(d) && taint_lst.indexOf(attr) === -1){
+                taint_lst.push(attr);
+            }
+        }
+    }
+    return taint_lst;
+}
+
+
+function get_all_attr(file_loc, text) {
+    var file_loc, text;
     try {
         var ast = esprima.parse(text, {comment:true, tokens:true});
     } catch (e) {
-        console.log("\nsearch_hidden_attr: Error when parsing"+ domain.join() +" Will ignore this func.\n" + e);
+        console.log("\n[x] get_all_attr : Error when parsing "+ file_loc +", Will ignore this file.\n" + e);
         return;
     }
-    traverse(ast['body'], domain, propertyVisitor);
+    traverse(ast['body'], [], propertyVisitor);
     return;
 }
 
-module.exports = search_hidden_attr;
 
-// Executes visitor on the object and its children (recursively).
+// Executes visitor on the ast tree and its children (recursively).
 function traverse(object, domain, propertyVisitor) {
     var object, domain, key, child;
 
@@ -39,6 +67,8 @@ function traverse(object, domain, propertyVisitor) {
     }
 }
 
+
+// recursively visit a property 
 function propertyVisitor(node, domain){
     var node, domain;
     if ( node.type === "MemberExpression"){
@@ -52,20 +82,25 @@ function propertyVisitor(node, domain){
 }
 
 
+
+// get a specifcy property referrenced in the file
 function read_property(node, path, offset){
-    var node, path;
+    var node, path, path_to_store;
     path.splice(offset, 0, node.property.name);
 
     if ( node.object.type === "Identifier" ){
         // this is the end
         path.splice(offset, 0, node.object.name);
-        console.log(path.join());
+        path_to_store = path.join('.');
+        if (attr_lst.indexOf(path_to_store) === -1 ){
+            attr_lst.push(path_to_store);
+        }
     } else if (node.object.type === "MemberExpression"){
         read_property(node.object, path, offset);
     }else {
-        console.log("read_property error"+ node.object);
+        console.log("[x] read_property error: "+ node.object);
     }
 }
 
 
-search_hidden_attr(["text"], "var f; f['x'] = 1; function contextA () { f.q = 1 }; console.log(a.b.c['d']);");
+analyze_file('test.js',['test.a']);
