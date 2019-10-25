@@ -284,6 +284,7 @@
             if (isAutoWrapped(val)) {
                 secretWrites++;
                 addTraceEntry([TraceConstants.WRITE_OP, (isAutoWrapped(oldValue) ? oldValue.id : -1), (isAutoWrapped(val) ? val.id : -1), iid]);
+		console.log("Adding: from " + oldValue + " to " + val + " on " + name);
                 metaHelper.storeMeta(base, name, {id:val.id, label:val.label});
                 val = getConcrete(val);
             } else {
