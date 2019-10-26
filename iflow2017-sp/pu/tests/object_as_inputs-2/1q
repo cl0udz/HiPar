@@ -1,0 +1,34 @@
+const MongoClient = require('mongodb').MongoClient;
+const assert = require('assert');
+
+// Connection URL
+ const url = 'mongodb://localhost:27017';
+// // Database Name
+ const dbName = 'bsontype';
+
+// // Create a new MongoClient
+ const client = new MongoClient(url);
+//
+// // Use connect method to connect to the Server
+ client.connect(function(err) {
+   assert.equal(null, err);
+
+       const db = client.db(dbName);
+       findDocuments(db, function() {
+		client.close();
+		    });
+         });
+
+
+const findDocuments = function(db, callback) {
+	  // Get the documents collection
+	   const collection = db.collection('users');
+	//     // Find some documents
+	       collection.find({"token":"7fef6171469e80d32c0559f88b377245a"}).toArray(function(err, docs) {
+	       assert.equal(err, null);
+               console.log("Found the following records");
+	       console.log(docs);
+	       callback(docs);
+	                  });                         
+}
+
