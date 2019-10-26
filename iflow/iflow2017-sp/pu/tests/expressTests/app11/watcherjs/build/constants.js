@@ -1,0 +1,5 @@
+/*
+watcher.js 2.5.3- app watcher
+Built on 2015-10-20
+*/
+"use strict";var serviceStatus,lifecyclePhase,connectorType,watcherEvents,resolverEvents,streamEvents,streamErrors;serviceStatus={up:"up",down:"down",unreachable:"unreachable",undetermined:"undetermined"},lifecyclePhase={registrationPhase:"registrationPhase",activationPhase:"activationPhase",deactivationPhase:"deactivationPhase",inProgressPhase:"inProgressPhase",terminationPhase:"terminationPhase"},connectorType={socket:"socket",http:"http"},watcherEvents={wjsConfigured:"wjs-configured",wjsReady:"wjs-ready",endpointsStatusResolved:"endpoints-status-resolved",wjsConnected:"wjs-connected",wjsEndpointsUpdated:"wjs-endpoints-updated"},resolverEvents={resolved:"status-resolved"},streamEvents={error:"error",data:"data",end:"end",close:"close"},streamErrors={unreachableHost:"ENOTFOUND",portNotRespond:"EHOSTUNREACH"},module.exports={serviceStatus:serviceStatus,lifecyclePhase:lifecyclePhase,connectorType:connectorType,watcherEvents:watcherEvents,resolverEvents:resolverEvents,streamEvents:streamEvents,streamErrors:streamErrors};

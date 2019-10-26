@@ -1,0 +1,98 @@
+extends layout
+
+block content
+    .my-quizzes(ng-app="swot", ng-controller="MyQuizzesCtrl"
+        ng-init="topics= #{JSON.stringify(topics)}; init();")
+        .row
+
+            // Topics sidebar
+            #sidebar.sidebar.topics-sidebar.col-sm-4.col-md-3.col-lg-2
+                .topics-label Topics:
+
+                // Topic tree
+                #topics(ui-tree="topicTreeOptions")
+                    ol.nav.nav-list.nav-pills.nav-stacked(ui-tree-nodes="", ng-model="topics" id="tree-root")
+                        li(ng-repeat="topic in topics", ui-tree-node
+                        ng-class="{active: (topic === currentTopic)}"
+                        ng-include="'/partials/topicNode.html'")
+
+                // No topics placeholder
+                #topic-tree-placeholder.empty-placeholder.ng-cloak(ng-hide="topics.length > 0")
+                    h4 No Topics Added
+                    p: <a href="#" ng-click="addTopic('New Topic')">Click here</a> to create a new topic.
+
+                // Topic actions menu
+                #topic-actions-menu.btn-group
+                    button.btn.btn-sm.btn-default(type="button", ng-click="addTopic('New Topic')")
+                        span.glyphicon.glyphicon-plus
+                        | Add
+                    button.btn.btn-sm.btn-default.dropdown-toggle(type="button", data-toggle="dropdown")
+                        span.caret
+                        span.sr-only Toggle Dropdown
+                    ul.dropdown-menu(role="menu")
+                        li: a(href="#", ng-click="addSubtopic()")
+                            span.glyphicon.glyphicon-plus
+                            | Add Subtopic
+                        li: a(href="#", ng-click="renameCurrentTopicInSidebar()")
+                            span.glyphicon.glyphicon-pencil
+                            | Rename
+                        li: a(href="#", ng-click="deleteTopic(currentTopic)")
+                            span.glyphicon.glyphicon-trash
+                            | Delete
+
+            // Main content
+            .main.col-sm-8.col-sm-offset-4.col-md-9.col-md-offset-3.col-lg-10.col-lg-offset-2
+
+                // Error messages
+                if (message)
+                    div.alert.alert-danger
+                        p !{message.message}
+
+                .quizzes-container.ng-cloak
+                    .current-topic(ng-show="currentTopic")
+
+                        // Topic header
+                        .my-quizzes-header.topic-header
+                            .topic-name-container
+                                h1.topic-name(editable-text="currentTopic.name", e-form="btnEditTopic"
+                                    onbeforesave="renameTopic(currentTopic, $data)") {{currentTopic.name}}
+                            .topic-actions
+                                .btn-group
+                                    button.edit-topic.btn.btn-xs.btn-info.dropdown-toggle(type="button", data-toggle="dropdown")
+                                        | Edit
+                                        span.caret
+                                    ul.dropdown-menu(role="menu")
+                                        li: a(href="#", ng-click="btnEditTopic.$show()")
+                                            span.glyphicon.glyphicon-pencil
+                                            | Rename
+                                        li: a(href="#", ng-click="deleteTopic(currentTopic)")
+                                            span.glyphicon.glyphicon-trash
+                                            | Delete
+
+                        // Topic quizzes
+                        .topic-quizzes
+                            .list-group(ng-show="currentTopic.quizzes.length > 0")
+                                .quiz.list-group-item(ng-repeat="quiz in currentTopic.quizzes")
+                                    .quiz-info.list-group-item-heading
+                                        a.quiz-name(href="/quiz/{{quiz._id}}") {{quiz.name}}
+                                        span.num-questions ({{quiz.numQuestions}} question{{quiz.numQuestions == 1 ? '' : 's'}})
+                                        p.list-group-item-text Created {{quiz.dateCreated | date: 'MMMM yyyy'}}
+                                    .quiz-actions
+                                        a.btn.btn-xs.btn-info.edit-quiz-btn(href="/edit/{{quiz._id}}")
+                                            span.glyphicon.glyphicon-pencil
+                                            | Edit
+                            .empty-placeholder(ng-hide="currentTopic.quizzes.length > 0")
+                                | This topic has no quizzes
+
+                        // Create Quiz button
+                        a.create-quiz.btn.btn-success(href="/create?topic={{currentTopic._id}}")
+                            span.glyphicon.glyphicon-plus
+                            | Create Quiz
+
+                    .empty-placeholder.ng-cloak(ng-show="!currentTopic")
+                        h4 No topic selected
+                        p(ng-show="topics.length > 0") Select a topic on the left to add or view the quizzes in that topic.
+                        p(ng-show="topics.length == 0") Start by adding a new topic on the left.
+
+block scripts
+    script(src="/controllers/myQuizzes.js")

@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+  #container.container
+    .wrapper
+      .content
+        .left
+          include ../includes/menu
+        .right
+          include ../includes/filter-menu
+      .content
+        hr
+        -if (errorFlash && errorFlash.length > 0)
+          p.error=errorFlash[0]
+        -if (infoFlash && infoFlash.length > 0)
+          p.success=infoFlash[0]
+          br
+        include ../includes/threads

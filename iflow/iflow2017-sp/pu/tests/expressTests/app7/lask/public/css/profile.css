@@ -1,0 +1,87 @@
+h1 {
+  font-size: 90px;
+  color: white;
+  font-family: "Raleway";
+  padding-left: 60px;
+}
+body {
+  font-family:"Raleway";
+  background: #F64747;
+  background-size: cover;
+  color: white;
+}
+img {
+  float: left;
+  height: 400px;;
+  display: block;
+  margin: auto;
+  padding-left: 140px;
+  padding-top: 18px;
+}
+form {
+  color: black;
+  font-size: 30px;
+}
+input {
+   margin-top: 19px;
+}
+.navbar-brand {
+  line-height: 70px;
+  height: 70px;
+  padding-top: 0;
+  font-size: 32px;
+  color: black;
+  font-family: "Raleway";
+  padding-left: 40px;
+}
+.navbar-nav li a {
+  line-height: 70px;
+  height: 70px;
+  padding-top: 0;
+  font-size: 32px;
+  color: black;
+  font-family: "Raleway";
+  padding-right: 40px;
+}
+.pink {
+  color: #F64747;
+}
+.logout-btn {
+  color: #F64747;
+  background-color: white;
+  font-size: 30px;
+}
+.list {
+	display: inline;
+	color: white;
+	font-size: 40px;
+}
+.info {
+	padding-left: 800px;
+	margin-bottom: 20px;
+}
+.white-font {
+  color: white;
+}
+.pink {
+  color: #F64747;
+}
+.black-font {
+  color: black;
+}
+.center {
+  text-align: center;
+}
+.modalCenter {
+  text-align: center;
+}
+#pink-btn {
+  background-color: #F64747;
+}
+#left-align {
+  text-align: left;
+  padding-left: 40px;
+}
+.profileModal {
+  font-size: 30px;
+}

@@ -1,0 +1,8 @@
+{
+    "steps":1,
+    "test":{
+      "direct":1,
+      "indirect":1,
+      "branchNotTaken":0
+    }
+}

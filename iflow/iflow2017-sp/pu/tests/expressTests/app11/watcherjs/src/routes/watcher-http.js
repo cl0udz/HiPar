@@ -1,0 +1,620 @@
+/**
+ * Created by jpsoroulas.
+ */
+'use strict';
+/**
+ * The application's REST API implementation.
+ * ### REST API
+ * In case of failure the server returns an object with the following structure:
+ * ```
+ * {
+ *      message: message,   //generic error message
+ *      errors: errors      //array of specific errors
+ * }
+ *```
+ *
+ * #### Get information for a specific endpoint.
+ * ----
+ *  * __http://`<host>`:`<port>`/endpoints/`<id>`__ (request method: GET),
+ *  * parameters:
+ *    * __id__ the endpoint id, it should be one of those defined at endpoints configuration data,
+ *  * API reference: __{{#crossLink "Watcher/getEndpoint:method"}}{{/crossLink}}__.
+ *
+ *
+ * __Response on success:__
+ *
+ * ```
+ * // For a socket communication type
+ * {
+ *      "id": "endpoint-id",            // endpoint id
+ *      "desc": "an endpoint",          // endpoint description
+ *      "status": "up",                 // endpoint status
+ *      "timestamp": 1429860936846,     // the timestamp of the current status
+ *      "since": 1429860926846,         // the timestamp since the last change of status
+ *      "type": "socket",               // connector type
+ *      "host": "localhost",            // endpoint host (applied for 'socket' connector)
+ *      "port": 7777,                   // endpoint port (applied for 'socket' connector)
+ *      "active": true,                 // whether or not the endpoint is active
+ *      "notify": false                 // whether or not the notification is enabled
+ * }
+ * ```
+ *
+ * __Response on error:__
+ * ```
+ * If the endpoint does not exist an error message with http status 422 is send
+ *```
+ *
+ * #### Get information for all registered endpoints.
+ * ----
+ *  * __http://`<host>`:`<port>`/endpoints__ (request method: GET).
+ *  * API reference: __{{#crossLink "Watcher/getEndpoints:method"}}{{/crossLink}}__.
+ *
+ *
+ *  __Response on success:__
+ *
+ * ```
+ * An array with the information for all endpoints.
+ * // For a socket and http communication types
+ * [
+ *      {
+ *          "id": "endpoint-1",
+ *          "desc": "endpoint 1",
+ *          "status": "down"
+ *          "timestamp": 1429860936846,
+ *          "since": 1429860926846,
+ *          "type": "socket",
+ *          "host": "localhost",
+ *          "port": 7777,
+ *          "active": true,
+ *          "notify": true
+ *      },
+ *      {
+ *          "id": "endpoint-2",                     // endpoint id
+ *          "desc": "endpoint 2",                   // endpoint description
+ *          "status": "up"                          // endpoint status
+ *          "timestamp": 1429860936846,             // the timestamp of the current status
+ *          "since": 1429860926846,                 // the timestamp since the last change of status
+ *          "type": "http",                         // connector type
+ *          "url": "http://11.222.333.555:3333/",   // endpoint url (applied for 'http(s) connector')
+ *          "active": true,                         // whether or not the endpoint is active
+ *          "notify": false                         // whether or not the notification is enabled
+ *      }
+ * ]
+ * ```
+ *
+ * __Response on error:__
+ * ```
+ * Generic error message with http status 500
+ *```
+ *
+ * #### Add new endpoint.
+ * ----
+ *  * __http://`<host>`:`<port>`/endpoints__ (request method POST)
+ *  * parameters (parameters in _[]_ are optional. when not set, the default values are used - those in parentheses.):
+ *    * __id__ : the endpoint id,
+ *    * __desc__ : the endpoint description,
+ *    * __type__ : the endpoint type ('socket' or 'http'),
+ *    * [__host__] (localhost): the endpoint host (applied for 'socket' communication type),
+ *    * [__port__] (9999): the endpoint port (applied for 'socket' communication type),
+ *    * [__url__] : the endpoint port (applied for 'http' communication type),
+ *    * [__active__] (true): true/false whether or not to activate the endpoint,
+ *    * [__notify__] (false): true/false whether or not to enable email notification on erroneous service status
+ *  * API reference: __{{#crossLink "Watcher/addEndpoint:method"}}{{/crossLink}}__.
+ *
+ *
+ *  __Response on success:__
+ *
+ * ```
+ * {
+ *      "id":     "<endpoint id>"         //endpoint id
+ *      "uri":    "<access endpoint uri>" //endpoint uri, e.g. /endpoints/<endpoint id>
+ *      "status": "<endpoint status>"     //endpoint status (e.g. 'undetermined')
+ * }
+ *
+ * ```
+ *
+ * __Response on error:__
+ * ```
+ * Validation error messages with http status 422
+ *```
+ *
+ * #### Remove an endpoint.
+ * ----
+ *  * __http://`<host>`:`<port>`/endpoints/`<id>`__ (request method: DELETE),
+ *  * parameters:
+ *    * __id__ : the endpoint id
+ *  * API reference: __{{#crossLink "Watcher/removeEndpoint:method"}}{{/crossLink}}__.
+ *
+ *
+ *  __Response on success:__
+ *
+ * ```
+ * {
+ *      "id": "<endpoint id>"   //removed endpoint id
+ * }
+ * ```
+ *
+ * __Response on error:__
+ * ```
+ * If the endpoint does not exist an error message with http status 422 is send
+ *```
+ *
+ * #### Activate/deactivate an endpoint.
+ * ----
+ *  * __http://`<host>`:`<port>`/endpoints/`<id>`/activate__ (request method POST),
+ *  * __http://`<host>`:`<port>`/endpoints/`<id>`/activate__ (request method DELETE),
+ *  * parameters:
+ *    * __id__ : the endpoint id,
+ *  * API reference: __{{#crossLink "Watcher/setEndpointActivationState:method"}}{{/crossLink}}__.
+ *
+ *
+ *  __Response on success:__
+ *
+ * ```
+ * {
+ *      "id": "<endpoint id>"           //endpoint id
+ *      "active": "<activation state>"  //activation state
+ *      "status": "<endpoint status>"   //endpoint status
+ * }
+ * ```
+ *
+ * __Response on error:__
+ * ```
+ * If the endpoint does not exist an error message with http status 422 is send
+ *```
+ *
+ * #### Enable/disable notification for an endpoint.
+ * ----
+ *  * __http://`<host>`:`<port>`/endpoints/`<id>`/notify__ (request method POST),
+ *  * __http://`<host>`:`<port>`/endpoints/`<id>`/notify__ (request method DELETE),
+ *  * parameters:
+ *    * __id__ : the endpoint id,
+ *  * API reference: __{{#crossLink "Watcher/notifyOnErroneousStatus:method"}}{{/crossLink}}__.
+ *
+ *
+ *  __Response on success:__
+ *
+ * ```
+ * {
+ *      "id": "<endpoint id>"               //endpoint id
+ *      "notify": "<notification state>"    //activation state
+ * }
+ * ```
+ *
+ * __Response on error:__
+ * ```
+ * If the endpoint does not exist an error message with http status 422 is send
+ *```
+ *
+ * #### Get watcherjs settings.
+ * ----
+ *  * __http://`<host>`:`<port>`/settings__ (request method GET),
+ *  * API reference: __{{#crossLink "Watcher/getSettings:method"}}{{/crossLink}}__.
+ *
+ *
+ *  __Response on success:__
+ *
+ * ```
+ * {
+ *      "interval": <the service communication interval, at ms>
+ * }
+ * ```
+ *
+ * __Response on error:__
+ * ```
+ * Generic error message with http status 500
+ *```
+ *
+ * #### Update watcherjs settings.
+ * ----
+ *  * __http://`<host>`:`<port>`/settings__ (request method PUT),
+ *  * parameters:
+ *    * __interval__ : the service communication interval, at ms,
+ *  * API reference: __{{#crossLink "Watcher/updateSettings:method"}}{{/crossLink}}__.
+ *
+ *
+ *  __Response on success:__
+ *
+ * ```
+ * {
+ *       "interval": <the service communication interval, at ms>
+ * }
+ * ```
+ *
+ * __Response on error:__
+ * ```
+ * Validation error messages with http status 422
+ *```
+ *
+ * #### Get the the unbound resolution strategies.
+ * ----
+ *  * __http://`<host>`:`<port>`/resolution-strategies__ (request method GET),
+ *  * API reference: __{{#crossLink "Watcher/getResolutionStrategies:method"}}{{/crossLink}}__.
+ *
+ *
+ *  __Response on success:__
+ *
+ * ```
+ * An array with the unbound resolution strategies:
+ * [
+ *  "<strategy id>"     //the strategy id, e.g.: "on-connection",
+ *  "<strategy id>"     //the strategy id, e.g.: "always-down",
+ * ]
+ * ```
+ *
+ * __Response on error:__
+ * ```
+ * Generic error message with http status 500
+ *```
+ *
+ * #### Get history status.
+ * ----
+ * * __http://`<host>`:`<port>`//history/endpoints__ (request method GET)
+ * __complete history for all endpoints__
+ * * __http://`<host>`:`<port>`//history/endpoints/`<id>`__ (request method GET)
+ * __complete history for specific endpoint__
+ * * __http://`<host>`:`<port>`//history/endpoints/`<from>`/`<to>`__ (request method GET)
+ * __history for specific time period for all endpoints__
+ * * __http://`<host>`:`<port>`//history/endpoints/`<id>`/`<from>`/`<to>`__ (request method GET)
+ * __history for specific time period and specific endpoint__
+ * * API reference: __{{#crossLink "Watcher/getHistory:method"}}{{/crossLink}}__.
+ *
+ *
+ *  __Response on success:__
+ *
+ * ```
+ * An array with the history status entries:
+ * [
+ *  {
+ *      "endpointId": "<endpoint id>",      //endpoint id
+ *      "timestamp": "<timestamp>",         //timestamp,
+ *      "phase": "<lifecycle phase>",       //Endpoint lifecycle phase, see at constants.LifecyclePhase
+ *      "statusTransition": {
+ *          "from": "<previous status>",    //current endpoint status
+ *          "to": "<current status>"        //previous endpoint status
+ *      }
+ *  },
+ *  {
+ *      "endpointId": "<endpoint id>",
+ *      "timestamp": <timestamp>,
+ *      "phase": "<lifecycle phase>",
+ *      "statusTransition": {
+ *          "from": "<previous status>",
+ *          "to": "<current status>"
+ *      }
+ *  }
+ * ]
+ * ```
+ *
+ * __Response on error:__
+ * ```
+ * Generic error message with http status 500
+ *```
+ 
+ 
+ *
+ * @module watcher-http
+ */
+var express = require('express');
+//var router = express.Router();
+var _ = require('underscore');
+var s = require('underscore.string');
+
+var logger = require('../logger');
+
+
+function prepareEndpoint(endpoint) {
+    var rec;
+    if (endpoint) {
+        rec = _.omit(endpoint, 'connector', 'timeout', 'processed', 'notified', 'previousStatus');
+        rec.timestamp = rec.timestamp.valueOf();
+        rec.since = rec.since.valueOf();
+    }
+    return rec;
+}
+
+function unknownEndpointError(id) {
+    return {
+        error: 'Unknown endpoint \'' + id + '\'',
+        status: 422
+    };
+}
+
+function generalError(error, status) {
+    return {
+        error: error,
+        status: status
+    };
+}
+
+/**
+ *The application's http interface implementation.
+ *
+ * @class WatcherHttp
+ */
+module.exports = {
+
+    /**
+     * callback for the HTTP request:
+     * _http://`<host>`:`<port>`/endpoints_ (request method: GET)
+     * @method endpoints
+     * @param {Object} watcher the __{{#crossLink "Watcher"}}{{/crossLink}}__.
+     * @return the express route function.
+     * */
+    endpoints: function endpoints(watcher) {
+        return function(req, res, next) {
+            watcher.getEndpoints()
+                .then(function(endpoints) {
+                        res.json(_.map(endpoints, function(endpoint) {
+                            return prepareEndpoint(endpoint);
+                        }));
+                    },
+                    function(err) {
+                        next(generalError(err));
+                    });
+        };
+    },
+
+    /**
+     * callback for the HTTP request:
+     * _http://`<host>`:`<port>`/endpoints/`<id>`_ (request method: GET)
+     * @method endpoint
+     * @param {Object} watcher the __{{#crossLink "Watcher"}}{{/crossLink}}__.
+     * @return the express route function.
+     * */
+    endpoint: function endpoint(watcher) {
+        var _self = this;
+        return function(req, res, next) {
+            var id = req.params.id;
+            watcher.getEndpoint(id)
+                .then(function(endpoint) {
+                        if (endpoint) {
+                            res.json(prepareEndpoint(endpoint));
+                        } else {
+                            next(unknownEndpointError(id));
+                        }
+                    },
+                    function(err) {
+                        next(generalError(err));
+                    });
+        };
+    },
+
+    /**
+     * callback for the HTTP request:
+     * _http://`<host>`:`<port>`/endpoints_ (request method POST)
+     * @method addEndpoint
+     * @param {Object} watcher the __{{#crossLink "Watcher"}}{{/crossLink}}__.
+     * @return the express route function.
+     * */
+    addEndpoint: function addEndpoint(watcher) {
+        return function(req, res, next) {
+            var id = req.body.id;
+            req.body.active = s.toBoolean(req.body.active);
+            req.body.notify = s.toBoolean(req.body.notify);
+            watcher.addEndpoint(req.body, true)
+                .then(function(endpoint) {
+                        res.json({
+                            id: endpoint.id,
+                            uri: '/endpoints/' + id,
+                            status: endpoint.status
+                        });
+                    },
+                    function(err) {
+                        if (err.validation) {
+                            next(generalError(err, 422));
+                        } else {
+                            next(generalError(err));
+                        }
+                    });
+        };
+    },
+
+    /**
+     * callback for the HTTP request:
+     * _http://`<host>`:`<port>`/endpoints/`<id>`_ (request method DELETE)
+     * @method removeEndpoint
+     * @param {Object} watcher the __{{#crossLink "Watcher"}}{{/crossLink}}__.
+     * @return the express route function.
+     * */
+    removeEndpoint: function removeEndpoint(watcher) {
+        return function(req, res, next) {
+            var id = req.params.id;
+            watcher.removeEndpoint(id)
+                .then(function(endpoint) {
+                        if (endpoint) {
+                            res.json({
+                                id: id
+                            });
+                        } else {
+                            next(unknownEndpointError(id));
+                        }
+                    },
+                    function(err) {
+                        next(generalError(err));
+                    });
+        };
+    },
+
+    /**
+     * callback for the HTTP request:
+     * _http://`<host>`:`<port>`/endpoints/`<id>`/activate_ (request method POST)
+     * @method endpointActivate
+     * @param {Object} watcher the __{{#crossLink "Watcher"}}{{/crossLink}}__.
+     * @return the express route function.
+     * */
+    endpointActivate: function endpointActivate(watcher) {
+        var _self = this;
+        return function(req, res, next) {
+            _self._changeEndpointActivationState(watcher, req, res, true, next);
+        };
+    },
+
+    /**
+     * callback for the HTTP request:
+     * _http://`<host>`:`<port>`/endpoint/`<id>`/activate_ (request method DELETE)
+     * @method endpointDeactivate
+     * @param {Object} watcher the __{{#crossLink "Watcher"}}{{/crossLink}}__.
+     * @return the express route function.
+     * */
+    endpointDeactivate: function endpointDeactivate(watcher) {
+        var _self = this;
+        return function(req, res, next) {
+            _self._changeEndpointActivationState(watcher, req, res, false, next);
+        };
+    },
+
+    _changeEndpointActivationState: function _changeEndpointActivationState(watcher, req, res, active, next) {
+        var _self = this;
+        var id = req.params.id;
+        watcher.setEndpointActivationState(id, active)
+            .then(function(endpoint) {
+                    if (endpoint) {
+                        res.json({
+                            id: endpoint.id,
+                            active: endpoint.active,
+                            status: endpoint.status
+                        });
+                    } else {
+                        next(unknownEndpointError(id));
+                    }
+                },
+                function(err) {
+                    next(generalError(err));
+                });
+    },
+
+    /**
+     * callback for the HTTP request:
+     * _http://`<host>`:`<port>`/endpoints/`<id>`/notify_ (request method POST)
+     * @method endpointEnableNotification
+     * @param {Object} watcher the __{{#crossLink "Watcher"}}{{/crossLink}}__.
+     * @return the express route function.
+     * */
+    endpointEnableNotification: function endpointEnableNotification(watcher) {
+        var _self = this;
+        return function(req, res, next) {
+            _self._changeEndpointNotificationState(watcher, req, res, true, next);
+        };
+    },
+
+    /**
+     * callback for the HTTP request:
+     * _http://`<host>`:`<port>`/endpoints/`<id>`/notify_ (request method DELETE)
+     * @method endpointEnableNotification
+     * @param {Object} watcher the __{{#crossLink "Watcher"}}{{/crossLink}}__.
+     * @return the express route function.
+     * */
+    endpointDisableNotification: function endpointDisableNotification(watcher) {
+        var _self = this;
+        return function(req, res, next) {
+            _self._changeEndpointNotificationState(watcher, req, res, false, next);
+        };
+    },
+
+    _changeEndpointNotificationState: function _changeEndpointNotificationState(watcher, req, res, notify, next) {
+        var _self = this;
+        var id = req.params.id;
+        watcher.notifyOnErroneousStatus(id, notify)
+            .then(function(endpoint) {
+                    if (endpoint) {
+                        res.json({
+                            id: endpoint.id,
+                            notify: endpoint.notify
+                        });
+                    } else {
+                        next(unknownEndpointError(id));
+                    }
+                },
+                function(err) {
+                    next(generalError(err));
+                });
+    },
+
+    /**
+     * callback for the HTTP request:
+     * _http://`<host>`:`<port>`/resolution-strategies_ (request method GET)
+     * @method resolutionStrategies
+     * @param {Object} watcher the __{{#crossLink "Watcher"}}{{/crossLink}}__.
+     * @return the express route function.
+     * */
+    resolutionStrategies: function resolutionStrategies(watcher) {
+        return function(req, res, next) {
+            watcher.getResolutionStrategies()
+                .then(function(strategies) {
+                        res.json(_.pluck(strategies, 'id'));
+                    },
+                    function(err) {
+                        next(generalError(err));
+                    });
+        };
+    },
+
+    /**
+     * callback for the HTTP request:
+     * * _http://`<host>`:`<port>`//history/endpoints_ (request method GET)
+     * * _http://`<host>`:`<port>`//history/endpoints/`<id>`_ (request method GET)
+     * * _http://`<host>`:`<port>`//history/endpoints/`<from>`/`<to>`_ (request method GET)
+     * * _http://`<host>`:`<port>`//history/endpoints/`<id>`/`<from>`/`<to>`_ (request method GET)
+     * @method history
+     * @param {Object} watcher the __{{#crossLink "Watcher"}}{{/crossLink}}__.
+     * @return the express route function.
+     * */
+    history: function history(watcher) {
+        return function(req, res, next) {
+            watcher.getHistory({
+                    endpointId: req.params.id,
+                    from: req.params.from,
+                    to: req.params.to
+                })
+                .then(function(recs) {
+                        res.json(_.map(recs, function(rec) {
+                            return _.omit(rec, '_id');
+                        }));
+                    },
+                    function(err) {
+                        next(generalError(err));
+                    });
+        };
+    },
+
+    /**
+     * callback for the HTTP request:
+     * _http://`<host>`:`<port>`/settings_ (request method GET)
+     * @method getSettings
+     * @param {Object} watcher the __{{#crossLink "Watcher"}}{{/crossLink}}__.
+     * @return the express route function.
+     * */
+    getSettings: function getSettings(watcher) {
+        return function(req, res, next) {
+            watcher.getSettings()
+                .then(function(settings) {
+                        res.json(settings);
+                    },
+                    function(err) {
+                        next(generalError(err));
+                    }
+                );
+        };
+    },
+
+    /**
+     * callback for the HTTP request:
+     * _http://`<host>`:`<port>`/settings_ (request method PUT)
+     * @method updateSettings
+     * @param {Object} watcher the __{{#crossLink "Watcher"}}{{/crossLink}}__.
+     * @return the express route function.
+     * */
+    updateSettings: function updateSettings(watcher) {
+        return function(req, res, next) {
+            watcher.updateSettings(req.body)
+                .then(function(settings) {
+                        res.json(settings);
+                    },
+                    function(err) {
+                        next(generalError(err, 422));
+                    });
+        };
+    }
+
+};

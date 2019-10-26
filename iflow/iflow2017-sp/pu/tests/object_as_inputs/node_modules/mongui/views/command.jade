@@ -1,0 +1,24 @@
+extends layout
+
+block content
+	.auto-height
+		#db-content
+			ul#command-examples
+				li: a(href="#getCmdLineOpts") {getCmdLineOpts: 1}
+				li: a(href="#listCommands") {listCommands: 1}
+				li: a(href="#buildinfo") {buildinfo: 1}
+				li: a(href="#ping") {ping: 1}
+
+			form#command
+				textarea(name="command",cols="60",rows="6") {listCommands: 1}
+				br
+				| DB: 
+				select(name="db")
+					each db in dbs
+						option=db.name
+				| &nbsp;
+				input(type="submit")
+			
+			br(style="clear:both")
+			#command-result=ml.serverResponse
+				pre

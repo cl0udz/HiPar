@@ -1,8 +1,0 @@
-{
-    "steps":1,
-    "SimpleBranchNotTakenFlowTest": {
-        "direct": 1,
-        "indirect": 0,
-        "branchNotTaken": 1
-    }
-}
