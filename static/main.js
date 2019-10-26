@@ -1,22 +1,36 @@
+"use strict";
+
 var esprima = require('esprima');
 var fs = require('fs');
 
-
-var attr_lst = [];
-
-function analyze_file(file_loc, domain){
+function analyze_hidden_attr(file_loc, domain){
+    var file_loc, domain;
     var content = fs.readFileSync(file_loc, 'utf-8');
-    get_all_attr(file_loc, content);
-    var taint_lst = cal_taintable_attr(attr_lst, domain);
+    var cmd = {'mode':'getAll', 'res' : []};
+    search_all_attr(file_loc, content, cmd);
+    var taint_lst = cal_taintable_attr(domain, cmd.res);
     console.log(taint_lst);
+    return taint_lst;
 
 }
-module.exports = analyze_file;
+module.exports = analyze_hidden_attr;
 
+
+function get_name_by_loc(loc){
+    var content = fs.readFileSync(loc.file_loc, 'utf-8');
+    var cmd = {'mode':'findOne', 'loc':loc.var_loc, 'res':[]};
+    search_all_attr(loc.file_loc, content, cmd);
+    if (cmd.res.length ===  0){
+        console.log("[x] get_name_by_loc error: " + JSON.stringify(loc)+ ' not found');
+        return -1;
+    }
+    console.log(cmd.res[0]);
+    return cmd.res[0];
+}
+module.exports = get_name_by_loc;
 
 //calculate taintable attributes according to dynamic taint result
-function cal_taintable_attr(domain){
-    var domain;
+function cal_taintable_attr(domain, attr_lst){
     var taint_lst = [];
     for (const attr of attr_lst){
         for (const d of domain){
@@ -29,28 +43,26 @@ function cal_taintable_attr(domain){
 }
 
 
-function get_all_attr(file_loc, text) {
-    var file_loc, text;
+function search_all_attr(file_loc, text, cmd) {
     try {
-        var ast = esprima.parse(text, {comment:true, tokens:true});
+        var ast = esprima.parse(text, {comment:true, tokens:true, loc:true});
     } catch (e) {
         console.log("\n[x] get_all_attr : Error when parsing "+ file_loc +", Will ignore this file.\n" + e);
         return;
     }
-    traverse(ast['body'], [], propertyVisitor);
+    //console.log(ast);
+    traverse(ast['body'], [], propertyVisitor, cmd);
     return;
 }
 
 
 // Executes visitor on the ast tree and its children (recursively).
-function traverse(object, domain, propertyVisitor) {
-    var object, domain, key, child;
+function traverse(object, domain, Visitor, cmd) {
+    var key, child;
 
-    if (propertyVisitor.call(null, object, domain) === false) {
+    if (Visitor.call(null, object, domain, cmd) === false) {
         return;
     }
-    //console.log('--------------');
-    //console.log(object);
     
     // add new scope to the domain  when enter a new function
     if (object.type === 'FunctionDeclaration'){
@@ -61,7 +73,7 @@ function traverse(object, domain, propertyVisitor) {
         if (object.hasOwnProperty(key)) {
             child = object[key];
             if (typeof child === 'object' && child !== null) {
-                traverse(child, domain, propertyVisitor);
+                traverse(child, domain, Visitor, cmd);
             }
         }
     }
@@ -69,10 +81,15 @@ function traverse(object, domain, propertyVisitor) {
 
 
 // recursively visit a property 
-function propertyVisitor(node, domain){
+function propertyVisitor(node, domain, cmd){
     var node, domain;
-    if ( node.type === "MemberExpression"){
-        read_property(node, [...domain], domain.length);
+    if (node.type === "MemberExpression"){
+        // console.log(node);
+        if (cmd.mode === "findOne" && match_property(node, cmd.loc)){
+            read_property(node, [...domain], domain.length, cmd);
+        } else if (cmd.mode === "getAll"){
+            read_property(node, [...domain], domain.length, cmd);
+        }
         return false;
     }
     if (node.hasOwnProperty("type") || Array.isArray(node)) {
@@ -82,25 +99,44 @@ function propertyVisitor(node, domain){
 }
 
 
+//match one property according to the location
+function match_property(node, loc){
+    return JSON.stringify(node.loc) === JSON.stringify(loc);
+}
+
+
 
 // get a specifcy property referrenced in the file
-function read_property(node, path, offset){
-    var node, path, path_to_store;
+function read_property(node, path, offset, cmd){
     path.splice(offset, 0, node.property.name);
 
     if ( node.object.type === "Identifier" ){
         // this is the end
         path.splice(offset, 0, node.object.name);
-        path_to_store = path.join('.');
-        if (attr_lst.indexOf(path_to_store) === -1 ){
-            attr_lst.push(path_to_store);
+        var path_to_store = path.join('.');
+        if (cmd.res.indexOf(path_to_store) === -1 ){
+            cmd.res.push(path_to_store);
         }
     } else if (node.object.type === "MemberExpression"){
-        read_property(node.object, path, offset);
+        read_property(node.object, path, offset, cmd);
     }else {
-        console.log("[x] read_property error: "+ node.object);
+        console.log("[x] read_property error: " + JSON.stringify(node.object));
     }
 }
 
+var loc = {
+    "file_loc":"test.js",
+    "var_loc": {
+        "start": {
+            "line": 7,
+            "column": 6
+        },
+        "end": {
+            "line": 7,
+            "column": 17
+        }
+    }
+}
 
-analyze_file('test.js',['test.a']);
+get_name_by_loc(loc);
+//analyze_hidden_attr('test.js',['test.a']);
