@@ -22,6 +22,7 @@ var query = parser.parse(utils.source(23, utils.HIGH_LEVEL, "module-interface"))
 attackUtils.deliverPayloads(attackUtils.payloadsEval, function (payload) {
     if (configs.sources.intf === true) {
         payload = utils.source(payload, utils.HIGH_LEVEL, "module-interface");
+	console.log("Here I am + payload: " + payload);
     }
     var query = parser.parse('}); ' + payload + '//');
 }, function(result, filesWithSinks) {
