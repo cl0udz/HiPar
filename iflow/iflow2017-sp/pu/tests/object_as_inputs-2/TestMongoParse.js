@@ -30,6 +30,9 @@ attackUtils.deliverPayloads(attackUtils.payloadsEval, function (payload) {
     if (configs.sources.intf === true) {
         benignInput = utils.source(benignInput, utils.HIGH_LEVEL, "module-interface");
     }
+    console.log("typeof : " + typeof(benignInput));
+    if(benignInput.hasOwnproperty("tainted") && benignInput.tainted == true)
+        console.log("It works.");
     var query = parser.parse(benignInput);
     attackUtils.printCallStrings();
     result += " " + attackUtils.observedString(benignInput);

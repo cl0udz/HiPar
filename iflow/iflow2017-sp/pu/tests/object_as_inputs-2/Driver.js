@@ -104,7 +104,7 @@ var configs = [null,
         testName : "mongo-parse",
         projPath : ".",
         startFile : "./TestMongoParse.js",
-        instrFiles : ["./TestMongoParse.js", "./Policy.js"],
+        instrFiles : ["./TestMongoParse.js"],//, "./Policy.js"],
         instrModules: ["mongo-parse"],
         sources: "intf"
     },
