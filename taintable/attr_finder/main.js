@@ -33,12 +33,16 @@ module.exports = get_name_by_loc;
 function cal_taintable_attr(domain, attr_lst){
     var taint_lst = [];
     for (const attr of attr_lst){
+    //arrr_lst.forEach(function(attr, index, array){
         for (const d of domain){
+	//domain.forEach(function(d, index, array){
             if (attr.startsWith(d) && taint_lst.indexOf(attr) === -1){
                 taint_lst.push(attr);
             }
         }
     }
+    //);
+    
     return taint_lst;
 }
 
