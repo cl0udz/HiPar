@@ -13,7 +13,6 @@ exports.analyze_hidden_attr = function analyze_hidden_attr(file_loc, domain){
     return taint_lst;
 
 }
-//module.exports = analyze_hidden_attr;
 
 
 exports.get_name_by_loc = function get_name_by_loc(loc){
@@ -27,7 +26,6 @@ exports.get_name_by_loc = function get_name_by_loc(loc){
     console.log(cmd.res[0]);
     return cmd.res[0];
 }
-//module.exports.get_name_by_loc = get_name_by_loc_func;
 
 //calculate taintable attributes according to dynamic taint result
 function cal_taintable_attr(domain, attr_lst){
@@ -87,7 +85,8 @@ function traverse(object, domain, Visitor, cmd) {
 // recursively visit a property 
 function propertyVisitor(node, domain, cmd){
     var node, domain;
-    if (node.type === "MemberExpression"){
+
+    if (node.type === "MemberExpression" || node.type === "Identifier"){
         // console.log(node);
         if (cmd.mode === "findOne" && match_property(node, cmd.loc)){
             read_property(node, [...domain], domain.length, cmd);
@@ -105,7 +104,6 @@ function propertyVisitor(node, domain, cmd){
 
 //match one property according to the location
 function match_property(node, loc){
-    console.log(node);
     return JSON.stringify(node.loc) === JSON.stringify(loc);
 }
 
@@ -113,19 +111,36 @@ function match_property(node, loc){
 
 // get a specifcy property referrenced in the file
 function read_property(node, path, offset, cmd){
-    path.splice(offset, 0, node.property.name);
+    if (node.hasOwnProperty('property')) {
+       // it is a member expr 
+        if (node.property.type === "Literal"){
+            // it is a array indexing expr (a['c'])
+            path.splice(offset,0, node.property.value);
+        }else{
+            // it is a attribute indexing expr (a.c)
+            path.splice(offset, 0, node.property.name);
+        }
 
-    if ( node.object.type === "Identifier" ){
-        // this is the end
-        path.splice(offset, 0, node.object.name);
+        if ( node.object.type === "Identifier" ){
+            // this is the end
+            path.splice(offset, 0, node.object.name);
+            var path_to_store = path.join('.');
+            if (cmd.res.indexOf(path_to_store) === -1 ){
+                cmd.res.push(path_to_store);
+            }
+        } else if (node.object.type === "MemberExpression"){
+            read_property(node.object, path, offset, cmd);
+        }else {
+            console.log("[x] read_property error: " + JSON.stringify(node.object));
+        }
+        
+    } else{
+        // it is a standalone variable
+        path.splice(offset, 0, node.name);
         var path_to_store = path.join('.');
         if (cmd.res.indexOf(path_to_store) === -1 ){
             cmd.res.push(path_to_store);
         }
-    } else if (node.object.type === "MemberExpression"){
-        read_property(node.object, path, offset, cmd);
-    }else {
-        console.log("[x] read_property error: " + JSON.stringify(node.object));
     }
 }
 
@@ -133,15 +148,15 @@ var loc = {
     "file_loc":"test.js",
     "var_loc": {
         "start": {
-            "line": 7,
-            "column": 6
+            "line": 1,
+            "column": 4
         },
         "end": {
-            "line": 7,
-            "column": 17
+            "line": 1,
+            "column": 5
         }
     }
 }
 
-//get_name_by_loc(loc);
-//analyze_hidden_attr('test.js',['test.a']);
+//exports.get_name_by_loc(loc);
+// exports.analyze_hidden_attr('test.js',['a']);
