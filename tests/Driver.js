@@ -1,10 +1,11 @@
-var iflow = require("iflow");
+// var iflow = require("iflow");
 var exec = require("child_process").exec;
 var currDir = __dirname;
 var fs = require('fs');
+var path = require('path');
 
-var config = require("init-config.json")
-
+var configs = require("./init-configs.json")
+// console.log(configs)
 var tests = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,17,19,20,21];
 
 var resultsDir = "/tmp/res/";
@@ -49,7 +50,8 @@ function run(bigTask) {
     // }
 
     console.log("Running " + bigTask.initialConfig.projPath);
-    var projPath = iflow.instrumentSync(bigTask.initialConfig.projPath, bigTask.initialConfig.instrFiles);
+    // ** var projPath = iflow.instrumentSync(bigTask.initialConfig.projPath, bigTask.initialConfig.instrFiles);
+    var projPath = bigTask.initialConfig.projPath
     var testName = bigTask.initialConfig.testName;
     var task = bigTask.policy;
     var resDirName = path.resolve(resultsDir, testName +"-" +  bigTask.srcTrue);
@@ -66,7 +68,7 @@ function run(bigTask) {
 
     var newIteration = true;
     var children = [];
-    iflow.runFile(bigTask.initialConfig.projPath, projPath, bigTask.initialConfig.startFile,function () {
+    console.log(bigTask.initialConfig.projPath, projPath, bigTask.initialConfig.startFile,function () {
         if (fs.exists(projPath + "/trace1.json"))
             fs.unlink(projPath + "/trace1.json");
         if (fs.exists(projPath + "/lc.json"))
@@ -76,7 +78,9 @@ function run(bigTask) {
     }, function (cp) {
         console.log("New Process was created");
         children.push(cp);
-    }).then(function() {
+    })
+    //then
+    console.log(function() {
         // if (bigTask.initialConfig.testName === configs[23].testName || bigTask.initialConfig.testName === configs[24].testName) {
         //     exec("sudo ./node_modules/n/bin/n 5.7.1");
         //     console.log("switched node version to 5.7.1");
@@ -95,4 +99,73 @@ function run(bigTask) {
         }
     });
 
+    // iflow.runFile(bigTask.initialConfig.projPath, projPath, bigTask.initialConfig.startFile,function () {
+    //     if (fs.exists(projPath + "/trace1.json"))
+    //         fs.unlink(projPath + "/trace1.json");
+    //     if (fs.exists(projPath + "/lc.json"))
+    //         fs.unlink(projPath + "/lc.json");
+    //     console.log("New iteration");
+    //     newIteration = true;
+    // }, function (cp) {
+    //     console.log("New Process was created");
+    //     children.push(cp);
+    // }).then(function() {
+    //     // if (bigTask.initialConfig.testName === configs[23].testName || bigTask.initialConfig.testName === configs[24].testName) {
+    //     //     exec("sudo ./node_modules/n/bin/n 5.7.1");
+    //     //     console.log("switched node version to 5.7.1");
+    //     // }
+    //     console.log("Finished executing " + bigTask.initialConfig.startFile)
+    //     exec("cp " + projPath + "/trace* " + resDirName);
+    //     exec("cp " + projPath + "/lc.json " + resDirName);
+    //     exec("cp " + projPath + "/instrumented.txt " + resDirName);
+    //     exec("cp " + projPath + "/upgrades.json " + resDirName);
+    //     exec("cp " + projPath + "/setup.csv " + resDirName);
+    //     // deleteFolderRecursive(projPath);
+    //     if (tasks.length > 0) {
+    //         run(tasks.pop());
+    //     } else {
+    //         process.exit(0);
+    //     }
+    // });
+}
+
+function deleteFolderRecursive(path) {
+    if (fs.existsSync(path)) {
+        var list = fs.readdirSync(path)
+        list.forEach(function (file, index) {
+            var curPath = path + "/" + file;
+            if (fs.lstatSync(curPath).isDirectory()) { // recurse
+                deleteFolderRecursive(curPath);
+            } else { // delete file
+                fs.unlinkSync(curPath);
+            }
+        });
+        fs.rmdirSync(path);
     }
+}
+
+
+function getFilesToInstr(path) {
+    var res = [];
+    if (fs.existsSync(path)) {
+        var list = fs.readdirSync(path)
+        list.forEach(function (file, index) {
+            var curPath = path + "/" + file;
+            if (fs.lstatSync(curPath).isDirectory() && file != "node_modules"
+                && file != "public" && file != "test" && file != "assets") { // recurse
+                res = res.concat(getFilesToInstr(curPath));
+            } else {
+                if (file.toString().match(/.*\.js$/)){
+                    res.push(curPath);
+                }
+            }
+        });
+    }
+    return res;
+}
+
+
+
+// entry point
+
+run(tasks.pop());
