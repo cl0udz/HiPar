@@ -3,7 +3,7 @@
 var esprima = require('esprima');
 var fs = require('fs');
 
-function analyze_hidden_attr(file_loc, domain){
+exports.analyze_hidden_attr = function analyze_hidden_attr(file_loc, domain){
     var file_loc, domain;
     var content = fs.readFileSync(file_loc, 'utf-8');
     var cmd = {'mode':'getAll', 'res' : []};
@@ -13,10 +13,10 @@ function analyze_hidden_attr(file_loc, domain){
     return taint_lst;
 
 }
-module.exports = analyze_hidden_attr;
+//module.exports = analyze_hidden_attr;
 
 
-function get_name_by_loc(loc){
+exports.get_name_by_loc = function get_name_by_loc(loc){
     var content = fs.readFileSync(loc.file_loc, 'utf-8');
     var cmd = {'mode':'findOne', 'loc':loc.var_loc, 'res':[]};
     search_all_attr(loc.file_loc, content, cmd);
@@ -27,7 +27,7 @@ function get_name_by_loc(loc){
     console.log(cmd.res[0]);
     return cmd.res[0];
 }
-module.exports = get_name_by_loc;
+//module.exports.get_name_by_loc = get_name_by_loc_func;
 
 //calculate taintable attributes according to dynamic taint result
 function cal_taintable_attr(domain, attr_lst){
@@ -105,6 +105,7 @@ function propertyVisitor(node, domain, cmd){
 
 //match one property according to the location
 function match_property(node, loc){
+    console.log(node);
     return JSON.stringify(node.loc) === JSON.stringify(loc);
 }
 
@@ -142,5 +143,5 @@ var loc = {
     }
 }
 
-get_name_by_loc(loc);
+//get_name_by_loc(loc);
 //analyze_hidden_attr('test.js',['test.a']);
