@@ -8,7 +8,7 @@ J$.analysis = {};
 
 (function(sandbox) {
     function TaintAnalysis() {
-	var attr_finder = require('/home/hjw/Goldie/taintable/attr_finder/main.js');
+	var attr_finder = require('../attr_finder/main.js');
         var iidToLocation = sandbox.iidToLocation;
 
         var currentFile;
@@ -47,8 +47,9 @@ J$.analysis = {};
 
         this.invokeFunPre = function(iid, f, base, args, isConstructor) {
             //console.log('function call intercepted before invoking');
-	    if(f)
-		console.log("Calling: " + f.name);
+	    if(f){
+		//console.log("Calling: " + f.name);
+	    }
 
         };
 
@@ -121,13 +122,12 @@ J$.analysis = {};
 		    loc['var_loc']['start'] = {};
 		    loc['var_loc']['end'] = {};
 		    loc['var_loc']['start']['line'] = parseInt(content[1], 10);
-		    loc['var_loc']['start']['column'] = parseInt(content[2], 10);
+		    loc['var_loc']['start']['column'] = parseInt(content[2], 10) - 1;
 		    loc['var_loc']['end']['line'] = parseInt(content[3], 10);
-		    loc['var_loc']['end']['column'] = parseInt(content[4], 10);
+		    loc['var_loc']['end']['column'] = parseInt(content[4], 10) - 1;
 
 		    console.log(JSON.stringify(loc));
-		    console.log(typeof attr_finder.get_name_by_loc);
-		    console.log(attr_finder.analyze_hidden_attr(loc['file_loc'], attr_finder.get_name_by_loc(loc)));
+		    console.log("Calling attr_finder: " + attr_finder.analyze_hidden_attr(loc['file_loc'], attr_finder.get_name_by_loc(loc)));
 		}
 	    }
             return val;
