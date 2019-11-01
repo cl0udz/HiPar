@@ -2,6 +2,7 @@
 
 var esprima = require('esprima');
 var fs = require('fs');
+var tynt = require('tynt');
 
 exports.analyze_hidden_attr = function analyze_hidden_attr(file_loc, domain){
     var file_loc, domain;
@@ -9,7 +10,7 @@ exports.analyze_hidden_attr = function analyze_hidden_attr(file_loc, domain){
     var cmd = {'mode':'getAll', 'res' : []};
     search_all_attr(file_loc, content, cmd);
     var taint_lst = cal_taintable_attr(domain, cmd.res);
-    //console.log(taint_lst);
+    console.log(tynt.Red(taint_lst));
     return taint_lst;
 
 }
@@ -23,7 +24,7 @@ exports.get_name_by_loc = function get_name_by_loc(loc){
         console.log("[x] get_name_by_loc error: " + JSON.stringify(loc)+ ' not found');
         return -1;
     }
-    //console.log(cmd.res[0]);
+    console.log(tynt.Red(cmd.res[0]));
     return cmd.res[0];
 }
 
@@ -31,15 +32,12 @@ exports.get_name_by_loc = function get_name_by_loc(loc){
 function cal_taintable_attr(domain, attr_lst){
     var taint_lst = [];
     for (const attr of attr_lst){
-    //arrr_lst.forEach(function(attr, index, array){
         for (const d of domain){
-	//domain.forEach(function(d, index, array){
             if (attr.startsWith(d) && taint_lst.indexOf(attr) === -1){
                 taint_lst.push(attr);
             }
         }
     }
-    //);
     
     return taint_lst;
 }
@@ -96,8 +94,8 @@ function propertyVisitor(node, domain, cmd){
     var node, domain;
 
     if (node.type === "MemberExpression" || node.type === "Identifier"){
-        // console.log(node);
-        // console.log('----');
+         //console.log(node);
+         //console.log('----');
         if (cmd.mode === "findOne" && match_property(node, cmd.loc)){
             read_property(node, [...domain], domain.length, cmd);
         } else if (cmd.mode === "getAll"){
@@ -152,6 +150,7 @@ function read_property(node, path, offset, cmd){
         
     } else{
         // it is a standalone variable
+        path.splice(offset, 0, node.name);
         var path_to_store = path.join('.');
         if (cmd.res.indexOf(path_to_store) === -1 ){
             cmd.res.push(path_to_store);
@@ -160,18 +159,18 @@ function read_property(node, path, offset, cmd){
 }
 
 var loc = {
-    "file_loc":"test.js",
+    "file_loc":"../target/node_modules/mongo-parse/mongoParse.js",
     "var_loc": {
         "start": {
-            "line": 2,
-            "column": 4
+            "line": 23,
+            "column": 21
         },
         "end": {
-            "line": 2,
-            "column": 12 
+            "line": 23,
+            "column": 31 
         }
     }
 }
 
-// exports.get_name_by_loc(loc);
+exports.get_name_by_loc(loc);
 // exports.analyze_hidden_attr('test.js',['']);
