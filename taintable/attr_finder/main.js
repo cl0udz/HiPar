@@ -65,11 +65,20 @@ function traverse(object, domain, Visitor, cmd) {
     if (Visitor.call(null, object, domain, cmd) === false) {
         return;
     }
-    
+    console.log(object);
     // add new scope to the domain  when enter a new function
     if (object.type === 'FunctionDeclaration'){
         domain = [...domain]
         domain.push(object.id.name);
+    } else if (object.type === 'FunctionExpression'){
+        domain = [...domain];
+        var anonymous_func;
+        if (object.id === null){
+            anonymous_func = 'anon_'+ object.loc.start.line+'_'+object.loc.start.column+'_'+object.loc.end.line+'_'+object.loc.end.column;
+        }else{
+            anonymous_func = object.id.name;
+        }
+        domain.push(anonymous_func);
     }
     for (key in object) {
         if (object.hasOwnProperty(key)) {
@@ -88,6 +97,7 @@ function propertyVisitor(node, domain, cmd){
 
     if (node.type === "MemberExpression" || node.type === "Identifier"){
         // console.log(node);
+        // console.log('----');
         if (cmd.mode === "findOne" && match_property(node, cmd.loc)){
             read_property(node, [...domain], domain.length, cmd);
         } else if (cmd.mode === "getAll"){
@@ -108,7 +118,6 @@ function match_property(node, loc){
 }
 
 
-
 // get a specifcy property referrenced in the file
 function read_property(node, path, offset, cmd){
     if (node.hasOwnProperty('property')) {
@@ -116,9 +125,11 @@ function read_property(node, path, offset, cmd){
         if (node.property.type === "Literal"){
             // it is a array indexing expr (a['c'])
             path.splice(offset,0, node.property.value);
-        }else{
+        }else if (node.property.type === "Identifier"){
             // it is a attribute indexing expr (a.c)
             path.splice(offset, 0, node.property.name);
+        }else{
+            console.log("[x] read_property error: unknow attribute indexing type" + JSON.stringify(node.object));
         }
 
         if ( node.object.type === "Identifier" ){
@@ -129,14 +140,18 @@ function read_property(node, path, offset, cmd){
                 cmd.res.push(path_to_store);
             }
         } else if (node.object.type === "MemberExpression"){
+            // the object attr is still a nested member expr 
             read_property(node.object, path, offset, cmd);
-        }else {
-            console.log("[x] read_property error: " + JSON.stringify(node.object));
+        } else if (node.object.type === "ThisExpression" ){
+            // the object attr is 'this' keyword 
+            path.splice(offset, 0, "this");
+            read_property(node.property, path, offset, cmd);
+        } else {
+            console.log("[x] read_property error: unknown object tpye " + JSON.stringify(node.object));
         }
         
     } else{
         // it is a standalone variable
-        path.splice(offset, 0, node.name);
         var path_to_store = path.join('.');
         if (cmd.res.indexOf(path_to_store) === -1 ){
             cmd.res.push(path_to_store);
@@ -148,15 +163,15 @@ var loc = {
     "file_loc":"test.js",
     "var_loc": {
         "start": {
-            "line": 1,
+            "line": 2,
             "column": 4
         },
         "end": {
-            "line": 1,
-            "column": 5
+            "line": 2,
+            "column": 12 
         }
     }
 }
 
-//exports.get_name_by_loc(loc);
-// exports.analyze_hidden_attr('test.js',['a']);
+// exports.get_name_by_loc(loc);
+// exports.analyze_hidden_attr('test.js',['']);
