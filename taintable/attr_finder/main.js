@@ -9,7 +9,7 @@ exports.analyze_hidden_attr = function analyze_hidden_attr(file_loc, domain){
     var cmd = {'mode':'getAll', 'res' : []};
     search_all_attr(file_loc, content, cmd);
     var taint_lst = cal_taintable_attr(domain, cmd.res);
-    console.log(taint_lst);
+    //console.log(taint_lst);
     return taint_lst;
 
 }
@@ -23,7 +23,7 @@ exports.get_name_by_loc = function get_name_by_loc(loc){
         console.log("[x] get_name_by_loc error: " + JSON.stringify(loc)+ ' not found');
         return -1;
     }
-    console.log(cmd.res[0]);
+    //console.log(cmd.res[0]);
     return cmd.res[0];
 }
 
@@ -65,7 +65,7 @@ function traverse(object, domain, Visitor, cmd) {
     if (Visitor.call(null, object, domain, cmd) === false) {
         return;
     }
-    console.log(object);
+    //console.log(object);
     // add new scope to the domain  when enter a new function
     if (object.type === 'FunctionDeclaration'){
         domain = [...domain]
