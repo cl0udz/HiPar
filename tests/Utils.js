@@ -31,32 +31,33 @@
 	    var files = [];
 	    console.log(files2Instru.length+" Files to be instrumented.")
 	    for (var i = 0; i < files2Instru.length; i++) {
-	        files = files.concat(getFilesRec(path.resolve(projTmpDir.name, files2Instru[i])));
+	        files = files.concat(getFilesRec(path.resolve(projectDir,files2Instru[i])));
 	    }
 	    for (var i = 0; i < modules2Instru.length; i++) {
-	    	files = files.concat(getFilesRec(path.resolve(projTmpDir.name,"./node_modules/"+modules2Instru)))
+	    	files = files.concat(getFilesRec(path.resolve(projectDir,"./node_modules/"+modules2Instru)))
 	    }
 	    var iFileOut = path.resolve(projTmpDir.name, "instrumented.txt");
 	    fs.writeFileSync(iFileOut, "");
 	    for (var i = 0; i < files.length; i++) {
 	        console.log(files[i]);
 	        fs.appendFileSync(iFileOut, files[i] );
-	        instrumentFile(files[i]);
+	        instrumentFile(files[i],projTmpDir.name);
 	    }
 	    //callback(projTmpDir.name, loc);
 	    return projTmpDir.name;
     }
 
-    function instrumentFile(name) {
+    function instrumentFile(file,tmpProjPath) {
     	var TanitPath = path.resolve(__dirname, "../taintable/dynamic_taint")
-        if (name.match(/^.*\.js$/)) {
-            console.log("Instrumenting ~" + name);
-            var pathInstr = path.resolve(name);
+        if (file.match(/^.*\.js$/)) {
+            var filePath = path.resolve(file);
+            var tmpFilePath = path.resolve(tmpProjPath,file.toString().split('target/')[1])
+            console.log("Instrumenting " + file + " to "+tmpFilePath);
             try {
-				console.log("node " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " "  + escapeShell(pathInstr) + " --out " + escapeShell(pathInstr));
-                execSync("node " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " "  + escapeShell(pathInstr) + " --out " + escapeShell(pathInstr));
+				console.log("node " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " "  + escapeShell(filePath) + " --out " + escapeShell(tmpFilePath));
+                execSync("node " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " "  + escapeShell(filePath) + " --out " + escapeShell(tmpFilePath));
             } catch (e) {
-                console.log("\nPreprocessor: Error when instrumenting " + name + ". Will ignore this file.\n" + e);
+                console.log("\nPreprocessor: Error when instrumenting " + file + ". Will ignore this file.\n" + e);
                 return;
             }
 
