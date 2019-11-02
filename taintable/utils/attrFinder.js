@@ -159,7 +159,7 @@ function read_property(node, path, offset, cmd){
 }
 
 var loc = {
-    "file_loc":"../target/node_modules/mongo-parse/mongoParse.js",
+    "file_loc": __dirname + "/../target/node_modules/mongo-parse/mongoParse.js",
     "var_loc": {
         "start": {
             "line": 23,

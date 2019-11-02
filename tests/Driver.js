@@ -2,6 +2,7 @@
 var exec = require("child_process").exec;
 var currDir = __dirname;
 var fs = require('fs');
+var execSync = require('child_process').execSync;
 var path = require('path');
 var Promise = require("bluebird");
 var tmp = require('tmp');
@@ -9,7 +10,7 @@ var wrench = require('wrench');
 var utils = require(path.resolve(__dirname, "Utils"));
 var configs = require("./init-configs.json")
 // console.log(configs)
-var tests = [1,2];
+var tests = [1];
 
 var taintPath = path.resolve(__dirname, "../taintable/dynamic_taint/")
 var AnalysisPath = path.resolve(__dirname, "../taintable/dynamic_taint/TaintAnalysis.js")
@@ -116,7 +117,7 @@ function run(bigTask) {
 
     var newIteration = true;
     var children = [];
-    utils.runFile(bigTask.initialConfig.projPath, projPath, bigTask.initialConfig.startFile,function () {
+    utils.runFile(bigTask.initialConfig.startFile,projPath,function () {
         if (fs.exists(projPath + "/trace1.json"))
             fs.unlink(projPath + "/trace1.json");
         if (fs.exists(projPath + "/lc.json"))
@@ -128,11 +129,13 @@ function run(bigTask) {
         children.push(cp);
     });
 
+
     (function() {
         // if (bigTask.initialConfig.testName === configs[23].testName || bigTask.initialConfig.testName === configs[24].testName) {
         //     exec("sudo ./node_modules/n/bin/n 5.7.1");
         //     console.log("switched node version to 5.7.1");
         // }
+
         console.log("Finished executing " + bigTask.initialConfig.startFile)
         exec("cp " + projPath + "/trace* " + resDirName);
         exec("cp " + projPath + "/lc.json " + resDirName);
@@ -140,9 +143,16 @@ function run(bigTask) {
         exec("cp " + projPath + "/upgrades.json " + resDirName);
         exec("cp " + projPath + "/setup.csv " + resDirName);
         // deleteFolderRecursive(projPath);
+        // exec("rm -r "+projPath);
         if (tasks.length > 0) {
             run(tasks.pop());
         } else {
+            console.log("=========================================================")
+            console.log("[+] Result.txt:")
+            var data = fs.readFileSync("/tmp/result.txt");
+            console.log(data.toString())
+            console.log("==========================END============================")
+            exec("rm /tmp/result.txt")
             process.exit(0);
         }
     })();
@@ -175,3 +185,5 @@ function getFilesToInstr(path) {
 // entry point
 console.log("[----------------- CheckPoint1 -----------------]")
 run(tasks.pop());
+
+
