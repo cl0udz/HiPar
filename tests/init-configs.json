@@ -1,8 +1,8 @@
-[null, {
+[{
     "testName": "mongo-parse",
     "projPath": "./target",
     "startFile": "./TestMongoParse.js",
-    "instrFiles": ["./TestMongoParse.js", "./Policy.js"],
+    "instrFiles": ["./TestMongoParse.js"],
     "instrModules": ["mongo-parse"],
     "sources": "intf"
 }]
