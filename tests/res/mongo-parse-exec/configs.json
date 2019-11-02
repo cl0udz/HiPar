@@ -1,0 +1,1 @@
+{"sources":{"exec":false,"fs":false,"http":false,"db":false,"intf":true},"sinks":{"exec":true,"fs":false,"http":false,"db":false}}
