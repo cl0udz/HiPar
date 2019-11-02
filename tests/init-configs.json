@@ -5,11 +5,4 @@
     "instrFiles": ["./TestMongoParse.js", "./Policy.js"],
     "instrModules": ["mongo-parse"],
     "sources": "intf"
-}, {
-    "testName": "mongui",
-    "projPath": "./target",
-    "startFile": "./TestMongui.js",
-    "instrFiles": ["./TestMongui.js", "./Policy.js"],
-    "instrModules": ["mongui"],
-    "sources": "http"
 }]

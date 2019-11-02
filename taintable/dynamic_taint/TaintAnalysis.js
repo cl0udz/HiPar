@@ -9,7 +9,7 @@ J$.analysis = {};
 (function(sandbox) {
     function TaintAnalysis() {
         var tynt = require('tynt');
-	    var attr_finder = require('../attr_finder/main.js');
+	    var attr_finder = require(__dirname + '/../utils/attrFinder.js');
         var iidToLocation = sandbox.iidToLocation;
         var taint_tag_to_input = {};
 

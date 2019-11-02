@@ -33,16 +33,13 @@
 	    var files = [];
 	    console.log(filesToInstrument.length)
 	    for (var i = 0; i < filesToInstrument.length; i++) {
-	    	    console.log("[----------------- CheckPoint3.1 -----------------]")
 	        files = files.concat(getFilesRec(path.resolve(projTmpDir.name, filesToInstrument[i])));
-	            console.log("[----------------- CheckPoint3.2 -----------------]")
 	    }
 	    var loc = 0;
 	    var iFileOut = path.resolve(projTmpDir.name, "instrumented.txt");
 	    fs.writeFileSync(iFileOut, "");
 	    for (var i = 0; i < files.length; i++) {
 	        var content = fs.readFileSync(files[i]).toString();
-	            console.log("[----------------- CheckPoint3.3 -----------------]")
 
 	        if (files[i].indexOf("Policy.js") === -1) {
 	            var stats = sloc(content, "js");
@@ -54,7 +51,6 @@
 	        fs.appendFileSync(iFileOut, files[i] +" " + loc);
 	        instrumentFile(path.resolve(__dirname, "../taintable/dynamic_taint"), files[i]);
 	    }
-	        console.log("[----------------- CheckPoint3.4 -----------------]")
 	    //callback(projTmpDir.name, loc);
 	    return projTmpDir.name;
     }
@@ -82,44 +78,43 @@
             ast.body.splice(0, 0, esprima.parse("var " + UTILS_NAME + " = require(\"iflow\");"));
             var transformedCode = escodegen.generate(ast, {comment: true});
             fs.writeFileSync(pathInstr, transformedCode, "utf8")
-            execSync("node " + path.resolve(projePath, __dirname + "/PCCleaner.js") + " " + escapeShell(pathInstr));
+            execSync("node " + path.resolve( __dirname + "/PCCleaner.js") + " " + escapeShell(pathInstr));
         }
     }
 
 
-function runFile(file, projPath, tmpProjPath, callback, iterationsCallback, creationCallback) {
-        var analysisPath = path.resolve(__dirname, "../taintable/dynamic_taint/TaintAnalysis.js")
-        var mainProc = null;
-        console.log("[----------------- CheckPoint3 -----------------]")
-        var runProc = exec("node  " + path.resolve(__dirname , "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + analysisPath + " " + escapeShell(file), // --debug --max-stack-size=16000
-            function (error, stdout, stderr) {
-                if (error !== null && error.stack.toString().indexOf("deprecated") === -1) {
-                    console.log('exec error: ' + error.stack);
-                }
-                console.log("[+]Result of "+file)
-                console.log(stdout)
-                console.log("==========================END============================")
-            });
-        runProc.stdout.pipe(process.stdout);
-        runProc.stderr.pipe(process.stderr);
-        console.log("Install cleanup");
-        if (mainProc === null)
-            mainProc = runProc;
-        mainProc.on('exit', function () {
-            console.log("Cleanup " + runProc.pid);
-            try {
-                runProc.kill();
-                process.kill(runProc.pid + 1);// No idea why two processes are created. :(
-            } catch (e) {
-                //best effort
+function runFile(filename, tmpProjPath, callback, iterationsCallback, creationCallback) {
+	var file = path.resolve(tmpProjPath+"/"+filename)
+    var analysisPath = path.resolve(__dirname, "../taintable/dynamic_taint/TaintAnalysis.js")
+    var mainProc = null;
+    console.log("executing: "+"node  " + path.resolve(__dirname , "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + analysisPath + " " + escapeShell(file) + " >> /tmp/result.txt ")
+    var runProc = exec("node  " + path.resolve(__dirname , "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + analysisPath + " " + escapeShell(file) + " >> /tmp/result.txt ", // --debug --max-stack-size=16000
+        function (error, stdout, stderr) {
+            if (error !== null) {
+                console.log('exec error: ' + error.stack);
             }
+           
         });
-        runProc.on('uncaughtException', function(err) {
-            console.log(err.stack);
-            if (err.stack.toString().indexOf("deprecated") === -1)
-                throw err;
-        });
-    }
+    runProc.stdout.pipe(process.stdout);
+    runProc.stderr.pipe(process.stderr);
+    console.log("Install cleanup");
+    if (mainProc === null)
+        mainProc = runProc;
+    mainProc.on('exit', function () {
+        console.log("Cleanup " + runProc.pid);
+        try {
+            runProc.kill();
+            process.kill(runProc.pid + 1);// No idea why two processes are created. :(
+        } catch (e) {
+            //best effort
+        }
+    });
+    runProc.on('uncaughtException', function(err) {
+        console.log(err.stack);
+        if (err.stack.toString().indexOf("deprecated") === -1)
+            throw err;
+    });
+}
 
 
     function walkDirectory(dir) {
@@ -172,4 +167,5 @@ function runFile(file, projPath, tmpProjPath, callback, iterationsCallback, crea
     exports.runFile = runFile;
     exports.deleteFolderRecursive = deleteFolderRecursive;
     exports.instrumentSync = instrumentSync;
+    exports.escapeShell=escapeShell;
 })();
