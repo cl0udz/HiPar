@@ -143,7 +143,8 @@ J$.analysis = {};
 		            loc['var_loc']['end']['column'] = parseInt(content[4], 10) - 1;
 
 		            console.log("[Location] " + JSON.stringify(loc));
-		            hidden_list = attr_finder.analyze_hidden_attr(loc['file_loc'], attr_finder.get_name_by_loc(loc));
+                    //console.log("arg0: " + loc['file_loc'] + ",arg1:" + [attr_finder.get_name_by_loc(loc)]);
+		            hidden_list = attr_finder.analyze_hidden_attr(loc['file_loc'], [attr_finder.get_name_by_loc(loc)]);
                     console.log("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + hidden_list);
                     console.log("----------------------------");
 		        }
