@@ -3,7 +3,9 @@ var path = require('path')
 var traceCmp = require(path.resolve(__dirname,"../../../taintable/utils/traceCmp.js"))
 /* Coverage improving instructions */
 
-const varToString = varObj => Object.keys(varObj)[0]
+function varToString(varObj){
+    return Object.keys(varObj)[0]
+} 
 
 var query = {
     "username": "admin",
@@ -16,7 +18,7 @@ var properties = Object.getOwnPropertyNames(query)
 console.log("properties: ",properties)
 
 var res = []
-console.log("source: NOTHING" )
+console.log( "source: NOTHING" )
 res.push(parser.parse(query))
 
 for (var a of properties) {
@@ -31,8 +33,8 @@ for (var a of properties) {
 
 console.log("source: THE ROOT" )
 
-const displayName = varToString({ someVar })
-query = source(query,varToString(query))
+// const displayName = varToString({ someVar })
+query = source(query,varToString({qu}))
 
 res.push(parser.parse(query))
 
