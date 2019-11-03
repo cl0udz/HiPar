@@ -61,7 +61,6 @@ J$.analysis = {};
         this.invokeFun = function(iid, f, base, args, val, isConstructor) {
             //console.log('function call intercepted after invoking');
 
-            //val.id = valueID++;
             if (f.name === "source") {
                 //tainted_values[val.id] = iidToLocation(val.id);
 		        if(typeof(args[0]) == "string"){
@@ -72,42 +71,27 @@ J$.analysis = {};
 		        if(typeof(val) == "string"){
 		            val = convertString(val);
 		        }
+                valueID++;
 		        val.tainted = "source";
+                val.iiid = valueID;
+                taint_tag_to_input[valueID] = {"name": args[1], "location": "undefined"};
+                console.log(tynt.Blue("[source] name: " + args[1]));
             }
-
 	    //console.log("Tainted something. args[0]: " + args[0]);
-
-            currentFunc = f.name;
             return val;
         };
 
         this.getField = function(iid, base, offset, val) {
             //console.log('get field operation intercepted: ' + offset);
             if(val && val.hasOwnProperty('tainted') && val.tainted == "source"){
-                val.tainted = ++valueID;
-                //taint_tag_to_input[valueID] = {"name": name, "location": iidToLocation(iid)};
+                taint_tag_to_input[val.iiid].location = iidToLocation(iid);
                 console.log("---------New Variable--------");
-                var vlocation = iidToLocation(iid);
-                console.log("Location: " + vlocation);
-                if(/.*:\d*:\d*:\d*:\d*/.test(vlocation)){
-                    var content = vlocation.split(":");
-                    var loc = {};
-                    console.log(content);
-                    loc['file_loc'] = content[0];
-                    loc['var_loc'] = {};
-                    loc['var_loc']['start'] = {};
-                    loc['var_loc']['end'] = {};
-                    loc['var_loc']['start']['line'] = parseInt(content[1], 10);
-
-                    loc['var_loc']['start']['column'] = parseInt(content[2], 10);
-                    loc['var_loc']['end']['line'] = parseInt(content[3], 10);
-                    loc['var_loc']['end']['column'] = parseInt(content[4], 10);
-                }
-                console.log(tynt.Blue("[Tagging] source: " + attr_finder.get_name_by_loc(loc) + ", tag: " + valueID));
+                console.log(tynt.Blue("[Tagging] source: " + taint_tag_to_input[val.iiid].name + ", tag: " + val.iiid));
+                val.tainted = val.iiid;
             }
 
 	        if(val && val.hasOwnProperty('tainted') && val.tainted > 0){
-                console.log("Tainted varaible. name: " + name );//+ ", val: " + val);
+                console.log("Tainted varaible. name: " + taint_tag_to_input[val.iiid].name );//+ ", val: " + val);
                 var vlocation = iidToLocation(iid);
                 console.log("Location: " + vlocation);
                 if(/.*:\d*:\d*:\d*:\d*/.test(vlocation)){
@@ -134,10 +118,11 @@ J$.analysis = {};
 
         this.read = function(iid, name, val, isGlobal) {
             if(val && val.hasOwnProperty('tainted') && val.tainted == "source"){
-                val.tainted = ++valueID;
-                taint_tag_to_input[valueID] = {"name": name, "location": iidToLocation(iid)};
+                //taint_tag_to_input[valueID] = {"name": name, "location": iidToLocation(iid)};
                 console.log("---------New Variable--------");
-                console.log(tynt.Blue("[Tagging] source: " + name + ", tag: " + valueID));
+                taint_tag_to_input[val.iiid].location = iidToLocation(iid);
+                console.log(tynt.Blue("[Tagging] source: " + taint_tag_to_input[val.iiid].name + ", tag: " + valueID));
+                val.tainted = val.iiid;
             }
 
             //console.log('reading variable operation intercepted: ' + name);
