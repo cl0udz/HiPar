@@ -11,7 +11,9 @@ J$.analysis = {};
             var log_buffer = [];
             var log_file;
             var log_type = -1 ; // -1 : on init; 0 : baseline recording; 1 : labeled recording
-
+            var labeled_path = path.resolve(__dirname, "../../outputs/traces/labeled_trace");
+            var baseline_path = path.resolve(__dirname, "../../outputs/traces/baseline_trace"); 
+            
         function write_log(info) {
             var data = log_buffer.join('\n');
             try {
@@ -42,10 +44,10 @@ J$.analysis = {};
             switch(log_type){
             case -1:
                 // logics on init
-                if (!fs.existsSync('/tmp/baseline_trace')){
+                if (!fs.existsSync(baseline_path)){
                    //if there is no baseline file, we will create one
                     log_type = 0;
-                    log_file = '/tmp/baseline_trace'
+                    log_file = baseline_path;
                     try{
                         fs.writeFileSync(log_file, '');
                     }catch (e){
@@ -54,7 +56,7 @@ J$.analysis = {};
                 } else{
                     //if there is a baseline file with log_type -1, we are at the beginning of logging the labeled trace
                     log_type = 1;
-                    log_file = '/tmp/labeled_trace'
+                    log_file = labeled_path;
                     try{
                         fs.writeFileSync(log_file, '');
                     }catch (e){
