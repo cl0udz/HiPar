@@ -85,9 +85,25 @@ J$.analysis = {};
             //console.log('get field operation intercepted: ' + offset);
             if(val && val.hasOwnProperty('tainted') && val.tainted == "source"){
                 val.tainted = ++valueID;
-                taint_tag_to_input[valueID] = {"name": name, "location": iidToLocation(iid)};
+                //taint_tag_to_input[valueID] = {"name": name, "location": iidToLocation(iid)};
                 console.log("---------New Variable--------");
-                console.log(tynt.Blue("[Tagging] source: " + name + ", tag: " + valueID));
+                var vlocation = iidToLocation(iid);
+                console.log("Location: " + vlocation);
+                if(/.*:\d*:\d*:\d*:\d*/.test(vlocation)){
+                    var content = vlocation.split(":");
+                    var loc = {};
+                    console.log(content);
+                    loc['file_loc'] = content[0];
+                    loc['var_loc'] = {};
+                    loc['var_loc']['start'] = {};
+                    loc['var_loc']['end'] = {};
+                    loc['var_loc']['start']['line'] = parseInt(content[1], 10);
+
+                    loc['var_loc']['start']['column'] = parseInt(content[2], 10);
+                    loc['var_loc']['end']['line'] = parseInt(content[3], 10);
+                    loc['var_loc']['end']['column'] = parseInt(content[4], 10);
+                }
+                console.log(tynt.Blue("[Tagging] source: " + attr_finder.get_name_by_loc(loc) + ", tag: " + valueID));
             }
 
 	        if(val && val.hasOwnProperty('tainted') && val.tainted > 0){
