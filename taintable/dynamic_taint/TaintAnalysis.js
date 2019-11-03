@@ -91,7 +91,7 @@ J$.analysis = {};
             }
 
 	        if(val && val.hasOwnProperty('tainted') && val.tainted > 0){
-                console.log("Tainted varaible. name: " + taint_tag_to_input[val.iiid].name );//+ ", val: " + val);
+                console.log(tynt.Blue("[Tainted variable] name: " + taint_tag_to_input[val.iiid].name));//+ ", val: " + val);
                 var vlocation = iidToLocation(iid);
                 console.log("Location: " + vlocation);
                 if(/.*:\d*:\d*:\d*:\d*/.test(vlocation)){
@@ -111,7 +111,7 @@ J$.analysis = {};
                     console.log(JSON.stringify(loc));
 		    
                     hidden_list = attr_finder.analyze_hidden_attr(loc['file_loc'], [attr_finder.get_name_by_loc(loc)]);
-                    console.log("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + hidden_list);
+                    console.log(tynt.Blue("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + hidden_list));
                     console.log("----------------------------");
                 }
             }
@@ -129,7 +129,7 @@ J$.analysis = {};
 
             //console.log('reading variable operation intercepted: ' + name);
 	        if(val && val.hasOwnProperty('tainted') && val.tainted > 0){
-		        console.log("Tainted varaible. name: " + name );//+ ", val: " + val);
+		        console.log(tynt.Blue("[Tainted variable] name: " + name));//+ ", val: " + val);
 		        var vlocation = iidToLocation(iid);
 		        //console.log("Location: " + vlocation);
 		        if(/.*:\d*:\d*:\d*:\d*/.test(vlocation)){
@@ -146,9 +146,9 @@ J$.analysis = {};
 		            loc['var_loc']['end']['column'] = parseInt(content[4], 10) - 1;
 
 		            console.log("[Location] " + JSON.stringify(loc));
-                    //console.log("arg0: " + loc['file_loc'] + ",arg1:" + [attr_finder.get_name_by_loc(loc)]);
+
 		            hidden_list = attr_finder.analyze_hidden_attr(loc['file_loc'], [attr_finder.get_name_by_loc(loc)]);
-                    console.log("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + hidden_list);
+                    console.log(tynt.Blue("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + hidden_list));
                     console.log("----------------------------");
 		        }
 	        }
