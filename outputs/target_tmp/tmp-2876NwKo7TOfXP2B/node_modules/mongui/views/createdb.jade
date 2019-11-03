@@ -1,0 +1,16 @@
+extends layout
+
+block content
+	#db-content
+		if err
+			h4(style="color:red")=err
+
+		form(action="/createdb",method="post")
+			br
+			span Nombre de la nueva base de datos: 
+			input(name="db",required,value=db)
+			br
+			br
+			input(type="submit")
+			input(type="hidden",name="op",value="createdb")
+			
