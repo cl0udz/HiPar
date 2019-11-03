@@ -1,7 +1,7 @@
 /*
  * control flow monitor by calltrace and vartrace
  */
-
+const path = require('path')
 J$.analysis = {};
 
 (function (sandbox) {

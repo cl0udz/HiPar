@@ -9,7 +9,6 @@
     var Promise = require("bluebird");
     var tmp = require('tmp');
     var wrench = require('wrench');
-    var traceCmp = require(path.resolve(__dirname, "../taintable/utils/traceCmp.js"))
 
 
     var escapeShell = function(cmd) {
@@ -21,7 +20,7 @@
         //TODO remove this duplicate code
         console.log("instrumentSync:" + projectDir)
 
-        var projTmpDir = tmp.dirSync({"dir":path.resolve(__dirname,"target_tmp")});
+        var projTmpDir = tmp.dirSync({"dir":path.resolve(__dirname,"../outputs/target_tmp")});
 
         console.log("[-]Copying Target to Tempdir")
         wrench.copyDirSyncRecursive(projectDir, projTmpDir.name, {
@@ -83,7 +82,6 @@
         console.log("=========================================================")
         console.log("[+] Result :")
         console.log(runProc.toString())
-        traceCmp.cmp_trace()
         console.log("==========================END============================")
 
     }

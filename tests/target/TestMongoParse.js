@@ -34,7 +34,7 @@ for (var a of properties) {
 console.log("source: THE ROOT" )
 
 // const displayName = varToString({ someVar })
-query = source(query,varToString({qu}))
+query = source(query,varToString({query}))
 
 res.push(parser.parse(query))
 

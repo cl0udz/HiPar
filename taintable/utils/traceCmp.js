@@ -4,6 +4,7 @@
  *  call cmp_fini() at the end of each libcall
   */
 const fs = require('fs');
+const path = require('path')
 const execSync = require('child_process').execSync;
 const baseline_path = path.resolve(__dirname, "../../outputs/traces/baseline_trace");
 const labeled_path = path.resolve(__dirname, "../../outputs/traces/labeled_trace"); 
