@@ -95,7 +95,7 @@ J$.analysis = {};
                 var vlocation = iidToLocation(iid);
                 console.log("Location: " + vlocation);
                 if(/.*:\d*:\d*:\d*:\d*/.test(vlocation)){
-                    var content = vlocation.split(":");
+                    var content = vlocation.slice(1,-1).split(":");
                     var loc = {};
                     console.log(content);
                     loc['file_loc'] = content[0];
@@ -110,6 +110,8 @@ J$.analysis = {};
 
                     console.log(JSON.stringify(loc));
 		    
+                    hidden_list = attr_finder.analyze_hidden_attr(loc['file_loc'], [attr_finder.get_name_by_loc(loc)]);
+                    console.log("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + hidden_list);
                     console.log("----------------------------");
                 }
             }
