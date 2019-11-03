@@ -1,44 +1,72 @@
-/**
- * Advisory 54: https://nodesecurity.io/advisories/54
- */
-//var utils = require("iflow");
-var attackUtils = require("./AttackUtils.js");
-attackUtils.setup();
-
-//var configs = require("./configs.json");
-//var policy = require("./Policy.js")(__dirname, null);
-HIGH_LEVEL = 2;
-
 var parser = require('mongo-parse');
-
+var path = require('path')
+var traceCmp = require(path.resolve(__dirname,"../../../taintable/utils/traceCmp.js"))
 /* Coverage improving instructions */
-function g(x) {
-    console.log("Myfct");
+
+
+var query = {
+    "username": "admin",
+    "password": "adminPass",
+    "id": "101"
 }
-g = source(g, HIGH_LEVEL, "module-interface");
-var query = parser.parse(g);
-var query = parser.parse(source(23, HIGH_LEVEL, "module-interface"));
+
+
+var properties = Object.getOwnPropertyNames(query)
+console.log("properties: ",properties)
+
+var res = []
+console.log("source: NOTHING" )
+res.push(parser.parse(query))
+
+for (var a of properties) {
+    console.log("source: " + a)
+    var tmp = clone(query) // generate a copy of query
+    tmp[a]   = source(tmp[a])
+    res.push(parser.parse(tmp))
+    traceCmp.cmp_trace(a)
+    // console.log(query[a])
+}
+
+
+console.log("source: THE ROOT" )
+query = source(query)
+
+res.push(parser.parse(query))
+
+
 /* End of coverage improving instructions */
 
-attackUtils.deliverPayloads(attackUtils.payloadsEval, function (payload) {
-    //if (configs.sources.intf === true) {
-        payload = source(payload, HIGH_LEVEL, "module-interface");
-	console.log("Here I am + payload: " + payload);
-    //}
-    var query = parser.parse('}); ' + payload + '//');
-}, function(result, filesWithSinks) {
-    var benignInput = "{ myQueryField: x}"
-    //if (configs.sources.intf === true) {
-        benignInput = source(benignInput, HIGH_LEVEL, "module-interface");
-    //}
-    console.log("typeof : " + typeof(benignInput));
-    if(benignInput.hasOwnProperty("tainted") && benignInput.tainted == true)
-        console.log("It works.");
-    var query = parser.parse(benignInput);
-    attackUtils.printCallStrings();
-    result += " " + attackUtils.observedString(benignInput);
-});
-
-function source(source_var, level, catagory){
+function source(source_var) {
     return source_var;
+}
+
+
+function clone(obj) {
+    // Handle the 3 simple types, and null or undefined
+    if (null == obj || "object" != typeof obj) return obj;
+ 
+    // Handle Date
+    if (obj instanceof Date) {
+        var copy = new Date();
+        copy.setTime(obj.getTime());
+        return copy;
+    }
+ 
+    // Handle Array
+    if (obj instanceof Array) {
+        var copy = [];
+        for (var i = 0,len = obj.length; i < len; ++i) {
+            copy[i] = clone(obj[i]);
+        }
+        return copy;
+    }
+    // Handle Object
+    if (obj instanceof Object) {
+        var copy = {};
+        for (var attr in obj) {
+            if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
+        }
+        return copy;
+    }
+    throw new Error("Unable to copy obj! Its type isn't supported.");
 }

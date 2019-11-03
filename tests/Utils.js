@@ -1,6 +1,6 @@
 (function() {
-	var execSync = require('child_process').execSync;
-	var fs = require('fs');
+    var execSync = require('child_process').execSync;
+    var fs = require('fs');
     var path = require('path');
     var esprima = require('esprima');
     var escodegen = require('escodegen');
@@ -9,53 +9,57 @@
     var Promise = require("bluebird");
     var tmp = require('tmp');
     var wrench = require('wrench');
+    var traceCmp = require(path.resolve(__dirname, "../taintable/utils/traceCmp.js"))
+
+
     var escapeShell = function(cmd) {
-        return cmd.replace(/(["\s'$`\\])/g,'\\$1');
+        return cmd.replace(/(["\s'$`\\])/g, '\\$1');
     };
-    var UTILS_NAME = "uTILs2342ClEAnPC";
 
 
-    function instrumentSync(projectDir, files2Instru, modules2Instru , callback) {
-	    //TODO remove this duplicate code
-	    console.log("instrumentSync:"+projectDir)
+    function instrumentSync(projectDir, files2Instru, modules2Instru, callback) {
+        //TODO remove this duplicate code
+        console.log("instrumentSync:" + projectDir)
 
-	    var projTmpDir = tmp.dirSync();
+        var projTmpDir = tmp.dirSync({"dir":path.resolve(__dirname,"target_tmp")});
 
-	    console.log("[-]Copying Target to Tempdir")
-	    wrench.copyDirSyncRecursive(projectDir, projTmpDir.name, { forceDelete: true });
-	    console.log("[+]Copying Target to Tempdir ...done")
+        console.log("[-]Copying Target to Tempdir")
+        wrench.copyDirSyncRecursive(projectDir, projTmpDir.name, {
+            forceDelete: true
+        });
+        console.log("[+]Copying Target to Tempdir ...done")
 
-	    //var tmpDir = path.resolve(projTmpDir.name, "./jalangi_tmp")
-	    //fs.mkdirSync(tmpDir);
-	    process.chdir(projTmpDir.name);
-	    var files = [];
-	    console.log(files2Instru.length+" Files to be instrumented.")
-	    for (var i = 0; i < files2Instru.length; i++) {
-	        files = files.concat(getFilesRec(path.resolve(projectDir,files2Instru[i])));
-	    }
-	    for (var i = 0; i < modules2Instru.length; i++) {
-	    	files = files.concat(getFilesRec(path.resolve(projectDir,"./node_modules/"+modules2Instru)))
-	    }
-	    var iFileOut = path.resolve(projTmpDir.name, "instrumented.txt");
-	    fs.writeFileSync(iFileOut, "");
-	    for (var i = 0; i < files.length; i++) {
-	        console.log(files[i]);
-	        fs.appendFileSync(iFileOut, files[i] );
-	        instrumentFile(files[i],projTmpDir.name);
-	    }
-	    //callback(projTmpDir.name, loc);
-	    return projTmpDir.name;
+        //var tmpDir = path.resolve(projTmpDir.name, "./jalangi_tmp")
+        //fs.mkdirSync(tmpDir);
+        process.chdir(projTmpDir.name);
+        var files = [];
+        console.log(files2Instru.length + " Files to be instrumented.")
+        for (var i = 0; i < files2Instru.length; i++) {
+            files = files.concat(getFilesRec(path.resolve(projectDir, files2Instru[i])));
+        }
+        for (var i = 0; i < modules2Instru.length; i++) {
+            files = files.concat(getFilesRec(path.resolve(projectDir, "./node_modules/" + modules2Instru)))
+        }
+        var iFileOut = path.resolve(projTmpDir.name, "instrumented.txt");
+        fs.writeFileSync(iFileOut, "");
+        for (var i = 0; i < files.length; i++) {
+            console.log(files[i]);
+            fs.appendFileSync(iFileOut, files[i]);
+            instrumentFile(files[i], projTmpDir.name);
+        }
+        //callback(projTmpDir.name, loc);
+        return projTmpDir.name;
     }
 
-    function instrumentFile(file,tmpProjPath) {
-    	var TanitPath = path.resolve(__dirname, "../taintable/dynamic_taint")
+    function instrumentFile(file, tmpProjPath) {
+        var TanitPath = path.resolve(__dirname, "../taintable/dynamic_taint")
         if (file.match(/^.*\.js$/)) {
             var filePath = path.resolve(file);
-            var tmpFilePath = path.resolve(tmpProjPath,file.toString().split('target/')[1])
-            console.log("Instrumenting " + file + " to "+tmpFilePath);
+            var tmpFilePath = path.resolve(tmpProjPath, file.toString().split('target/')[1])
+            console.log("Instrumenting " + file + " to " + tmpFilePath);
             try {
-				console.log("node " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " "  + escapeShell(filePath) + " --out " + escapeShell(tmpFilePath));
-                execSync("node " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " "  + escapeShell(filePath) + " --out " + escapeShell(tmpFilePath));
+                console.log("node " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " " + escapeShell(filePath) + " --out " + escapeShell(tmpFilePath));
+                execSync("node " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " " + escapeShell(filePath) + " --out " + escapeShell(tmpFilePath));
             } catch (e) {
                 console.log("\nPreprocessor: Error when instrumenting " + file + ". Will ignore this file.\n" + e);
                 return;
@@ -65,19 +69,24 @@
     }
 
 
-	function runFile(filename, tmpProjPath, callback, iterationsCallback, creationCallback) {
-		var file = path.resolve(tmpProjPath+"/"+filename)
-	    var analysisPath = path.resolve(__dirname, "../taintable/dynamic_taint/TaintAnalysis.js")
-	    var mainProc = null;
-	    console.log("executing: "+"node  " + path.resolve(__dirname , "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + analysisPath + " " + escapeShell(file))
-	    console.log(execSync("cat "+escapeShell(file)).toString())
+    function runFile(filename, tmpProjPath, callback, iterationsCallback, creationCallback) {
+        var file = path.resolve(tmpProjPath + "/" + filename)
+        var analysisPath = path.resolve(__dirname, "../taintable/dynamic_taint/TaintAnalysis.js")
+        var ctrlFlowMonPath = path.resolve(__dirname, "../taintable/dynamic_taint/ControlFlowMon.js")
+        var mainProc = null;
+        console.log("executing: " + "node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + analysisPath + " " + escapeShell(file))
+        console.log("executing: " + "node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + ctrlFlowMonPath + " " + escapeShell(file))
 
-	    var runProc = execSync("node  " + path.resolve(__dirname , "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + analysisPath + " " + escapeShell(file));
-	    console.log("=========================================================")
+        var runProc = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + analysisPath  + " " + escapeShell(file));
+        var runProcCtrlFlow = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + ctrlFlowMonPath + " " + escapeShell(file));
+
+        console.log("=========================================================")
         console.log("[+] Result :")
         console.log(runProc.toString())
+        traceCmp.cmp_trace()
         console.log("==========================END============================")
-	}
+
+    }
 
 
     function walkDirectory(dir) {
@@ -94,7 +103,7 @@
         return results;
     }
 
-	function getFilesRec(file) {
+    function getFilesRec(file) {
         var stat = fs.statSync(file)
         if (!stat) {
             return [];
@@ -110,7 +119,7 @@
     function deleteFolderRecursive(path) {
         if (fs.existsSync(path)) {
             var list = fs.readdirSync(path)
-            list.forEach(function (file, index) {
+            list.forEach(function(file, index) {
                 var curPath = path + "/" + file;
                 if (fs.lstatSync(curPath).isDirectory()) { // recurse
                     deleteFolderRecursive(curPath);
@@ -130,5 +139,5 @@
     exports.runFile = runFile;
     exports.deleteFolderRecursive = deleteFolderRecursive;
     exports.instrumentSync = instrumentSync;
-    exports.escapeShell=escapeShell;
+    exports.escapeShell = escapeShell;
 })();

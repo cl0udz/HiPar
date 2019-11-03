@@ -8,8 +8,8 @@ var Promise = require("bluebird");
 var tmp = require('tmp');
 var wrench = require('wrench');
 var utils = require(path.resolve(__dirname, "Utils"));
-var configs = require("./init-configs.json")
-
+var configs = require(path.resolve(__dirname, "configs.json"))
+var traceCmp = require(path.resolve(__dirname, "../taintable/utils/traceCmp.js"))
 
 var taintPath = path.resolve(__dirname, "../taintable/dynamic_taint/")
 var AnalysisPath = path.resolve(__dirname, "../taintable/dynamic_taint/TaintAnalysis.js")
@@ -86,10 +86,6 @@ function run(task) {
     var newIteration = true;
     var children = [];
     utils.runFile(task.startFile, projPath, function() {
-        if (fs.exists(projPath + "/trace1.json"))
-            fs.unlink(projPath + "/trace1.json");
-        if (fs.exists(projPath + "/lc.json"))
-            fs.unlink(projPath + "/lc.json");
         console.log("New iteration");
         newIteration = true;
     }, function(cp) {
@@ -97,13 +93,10 @@ function run(task) {
         children.push(cp);
     });
 
-
-
     console.log("Finished executing " + task.startFile)
-    exec("cp " + projPath + "/trace* " + resDirName);
-    exec("cp " + projPath + "/lc.json " + resDirName);
-    exec("cp " + projPath + "/instrumented.txt " + resDirName);
-    // utils.deleleteFolderRecursive(projPath);
+    traceCmp.cmp_fini()
+
+    utils.deleteFolderRecursive(projPath);
     if (tasks.length > 0) {
         run(tasks.pop());
     } else {
