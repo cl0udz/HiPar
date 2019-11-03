@@ -34,11 +34,12 @@ for (var a of properties) {
 console.log("source: THE ROOT" )
 
 // const displayName = varToString({ someVar })
-query = source(query,varToString({query}))
+varName=varToString({query})
+query = source(query,varName)
 
 res.push(parser.parse(query))
 
-
+traceCmp.cmp_trace(varName)
 /* End of coverage improving instructions */
 
 function source(source_var) {

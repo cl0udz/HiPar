@@ -19,8 +19,10 @@
     function instrumentSync(projectDir, files2Instru, modules2Instru, callback) {
         //TODO remove this duplicate code
         console.log("instrumentSync:" + projectDir)
-
-        var projTmpDir = tmp.dirSync({"dir":path.resolve(__dirname,"../outputs/target_tmp")});
+        var tmpDirRoot = path.resolve(__dirname,"../outputs/target_tmp")
+        if(!fs.existsSync(tmpDirRoot))
+            fs.mkdirSync(tmpDirRoot)
+        var projTmpDir = tmp.dirSync({"dir":tmpDirRoot});
 
         console.log("[-]Copying Target to Tempdir")
         wrench.copyDirSyncRecursive(projectDir, projTmpDir.name, {
@@ -55,7 +57,6 @@
         if (file.match(/^.*\.js$/)) {
             var filePath = path.resolve(file);
             var tmpFilePath = path.resolve(tmpProjPath, file.toString().split('target/')[1])
-            console.log("Instrumenting " + file + " to " + tmpFilePath);
             try {
                 console.log("node " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " " + escapeShell(filePath) + " --out " + escapeShell(tmpFilePath));
                 execSync("node " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " " + escapeShell(filePath) + " --out " + escapeShell(tmpFilePath));
@@ -73,16 +74,19 @@
         var analysisPath = path.resolve(__dirname, "../taintable/dynamic_taint/TaintAnalysis.js")
         var ctrlFlowMonPath = path.resolve(__dirname, "../taintable/dynamic_taint/ControlFlowMon.js")
         var mainProc = null;
-        console.log("executing: " + "node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + analysisPath + " " + escapeShell(file))
+        console.log("=========================================================")
         console.log("executing: " + "node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + ctrlFlowMonPath + " " + escapeShell(file))
-
-        var runProc = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + analysisPath  + " " + escapeShell(file));
+        console.log("[+] ControlFlowMon  Result :")
         var runProcCtrlFlow = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + ctrlFlowMonPath + " " + escapeShell(file));
 
+
+        var runProc = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + analysisPath  + " " + escapeShell(file));
         console.log("=========================================================")
-        console.log("[+] Result :")
+        console.log("executing: " + "node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + analysisPath + " " + escapeShell(file))
+        console.log("[+] Analysis Result :")
         console.log(runProc.toString())
-        console.log("==========================END============================")
+        console.log("=========================================================")
+
 
     }
 
