@@ -6,13 +6,13 @@ J$.analysis = {};
 
 (function (sandbox) {
     function ControlFlowMon() {
-            var fs = require('fs'); 
-            var iidToLocation = sandbox.iidToLocation;
-            var log_buffer = [];
-            var log_file;
-            var log_type = -1 ; // -1 : on init; 0 : baseline recording; 1 : labeled recording
-            var labeled_path = path.resolve(__dirname, "../../outputs/traces/labeled_trace");
-            var baseline_path = path.resolve(__dirname, "../../outputs/traces/baseline_trace"); 
+        var fs = require('fs'); 
+        var iidToLocation = sandbox.iidToLocation;
+        var log_buffer = [];
+        var log_file;
+        var log_type = -1 ; // -1 : on init; 0 : baseline recording; 1 : labeled recording
+        var labeled_path = path.resolve(__dirname, "../../outputs/traces/labeled_trace");
+        var baseline_path = path.resolve(__dirname, "../../outputs/traces/baseline_trace"); 
             
         function write_log(info) {
             var data = log_buffer.join('\n');
@@ -28,8 +28,11 @@ J$.analysis = {};
         this.invokeFun = function (iid, f, base, args, val, isConstructor) {
             var log_info = 'func@' + f.name + '@' + iidToLocation(iid);
             log_buffer.push(log_info);
+            if(f.name && f.name == "cmp_trace"){
+                log_type = -1;
+                console.log("[Control Flow] flushing");
+            }
             return val;
-                
         };
 
         this.read = function (iid, name, val, isGlobal) {
