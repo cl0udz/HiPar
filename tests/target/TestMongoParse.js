@@ -20,7 +20,7 @@ console.log("properties: ",properties)
 var res = []
 console.log( "source: NOTHING" )
 res.push(parser.parse(query))
-
+traceCmp.cmp_trace(-1)
 for (var a of properties) {
     console.log("source: " + a)
     var tmp = clone(query) // generate a copy of query
