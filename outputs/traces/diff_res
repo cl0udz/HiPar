@@ -129,5 +129,5 @@ func#  (/tests/target/TestMongoParse.js:22:10:22:29)	      <
 							      >	func# push (/tests/target/node_modules/mongo-parse/mongoParse
 func# push (/tests/target/TestMongoParse.js:22:1:22:30)	      |	func# push (/tests/target/TestMongoParse.js:40:1:40:30)
 var# traceCmp (/tests/target/TestMongoParse.js:23:1:23:9)     |	var# traceCmp (/tests/target/TestMongoParse.js:42:1:42:9)
-func# cmp_trace (/tests/target/TestMongoParse.js:23:1:23:23)  \	var# varName (/tests/target/TestMongoParse.js:42:20:42:27)
-							      >	func# cmp_trace (/tests/target/TestMongoParse.js:42:1:42:28)
+func# log_trace_and_cmp (/tests/target/TestMongoParse.js:23:1 \	var# varName (/tests/target/TestMongoParse.js:42:28:42:35)
+							      >	func# log_trace_and_cmp (/tests/target/TestMongoParse.js:42:1

@@ -10,7 +10,9 @@ const baseline_path = path.resolve(__dirname, "../../outputs/traces/baseline_tra
 const labeled_path = path.resolve(__dirname, "../../outputs/traces/labeled_trace"); 
 const diff_path = path.resolve(__dirname, "../../outputs/traces/diff_res"); 
 
-exports.cmp_trace = function cmp_trace(tainted_arg){
+// this function will log trace and compare baseline with labeled trace if baseline exists 
+exports.log_trace_and_cmp = function log_trace_and_cmp(tainted_arg){
+    console.log('--------------------222222');
     if (tainted_arg === -1 || !fs.existsSync(baseline_path)) {
         return;
     }

@@ -29,7 +29,7 @@ J$.analysis = {};
             var loc = iidToLocation(iid).replace(project_root, "");
             var log_info = 'func# ' + f.name + ' ' + loc;
             log_buffer.push(log_info);
-            if(f.name && f.name == "cmp_trace"){
+            if(f.name && f.name == "log_trace_and_cmp"){
                 // write buf to log here
                 if (fs.existsSync(baseline_path)){
                     write_log(labeled_path);
