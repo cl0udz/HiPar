@@ -20,13 +20,13 @@ console.log("properties: ",properties)
 var res = []
 console.log( "source: NOTHING" )
 res.push(parser.parse(query))
-traceCmp.cmp_trace(-1)
+traceCmp.log_trace_and_cmp(-1)
 for (var a of properties) {
     console.log("source: " + a)
     var tmp = clone(query) // generate a copy of query
     tmp[a]   = source(tmp[a],a)
     res.push(parser.parse(tmp))
-    traceCmp.cmp_trace(a)
+    traceCmp.log_trace_and_cmp(a)
     // console.log(query[a])
 }
 
@@ -39,7 +39,7 @@ query = source(query,varName)
 
 res.push(parser.parse(query))
 
-traceCmp.cmp_trace(varName)
+traceCmp.log_trace_and_cmp(varName)
 /* End of coverage improving instructions */
 
 function source(source_var) {
