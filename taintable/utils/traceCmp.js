@@ -11,6 +11,7 @@ const labeled_path = path.resolve(__dirname, "../../outputs/traces/labeled_trace
 const diff_path = path.resolve(__dirname, "../../outputs/traces/diff_res"); 
 
 exports.cmp_trace = function cmp_trace(tainted_arg){
+    console.log("[cmp_trace] Start comparing.");
     if (tainted_arg === -1 || !fs.existsSync(baseline_path)) {
         return;
     }

@@ -12,7 +12,8 @@ J$.analysis = {};
         var log_file;
         var log_type = -1 ; // -1 : on init; 0 : baseline recording; 1 : labeled recording
         var labeled_path = path.resolve(__dirname, "../../outputs/traces/labeled_trace");
-        var baseline_path = path.resolve(__dirname, "../../outputs/traces/baseline_trace"); 
+        //var baseline_path = path.resolve(__dirname, "../../outputs/traces/baseline_trace"); 
+        var baseline_path = path.resolve(__dirname, "../../outputs/traces/gaojiguaner");
             
         function write_log(info) {
             console.log('----2222222222222222222222222222222222222222222222222222------');
@@ -28,7 +29,6 @@ J$.analysis = {};
 
         //this.invokeFunPre = function (iid, f, base, args, val, isConstructor) {
         this.invokeFunPre = function (iid, f, base, args, isConstructor, isMethod, functionIid, functionSid) {
-            console.log("invokeFunPre");
             var log_info = 'func@' + f.name + '@' + iidToLocation(iid);
             log_buffer.push(log_info);
             if(f.name && f.name == "cmp_trace"){
@@ -50,10 +50,12 @@ J$.analysis = {};
                 // logics on init
                 if (!fs.existsSync(baseline_path)){
                    //if there is no baseline file, we will create one
+                    console.log("[ControlFlowMon] No baseline found. Creating the baseline");
                     log_type = 0;
                     log_file = baseline_path;
                     try{
-                        fs.writeFileSync(log_file, '');
+                        fs.writeFileSync(log_file, "wtf" + log_file);
+                        console.log("[ControlFlowMon] Basedline file created. @" + log_file);
                     }catch (e){
                         console.log("[x] ControlFlowMon: Cannot create baseline trace ", e);
                     }
