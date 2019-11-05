@@ -1,8 +1,18 @@
-[{
-    "testName": "mongo-parse",
-    "projPath": "./target",
-    "startFile": "./TestMongoParse.js",
-    "instrFiles": ["./TestMongoParse.js"],
-    "instrModules": ["mongo-parse"],
-    "sources": "intf"
-}]
+[
+	{
+	    "testName": "mongo-parse",
+	    "projPath": "./target",
+	    "startFile": "./TestMongoParse.js",
+	    "instrFiles": ["./TestMongoParse.js"],
+	    "instrModules": ["mongo-parse"],
+	    "sources": "intf"
+	},
+	{
+	    "testName": "mongodb",
+	    "projPath": "./target",
+	    "startFile": "./TestMongoDb.js",
+	    "instrFiles": ["./TestMongoDb.js"],
+	    "instrModules": ["mongodb"],
+	    "sources": "intf"
+	}
+]

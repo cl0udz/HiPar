@@ -96,7 +96,7 @@ function run(task) {
     console.log("Finished executing " + task.startFile)
     traceCmp.cmp_fini()
 
-    utils.deleteFolderRecursive(projPath);
+    // utils.deleteFolderRecursive(projPath);
     
     if (tasks.length > 0) {
         run(tasks.pop());

@@ -1,11 +1,10 @@
 var parser = require('mongo-parse');
 var path = require('path')
+var utils = require(path.resolve(__dirname,"Utils.js"))
 var traceCmp = require(path.resolve(__dirname,"../../../taintable/utils/traceCmp.js"))
 /* Coverage improving instructions */
 
-function varToString(varObj){
-    return Object.keys(varObj)[0]
-} 
+
 
 var query = {
     "username": "admin",
@@ -20,10 +19,10 @@ console.log("properties: ",properties)
 var res = []
 console.log( "source: NOTHING" )
 res.push(parser.parse(query))
-
+traceCmp.cmp_trace(-1)
 for (var a of properties) {
     console.log("source: " + a)
-    var tmp = clone(query) // generate a copy of query
+    var tmp = utils.clone(query) // generate a copy of query
     tmp[a]   = source(tmp[a],a)
     res.push(parser.parse(tmp))
     traceCmp.cmp_trace(a)
@@ -34,7 +33,7 @@ for (var a of properties) {
 console.log("source: THE ROOT" )
 
 // const displayName = varToString({ someVar })
-varName=varToString({query})
+varName=utils.varToString({query})
 query = source(query,varName)
 
 res.push(parser.parse(query))
@@ -47,32 +46,3 @@ function source(source_var) {
 }
 
 
-function clone(obj) {
-    // Handle the 3 simple types, and null or undefined
-    if (null == obj || "object" != typeof obj) return obj;
- 
-    // Handle Date
-    if (obj instanceof Date) {
-        var copy = new Date();
-        copy.setTime(obj.getTime());
-        return copy;
-    }
- 
-    // Handle Array
-    if (obj instanceof Array) {
-        var copy = [];
-        for (var i = 0,len = obj.length; i < len; ++i) {
-            copy[i] = clone(obj[i]);
-        }
-        return copy;
-    }
-    // Handle Object
-    if (obj instanceof Object) {
-        var copy = {};
-        for (var attr in obj) {
-            if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
-        }
-        return copy;
-    }
-    throw new Error("Unable to copy obj! Its type isn't supported.");
-}
