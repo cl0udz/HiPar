@@ -9,17 +9,14 @@ J$.analysis = {};
         var fs = require('fs'); 
         var iidToLocation = sandbox.iidToLocation;
         var log_buffer = [];
-        var log_file;
         var log_type = -1 ; // -1 : on init; 0 : baseline recording; 1 : labeled recording
         var labeled_path = path.resolve(__dirname, "../../outputs/traces/labeled_trace");
-        //var baseline_path = path.resolve(__dirname, "../../outputs/traces/baseline_trace"); 
-        var baseline_path = path.resolve(__dirname, "../../outputs/traces/gaojiguaner");
-            
-        function write_log(info) {
-            console.log('----2222222222222222222222222222222222222222222222222222------');
+        var baseline_path = path.resolve(__dirname, "../../outputs/traces/baseline_trace"); 
+        var project_root =  path.resolve(__dirname, "../../");
+        function write_log(log_file) {
             var data = log_buffer.join('\n');
             try {
-                  fs.appendFileSync(log_file, data);
+                  fs.writeFileSync(log_file, data);
             } catch (err) {
                console.log("[x] ControlFlowMon: Cannot log trace ", e);
             } 
@@ -29,58 +26,26 @@ J$.analysis = {};
 
         //this.invokeFunPre = function (iid, f, base, args, val, isConstructor) {
         this.invokeFunPre = function (iid, f, base, args, isConstructor, isMethod, functionIid, functionSid) {
-            var log_info = 'func@' + f.name + '@' + iidToLocation(iid);
+            var loc = iidToLocation(iid).replace(project_root, "");
+            var log_info = 'func# ' + f.name + ' ' + loc;
             log_buffer.push(log_info);
             if(f.name && f.name == "cmp_trace"){
-                log_type = -1;
-                console.log("[Control Flow] flushing");
+                // write buf to log here
+                if (fs.existsSync(baseline_path)){
+                    write_log(labeled_path);
+                }else{
+                    write_log(baseline_path);
+                }
             }
         };
 
         this.read = function (iid, name, val, isGlobal) {
-            var log_info = 'var@' + name + '@' + iidToLocation(iid);
+            var loc = iidToLocation(iid).replace(project_root, "");
+            var log_info = 'var# ' + name + ' ' + loc;
             log_buffer.push(log_info);
             return val;
         };
 
-        this.scriptExit = function(iid) {
-            console.log(log_type);
-            switch(log_type){
-            case -1:
-                // logics on init
-                if (!fs.existsSync(baseline_path)){
-                   //if there is no baseline file, we will create one
-                    console.log("[ControlFlowMon] No baseline found. Creating the baseline");
-                    log_type = 0;
-                    log_file = baseline_path;
-                    try{
-                        fs.writeFileSync(log_file, "wtf" + log_file);
-                        console.log("[ControlFlowMon] Basedline file created. @" + log_file);
-                    }catch (e){
-                        console.log("[x] ControlFlowMon: Cannot create baseline trace ", e);
-                    }
-                } else{
-                    //if there is a baseline file with log_type -1, we are at the beginning of logging the labeled trace
-                    log_type = 1;
-                    log_file = labeled_path;
-                    try{
-                        fs.writeFileSync(log_file, '');
-                    }catch (e){
-                        console.log("[x] ControlFlowMon: Cannot create labeled trace ", e);
-                    }
-                }
-                break;
-            case 0:
-                // logging baseline trace
-                break;
-            case 1:
-                // logging labeled trace
-                break;
-            }
-            write_log();       
-        };
-
-          
     }
 
       sandbox.analysis = new ControlFlowMon();
