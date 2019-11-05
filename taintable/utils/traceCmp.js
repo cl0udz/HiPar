@@ -11,6 +11,9 @@ const labeled_path = path.resolve(__dirname, "../../outputs/traces/labeled_trace
 const diff_path = path.resolve(__dirname, "../../outputs/traces/diff_res"); 
 
 exports.cmp_trace = function cmp_trace(tainted_arg){
+    if (tainted_arg === -1 ){
+        return;
+    } 
     //get line number of baseline
     var base_num = execSync('cat '+ baseline_path +' | wc -l');
     //get diff between baseline and current label log and diff propotion

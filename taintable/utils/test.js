@@ -1,4 +1,1 @@
-function test(){
-    this.a.b = 2;
-
-}
+a[b] = 1
