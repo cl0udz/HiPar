@@ -11,16 +11,13 @@ const labeled_path = path.resolve(__dirname, "../../outputs/traces/labeled_trace
 const diff_path = path.resolve(__dirname, "../../outputs/traces/diff_res"); 
 
 exports.cmp_trace = function cmp_trace(tainted_arg){
-    if (tainted_arg === -1 ){
+    if (tainted_arg === -1 || !fs.existsSync(baseline_path)) {
         return;
-    } 
+    }
     //get line number of baseline
     var base_num = execSync('cat '+ baseline_path +' | wc -l');
     //get diff between baseline and current label log and diff propotion
-    try {
-        execSync('diff -y --suppress-common-lines '+ baseline_path +' '+ labeled_path +' > '+ diff_path);
-    } catch (ex) {
-    }
+    execSync('diff -y --suppress-common-lines '+ baseline_path +' '+ labeled_path +' > '+ diff_path);
     var diff_num = execSync('cat '+ diff_path +' | wc -l');
     if (diff_num / base_num == 0 ){
         console.log('[+] ControlFlowMon execution paths correct with' + tainted_arg);

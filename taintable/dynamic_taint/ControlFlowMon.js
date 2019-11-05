@@ -15,6 +15,8 @@ J$.analysis = {};
         var baseline_path = path.resolve(__dirname, "../../outputs/traces/baseline_trace"); 
             
         function write_log(info) {
+            
+            console.log('----2222222222222222222222222222222222222222222222222222------');
             var data = log_buffer.join('\n');
             try {
                   fs.appendFileSync(log_file, data);
@@ -43,7 +45,7 @@ J$.analysis = {};
         };
 
         this.scriptExit = function(iid) {
-            
+            console.log(log_type);
             switch(log_type){
             case -1:
                 // logics on init
