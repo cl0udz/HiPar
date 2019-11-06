@@ -15,9 +15,8 @@
         return cmd.replace(/(["\s'$`\\])/g, '\\$1');
     };
 
-
+    // instrument js files 
     function instrumentSync(projectDir, files2Instru, modules2Instru, callback) {
-        //TODO remove this duplicate code
         console.log("instrumentSync:" + projectDir)
         var tmpDirRoot = path.resolve(__dirname,"../outputs/target_tmp")
         if(!fs.existsSync(tmpDirRoot))
@@ -68,7 +67,7 @@
         }
     }
 
-
+    //Instrument Single Js File
     function runFile(filename, tmpProjPath, callback, iterationsCallback, creationCallback) {
         var file = path.resolve(tmpProjPath + "/" + filename)
         var analysisPath = path.resolve(__dirname, "../taintable/dynamic_taint/TaintAnalysis.js")

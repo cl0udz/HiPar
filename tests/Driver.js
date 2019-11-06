@@ -26,56 +26,59 @@ for (var i = 0; i < configs.length; i++) {
     tasks.push(configs[i]);
 }
 
+/* test function, not used yet
+// function instruModule(modulePath) {
 
-function instruModule(modulePath) {
+//     var projTmpDir = tmp.dirSync();
+//     wrench.copyDirSyncRecursive(projectDir, projTmpDir.name, {
+//         forceDelete: true
+//     });
+//     //var tmpDir = path.resolve(projTmpDir.name, "./jalangi_tmp")
+//     //fs.mkdirSync(tmpDir);
+//     process.chdir(projTmpDir.name);
+//     var files = [];
+//     for (var i = 0; i < filesToInstrument.length; i++) {
+//         files = files.concat(utils.getFilesRec(path.resolve(projTmpDir.name, filesToInstrument[i])));
+//     }
+//     var loc = 0;
+//     var iFileOut = path.resolve(projTmpDir.name, "instrumented.txt");
+//     fs.writeFileSync(iFileOut, "");
+//     for (var i = 0; i < files.length; i++) {
+//         var content = fs.readFileSync(files[i]).toString();
 
-    var projTmpDir = tmp.dirSync();
-    wrench.copyDirSyncRecursive(projectDir, projTmpDir.name, {
-        forceDelete: true
-    });
-    //var tmpDir = path.resolve(projTmpDir.name, "./jalangi_tmp")
-    //fs.mkdirSync(tmpDir);
-    process.chdir(projTmpDir.name);
-    var files = [];
-    for (var i = 0; i < filesToInstrument.length; i++) {
-        files = files.concat(utils.getFilesRec(path.resolve(projTmpDir.name, filesToInstrument[i])));
-    }
-    var loc = 0;
-    var iFileOut = path.resolve(projTmpDir.name, "instrumented.txt");
-    fs.writeFileSync(iFileOut, "");
-    for (var i = 0; i < files.length; i++) {
-        var content = fs.readFileSync(files[i]).toString();
+//         if (files[i].indexOf("Policy.js") === -1) {
+//             var stats = sloc(content, "js");
+//             // console.log(stats.keys);
+//             loc += stats.source
+//         }
+//         // loc +=  fs.readFileSync(files[i]).toString().split(/\r\n|\r|\n/).length;
+//         console.log(files[i] + " " + loc);
+//         fs.appendFileSync(iFileOut, files[i] + " " + loc);
+//         utils.instrumentFile(path.resolve(__dirname, "../../"), files[i]);
+//     }
+//     //callback(projTmpDir.name, loc);
+//     return projTmpDir.name;
+// }
 
-        if (files[i].indexOf("Policy.js") === -1) {
-            var stats = sloc(content, "js");
-            // console.log(stats.keys);
-            loc += stats.source
-        }
-        // loc +=  fs.readFileSync(files[i]).toString().split(/\r\n|\r|\n/).length;
-        console.log(files[i] + " " + loc);
-        fs.appendFileSync(iFileOut, files[i] + " " + loc);
-        utils.instrumentFile(path.resolve(__dirname, "../../"), files[i]);
-    }
-    //callback(projTmpDir.name, loc);
-    return projTmpDir.name;
-}
+// function AnalysisMoudle() {
 
-function AnalysisMoudle() {
-
-}
+// }
 
 function runModule(modulePath) {
     console.log("Instrumenting " + modulePath)
 
 }
 
+*/
+
 function run(task) {
 
     console.log("Running " + task.projPath);
 
+    // instrument all js files in target directory
     var projPath = utils.instrumentSync(task.projPath, task.instrFiles, task.instrModules);
 
-    // var projPath = task.projPath
+
     var testName = task.testName;
     console.log(projPath, testName, task)
     var resDirName = path.resolve(resultsDir, testName);
@@ -85,6 +88,8 @@ function run(task) {
 
     var newIteration = true;
     var children = [];
+
+    // Analysis testcases with Jalangi
     utils.runFile(task.startFile, projPath, function() {
         console.log("New iteration");
         newIteration = true;

@@ -9,7 +9,7 @@ const url = 'mongodb://localhost:27017';
 // Database Name
 const dbName = 'myproject';
  
-// Use connect method to connect to the server
+// first connect test
 MongoClient.connect(url, function(err, client) {
   assert.equal(null, err);
   console.log("Connected successfully to server");
@@ -19,7 +19,7 @@ MongoClient.connect(url, function(err, client) {
   client.close();
 });
 
-
+// insert {a : 1}, {a : 2}, {a : 3} to collection 'documents'
 const insertManyDocuments = function(db, callback) {
   // Get the documents collection
   const collection = db.collection('documents');
@@ -35,6 +35,7 @@ const insertManyDocuments = function(db, callback) {
   });
 }
 
+// use findOne to find results from collection 'documents'
 const findOneDocuments = function(db, query, callback) {
   // Get the documents collection
   const collection = db.collection('documents');
@@ -47,7 +48,7 @@ const findOneDocuments = function(db, query, callback) {
   });
 }
 
-
+// init db content
 function init(){
 	// Use connect method to connect to the server
 	MongoClient.connect(url, function(err, client) {
@@ -62,6 +63,7 @@ function init(){
 	});
 }
 
+// connect and  find result of squery 
 function test(query) {
 	MongoClient.connect(url, function(err, client) {
 	  assert.equal(null, err);
@@ -75,6 +77,7 @@ function test(query) {
 	});
 }
 
+// control iterations and pass names to Analysis Func
 function main(){
 	var query = {'a': 3}
 

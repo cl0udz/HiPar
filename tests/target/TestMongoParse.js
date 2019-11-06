@@ -12,33 +12,36 @@ var query = {
     "id": "101"
 }
 
+// get properties of the parameter
+var properties = Object.getOwnPropertyNames(query);
+console.log("properties: ",properties);
 
-var properties = Object.getOwnPropertyNames(query)
-console.log("properties: ",properties)
+var res = [];
 
-var res = []
-console.log( "source: NOTHING" )
-res.push(parser.parse(query))
-traceCmp.log_trace_and_cmp(-1)
+console.log( "source: NOTHING" );
+//run with untainted parameter
+res.push(parser.parse(query));
+traceCmp.log_trace_and_cmp(-1);
+
+//run with property-tainted parameter
 for (var a of properties) {
-    console.log("source: " + a)
-    var tmp = utils.clone(query) // generate a copy of query
-    tmp[a]   = source(tmp[a],a)
-    res.push(parser.parse(tmp))
-    traceCmp.log_trace_and_cmp(a)
+    console.log("source: " + a);
+    var tmp = utils.clone(query);  // generate a copy of query
+    tmp[a]   = source(tmp[a],a);
+    res.push(parser.parse(tmp));
+    traceCmp.log_trace_and_cmp(a);
     // console.log(query[a])
 }
 
 
-console.log("source: THE ROOT" )
+console.log("source: THE ROOT" );
+//run with root-tainted parameter
+varName=utils.varToString({query});
+query = source(query,varName);
 
-// const displayName = varToString({ someVar })
-varName=utils.varToString({query})
-query = source(query,varName)
+res.push(parser.parse(query));
 
-res.push(parser.parse(query))
-
-traceCmp.log_trace_and_cmp(varName)
+traceCmp.log_trace_and_cmp(varName);
 /* End of coverage improving instructions */
 
 function source(source_var) {
