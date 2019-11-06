@@ -172,5 +172,5 @@ var loc = {
     }
 }
 
-exports.get_name_by_loc(loc);
+// exports.get_name_by_loc(loc);
 // exports.analyze_hidden_attr('test.js',['']);

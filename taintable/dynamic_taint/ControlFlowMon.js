@@ -15,6 +15,7 @@ J$.analysis = {};
         var baseline_path = path.resolve(__dirname, "../../outputs/traces/baseline_trace"); 
             
         function write_log(info) {
+            console.log('----2222222222222222222222222222222222222222222222222222------');
             var data = log_buffer.join('\n');
             try {
                   fs.appendFileSync(log_file, data);
@@ -25,25 +26,25 @@ J$.analysis = {};
             log_buffer = [];
         }
 
-        this.invokeFun = function (iid, f, base, args, val, isConstructor) {
+        //this.invokeFunPre = function (iid, f, base, args, val, isConstructor) {
+        this.invokeFunPre = function (iid, f, base, args, isConstructor, isMethod, functionIid, functionSid) {
+            console.log("invokeFunPre");
             var log_info = 'func@' + f.name + '@' + iidToLocation(iid);
             log_buffer.push(log_info);
             if(f.name && f.name == "cmp_trace"){
                 log_type = -1;
                 console.log("[Control Flow] flushing");
             }
-            return val;
         };
 
         this.read = function (iid, name, val, isGlobal) {
             var log_info = 'var@' + name + '@' + iidToLocation(iid);
             log_buffer.push(log_info);
             return val;
-                
         };
 
         this.scriptExit = function(iid) {
-            
+            console.log(log_type);
             switch(log_type){
             case -1:
                 // logics on init
