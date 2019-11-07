@@ -27,7 +27,6 @@ for (var i = 0; i < configs.length; i++) {
 }
 
 
-    
 function AnalysisMoudle() {
 
 }
@@ -36,8 +35,6 @@ function runModule(modulePath) {
     console.log("Instrumenting " + modulePath)
 
 }
-
-
 
 function run(task) {
 
