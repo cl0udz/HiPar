@@ -1,7 +1,7 @@
 var parser = require('mongo-parse');
 var path = require('path')
 var utils = require(path.resolve(__dirname,"Utils.js"))
-var traceCmp = require(path.resolve(__dirname,"../../../taintable/utils/traceCmp.js"))
+// var traceCmp = require(path.resolve(__dirname,"../../../taintable/utils/traceCmp.js"))
 var ConcolicValue = require('../../../taintable/dynamic_taint/jalangi/src/js/ConcolicValue');
 /* Coverage improving instructions */
 
@@ -22,7 +22,7 @@ var res = [];
 console.log( "source: NOTHING" );
 //run with untainted parameter
 res.push(parser.parse(query));
-traceCmp.log_trace_and_cmp(-1);
+// traceCmp.log_trace_and_cmp(-1);
 
 //run with property-tainted parameter
 for (var a of properties) {
@@ -30,7 +30,7 @@ for (var a of properties) {
     var tmp = utils.clone(query);  // generate a copy of query
     tmp[a]   = source(tmp[a]);
     res.push(parser.parse(tmp));
-    traceCmp.log_trace_and_cmp(a);
+    // traceCmp.log_trace_and_cmp(a);
     // console.log(query[a])
 }
 
@@ -42,7 +42,7 @@ query = source(query);
 
 res.push(parser.parse(query));
 
-traceCmp.log_trace_and_cmp(varName);
+// traceCmp.log_trace_and_cmp(varName);
 /* End of coverage improving instructions */
 
 function source(source_var) {

@@ -1,106 +1,53 @@
-var MongoClient = require('mongodb').MongoClient;
-var assert = require('assert');
+var parser = require('mongo-parse');
 var path = require('path')
 var utils = require(path.resolve(__dirname,"Utils.js"))
-var traceCmp = require(path.resolve(__dirname,"../../../taintable/utils/traceCmp.js"))
+// var traceCmp = require(path.resolve(__dirname,"../../../taintable/utils/traceCmp.js"))
+var ConcolicValue = require('../../../taintable/dynamic_taint/jalangi/src/js/ConcolicValue');
+/* Coverage improving instructions */
 
-const url = 'mongodb://localhost:27017';
- 
-// Database Name
-const dbName = 'myproject';
- 
-// first connect test
-MongoClient.connect(url, function(err, client) {
-  assert.equal(null, err);
-  console.log("Connected successfully to server");
- 
-  const db = client.db(dbName);
- 
-  client.close();
-});
 
-// insert {a : 1}, {a : 2}, {a : 3} to collection 'documents'
-const insertManyDocuments = function(db, callback) {
-  // Get the documents collection
-  const collection = db.collection('documents');
-  // Insert some documents
-  collection.insertMany([
-    {a : 1}, {a : 2}, {a : 3}
-  ], function(err, result) {
-    assert.equal(err, null);
-    assert.equal(3, result.result.n);
-    assert.equal(3, result.ops.length);
-    console.log("Inserted 3 documents into the collection");
-    callback(result);
-  });
+
+var query = {
+    "username": "admin",
+    "password": "adminPass",
+    "id": "101"
 }
 
-// use findOne to find results from collection 'documents'
-const findOneDocuments = function(db, query, callback) {
-  // Get the documents collection
-  const collection = db.collection('documents');
-  // Find some documents
-  collection.findOne(query).toArray(function(err, docs) {
-    assert.equal(err, null);
-    console.log("Found the following records");
-    console.log(docs);
-    callback(docs);
-  });
+// get properties of the parameter
+var properties = Object.getOwnPropertyNames(query);
+console.log("properties: ",properties);
+
+var res = [];
+
+console.log( "source: NOTHING" );
+//run with untainted parameter
+res.push(parser.parse(query));
+// traceCmp.log_trace_and_cmp(-1);
+
+//run with property-tainted parameter
+for (var a of properties) {
+    console.log("source: " + a);
+    var tmp = utils.clone(query);  // generate a copy of query
+    tmp[a]   = source(tmp[a]);
+    res.push(parser.parse(tmp));
+    // traceCmp.log_trace_and_cmp(a);
+    // console.log(query[a])
 }
 
-// init db content
-function init(){
-	// Use connect method to connect to the server
-	MongoClient.connect(url, function(err, client) {
-	  assert.equal(null, err);
-	  console.log("Connected successfully to server");
-	 
-	  const db = client.db(dbName);
-	 
-	  insertManyDocuments(db, function() {
-	    client.close();
-	  });
-	});
-}
 
-// connect and  find result of squery 
-function test(query) {
-	MongoClient.connect(url, function(err, client) {
-	  assert.equal(null, err);
-	  console.log("Connected successfully to server");
-	 
-	  const db = client.db(dbName);
-	 
-	  findOneDocuments(db, query, function() {
-	    client.close();
-	  });
-	});
-}
+console.log("source: THE ROOT" );
+//run with root-tainted parameter
+varName=utils.varToString({query});
+query = source(query);
 
-// control iterations and pass names to Analysis Func
-function main(){
-	var query = {'a': 3}
+res.push(parser.parse(query));
 
-	test(query)
-	traceCmp.log_trace_and_cmp(-1);
-	var properties = Object.getOwnPropertyNames(query)
-	console.log("properties: ",properties)
-	for (var property of properties) {
-		console.log("source: " + property)
-	    var tmp = utils.clone(query) // generate a copy of query
-	    tmp[property]   = source(tmp[property],property)
-	    test(tmp)
-	    traceCmp.log_trace_and_cmp(property)
-	}
-	var varName = utils.varToString(query)
-	query = source(query,varName)
-	traceCmp.log_trace_and_cmp(varName)
-
-}
-
+// traceCmp.log_trace_and_cmp(varName);
+/* End of coverage improving instructions */
 
 function source(source_var) {
-    return source_var;
+    var tmp = new ConcolicValue(source_var,true);
+    console.log(tmp)
+    return tmp
 }
 
-main()
