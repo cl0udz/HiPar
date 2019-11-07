@@ -9,19 +9,43 @@
     var Promise = require("bluebird");
     var tmp = require('tmp');
     var wrench = require('wrench');
-
+    var TanitPath = path.resolve(__dirname, "../taintable/dynamic_taint")
 
     var escapeShell = function (cmd) {
         return cmd.replace(/(["\s'$`\\])/g, '\\$1');
     };
+    // instrument modules with cached file
+    function instruModule(projectDir,module,projTmpDir) {
+        var cacheDir = path.resolve(projectDir,"../cache/")
+        // if(!fs.existsSync(cacheDir))
+        //     wrench.mkdirSyncRecursive(cacheDir, 0755);
+        var modulePath = path.resolve(projectDir, "./node_modules/" + module);
+        var cachePath = path.resolve(cacheDir, "./node_modules/" + module);
+        var cacheComplete = path.resolve(cachePath,'cache_complete');
+        if (!fs.existsSync(cacheComplete)){
+            wrench.mkdirSyncRecursive(cachePath, 0755);
+            var moduleFiles = [];
+            moduleFiles = moduleFiles.concat(getFilesRec(path.resolve(projectDir, "./node_modules/" + module)))
+            for (var i = 0; i < moduleFiles.length; i++) {
+                // console.log(files[i]);
+                // fs.appendFileSync(iFileOut, files[i]);
+                instrumentFile(moduleFiles[i], cacheDir);
+            }
 
-    // instrument project files 
+            // execSync('node ' + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + ' --outputDir ' + cacheModuleDir + ' '+ modulePath);
+            fs.mkdirSync(cacheComplete);
+        }
+        wrench.copyDirSyncRecursive(modulePath, path.resolve(projTmpDir,'node_modules/'+ module), {
+            forceDelete: true
+        });
+    }
+    // instrument project files
     function instrumentSync(projectDir, files2Instru, modules2Instru, callback) {
         console.log("instrumentSync:" + projectDir)
-        var tmpDirRoot = path.resolve(__dirname, "../outputs/target_tmp")
-        if (!fs.existsSync(tmpDirRoot))
-            fs.mkdirSync(tmpDirRoot)
-        var projTmpDir = tmp.dirSync({ "dir": tmpDirRoot }).name;
+        var tmpDirRoot = path.resolve(__dirname,"../outputs/target_tmp")
+        if(!fs.existsSync(tmpDirRoot))
+            wrench.mkdirSyncRecursive(tmpDirRoot)
+        var projTmpDir = tmp.dirSync({"dir":tmpDirRoot}).name;
 
         console.log("[-]Copying Target to Tempdir")
         wrench.copyDirSyncRecursive(projectDir, projTmpDir, {
@@ -37,27 +61,20 @@
         var cachePath = path.resolve(projectDir, "../cache/");
         var iFileOut = path.resolve(projTmpDir, "instrumented.txt");
         fs.writeFileSync(iFileOut, "");
-        // add module files to file list
-        for (var i = 0; i < modules2Instru.length; i++) {
-            moduleFiles = moduleFiles.concat(getFilesRec(path.resolve(projectDir, "./node_modules/" + modules2Instru)))
-        }
-        // if cache not exist,generate cache. plus copy instruFiles from cache to target_tmp
-        for (var i = 0; i < moduleFiles.length; i++) {
-            var cacheFile = path.resolve(projectDir, "../cache/node_modules" + moduleFiles[i].split('node_modules')[1] );
-            var targetFilePath = path.resolve(projTmpDir, moduleFiles[i].split('target/current/')[1]);
-            if (!fs.existsSync(cacheFile)){
-                fs.appendFileSync(iFileOut, files[i]);
-                instrumentFile(moduleFiles[i], cachePath);
-            }
-            fs.copyFileSync(cacheFile,targetFilePath);
-
-        }
-
         // instrument test code
         var files = [];
         for (var i = 0; i < files2Instru.length; i++) {
             files = files.concat(getFilesRec(path.resolve(projectDir, files2Instru[i])));
         }
+
+
+        for (module of modules2Instru){
+            instruModule(projectDir,module,projTmpDir)
+        }
+        
+        var iFileOut = path.resolve(projTmpDir, "instrumented.txt");
+        fs.writeFileSync(iFileOut, "");
+
         for (var i = 0; i < files.length; i++) {
             // console.log(files[i]);
             fs.appendFileSync(iFileOut, files[i]);
@@ -67,11 +84,14 @@
         return projTmpDir;
     }
 
-    function instrumentFile(file, targetPath) {
-        var TanitPath = path.resolve(__dirname, "../taintable/dynamic_taint")
+
+    function instrumentFile(file, tmpProjPath) {
         if (file.match(/^.*\.js$/)) {
             var filePath = path.resolve(file);
-            var targetFilePath = path.resolve(targetPath, file.toString().split('target/current/')[1])
+            var tmpFilePath = path.resolve(tmpProjPath, file.toString().split('target/current/')[1]);
+            if(!fs.existsSync(path.dirname(tmpFilePath))){
+                wrench.mkdirSyncRecursive(path.dirname(tmpFilePath));
+            }
             try {
                 console.log("node " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " " + escapeShell(filePath) + " --out " + escapeShell(targetFilePath));
                 execSync("node " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " " + escapeShell(filePath) + " --out " + escapeShell(targetFilePath));
