@@ -26,7 +26,7 @@
             forceDelete: true
         });
     }
-    // instrument js files 
+    // instrument project files
     function instrumentSync(projectDir, files2Instru, modules2Instru, callback) {
         console.log("instrumentSync:" + projectDir)
         var tmpDirRoot = path.resolve(__dirname,"../outputs/target_tmp")
