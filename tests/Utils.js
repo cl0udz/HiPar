@@ -15,14 +15,14 @@
         return cmd.replace(/(["\s'$`\\])/g, '\\$1');
     };
     // instrument modules with cached file
-    function instruModule(projectDir,module,projTmpDir) {
-        var cacheDir = path.resolve(projectDir,"../cache/")
+    function instruModule(projectDir, module, projTmpDir) {
+        var cacheDir = path.resolve(projectDir, "../cache/")
         // if(!fs.existsSync(cacheDir))
         //     wrench.mkdirSyncRecursive(cacheDir, 0755);
         var modulePath = path.resolve(projectDir, "./node_modules/" + module);
         var cachePath = path.resolve(cacheDir, "./node_modules/" + module);
-        var cacheComplete = path.resolve(cachePath,'cache_complete');
-        if (!fs.existsSync(cacheComplete)){
+        var cacheComplete = path.resolve(cachePath, 'cache_complete');
+        if (!fs.existsSync(cacheComplete)) {
             wrench.mkdirSyncRecursive(cachePath, 0755);
             var moduleFiles = [];
             moduleFiles = moduleFiles.concat(getFilesRec(path.resolve(projectDir, "./node_modules/" + module)))
@@ -35,17 +35,20 @@
             // execSync('node ' + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + ' --outputDir ' + cacheModuleDir + ' '+ modulePath);
             fs.mkdirSync(cacheComplete);
         }
-        wrench.copyDirSyncRecursive(modulePath, path.resolve(projTmpDir,'node_modules/'+ module), {
+        else {
+            console.log('[+]Found Cache of ' + module)
+        }
+        wrench.copyDirSyncRecursive(modulePath, path.resolve(projTmpDir, 'node_modules/' + module), {
             forceDelete: true
         });
     }
     // instrument project files
     function instrumentSync(projectDir, files2Instru, modules2Instru, callback) {
         console.log("instrumentSync:" + projectDir)
-        var tmpDirRoot = path.resolve(__dirname,"../outputs/target_tmp")
-        if(!fs.existsSync(tmpDirRoot))
+        var tmpDirRoot = path.resolve(__dirname, "../outputs/target_tmp")
+        if (!fs.existsSync(tmpDirRoot))
             wrench.mkdirSyncRecursive(tmpDirRoot)
-        var projTmpDir = tmp.dirSync({"dir":tmpDirRoot}).name;
+        var projTmpDir = tmp.dirSync({ "dir": tmpDirRoot }).name;
 
         console.log("[-]Copying Target to Tempdir")
         wrench.copyDirSyncRecursive(projectDir, projTmpDir, {
@@ -68,10 +71,10 @@
         }
 
 
-        for (module of modules2Instru){
-            instruModule(projectDir,module,projTmpDir)
+        for (module of modules2Instru) {
+            instruModule(projectDir, module, projTmpDir)
         }
-        
+
         var iFileOut = path.resolve(projTmpDir, "instrumented.txt");
         fs.writeFileSync(iFileOut, "");
 
@@ -85,12 +88,12 @@
     }
 
 
-    function instrumentFile(file, tmpProjPath) {
+    function instrumentFile(file, targetPath) {
         if (file.match(/^.*\.js$/)) {
             var filePath = path.resolve(file);
-            var tmpFilePath = path.resolve(tmpProjPath, file.toString().split('target/current/')[1]);
-            if(!fs.existsSync(path.dirname(tmpFilePath))){
-                wrench.mkdirSyncRecursive(path.dirname(tmpFilePath));
+            var targetFilePath = path.resolve(targetPath, file.toString().split('target/current/')[1]);
+            if (!fs.existsSync(path.dirname(targetFilePath))) {
+                wrench.mkdirSyncRecursive(path.dirname(targetFilePath));
             }
             try {
                 console.log("node " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " " + escapeShell(filePath) + " --out " + escapeShell(targetFilePath));
