@@ -14,41 +14,50 @@
     var escapeShell = function(cmd) {
         return cmd.replace(/(["\s'$`\\])/g, '\\$1');
     };
-
+    // instrument modules with cached file
+    function instruModule(projDir,module,projTmpDir) {
+        var modulePath = path.resolve(projectDir, "./node_modules/" + module);
+        var cachePath = path.resolve(projectDir, "../cache/node_modules/" + module);
+        if (!fs.existsSync(cachePath)){
+            execSync('node src/js/commands/instrument.js --outputDir' + cachePath + modulePath);
+        }
+        wrench.copyDirSyncRecursive(modulePath, path.resolve(projTmpDir,'node_modules/'+ module), {
+            forceDelete: true
+        });
+    }
     // instrument js files 
     function instrumentSync(projectDir, files2Instru, modules2Instru, callback) {
         console.log("instrumentSync:" + projectDir)
         var tmpDirRoot = path.resolve(__dirname,"../outputs/target_tmp")
         if(!fs.existsSync(tmpDirRoot))
             fs.mkdirSync(tmpDirRoot)
-        var projTmpDir = tmp.dirSync({"dir":tmpDirRoot});
+        var projTmpDir = tmp.dirSync({"dir":tmpDirRoot}).name;
 
         console.log("[-]Copying Target to Tempdir")
-        wrench.copyDirSyncRecursive(projectDir, projTmpDir.name, {
+        wrench.copyDirSyncRecursive(projectDir, projTmpDir, {
             forceDelete: true
         });
         console.log("[+]Copying Target to Tempdir ...done")
 
-        //var tmpDir = path.resolve(projTmpDir.name, "./jalangi_tmp")
+        //var tmpDir = path.resolve(projTmpDir, "./jalangi_tmp")
         //fs.mkdirSync(tmpDir);
-        process.chdir(projTmpDir.name);
+        process.chdir(projTmpDir);
         var files = [];
         console.log(files2Instru.length + " Files to be instrumented.")
         for (var i = 0; i < files2Instru.length; i++) {
             files = files.concat(getFilesRec(path.resolve(projectDir, files2Instru[i])));
         }
-        for (var i = 0; i < modules2Instru.length; i++) {
-            files = files.concat(getFilesRec(path.resolve(projectDir, "./node_modules/" + modules2Instru)))
-        }
-        var iFileOut = path.resolve(projTmpDir.name, "instrumented.txt");
+        instruModule(projDir,modules2Instru,projTmpDir)
+        
+        var iFileOut = path.resolve(projTmpDir, "instrumented.txt");
         fs.writeFileSync(iFileOut, "");
         for (var i = 0; i < files.length; i++) {
             console.log(files[i]);
             fs.appendFileSync(iFileOut, files[i]);
-            instrumentFile(files[i], projTmpDir.name);
+            instrumentFile(files[i], projTmpDir);
         }
-        //callback(projTmpDir.name, loc);
-        return projTmpDir.name;
+        //callback(projTmpDir, loc);
+        return projTmpDir;
     }
 
     function instrumentFile(file, tmpProjPath) {
