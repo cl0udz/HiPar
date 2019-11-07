@@ -19,6 +19,7 @@
         var modulePath = path.resolve(projectDir, "./node_modules/" + module);
         var cachePath = path.resolve(projectDir, "../cache/node_modules/" + module);
         if (!fs.existsSync(cachePath)){
+            fs.mkdirSync(cachePath);
             execSync('node src/js/commands/instrument.js --outputDir' + cachePath + modulePath);
         }
         wrench.copyDirSyncRecursive(modulePath, path.resolve(projTmpDir,'node_modules/'+ module), {
