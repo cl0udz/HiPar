@@ -1,17 +1,15 @@
-if (typeof window === "undefined") {
-    require('../../src/js/InputManager');
-    require(process.cwd()+'/inputs');
-}
+var ConcolicValue = require('../../src/js/ConcolicValue');
 
 
-var array = J$.readInput({});
-function f(a) {
-    if (a.length < 2) {
-        console.log ("short");
-    }
-    if (a[0] == 11) {
-        console.log ("a[0] is 11");
-    }
-}
 
-f(array);
+
+var array = new ConcolicValue({'a':1},true)
+array['b'] = 2
+var c = array.a
+var bbb = []
+bbb.push(array)
+// if (array.a < array.b)
+// {
+// 	c--;
+// }
+

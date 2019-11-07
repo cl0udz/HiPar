@@ -23,6 +23,7 @@
         var TRACE_FILE_NAME = "jalangi_trace";
         var TAINT_SUMMARY = "jalangi_taint";
         var ConcolicValue = require('./../../ConcolicValue');
+        var iidToLocation = sandbox.iidToLocation;
         var writeSet = {};
         var readSet = {};
 
@@ -34,6 +35,9 @@
             return Object.prototype.hasOwnProperty.call(obj, prop);
         };
 
+        function showLocation(iid) {
+           console.log('  Source Location: ' + iidToLocation(iid));
+        }
 
         var getConcrete = this.getConcrete = ConcolicValue.getConcrete;
         var getSymbolic = this.getSymbolic = ConcolicValue.getSymbolic;
@@ -133,6 +137,7 @@
                 var fs = require('fs');
                 delete readSet.nofield;
                 fs.writeFileSync(TAINT_SUMMARY + suffix, JSON.stringify([readSet, writeSet, this.prefix]), "utf8");
+                console.log(JSON.stringify([readSet, writeSet, this.prefix]))
             }
         }
     }

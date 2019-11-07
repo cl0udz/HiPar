@@ -23,14 +23,46 @@
         var TAINT_SUMMARY = "jalangi_taint";
         var ConcolicValue = require('./../../ConcolicValue');
         var getIIDInfo = require('./../../utils/IIDInfo');
+        var iidToLocation = sandbox.iidToLocation;
         var taintedConditionals = {};
-
+        var writeSet = {};
+        var readSet = {};
         if (!(this instanceof SimpleTaintEngine)) {
             return new SimpleTaintEngine();
         }
 
         var getConcrete = this.getConcrete = ConcolicValue.getConcrete;
         var getSymbolic = this.getSymbolic = ConcolicValue.getSymbolic;
+
+        function showLocation(iid) {
+           console.log('  Source Location: ' + iidToLocation(iid));
+        }
+
+        function get_name_by_iid(iid){
+            var vlocation = iidToLocation(iid);
+            console.log("Location: " + vlocation);
+            if(/.*:\d*:\d*:\d*:\d*/.test(vlocation)){
+                var content = vlocation.slice(1,-1).split(":");
+                var loc = {};
+                //console.log(content);
+                loc['file_loc'] = content[0];
+                loc['var_loc'] = {};
+                loc['var_loc']['start'] = {};
+                loc['var_loc']['end'] = {};
+                loc['var_loc']['start']['line'] = parseInt(content[1], 10);
+
+                loc['var_loc']['start']['column'] = parseInt(content[2], 10) - 1;
+                loc['var_loc']['end']['line'] = parseInt(content[3], 10);
+                loc['var_loc']['end']['column'] = parseInt(content[4], 10) - 1;
+                //console.log(JSON.stringify(loc));
+                
+                return [loc['file_loc']];
+            } else {
+                return null;
+            }
+        }
+
+
 
         this.beginExecution = function (prefix) {
             this.prefix = prefix;
@@ -40,6 +72,7 @@
             if (result_c instanceof ConcolicValue) {
                 return result_c;
             } else {
+                console.log('[Tainted variable in getField]:'+get_name_by_iid(iid))
                 return new ConcolicValue(result_c, true);
             }
         }
@@ -78,6 +111,14 @@
             }
             return left;
         }
+        this.read = function(iid, name, val, isGlobal) {
+            if (val instanceof ConcolicValue) {
+                console.log('[New Taint - Read]',name)                
+            }
+            return val
+        }
+
+
 
         this.endExecution = function () {
             var fileName = process.argv[2] ? process.argv[2] : TRACE_FILE_NAME;
