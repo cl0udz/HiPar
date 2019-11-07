@@ -27,7 +27,7 @@ J$.analysis = {};
         //this.invokeFunPre = function (iid, f, base, args, val, isConstructor) {
         this.invokeFunPre = function (iid, f, base, args, isConstructor, isMethod, functionIid, functionSid) {
             var loc = iidToLocation(iid).replace(project_root, "");
-            if (!f.name){
+            if (f == undefined || !f.hasOwnProperty("name")){
                 return;
             }
             var log_info = 'func# ' + f.name + ' ' + loc;
