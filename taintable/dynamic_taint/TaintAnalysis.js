@@ -126,7 +126,7 @@ J$.analysis = {};
                 base.path = taint_tag_to_input[base.iiid].name;
             }
             
-            if(base && base.hasOwnProperty('tainted') && base.tainted > 0 && analysis_property.indexOf(offset) == -1){
+            if(base && base.hasOwnProperty('tainted') && base.tainted > 0 && val && analysis_property.indexOf(offset) == -1){
                 console.log(tynt.Red("offset: " + offset));
                 val.tainted = base.tainted;
                 val.iiid = ++valueID;
