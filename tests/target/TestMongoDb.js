@@ -82,7 +82,7 @@ function main(){
 	var query = {'a': 3}
 
 	test(query)
-	traceCmp.cmp_trace(-1)
+	traceCmp.log_trace_and_cmp(-1);
 	var properties = Object.getOwnPropertyNames(query)
 	console.log("properties: ",properties)
 	for (var property of properties) {
@@ -90,11 +90,11 @@ function main(){
 	    var tmp = utils.clone(query) // generate a copy of query
 	    tmp[property]   = source(tmp[property],property)
 	    test(tmp)
-	    traceCmp.cmp_trace(property)
+	    traceCmp.log_trace_and_cmp(property)
 	}
 	var varName = utils.varToString(query)
 	query = source(query,varName)
-	traceCmp.cmp_trace(varName)
+	traceCmp.log_trace_and_cmp(varName)
 
 }
 
