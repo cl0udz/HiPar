@@ -27,6 +27,9 @@ J$.analysis = {};
         //this.invokeFunPre = function (iid, f, base, args, val, isConstructor) {
         this.invokeFunPre = function (iid, f, base, args, isConstructor, isMethod, functionIid, functionSid) {
             var loc = iidToLocation(iid).replace(project_root, "");
+            if (!f.name){
+                return;
+            }
             var log_info = 'func# ' + f.name + ' ' + loc;
             log_buffer.push(log_info);
             if(f.name && f.name == "log_trace_and_cmp"){
