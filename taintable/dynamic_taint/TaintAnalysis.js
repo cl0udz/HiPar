@@ -185,7 +185,7 @@ J$.analysis = {};
             //console.log('writing variable operation intercept: ' + name);
 	        if(val && val.hasOwnProperty("tainted") && val.tainted > 0)
 		        console.log("write to name: " + name);
-            if (val && tainted_values.hasOwnProperty(val.id) != -1) {
+            if (val && val.hasOwnProperty("id") && tainted_values.hasOwnProperty(val.id) != -1) {
                 tainted_values[iid] = iidToLocation(iid);
             }
             // TODO: Clean the value in the future
