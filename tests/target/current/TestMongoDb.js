@@ -2,7 +2,6 @@ var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var path = require('path')
 var utils = require(path.resolve(__dirname,"Utils.js"))
-var traceCmp = require(path.resolve(__dirname,"../../../taintable/utils/traceCmp.js"))
 
 const url = 'mongodb://localhost:27017';
  
@@ -80,27 +79,8 @@ function test(query) {
 // control iterations and pass names to Analysis Func
 function main(){
 	var query = {'a': 3}
-
-	test(query)
-	traceCmp.log_trace_and_cmp(-1);
-	var properties = Object.getOwnPropertyNames(query)
-	console.log("properties: ",properties)
-	for (var property of properties) {
-		console.log("source: " + property)
-	    var tmp = utils.clone(query) // generate a copy of query
-	    tmp[property]   = source(tmp[property],property)
-	    test(tmp)
-	    traceCmp.log_trace_and_cmp(property)
-	}
-	var varName = utils.varToString(query)
-	query = source(query,varName)
-	traceCmp.log_trace_and_cmp(varName)
-
+	utils.loopProperty(test,query)
 }
 
-
-function source(source_var) {
-    return source_var;
-}
 
 main()

@@ -1,7 +1,7 @@
 [
 	{
 	    "testName": "mongo-parse",
-	    "projPath": "./target",
+	    "projPath": "./target/current",
 	    "startFile": "./TestMongoParse.js",
 	    "instrFiles": ["./TestMongoParse.js"],
 	    "instrModules": ["mongo-parse"],
@@ -9,7 +9,7 @@
 	},
 	{
 	    "testName": "mongodb",
-	    "projPath": "./target",
+	    "projPath": "./target/current",
 	    "startFile": "./TestMongoDb.js",
 	    "instrFiles": ["./TestMongoDb.js"],
 	    "instrModules": ["mongodb"],

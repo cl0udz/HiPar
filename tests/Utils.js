@@ -55,7 +55,7 @@
         var TanitPath = path.resolve(__dirname, "../taintable/dynamic_taint")
         if (file.match(/^.*\.js$/)) {
             var filePath = path.resolve(file);
-            var tmpFilePath = path.resolve(tmpProjPath, file.toString().split('target/')[1])
+            var tmpFilePath = path.resolve(tmpProjPath, file.toString().split('target/current/')[1])
             try {
                 console.log("node " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " " + escapeShell(filePath) + " --out " + escapeShell(tmpFilePath));
                 execSync("node " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " " + escapeShell(filePath) + " --out " + escapeShell(tmpFilePath));
@@ -74,7 +74,7 @@
         var ctrlFlowMonPath = path.resolve(__dirname, "../taintable/dynamic_taint/ControlFlowMon.js")
         var mainProc = null;
         console.log("=========================================================")
-        console.log("executing: " + "node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + ctrlFlowMonPath + " --analysis " + analysisPath + " " + escapeShell(file))
+        console.log("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/analyses/ChainedAnalyses.js") + " --analysis " + analysisPath + " --analysis " + ctrlFlowMonPath + " " + escapeShell(file))
         console.log("[+] ControlFlowMon  Result :")
         
         //var runProcCtrlFlow = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + ctrlFlowMonPath + " --analysis " + analysisPath + " " + escapeShell(file));
