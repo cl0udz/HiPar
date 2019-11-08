@@ -12,11 +12,12 @@ J$.analysis = {};
 	    var attr_finder = require(__dirname + '/../utils/attrFinder.js');
         var iidToLocation = sandbox.iidToLocation;
         var taint_tag_to_input = {};
+        var iid_to_name = {};
 
         var currentFile;
         var currentFunc;
         var valueID = 0;
-        var analysis_property = ['tainted', 'iiid'];
+        var analysis_property = ['tainted', 'tainted_iiid'];
 
         var tainted_values = {}; // {file: {function: {id: loc}}}
         var taint_trace = {};
@@ -27,9 +28,12 @@ J$.analysis = {};
 	        return new String(val);
 	    }
 
-        function get_name_by_iid(iid){
+        // return location of given iid
+        function get_loc_by_iid(iid){
             var vlocation = iidToLocation(iid);
-            console.log("Location: " + vlocation);
+            // original location format: {file_path:start_line:start_column:end_line:end_column}
+            // all the number start from 1 while not 0
+            //console.log("Location: " + vlocation);
             if(/.*:\d*:\d*:\d*:\d*/.test(vlocation)){
                 var content = vlocation.slice(1,-1).split(":");
                 var loc = {};
@@ -45,26 +49,24 @@ J$.analysis = {};
                 loc['var_loc']['end']['column'] = parseInt(content[4], 10) - 1;
                 //console.log(JSON.stringify(loc));
                 
-                return [loc['file_loc']];
+                name = attr_finder.get_name_by_loc(loc);
+                
+                return [loc['file_loc'], name];
             } else {
                 return null;
             }
         }
 
         this.scriptEnter = function(iid, fileName) {
-
         };
 
         this.scriptExit = function(iid) {
-
         };
 
         this.functionEnter = function(iid, fun, dis, args) {
-
         };
 
         this.functionExit = function(iid) {
-
         };
 
         this.literal = function(iid, val) {
@@ -75,12 +77,12 @@ J$.analysis = {};
         this.invokeFunPre = function(iid, f, base, args, isConstructor) {
             //console.log('function call intercepted before invoking');
     	    if(f){
-	    	//console.log("Calling: " + f.name);
+//	    	    console.log("Calling: " + f.name);
+                currentFunc = f.name;
 	        }
         };
 
         this.functionEnter = function(iid, fun, dis /* this */ , args) {
-
         };
 
         this.invokeFun = function(iid, f, base, args, val, isConstructor) {
@@ -98,19 +100,24 @@ J$.analysis = {};
 		        }
                 valueID++;
 		        val.tainted = "source";
-                val.iiid = valueID;
+                val.tainted_iiid = valueID;
                 taint_tag_to_input[valueID] = {"name": args[1], "location": "undefined"};
-                val.path = args[1];
-                console.log(tynt.Blue("[source] name: " + args[1]));
+                //val.tainted_path = args[1];
+                console.log(("[source] name: " + args[1]));
             }
-	        //console.log("Tainted something. args[0]: " + args[0]);
             return val;
         };
 
         this.putField = function(iid, base, offset, val){
+            if(val && val.hasOwnProperty('tainted') && val.tainted == "source"){
+                taint_tag_to_input[val.tainted_iiid].location = iidToLocation(iid);
+                console.log(("---------New Taint - getField--------"));
+                console.log(("[Tagging] source: " + taint_tag_to_input[val.tainted_iiid].name + ", tag: " + val.tainted_iiid + ", func: " + currentFunc));
+                val.tainted = val.tainted_iiid;
+            }
+
             if(val && val.hasOwnProperty("tainted") && val.tainted > 0 && analysis_property.indexOf(offset) == -1){
-                console.log("[putField] Hit! offset: " + offset);
-                val.path = val.path + '.' + offset;
+                //val.tainted_path = val.tainted_path + '.' + offset;
             }
 
             return val;
@@ -119,38 +126,46 @@ J$.analysis = {};
         this.getField = function(iid, base, offset, val) {
             //console.log('get field operation intercepted: ' + offset);
             if(base && base.hasOwnProperty('tainted') && base.tainted == "source"){
-                taint_tag_to_input[base.iiid].location = iidToLocation(iid);
-                console.log("---------New Taint - getField--------");
-                console.log(tynt.Blue("[Tagging] source: " + taint_tag_to_input[base.iiid].name + ", tag: " + base.iiid));
-                base.tainted = base.iiid;
-                base.path = taint_tag_to_input[base.iiid].name;
+                taint_tag_to_input[base.tainted_iiid].location = iidToLocation(iid);
+                console.log(("---------New Taint - getField--------"));
+                console.log(("[Tagging] source: " + taint_tag_to_input[base.tainted_iiid].name + ", tag: " + base.tainted_iiidi + ", func: " + currentFunc));
+                base.tainted = base.tainted_iiid;
+                //base.tainted_path = taint_tag_to_input[base.tainted_iiid].name;
             }
             
             if(base && base.hasOwnProperty('tainted') && base.tainted > 0 && val && analysis_property.indexOf(offset) == -1){
-                console.log(tynt.Red("offset: " + offset));
-                val.tainted = base.tainted;
-                val.iiid = ++valueID;
-                val.path = base.path + "." + offset;
-                taint_tag_to_input[val.iiid] = {"name": taint_tag_to_input[base.iiid].name + "." + offset, "location": taint_tag_to_input[base.iiid].location};
+                //taint_tag_to_input[val.tainted_iiid] = {"name": taint_tag_to_input[base.tainted_iiid].name + "." + offset, "location": taint_tag_to_input[base.tainted_iiid].location};
+                name = iid_to_name[iid] + "." + offset;
+                name_data = get_loc_by_iid(iid);
+                if(name_data != null){
+                    console.log(("[Tainted variable - base] current name: " + name));//+ name_data[1]));
+                    console.log(("arg[0]: " + name_data[0]));
+                    console.log(("name: " + name));
+                    hidden_list = attr_finder.analyze_hidden_attr(name_data[0], [name_data[1]]);//[name_data[1]]);
+                    console.log(tynt.Green("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[base.tainted].name + ": " + hidden_list));
+                }
             }
 
             if(val && val.hasOwnProperty('tainted') && val.tainted == "source"){
-                taint_tag_to_input[val.iiid].location = iidToLocation(iid);
-                console.log("---------New Taint - getField--------");
-                console.log(tynt.Blue("[Tagging] source: " + taint_tag_to_input[val.iiid].name + ", tag: " + val.iiid));
-                val.tainted = val.iiid;
-                //val.path = "." + offset;
+                taint_tag_to_input[val.tainted_iiid].location = iidToLocation(iid);
+                console.log(("---------New Taint - getField--------"));
+                console.log(("[Tagging] source: " + taint_tag_to_input[val.tainted_iiid].name + ", tag: " + val.tainted_iiid + ", func: " + currentFunc));
+                val.tainted = val.tainted_iiid;
+                //val.tainted_path = "." + offset;
             }
 
 	        if(val && val.hasOwnProperty('tainted') && val.tainted > 0 && analysis_property.indexOf(offset) == -1){
-                console.log(tynt.Blue("[Tainted variable] source name: " + taint_tag_to_input[val.iiid].name));//+ ", val: " + val);
+                console.log(("[Tainted variable] source name: " + taint_tag_to_input[val.tainted_iiid].name));//+ ", val: " + val);
 		    
-                name = taint_tag_to_input[val.iiid].name;
-                name_data = get_name_by_iid(iid);
+                //name = taint_tag_to_input[val.tainted_iiid].name;
+                name = (iid_to_name[iid] ? iid_to_name[iid] + "." : "") + offset;
+                name_data = get_loc_by_iid(iid);
                 if(name_data != null){
-                    console.log(tynt.Blue("[Tainted variable] current name: " + name + ", path: " + val.path));//+ name_data[1]));
-                    hidden_list = attr_finder.analyze_hidden_attr(name_data[0], [name]);//[name_data[1]]);
-                    console.log(tynt.Blue("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + hidden_list));
+                    console.log(("[Tainted variable - offset] current name: " + name));//+ name_data[1]));
+                    console.log(("arg[0]: " + name_data[0]));
+                    console.log(("name: " + name));
+                    hidden_list = attr_finder.analyze_hidden_attr(name_data[0], [name_data[1]]);//[name_data[1]]);
+                    console.log(tynt.Green("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + hidden_list));
                 }
                 console.log("----------------------------");
 
@@ -162,22 +177,27 @@ J$.analysis = {};
         this.read = function(iid, name, val, isGlobal) {
             if(val && val.hasOwnProperty('tainted') && val.tainted == "source"){
                 //taint_tag_to_input[valueID] = {"name": name, "location": iidToLocation(iid)};
-                console.log("---------New Taint - Read--------");
-                taint_tag_to_input[val.iiid].location = iidToLocation(iid);
-                console.log(tynt.Blue("[Tagging] source: " + taint_tag_to_input[val.iiid].name + ", tag: " + valueID));
-                val.tainted = val.iiid;
+                console.log(("---------New Taint - Read--------"));
+                taint_tag_to_input[val.tainted_iiid].location = iidToLocation(iid);
+                console.log(("[Tagging] source: " + taint_tag_to_input[val.tainted_iiid].name + ", tag: " + valueID));
+                val.tainted = val.tainted_iiid;
             }
 
 	        if(val && !(val.hasOwnProperty('from_array') && val.from_array == true) && val.hasOwnProperty('tainted') && val.tainted > 0){
-		        console.log(tynt.Blue("[Tainted variable - Read] name: " + name));//+ ", val: " + val);
+		        console.log("[Tainted variable - Read] name: " + name);//+ ", val: " + val);
 
-                name_data = get_name_by_iid(iid);
+                name_data = get_loc_by_iid(iid);
                 if(name_data != null){
+                    console.log("arg[0]: " + name_data[0]);
+                    console.log("name: " + name);
+                    
 		            hidden_list = attr_finder.analyze_hidden_attr(name_data[0], [name_data[1]]);
-                    console.log(tynt.Blue("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + hidden_list));
+                    console.log(tynt.Green("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + hidden_list));
                     console.log("----------------------------");
 		        }
 	        }
+
+            iid_to_name[iid] = name;
             return val;
         };
 
@@ -188,8 +208,8 @@ J$.analysis = {};
             if (val && val.hasOwnProperty("id") && tainted_values.hasOwnProperty(val.id) != -1) {
                 tainted_values[iid] = iidToLocation(iid);
             }
-            // TODO: Clean the value in the future
         
+            iid_to_name[iid] = name;
             return val;
         };
 
@@ -201,6 +221,10 @@ J$.analysis = {};
 	        }
             return result_c;
         };
+        
+        this.endExecution = function(){
+            //console.log(iid_to_name);
+        }
     }
 
     sandbox.analysis = new TaintAnalysis();
