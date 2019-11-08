@@ -24,6 +24,7 @@
         var projTmpDir = tmp.dirSync({"dir":tmpDirRoot});
 
         console.log("[-]Copying Target to Tempdir")
+        //copy all files in project to temp directory
         wrench.copyDirSyncRecursive(projectDir, projTmpDir.name, {
             forceDelete: true
         });
@@ -34,14 +35,18 @@
         process.chdir(projTmpDir.name);
         var files = [];
         console.log(files2Instru.length + " Files to be instrumented.")
+        // add Testxxx files to file list 
         for (var i = 0; i < files2Instru.length; i++) {
             files = files.concat(getFilesRec(path.resolve(projectDir, files2Instru[i])));
         }
+        // add module files to file list
         for (var i = 0; i < modules2Instru.length; i++) {
             files = files.concat(getFilesRec(path.resolve(projectDir, "./node_modules/" + modules2Instru)))
         }
+        // output all instrumented file to instrumented.txt
         var iFileOut = path.resolve(projTmpDir.name, "instrumented.txt");
         fs.writeFileSync(iFileOut, "");
+        // instrument all files in file list
         for (var i = 0; i < files.length; i++) {
             console.log(files[i]);
             fs.appendFileSync(iFileOut, files[i]);
