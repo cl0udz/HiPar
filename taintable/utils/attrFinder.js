@@ -10,7 +10,6 @@ exports.analyze_hidden_attr = function analyze_hidden_attr(file_loc, domain){
     var cmd = {'mode':'getAll', 'res' : []};
     search_all_attr(file_loc, content, cmd);
     var taint_lst = cal_taintable_attr(domain, cmd.res);
-    console.log(tynt.Red(taint_lst));
     return taint_lst;
 
 }
@@ -21,10 +20,9 @@ exports.get_name_by_loc = function get_name_by_loc(loc){
     var cmd = {'mode':'findOne', 'loc':loc.var_loc, 'res':[]};
     search_all_attr(loc.file_loc, content, cmd);
     if (cmd.res.length ===  0){
-        console.log("[x] get_name_by_loc error: " + JSON.stringify(loc)+ ' not found');
+        console.log(tynt.Red("[x] get_name_by_loc error: " + JSON.stringify(loc)+ ' not found'));
         return -1;
     }
-    console.log(tynt.Red(cmd.res[0]));
     return cmd.res[0];
 }
 
@@ -47,7 +45,7 @@ function search_all_attr(file_loc, text, cmd) {
     try {
         var ast = esprima.parse(text, {comment:true, tokens:true, loc:true});
     } catch (e) {
-        console.log("\n[x] get_all_attr : Error when parsing "+ file_loc +", Will ignore this file.\n" + e);
+        console.log(tynt.Red("\n[x] get_all_attr : Error when parsing "+ file_loc +", Will ignore this file.\n" + e));
         return;
     }
     //console.log(ast);
@@ -126,8 +124,12 @@ function read_property(node, path, offset, cmd){
         }else if (node.property.type === "Identifier"){
             // it is a attribute indexing expr (a.c)
             path.splice(offset, 0, node.property.name);
+        }else if (node.property.type === "MemberExpression"){
+            // it is a nested indexing expr (a[b[c]]),we just igore a and read b[c]
+            read_property(node.property, path, offset, cmd);
+            return; 
         }else{
-            console.log("[x] read_property error: unknow attribute indexing type" + JSON.stringify(node.object));
+            console.log(tynt.Red("[x] read_property error: unknow attribute indexing type" + JSON.stringify(node)));
         }
 
         if ( node.object.type === "Identifier" ){
@@ -145,6 +147,10 @@ function read_property(node, path, offset, cmd){
             path.splice(offset, 0, "this");
             read_property(node.property, path, offset, cmd);
         } else {
+            // this is statement like func('aaa').b, just ignore
+            if ( node.object.type === "CallExpression" ) return;
+            // this is statement like "i love".concat("china"), just ignore
+            if ( node.object.type === "Literal" ) return;
             console.log("[x] read_property error: unknown object tpye " + JSON.stringify(node.object));
         }
         
@@ -173,4 +179,4 @@ var loc = {
 }
 
 // exports.get_name_by_loc(loc);
-// exports.analyze_hidden_attr('test.js',['']);
+//exports.analyze_hidden_attr('../../tests/target/current/node_modules/mongodb/lib/core/wireprotocol/query.js',['query']);
