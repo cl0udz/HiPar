@@ -31,11 +31,10 @@ for (var i = 0; i < configs.length; i++) {
 
 function run(task) {
     var cacheDir = path.resolve(__dirname,'../outputs/target_cache/');
-    if(!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir);
-
-    process.chdir(cacheDir);
-    console.log("Running " + task.projPath);
+    if(!fs.existsSync(cacheDir))
+        fs.mkdirSync(cacheDir);
     
+    console.log("Running " + task.projPath);
     // instrument all js files in target directory
     var completed = path.resolve(cacheDir,"complete_instrumented");
     if(!useCache && fs.existsSync(completed))
@@ -49,7 +48,7 @@ function run(task) {
 
     var newIteration = true;
     var children = [];
-
+    
     // Analysis testcases with Jalangi
     utils.runFile(task.startFile, projPath, function() {
         console.log("New iteration");

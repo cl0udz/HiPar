@@ -21,7 +21,7 @@
     function instrumentSync(projectDir, files2Instru, modules2Instru, callback) {
 
         
-
+        process.chdir(cacheDir);
         console.log("instrumentSync:" + projectDir);
 
         if(fs.existsSync(completed)){
