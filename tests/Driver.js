@@ -17,9 +17,6 @@ var resultsDir = "/tmp/res/";
 utils.deleteFolderRecursive(resultsDir);
 fs.mkdirSync(resultsDir);
 
-var cacheDir = path.resolve(__dirname,'../outputs/target_cache');
-if(!fs.existsSync(cacheDir))
-    fs.mkdirSync(cacheDir);
 
 
 //generate tasks with absolute path
@@ -33,6 +30,9 @@ for (var i = 0; i < configs.length; i++) {
 
 
 function run(task) {
+    var cacheDir = path.resolve(__dirname,'../outputs/target_cache/');
+    if(!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir);
+
     process.chdir(cacheDir);
     console.log("Running " + task.projPath);
     
@@ -40,7 +40,7 @@ function run(task) {
     var completed = path.resolve(cacheDir,"complete_instrumented");
     if(!useCache && fs.existsSync(completed))
         fs.rmdirSync(completed);
-    var projPath = utils.instrumentSync(task.projPath, task.instrFiles, task.instrModules, useCache);
+    var projPath = utils.instrumentSync(task.projPath, task.instrFiles, task.instrModules);
 
     var testName = task.testName;
     console.log(projPath, testName, task)
