@@ -10,4 +10,3 @@ var query = {
 };
 
 utils.loopProperty(parser.parse,query);
-

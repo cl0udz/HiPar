@@ -76,15 +76,12 @@ function run(task) {
     console.log("Running " + task.projPath);
 
     // instrument all js files in target directory
-    var projPath = utils.instrumentSync(task.projPath, task.instrFiles, task.instrModules);
-
+    var projPath = utils.instrumentSync(task.projPath, task.instrFiles, task.instrModules, task.useCache);
 
     var testName = task.testName;
     console.log(projPath, testName, task)
     var resDirName = path.resolve(resultsDir, testName);
     fs.mkdirSync(resDirName);
-
-
 
     var newIteration = true;
     var children = [];

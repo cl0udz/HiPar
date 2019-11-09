@@ -6,6 +6,7 @@
     var escodegen = require('escodegen');
     var exec = require('child_process').exec;
     var sloc = require("sloc");
+    var tynt = require('tynt');
     var Promise = require("bluebird");
     var tmp = require('tmp');
     var wrench = require('wrench');
@@ -16,25 +17,39 @@
     };
 
     // instrument js files 
-    function instrumentSync(projectDir, files2Instru, modules2Instru, callback) {
-        console.log("instrumentSync:" + projectDir)
-        var tmpDirRoot = path.resolve(__dirname,"../outputs/target_tmp")
+    function instrumentSync(projectDir, files2Instru, modules2Instru, useCache, callback) {
+        var cacheDir = path.resolve(projectDir,'../cache/');
+        var completed = path.resolve(cacheDir,"complete_instrumented");
+        
+        console.log("instrumentSync:" + projectDir);
+        var tmpDirRoot = path.resolve(__dirname,"../outputs/target_tmp");
         if(!fs.existsSync(tmpDirRoot))
-            fs.mkdirSync(tmpDirRoot)
-        var projTmpDir = tmp.dirSync({"dir":tmpDirRoot});
+            fs.mkdirSync(tmpDirRoot);
+        var projTmpDir = tmp.dirSync({"dir":tmpDirRoot}).name;
+        if(useCache){
+            if(fs.existsSync(completed)){
+                wrench.copyDirSyncRecursive(cacheDir, projTmpDir, {
+                    forceDelete: true
+                });
+                return projectDir;
+            }
+            else{
+                console.log(tynt.Red("Cache not found. Start instrumenting new files"))
+            }
+        }
 
-        console.log("[-]Copying Target to Tempdir")
+        console.log("[-]Copying Target to Tempdir");
         //copy all files in project to temp directory
-        wrench.copyDirSyncRecursive(projectDir, projTmpDir.name, {
+        wrench.copyDirSyncRecursive(projectDir, projTmpDir, {
             forceDelete: true
         });
-        console.log("[+]Copying Target to Tempdir ...done")
+        console.log("[+]Copying Target to Tempdir ...done");
 
-        //var tmpDir = path.resolve(projTmpDir.name, "./jalangi_tmp")
+        //var tmpDir = path.resolve(projTmpDir, "./jalangi_tmp")
         //fs.mkdirSync(tmpDir);
-        process.chdir(projTmpDir.name);
+        process.chdir(projTmpDir);
         var files = [];
-        console.log(files2Instru.length + " Files to be instrumented.")
+        console.log(files2Instru.length + " Files to be instrumented.");
         // add Testxxx files to file list 
         for (var i = 0; i < files2Instru.length; i++) {
             files = files.concat(getFilesRec(path.resolve(projectDir, files2Instru[i])));
@@ -44,16 +59,22 @@
             files = files.concat(getFilesRec(path.resolve(projectDir, "./node_modules/" + modules2Instru)))
         }
         // output all instrumented file to instrumented.txt
-        var iFileOut = path.resolve(projTmpDir.name, "instrumented.txt");
+        var iFileOut = path.resolve(projTmpDir, "instrumented.txt");
         fs.writeFileSync(iFileOut, "");
         // instrument all files in file list
         for (var i = 0; i < files.length; i++) {
             console.log(files[i]);
             fs.appendFileSync(iFileOut, files[i]);
-            instrumentFile(files[i], projTmpDir.name);
+            instrumentFile(files[i], projTmpDir);
         }
-        //callback(projTmpDir.name, loc);
-        return projTmpDir.name;
+        //callback(projTmpDir, loc);
+        //Back up instrumented files to cache 
+        console.log("Backing this instrument to cache...")
+        wrench.copyDirSyncRecursive(projTmpDir,cacheDir, {
+            forceDelete: true
+        });
+        fs.mkdirSync(completed);
+        return projTmpDir;
     }
 
     function instrumentFile(file, tmpProjPath) {
@@ -68,7 +89,6 @@
                 console.log("\nPreprocessor: Error when instrumenting " + file + ". Will ignore this file.\n" + e);
                 return;
             }
-
         }
     }
 
