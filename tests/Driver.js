@@ -33,7 +33,7 @@ for (var i = 0; i < configs.length; i++) {
 
 
 function run(task) {
-
+    process.chdir(cacheDir);
     console.log("Running " + task.projPath);
     
     // instrument all js files in target directory
@@ -51,18 +51,17 @@ function run(task) {
     var children = [];
 
     // Analysis testcases with Jalangi
-    // utils.runFile(task.startFile, projPath, function() {
-    //     console.log("New iteration");
-    //     newIteration = true;
-    // }, function(cp) {
-    //     console.log("New Process was created");
-    //     children.push(cp);
-    // });
+    utils.runFile(task.startFile, projPath, function() {
+        console.log("New iteration");
+        newIteration = true;
+    }, function(cp) {
+        console.log("New Process was created");
+        children.push(cp);
+    });
 
     console.log("Finished executing " + task.startFile)
-    // traceCmp.cmp_fini()
+    traceCmp.cmp_fini()
 
-    // utils.deleteFolderRecursive(projPath);
     
     if (tasks.length > 0) {
         run(tasks.pop());
