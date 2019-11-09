@@ -6,13 +6,5 @@
 	    "instrFiles": ["./TestMongoParse.js","./Utils.js"],
 	    "instrModules": ["mongo-parse"],
 		"sources": "intf"
-	},
-	{
-	    "testName": "mongodb",
-	    "projPath": "./target/current",
-	    "startFile": "./TestMongoDb.js",
-	    "instrFiles": ["./TestMongoDb.js","./Utils.js"],
-	    "instrModules": ["mongodb"],
-		"sources": "intf"
 	}
 ]

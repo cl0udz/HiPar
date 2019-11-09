@@ -20,7 +20,7 @@ fs.mkdirSync(resultsDir);
 
 //generate tasks with absolute path
 var tasks = [];
-var useCache = true;
+var useCache = false;
 
 for (var i = 0; i < configs.length; i++) {
     configs[i].projPath = path.resolve(__dirname, configs[i].projPath)
