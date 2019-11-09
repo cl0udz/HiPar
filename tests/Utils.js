@@ -79,8 +79,8 @@
     }
 
     //Instrument Single Js File
-    function runFile(filename, tmpProjPath, callback, iterationsCallback, creationCallback) {
-        var file = path.resolve(tmpProjPath + "/" + filename)
+    function runFile(filename, targetDir, callback, iterationsCallback, creationCallback) {
+        var file = path.resolve(targetDir + "/" + filename)
         var analysisPath = path.resolve(__dirname, "../taintable/dynamic_taint/TaintAnalysis.js")
         var ctrlFlowMonPath = path.resolve(__dirname, "../taintable/dynamic_taint/ControlFlowMon.js")
         var mainProc = null;
