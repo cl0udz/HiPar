@@ -10,45 +10,34 @@
     var Promise = require("bluebird");
     var tmp = require('tmp');
     var wrench = require('wrench');
-
-
+    var cacheDir = path.resolve(projectDir,'../outputs/target_cache');
+    var completed = path.resolve(cacheDir,"complete_instrumented");
     var escapeShell = function(cmd) {
         return cmd.replace(/(["\s'$`\\])/g, '\\$1');
     };
 
     // instrument js files 
 
-    function instrumentSync(projectDir, files2Instru, modules2Instru, useCache, callback) {
-        var cacheDir = path.resolve(projectDir,'../cache/');
-        var completed = path.resolve(cacheDir,"complete_instrumented");
-        var targetDir = '';
+    function instrumentSync(projectDir, files2Instru, modules2Instru, callback) {
+
+        
+
         console.log("instrumentSync:" + projectDir);
-        var tmpDirRoot = path.resolve(__dirname,"../outputs/target_tmp");
-        if(!fs.existsSync(tmpDirRoot))
-            fs.mkdirSync(tmpDirRoot);
-        var projTmpDir = tmp.dirSync({"dir":tmpDirRoot}).name;
 
-        if(useCache){
-            targetDir = cacheDir;
-            if(fs.existsSync(completed)){
-                console.log(tynt.Green("Cache found"));
-                return targetDir;
-            }
-            else console.log(tynt.Red("Cache not found. Start instrumenting new files"));
+        if(fs.existsSync(completed)){
+            console.log(tynt.Green("Cache found"));
+            return cacheDir;
         }
-        else targetDir = projTmpDir;
+        else console.log(tynt.Red("Cache not found. Start instrumenting new files"));
 
-
-        console.log("[-]Copying Target to TargetDir");
+        console.log("[-]Copying all project files to cacheDir");
         //copy all files in project to temp directory
-        wrench.copyDirSyncRecursive(projectDir, targetDir, {
+        wrench.copyDirSyncRecursive(projectDir, cacheDir, {
             forceDelete: true
         });
-        console.log("[+]Copying Target to TargetDir ...done");
+        console.log("[+]Copying all project files to cacheDir ...done");
 
-        //var tmpDir = path.resolve(projTmpDir, "./jalangi_tmp")
-        //fs.mkdirSync(tmpDir);
-        process.chdir(targetDir);
+        process.chdir(cacheDir);
         var files = [];
         console.log(files2Instru.length + " Files to be instrumented.");
         // add Testxxx files to file list 
@@ -60,25 +49,25 @@
             files = files.concat(getFilesRec(path.resolve(projectDir, "./node_modules/" + modules2Instru)))
         }
         // output all instrumented file to instrumented.txt
-        var iFileOut = path.resolve(targetDir, "instrumented.txt");
+        var iFileOut = path.resolve(cacheDir, "instrumented.txt");
         fs.writeFileSync(iFileOut, "");
         // instrument all files in file list
         for (var i = 0; i < files.length; i++) {
             console.log(files[i]);
             fs.appendFileSync(iFileOut, files[i]);
-            instrumentFile(files[i], targetDir);
+            instrumentFile(files[i], cacheDir);
         }
         //callback(projTmpDir, loc);
         //Back up instrumented files to cache 
         if(useCache) fs.mkdirSync(completed);
-        return targetDir;
+        return cacheDir;
     }
 
     function instrumentFile(file, tmpProjPath) {
         var TanitPath = path.resolve(__dirname, "../taintable/dynamic_taint")
         if (file.match(/^.*\.js$/)) {
             var filePath = path.resolve(file);
-            var tmpFilePath = path.resolve(tmpProjPath, file.toString().split('target/current/')[1])
+            var tmpFilePath = path.resolve(tmpProjPath, file.toString().split('target/')[1])
             try {
                 console.log("node " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " " + escapeShell(filePath) + " --out " + escapeShell(tmpFilePath));
                 execSync("node " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " " + escapeShell(filePath) + " --out " + escapeShell(tmpFilePath));
