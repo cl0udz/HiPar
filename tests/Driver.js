@@ -17,7 +17,7 @@ var resultsDir = "/tmp/res/";
 utils.deleteFolderRecursive(resultsDir);
 fs.mkdirSync(resultsDir);
 
-var cacheDir = path.resolve(projectDir,'../outputs/target_cache');
+var cacheDir = path.resolve(__dirname,'../outputs/target_cache');
 if(!fs.existsSync(cacheDir))
     fs.mkdirSync(cacheDir);
 

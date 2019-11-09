@@ -10,7 +10,7 @@
     var Promise = require("bluebird");
     var tmp = require('tmp');
     var wrench = require('wrench');
-    var cacheDir = path.resolve(projectDir,'../outputs/target_cache');
+    var cacheDir = path.resolve(__dirname,'../outputs/target_cache');
     var completed = path.resolve(cacheDir,"complete_instrumented");
     var escapeShell = function(cmd) {
         return cmd.replace(/(["\s'$`\\])/g, '\\$1');
@@ -59,7 +59,7 @@
         }
         //callback(projTmpDir, loc);
         //Back up instrumented files to cache 
-        if(useCache) fs.mkdirSync(completed);
+        fs.mkdirSync(completed);
         return cacheDir;
     }
 
