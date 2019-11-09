@@ -18,77 +18,38 @@ utils.deleteFolderRecursive(resultsDir);
 fs.mkdirSync(resultsDir);
 
 
+
 //generate tasks with absolute path
 var tasks = [];
+var useCache = true;
 
 for (var i = 0; i < configs.length; i++) {
     configs[i].projPath = path.resolve(__dirname, configs[i].projPath)
     tasks.push(configs[i]);
 }
 
-/* test function, not used yet
-// function instruModule(modulePath) {
-
-//     var projTmpDir = tmp.dirSync();
-//     wrench.copyDirSyncRecursive(projectDir, projTmpDir.name, {
-//         forceDelete: true
-//     });
-//     //var tmpDir = path.resolve(projTmpDir.name, "./jalangi_tmp")
-//     //fs.mkdirSync(tmpDir);
-//     process.chdir(projTmpDir.name);
-//     var files = [];
-//     for (var i = 0; i < filesToInstrument.length; i++) {
-//         files = files.concat(utils.getFilesRec(path.resolve(projTmpDir.name, filesToInstrument[i])));
-//     }
-//     var loc = 0;
-//     var iFileOut = path.resolve(projTmpDir.name, "instrumented.txt");
-//     fs.writeFileSync(iFileOut, "");
-//     for (var i = 0; i < files.length; i++) {
-//         var content = fs.readFileSync(files[i]).toString();
-
-//         if (files[i].indexOf("Policy.js") === -1) {
-//             var stats = sloc(content, "js");
-//             // console.log(stats.keys);
-//             loc += stats.source
-//         }
-//         // loc +=  fs.readFileSync(files[i]).toString().split(/\r\n|\r|\n/).length;
-//         console.log(files[i] + " " + loc);
-//         fs.appendFileSync(iFileOut, files[i] + " " + loc);
-//         utils.instrumentFile(path.resolve(__dirname, "../../"), files[i]);
-//     }
-//     //callback(projTmpDir.name, loc);
-//     return projTmpDir.name;
-// }
-
-// function AnalysisMoudle() {
-
-// }
-
-function runModule(modulePath) {
-    console.log("Instrumenting " + modulePath)
-
-}
-
-*/
 
 function run(task) {
-
+    var cacheDir = path.resolve(__dirname,'../outputs/target_cache/');
+    if(!fs.existsSync(cacheDir))
+        fs.mkdirSync(cacheDir);
+    
     console.log("Running " + task.projPath);
-
     // instrument all js files in target directory
+    var completed = path.resolve(cacheDir,"complete_instrumented");
+    if(!useCache && fs.existsSync(completed))
+        fs.rmdirSync(completed);
     var projPath = utils.instrumentSync(task.projPath, task.instrFiles, task.instrModules);
-
+    process.chdir(cacheDir);
 
     var testName = task.testName;
     console.log(projPath, testName, task)
     var resDirName = path.resolve(resultsDir, testName);
     fs.mkdirSync(resDirName);
 
-
-
     var newIteration = true;
     var children = [];
-
+    
     // Analysis testcases with Jalangi
     utils.runFile(task.startFile, projPath, function() {
         console.log("New iteration");
@@ -101,7 +62,6 @@ function run(task) {
     console.log("Finished executing " + task.startFile)
     traceCmp.cmp_fini()
 
-    // utils.deleteFolderRecursive(projPath);
     
     if (tasks.length > 0) {
         run(tasks.pop());

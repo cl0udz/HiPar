@@ -1,6 +1,6 @@
 var path = require('path');
 var tynt = require('tynt');
-var traceCmp = require(path.resolve(__dirname, "../../../taintable/utils/traceCmp.js"));
+var traceCmp = require(path.resolve(__dirname, "../../taintable/utils/traceCmp.js"));
 
 //loop iteration
 function loopProperty(testFunc, param) {

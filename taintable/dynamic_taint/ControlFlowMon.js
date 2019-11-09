@@ -18,7 +18,7 @@ J$.analysis = {};
             try {
                   fs.writeFileSync(log_file, data);
             } catch (err) {
-               console.log("[x] ControlFlowMon: Cannot log trace ", e);
+               console.log("[x] ControlFlowMon: Cannot log trace ", err);
             } 
             // clear log buffer at everytime return
             log_buffer = [];

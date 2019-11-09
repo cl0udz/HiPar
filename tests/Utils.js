@@ -6,35 +6,39 @@
     var escodegen = require('escodegen');
     var exec = require('child_process').exec;
     var sloc = require("sloc");
+    var tynt = require('tynt');
     var Promise = require("bluebird");
     var tmp = require('tmp');
     var wrench = require('wrench');
-
-
+    var cacheDir = path.resolve(__dirname,'../outputs/target_cache/');
+    var completed = path.resolve(cacheDir,"complete_instrumented");
     var escapeShell = function(cmd) {
         return cmd.replace(/(["\s'$`\\])/g, '\\$1');
     };
 
     // instrument js files 
-    function instrumentSync(projectDir, files2Instru, modules2Instru, callback) {
-        console.log("instrumentSync:" + projectDir)
-        var tmpDirRoot = path.resolve(__dirname,"../outputs/target_tmp")
-        if(!fs.existsSync(tmpDirRoot))
-            fs.mkdirSync(tmpDirRoot)
-        var projTmpDir = tmp.dirSync({"dir":tmpDirRoot});
 
-        console.log("[-]Copying Target to Tempdir")
+    function instrumentSync(projectDir, files2Instru, modules2Instru, callback) {
+
+        
+        console.log("instrumentSync:" + projectDir);
+
+        if(fs.existsSync(completed)){
+            console.log(tynt.Green("Cache found"));
+            return cacheDir;
+        }
+        else console.log(tynt.Red("Cache not found. Start instrumenting new files"));
+
+        console.log("[-]Copying all project files to cacheDir");
         //copy all files in project to temp directory
-        wrench.copyDirSyncRecursive(projectDir, projTmpDir.name, {
+        wrench.copyDirSyncRecursive(projectDir, cacheDir, {
             forceDelete: true
         });
-        console.log("[+]Copying Target to Tempdir ...done")
+        console.log("[+]Copying all project files to cacheDir ...done");
 
-        //var tmpDir = path.resolve(projTmpDir.name, "./jalangi_tmp")
-        //fs.mkdirSync(tmpDir);
-        process.chdir(projTmpDir.name);
+        process.chdir(cacheDir);
         var files = [];
-        console.log(files2Instru.length + " Files to be instrumented.")
+        console.log(files2Instru.length + " Files to be instrumented.");
         // add Testxxx files to file list 
         for (var i = 0; i < files2Instru.length; i++) {
             files = files.concat(getFilesRec(path.resolve(projectDir, files2Instru[i])));
@@ -44,23 +48,25 @@
             files = files.concat(getFilesRec(path.resolve(projectDir, "./node_modules/" + modules2Instru)))
         }
         // output all instrumented file to instrumented.txt
-        var iFileOut = path.resolve(projTmpDir.name, "instrumented.txt");
+        var iFileOut = path.resolve(cacheDir, "instrumented.txt");
         fs.writeFileSync(iFileOut, "");
         // instrument all files in file list
         for (var i = 0; i < files.length; i++) {
             console.log(files[i]);
             fs.appendFileSync(iFileOut, files[i]);
-            instrumentFile(files[i], projTmpDir.name);
+            instrumentFile(files[i], cacheDir);
         }
-        //callback(projTmpDir.name, loc);
-        return projTmpDir.name;
+        //callback(projTmpDir, loc);
+        //Back up instrumented files to cache 
+        fs.mkdirSync(completed);
+        return cacheDir;
     }
 
     function instrumentFile(file, tmpProjPath) {
         var TanitPath = path.resolve(__dirname, "../taintable/dynamic_taint")
         if (file.match(/^.*\.js$/)) {
             var filePath = path.resolve(file);
-            var tmpFilePath = path.resolve(tmpProjPath, file.toString().split('target/current/')[1])
+            var tmpFilePath = path.resolve(tmpProjPath, file.toString().split('target/')[1])
             try {
                 console.log("node " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " " + escapeShell(filePath) + " --out " + escapeShell(tmpFilePath));
                 execSync("node " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " " + escapeShell(filePath) + " --out " + escapeShell(tmpFilePath));
@@ -68,13 +74,12 @@
                 console.log("\nPreprocessor: Error when instrumenting " + file + ". Will ignore this file.\n" + e);
                 return;
             }
-
         }
     }
 
     //Instrument Single Js File
-    function runFile(filename, tmpProjPath, callback, iterationsCallback, creationCallback) {
-        var file = path.resolve(tmpProjPath + "/" + filename)
+    function runFile(filename, targetDir, callback, iterationsCallback, creationCallback) {
+        var file = path.resolve(targetDir + "/" + filename)
         var analysisPath = path.resolve(__dirname, "../taintable/dynamic_taint/TaintAnalysis.js")
         var ctrlFlowMonPath = path.resolve(__dirname, "../taintable/dynamic_taint/ControlFlowMon.js")
         var mainProc = null;
