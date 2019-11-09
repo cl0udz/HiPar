@@ -62,7 +62,7 @@ function init(){
 	});
 }
 
-// connect and  find result of squery 
+// connect and  find result of query 
 function test(query) {
 	MongoClient.connect(url, function(err, client) {
 	  assert.equal(null, err);
