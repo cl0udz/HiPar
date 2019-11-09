@@ -65,12 +65,12 @@
         for (var i = 0; i < files.length; i++) {
             console.log(files[i]);
             fs.appendFileSync(iFileOut, files[i]);
-            instrumentFile(files[i], projTmpDir);
+            instrumentFile(files[i], cacheDir);
         }
         //callback(projTmpDir, loc);
         //Back up instrumented files to cache 
         console.log("Backing this instrument to cache...")
-        wrench.copyDirSyncRecursive(projTmpDir,cacheDir, {
+        wrench.copyDirSyncRecursive(cacheDir,projTmpDir, {
             forceDelete: true
         });
         fs.mkdirSync(completed);
