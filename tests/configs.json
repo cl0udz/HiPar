@@ -5,8 +5,7 @@
 	    "startFile": "./TestMongoParse.js",
 	    "instrFiles": ["./TestMongoParse.js","./Utils.js"],
 	    "instrModules": ["mongo-parse"],
-		"sources": "intf",
-		"useCache": true
+		"sources": "intf"
 	},
 	{
 	    "testName": "mongodb",
@@ -14,7 +13,6 @@
 	    "startFile": "./TestMongoDb.js",
 	    "instrFiles": ["./TestMongoDb.js","./Utils.js"],
 	    "instrModules": ["mongodb"],
-		"sources": "intf",
-		"useCache": true
+		"sources": "intf"
 	}
 ]

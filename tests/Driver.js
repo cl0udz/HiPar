@@ -20,63 +20,20 @@ fs.mkdirSync(resultsDir);
 
 //generate tasks with absolute path
 var tasks = [];
+var useCache = true;
 
 for (var i = 0; i < configs.length; i++) {
     configs[i].projPath = path.resolve(__dirname, configs[i].projPath)
     tasks.push(configs[i]);
 }
 
-/* test function, not used yet
-// function instruModule(modulePath) {
-
-//     var projTmpDir = tmp.dirSync();
-//     wrench.copyDirSyncRecursive(projectDir, projTmpDir.name, {
-//         forceDelete: true
-//     });
-//     //var tmpDir = path.resolve(projTmpDir.name, "./jalangi_tmp")
-//     //fs.mkdirSync(tmpDir);
-//     process.chdir(projTmpDir.name);
-//     var files = [];
-//     for (var i = 0; i < filesToInstrument.length; i++) {
-//         files = files.concat(utils.getFilesRec(path.resolve(projTmpDir.name, filesToInstrument[i])));
-//     }
-//     var loc = 0;
-//     var iFileOut = path.resolve(projTmpDir.name, "instrumented.txt");
-//     fs.writeFileSync(iFileOut, "");
-//     for (var i = 0; i < files.length; i++) {
-//         var content = fs.readFileSync(files[i]).toString();
-
-//         if (files[i].indexOf("Policy.js") === -1) {
-//             var stats = sloc(content, "js");
-//             // console.log(stats.keys);
-//             loc += stats.source
-//         }
-//         // loc +=  fs.readFileSync(files[i]).toString().split(/\r\n|\r|\n/).length;
-//         console.log(files[i] + " " + loc);
-//         fs.appendFileSync(iFileOut, files[i] + " " + loc);
-//         utils.instrumentFile(path.resolve(__dirname, "../../"), files[i]);
-//     }
-//     //callback(projTmpDir.name, loc);
-//     return projTmpDir.name;
-// }
-
-// function AnalysisMoudle() {
-
-// }
-
-function runModule(modulePath) {
-    console.log("Instrumenting " + modulePath)
-
-}
-
-*/
 
 function run(task) {
 
     console.log("Running " + task.projPath);
 
     // instrument all js files in target directory
-    var projPath = utils.instrumentSync(task.projPath, task.instrFiles, task.instrModules, task.useCache);
+    var projPath = utils.instrumentSync(task.projPath, task.instrFiles, task.instrModules, useCache);
 
     var testName = task.testName;
     console.log(projPath, testName, task)
