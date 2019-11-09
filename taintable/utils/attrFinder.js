@@ -23,6 +23,7 @@ exports.get_name_by_loc = function get_name_by_loc(loc){
         console.log(tynt.Red("[x] get_name_by_loc error: " + JSON.stringify(loc)+ ' not found'));
         return -1;
     }
+    console.log(cmd.res);
     return cmd.res[0];
 }
 
@@ -92,14 +93,18 @@ function propertyVisitor(node, domain, cmd){
     var node, domain;
 
     if (node.type === "MemberExpression" || node.type === "Identifier"){
-         //console.log(node);
-         //console.log('----');
-        if (cmd.mode === "findOne" && match_property(node, cmd.loc)){
-            read_property(node, [...domain], domain.length, cmd);
+        if (cmd.mode === "findOne"){
+            // for the purpose of get_name_by_loc, we just get name for base and standalone var (a in a[b] or b)
+            if (loc_in_scope(node.loc, cmd.loc)){
+                read_standalone_or_base(node, [...domain], cmd);
+                return false; // stop visiting the child 
+            }else {
+                return true; // continue visiting the child 
+            }
         } else if (cmd.mode === "getAll"){
             read_property(node, [...domain], domain.length, cmd);
+            return false;
         }
-        return false;
     }
     if (node.hasOwnProperty("type") || Array.isArray(node)) {
         return true;
@@ -109,10 +114,48 @@ function propertyVisitor(node, domain, cmd){
 
 
 //match one property according to the location
-function match_property(node, loc){
-    return JSON.stringify(node.loc) === JSON.stringify(loc);
+function loc_in_scope(node_loc, loc){
+    if (  node_loc.start.line <= loc.start.line &&
+          node_loc.start.column <= loc.start.column &&
+          node_loc.end.line >= loc.end.line &&
+          node_loc.end.column >= loc.end.column){
+        return true;
+    }
+    return false;
 }
 
+
+// get the name of the a variable (base or standalone)
+function read_standalone_or_base(node, path, cmd){
+    // find the exact match of the loc 
+    if (node.hasOwnProperty("property")){
+        // this is a member expr 
+        // check if object match
+        if (JSON.stringify(node.object.loc) === JSON.stringify(cmd.loc)){
+            var found_name;
+            if (node.object.type === "ThisExpression"){
+                found_name = "this";
+            }else if (node.object.type === "Identifier"){
+                found_name = node.object.name;
+            }else {
+                console.log(tynt.Red("[x] read_standalone_or_base error: unknown object type" + JSON.stringify(node.object)));
+            }
+            cmd.res.push(path.join(".") + '.' + found_name);
+            return;
+        }else{
+            // could be in either object or property 
+            read_standalone_or_base(node.property, path, cmd);
+            read_standalone_or_base(node.object, path, cmd);
+        }
+    }else{
+        // this is a standalone var
+        if (JSON.stringify(node.loc) === JSON.stringify(cmd.loc)){
+            cmd.res.push(node.name); 
+            return;
+        }
+    }
+
+}
 
 // get a specifcy property referrenced in the file
 function read_property(node, path, offset, cmd){
@@ -168,12 +211,12 @@ var loc = {
     "file_loc": "test.js",
     "var_loc": {
         "start": {
-            "line": 1,
-            "column": 0
+            "line": 2,
+            "column": 2
         },
         "end": {
-            "line": 1,
-            "column": 1 
+            "line": 2,
+            "column": 3 
         }
     }
 }
