@@ -43,7 +43,7 @@ function run(task) {
     var completed = path.resolve(projectCache, "complete_instrumented");
     if(!useCache && fs.existsSync(completed))
         fs.rmdirSync(completed);
-    var targetPath = utils.instrumentSync(task.projPath, task.instrFiles, task.instrModules, task.testName);
+    var targetPath = utils.instrumentSync(task.projPath, task.instrFiles, task.testName);
     process.chdir(projectCache);
 
     var testName = task.testName;
