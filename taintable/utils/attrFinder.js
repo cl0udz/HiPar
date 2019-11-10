@@ -115,8 +115,8 @@ function propertyVisitor(node, domain, cmd){
 
 //match one property according to the location
 function loc_in_scope(node_loc, loc){
-    if (  node_loc.start.line <= loc.start.line &&
-          node_loc.start.column <= loc.start.column &&
+    if (  node_loc.start.line == loc.start.line &&
+          node_loc.start.column == loc.start.column &&
           node_loc.end.line >= loc.end.line &&
           node_loc.end.column >= loc.end.column){
         return true;
@@ -131,27 +131,23 @@ function read_standalone_or_base(node, path, cmd){
     if (node.hasOwnProperty("property")){
         // this is a member expr 
         // check if object match
-        if (JSON.stringify(node.object.loc) === JSON.stringify(cmd.loc)){
-            var found_name;
-            if (node.object.type === "ThisExpression"){
-                found_name = "this";
-            }else if (node.object.type === "Identifier"){
-                found_name = node.object.name;
-            }else {
-                console.log(tynt.Red("[x] read_standalone_or_base error: unknown object type" + JSON.stringify(node.object)));
-            }
-            cmd.res.push(path.join(".") + '.' + found_name);
-            return;
-        }else{
-            // could be in either object or property 
-            read_standalone_or_base(node.property, path, cmd);
-            read_standalone_or_base(node.object, path, cmd);
+        var found_name;
+        if (node.object.type === "ThisExpression"){
+            found_name = "this";
+        }else if (node.object.type === "Identifier"){
+            found_name = node.object.name;
+        }else {
+            console.log(tynt.Red("[x] read_standalone_or_base error: unknown object type" + JSON.stringify(node.object)));
         }
+        cmd.res.push(path.join(".") + '.' + found_name);
+        return;
     }else{
         // this is a standalone var
         if (JSON.stringify(node.loc) === JSON.stringify(cmd.loc)){
             cmd.res.push(node.name); 
             return;
+        }else{
+            console.log(tynt.Red("[x] read_standalone_or_base error: not a standalone object iid" + JSON.stringify(node)));
         }
     }
 
@@ -222,4 +218,4 @@ var loc = {
 }
 
 // exports.get_name_by_loc(loc);
-//exports.analyze_hidden_attr('../../tests/target/current/node_modules/mongodb/lib/core/wireprotocol/query.js',['query']);
+// exports.analyze_hidden_attr('../../tests/target/current/node_modules/mongodb/lib/core/wireprotocol/query.js',['query']);
