@@ -1,8 +1,0 @@
-{
-    "steps":0,
-    "SimpleDirectFlowTwoSourcesTest":{
-      "direct":3,
-      "indirect":0,
-      "branchNotTaken":0
-    }
-}
