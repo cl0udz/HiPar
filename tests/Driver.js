@@ -16,8 +16,10 @@ var AnalysisPath = path.resolve(__dirname, "../taintable/dynamic_taint/TaintAnal
 var resultsDir = "/tmp/res/";
 utils.deleteFolderRecursive(resultsDir);
 fs.mkdirSync(resultsDir);
-
-
+var targetRoot = path.resolve(__dirname,'target');
+var cacheRoot = path.resolve(__dirname,'../outputs/target_cache/');
+if(!fs.existsSync(cacheRoot))
+    fs.mkdirSync(cacheRoot);
 
 //generate tasks with absolute path
 var tasks = [];
@@ -29,21 +31,23 @@ for (var i = 0; i < configs.length; i++) {
 }
 
 
+
 function run(task) {
-    var cacheDir = path.resolve(__dirname,'../outputs/target_cache/');
-    if(!fs.existsSync(cacheDir))
-        fs.mkdirSync(cacheDir);
+
     
     console.log("Running " + task.projPath);
-    // instrument all js files in target directory
-    var completed = path.resolve(cacheDir,"complete_instrumented");
+
+    // check the useCache variable to dicide whether we use cache
+
+    var projectCache = path.resolve(cacheRoot, task.projPath.split('/target/')[1])
+    var completed = path.resolve(projectCache, "complete_instrumented");
     if(!useCache && fs.existsSync(completed))
         fs.rmdirSync(completed);
-    var projPath = utils.instrumentSync(task.projPath, task.instrFiles, task.instrModules);
-    process.chdir(cacheDir);
+    var targetPath = utils.instrumentSync(task.projPath, task.instrFiles, task.instrModules, task.testName);
+    process.chdir(projectCache);
 
     var testName = task.testName;
-    console.log(projPath, testName, task)
+    console.log(targetPath, testName, task)
     var resDirName = path.resolve(resultsDir, testName);
     fs.mkdirSync(resDirName);
 
@@ -51,7 +55,7 @@ function run(task) {
     var children = [];
     
     // Analysis testcases with Jalangi
-    utils.runFile(task.startFile, projPath, function() {
+    utils.runFile(task.startFile, targetPath, function() {
         console.log("New iteration");
         newIteration = true;
     }, function(cp) {
@@ -71,8 +75,6 @@ function run(task) {
 
 }
 
-
-
 function getFilesToInstr(path) {
     var res = [];
     if (fs.existsSync(path)) {
@@ -91,8 +93,6 @@ function getFilesToInstr(path) {
     }
     return res;
 }
-
-
 
 // entry point
 run(tasks.pop());
