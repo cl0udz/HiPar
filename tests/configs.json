@@ -4,7 +4,6 @@
 	    "projPath": "./target/TestMongoParse",
 	    "startFile": "./TestMongoParse.js",
 	    "instrFiles": ["./TestMongoParse.js","../Utils.js"],
-	    "instrModules": ["mongo-parse"],
 		"sources": "intf"
 	},
 	{
@@ -12,7 +11,6 @@
 	    "projPath": "./target/TestMongoDb",
 	    "startFile": "./TestMongoDb.js",
 	    "instrFiles": ["./TestMongoDb.js","../Utils.js"],
-	    "instrModules": ["mongodb","bson"],
 		"sources": "intf"
 	}
 ]

@@ -17,7 +17,7 @@
 
     // instrument js files 
 
-    function instrumentSync(projectDir, files2Instru, modules2Instru, testName, callback) {
+    function instrumentSync(projectDir, files2Instru, testName, callback) {
 
         var projectCache = path.resolve(cacheRoot, projectDir.split('/target/')[1])
         var completed = path.resolve(projectCache, "complete_instrumented");
@@ -44,9 +44,7 @@
             files = files.concat(getFilesRec(path.resolve(projectDir, files2Instru[i])));
         }
         // add module files to file list
-        for (var i = 0; i < modules2Instru.length; i++) {
-            files = files.concat(getFilesRec(path.resolve(projectDir, "./node_modules/" + modules2Instru[i])))
-        }
+        files = files.concat(getFilesRec(path.resolve(projectDir, "./node_modules/")))
         // output all instrumented file to instrumented.txt
         var iFileOut = path.resolve(projectCache, "instrumented.txt");
         fs.writeFileSync(iFileOut, "");
