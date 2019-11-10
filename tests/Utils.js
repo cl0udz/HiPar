@@ -45,7 +45,7 @@
         }
         // add module files to file list
         for (var i = 0; i < modules2Instru.length; i++) {
-            files = files.concat(getFilesRec(path.resolve(projectDir, "./node_modules/" + modules2Instru)))
+            files = files.concat(getFilesRec(path.resolve(projectDir, "./node_modules/" + modules2Instru[i])))
         }
         // output all instrumented file to instrumented.txt
         var iFileOut = path.resolve(projectCache, "instrumented.txt");

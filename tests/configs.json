@@ -12,7 +12,7 @@
 	    "projPath": "./target/TestMongoDb",
 	    "startFile": "./TestMongoDb.js",
 	    "instrFiles": ["./TestMongoDb.js","../Utils.js"],
-	    "instrModules": ["mongodb"],
+	    "instrModules": ["mongodb","bson"],
 		"sources": "intf"
 	}
 ]
