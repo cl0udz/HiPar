@@ -23,7 +23,7 @@ exports.get_name_by_loc = function get_name_by_loc(loc){
         console.log(tynt.Red("[x] get_name_by_loc error: " + JSON.stringify(loc)+ ' not found'));
         return -1;
     }
-    console.log(cmd.res);
+    // console.log(cmd.res);
     return cmd.res[0];
 }
 
@@ -137,6 +137,14 @@ function read_standalone_or_base(node, path, cmd){
         }else if (node.object.type === "Identifier"){
             found_name = node.object.name;
         }else {
+            if (node.object.type === "CallExpression") {
+                cmd.res.push(-1);
+                return;
+            }
+            if (node.object.type === "Literal") {
+                cmd.res.push(-1);
+                return;
+            }
             console.log(tynt.Red("[x] read_standalone_or_base error: unknown object type" + JSON.stringify(node.object)));
         }
         cmd.res.push(path.join(".") + '.' + found_name);
@@ -144,7 +152,7 @@ function read_standalone_or_base(node, path, cmd){
     }else{
         // this is a standalone var
         if (JSON.stringify(node.loc) === JSON.stringify(cmd.loc)){
-            cmd.res.push(node.name); 
+            cmd.res.push(path.join(".") +"."+ node.name); 
             return;
         }else{
             console.log(tynt.Red("[x] read_standalone_or_base error: not a standalone object iid" + JSON.stringify(node)));
@@ -204,15 +212,15 @@ function read_property(node, path, offset, cmd){
 }
 
 var loc = {
-    "file_loc": "test.js",
+    "file_loc": "../../tests/target/Utils.js",
     "var_loc": {
         "start": {
-            "line": 2,
-            "column": 2
+            "line": 67,
+            "column": 11
         },
         "end": {
-            "line": 2,
-            "column": 3 
+            "line": 67,
+            "column": 33 
         }
     }
 }
