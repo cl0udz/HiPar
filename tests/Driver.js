@@ -44,7 +44,7 @@ function run(task) {
     if(!useCache && fs.existsSync(completed))
         fs.rmdirSync(completed);
     var targetPath = utils.instrumentSync(task.projPath, task.instrFiles, task.testName);
-    process.chdir(projectCache);
+    process.chdir(cacheRoot);
 
     var testName = task.testName;
     console.log(targetPath, testName, task)

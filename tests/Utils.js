@@ -36,7 +36,7 @@
         });
         console.log("[+]Copying all project files to projectCache ...done");
 
-        process.chdir(projectCache);
+        process.chdir(cacheRoot);
         var files = [];
         console.log(files2Instru.length + " Files to be instrumented.");
         // add Testxxx files to file list 
