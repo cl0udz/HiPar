@@ -9,7 +9,7 @@ exports.analyze_hidden_attr = function analyze_hidden_attr(file_loc, domain){
     var content = fs.readFileSync(file_loc, 'utf-8');
     var cmd = {'mode':'getAll', 'res' : []};
     search_all_attr(file_loc, content, cmd);
-    console.log(cmd.res);
+    // console.log(cmd.res);
     var taint_lst = cal_taintable_attr(domain, cmd.res);
     return taint_lst;
 
