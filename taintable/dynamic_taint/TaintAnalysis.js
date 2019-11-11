@@ -52,7 +52,7 @@ J$.analysis = {};
                 console.log(JSON.stringify(loc));
                 
                 name = attr_finder.get_name_by_loc(loc);
-                console.log("[get name] " + name);
+                //console.log("[get name] " + name);
                 
                 return [loc['file_loc'], name];
             } else {
@@ -171,10 +171,10 @@ J$.analysis = {};
                         //console.log(val);
                   	    if(omap.get(base) == undefined){
                     	    omap.set(val, name_data[1] + "." + offset);
-                            console.log("[omap] value: " + omap.get(val));
+                            //console.log("[omap] value: " + omap.get(val));
                         } else {
         	                omap.set(val, omap.get(base) + "." + offset);
-                            console.log("[omap] value: " + omap.get(val));
+                            //console.log("[omap] value: " + omap.get(val));
                         }
                     }
                 } catch (e){
