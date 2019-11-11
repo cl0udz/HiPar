@@ -49,7 +49,7 @@ J$.analysis = {};
                 loc['var_loc']['start']['column'] = parseInt(content[2], 10) - 1;
                 loc['var_loc']['end']['line'] = parseInt(content[3], 10);
                 loc['var_loc']['end']['column'] = parseInt(content[4], 10) - 1;
-                console.log(JSON.stringify(loc));
+                //console.log(JSON.stringify(loc));
                 
                 name = attr_finder.get_name_by_loc(loc);
                 //console.log("[get name] " + name);
@@ -115,12 +115,12 @@ J$.analysis = {};
             // offset   ->      the string "b"
             // val      ->      object c
             if(val && val.hasOwnProperty('tainted') && val.tainted == "source"){
-                console.log("base: type is " + typeof(base) + ", content is" + JSON.stringify(base));
-                console.log(base);
-                console.log("offset: type is " + typeof(base) + ", content is" + JSON.stringify(offset));
-                console.log(offset);
-                console.log("val: type is " + typeof(base) + ", content is" + JSON.stringify(val));
-                console.log(val);
+                //console.log("base: type is " + typeof(base) + ", content is" + JSON.stringify(base));
+                //console.log(base);
+                //console.log("offset: type is " + typeof(base) + ", content is" + JSON.stringify(offset));
+                //console.log(offset);
+                //console.log("val: type is " + typeof(base) + ", content is" + JSON.stringify(val));
+                //console.log(val);
 
                 taint_tag_to_input[val.tainted_iiid].location = iidToLocation(iid);
                 console.log("---------New Taint - putField--------");
