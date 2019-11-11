@@ -131,12 +131,18 @@ function read_standalone_or_base(node, path, cmd){
     if (node.hasOwnProperty("property")){
         // this is a member expr 
         // check if object match
-        var found_name;
-        if (node.object.type === "ThisExpression"){
-            found_name = "this";
-        }else if (node.object.type === "Identifier"){
-            found_name = node.object.name;
-        }else {
+        if (node.object.type === "Identifier"){
+            path.push( node.object.name );
+        }else if (node.object.type === "MemberExpression"){
+            if (node.object.object.type === "ThisExpression"){
+                path.push("this");
+            } else if (node.object.object.type === "Identifier"){
+                path.push(node.object.object.name);
+                console.log(path);
+            }else{
+                console.log(tynt.Red("[x] read_standalone_or_base error: unknown object type" + JSON.stringify(node.object.object)));
+            }
+        } else{
             if (node.object.type === "CallExpression") {
                 cmd.res.push(-1);
                 return;
@@ -147,12 +153,13 @@ function read_standalone_or_base(node, path, cmd){
             }
             console.log(tynt.Red("[x] read_standalone_or_base error: unknown object type" + JSON.stringify(node.object)));
         }
-        cmd.res.push(path.join(".") + '.' + found_name);
+        cmd.res.push(path.join("."));
         return;
     }else{
         // this is a standalone var
         if (JSON.stringify(node.loc) === JSON.stringify(cmd.loc)){
-            cmd.res.push(path.join(".") +"."+ node.name); 
+            path.push(node.name)
+            cmd.res.push(path.join(".")); 
             return;
         }else{
             console.log(tynt.Red("[x] read_standalone_or_base error: not a standalone object iid" + JSON.stringify(node)));
@@ -212,18 +219,18 @@ function read_property(node, path, offset, cmd){
 }
 
 var loc = {
-    "file_loc": "../../tests/target/Utils.js",
+    "file_loc": "../../tests/target/TestMongoDb/node_modules/memory-pager/index.js",
     "var_loc": {
         "start": {
-            "line": 67,
-            "column": 11
+            "line": 11,
+            "column": 18
         },
         "end": {
-            "line": 67,
-            "column": 33 
+            "line": 11,
+            "column": 28 
         }
     }
 }
 
-// exports.get_name_by_loc(loc);
+//  exports.get_name_by_loc(loc);
 // exports.analyze_hidden_attr('../../tests/target/current/node_modules/mongodb/lib/core/wireprotocol/query.js',['query']);
