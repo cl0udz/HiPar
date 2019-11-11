@@ -24,7 +24,7 @@ exports.get_name_by_loc = function get_name_by_loc(loc){
         console.log(tynt.Red("[x] get_name_by_loc error: " + JSON.stringify(loc)+ ' not found'));
         return -1;
     }
-    // console.log(cmd.res);
+    console.log(cmd.res);
     return cmd.res[0];
 }
 
@@ -50,7 +50,6 @@ function search_all_attr(file_loc, text, cmd) {
         console.log(tynt.Red("\n[x] get_all_attr : Error when parsing "+ file_loc +", Will ignore this file.\n" + e));
         return;
     }
-    //console.log(ast);
     traverse(ast['body'], [], propertyVisitor, cmd);
     return;
 }
@@ -131,20 +130,15 @@ function read_standalone_or_base(node, path, cmd){
     // find the exact match of the loc 
     if (node.hasOwnProperty("property")){
         // this is a member expr 
-        // check if object match
+        
+        // find the a in a.b.c.d.e.f 
+        while (node.object.type === "MemberExpression") node = node.object;
+        
         if (node.object.type === "Identifier"){
             path.push( node.object.name );
-        }else if (node.object.type === "MemberExpression"){
-            while (node.object.type === "MemberExpression") node = node.object;
-            if (node.object.type === "ThisExpression"){
-                path.push("this");
-            } else if (node.object.type === "Identifier"){
-                path.push(node.object.name);
-            }else{
-                console.log(tynt.Red("[x] read_standalone_or_base error: unknown object type" + JSON.stringify(node.object.object)));
-                return;
-            }
-        } else{
+        } else if (node.object.type === "ThisExpression"){
+            path.push("this");
+        } else {
             if (node.object.type === "CallExpression") {
                 cmd.res.push(-1);
                 return;
@@ -153,10 +147,23 @@ function read_standalone_or_base(node, path, cmd){
                 cmd.res.push(-1);
                 return;
             }
-            console.log(tynt.Red("[x] read_standalone_or_base error: unknown object type" + JSON.stringify(node.object)));
+            if (node.object.type === "NewExpression") {
+                cmd.res.push(-1);
+                return;
+            }
+            if (node.object.type === "ArrayExpression") {
+                cmd.res.push(-1);
+                return;
+            }
+            console.log(tynt.Red("[x] read_standalone_or_base error: unknown object type " + JSON.stringify(node.object.type)));
+            cmd.res.push(-1);
+            return;
         }
+
+        // return results here 
         cmd.res.push(path.join("."));
         return;
+    
     }else{
         // this is a standalone var
         if (JSON.stringify(node.loc) === JSON.stringify(cmd.loc)){
@@ -164,7 +171,7 @@ function read_standalone_or_base(node, path, cmd){
             cmd.res.push(path.join(".")); 
             return;
         }else{
-            console.log(tynt.Red("[x] read_standalone_or_base error: not a standalone object iid" + JSON.stringify(node)));
+            console.log(tynt.Red("[x] read_standalone_or_base error: not a standalone object iid " + JSON.stringify(node)));
         }
     }
 
@@ -229,19 +236,19 @@ function read_property(node, path, offset, cmd){
 }
 
 var loc = {
-    "file_loc": "../../tests/target/TestMongoDb/node_modules/bson/lib/bson/parser/serializer.js",
+    "file_loc": "../../tests/target/TestMongoDb/node_modules/mongodb/lib/topologies/server.js",
     "var_loc": {
         "start": {
-            "line": 26,
-            "column": 9
+            "line": 329,
+            "column": 8
         },
         "end": {
-            "line": 26,
-            "column": 39 
+            "line": 329,
+            "column": 56 
         }
     }
 }
 // exports.analyze_hidden_attr("test.js", []);
 
-// exports.get_name_by_loc(loc);
+//  exports.get_name_by_loc(loc);
 // exports.analyze_hidden_attr('../../tests/target/TestMongoDb/node_modules/bson/lib/bson/parser/serializer.js',['']);
