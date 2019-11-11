@@ -241,7 +241,7 @@ var loc = {
         }
     }
 }
-exports.analyze_hidden_attr("test.js", []);
+// exports.analyze_hidden_attr("test.js", []);
 
 // exports.get_name_by_loc(loc);
 // exports.analyze_hidden_attr('../../tests/target/TestMongoDb/node_modules/bson/lib/bson/parser/serializer.js',['']);
