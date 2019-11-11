@@ -30,7 +30,7 @@ J$.analysis = {};
             if (f == undefined || !f.hasOwnProperty("name")){
                 return;
             }
-            var log_info = 'func# ' + f.name + ' ' + loc;
+            var log_info = f.name + ' ' + loc;
             log_buffer.push(log_info);
             if(f.name && f.name == "log_trace_and_cmp"){
                 // write buf to log here
@@ -40,13 +40,6 @@ J$.analysis = {};
                     write_log(baseline_path);
                 }
             }
-        };
-
-        this.read = function (iid, name, val, isGlobal) {
-            var loc = iidToLocation(iid).replace(project_root, "");
-            var log_info = 'var# ' + name + ' ' + loc;
-            log_buffer.push(log_info);
-            return val;
         };
 
     }
