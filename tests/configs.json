@@ -3,14 +3,14 @@
 	    "testName": "mongo-parse",
 	    "projPath": "./target/TestMongoParse",
 	    "startFile": "./TestMongoParse.js",
-	    "instrFiles": ["./TestMongoParse.js","../Utils.js"],
+	    "instrFiles": ["./TestMongoParse.js","./Utils.js"],
 		"sources": "intf"
 	},
 	{
 		"testName": "mongodb",
 	    "projPath": "./target/TestMongoDb",
 	    "startFile": "./TestMongoDb.js",
-	    "instrFiles": ["./TestMongoDb.js","../Utils.js"],
+	    "instrFiles": ["./TestMongoDb.js","./Utils.js"],
 		"sources": "intf"
 	}
 ]
