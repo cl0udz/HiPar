@@ -9,6 +9,7 @@ exports.analyze_hidden_attr = function analyze_hidden_attr(file_loc, domain){
     var content = fs.readFileSync(file_loc, 'utf-8');
     var cmd = {'mode':'getAll', 'res' : []};
     search_all_attr(file_loc, content, cmd);
+    console.log(cmd.res);
     var taint_lst = cal_taintable_attr(domain, cmd.res);
     return taint_lst;
 
@@ -134,13 +135,14 @@ function read_standalone_or_base(node, path, cmd){
         if (node.object.type === "Identifier"){
             path.push( node.object.name );
         }else if (node.object.type === "MemberExpression"){
-            if (node.object.object.type === "ThisExpression"){
+            while (node.object.type === "MemberExpression") node = node.object;
+            if (node.object.type === "ThisExpression"){
                 path.push("this");
-            } else if (node.object.object.type === "Identifier"){
-                path.push(node.object.object.name);
-                console.log(path);
+            } else if (node.object.type === "Identifier"){
+                path.push(node.object.name);
             }else{
                 console.log(tynt.Red("[x] read_standalone_or_base error: unknown object type" + JSON.stringify(node.object.object)));
+                return;
             }
         } else{
             if (node.object.type === "CallExpression") {
@@ -174,16 +176,21 @@ function read_property(node, path, offset, cmd){
        // it is a member expr 
         if (node.property.type === "Literal"){
             // it is a array indexing expr (a['c'])
-            path.splice(offset,0, node.property.value);
-        }else if (node.property.type === "Identifier"){
+            path.splice(offset, 0, node.property.value);
+        }else if (node.property.type === "Identifier" && !node.computed){
             // it is a attribute indexing expr (a.c)
             path.splice(offset, 0, node.property.name);
         }else if (node.property.type === "MemberExpression"){
             // it is a nested indexing expr (a[b[c]]),we just igore a and read b[c]
             read_property(node.property, path, offset, cmd);
             return; 
-        }else{
-            console.log(tynt.Red("[x] read_property error: unknow attribute indexing type" + JSON.stringify(node)));
+        }else if (node.property.type != "Literal" && node.computed){
+            // for query[key], we just record query
+            // so we pop anything after key
+            while (path.length > offset) path.pop();
+        }else {
+            console.log(tynt.Red("[x] read_property error: unknown attribute indexing type " + JSON.stringify(node.property.type)));
+            return;
         }
 
         if ( node.object.type === "Identifier" ){
@@ -199,7 +206,10 @@ function read_property(node, path, offset, cmd){
         } else if (node.object.type === "ThisExpression" ){
             // the object attr is 'this' keyword 
             path.splice(offset, 0, "this");
-            read_property(node.property, path, offset, cmd);
+            var path_to_store = path.join('.');
+            if (cmd.res.indexOf(path_to_store) === -1 ){
+                cmd.res.push(path_to_store);
+            }
         } else {
             // this is statement like func('aaa').b, just ignore
             if ( node.object.type === "CallExpression" ) return;
@@ -219,18 +229,19 @@ function read_property(node, path, offset, cmd){
 }
 
 var loc = {
-    "file_loc": "../../tests/target/TestMongoDb/node_modules/memory-pager/index.js",
+    "file_loc": "../../tests/target/TestMongoDb/node_modules/bson/lib/bson/parser/serializer.js",
     "var_loc": {
         "start": {
-            "line": 11,
-            "column": 18
+            "line": 26,
+            "column": 9
         },
         "end": {
-            "line": 11,
-            "column": 28 
+            "line": 26,
+            "column": 39 
         }
     }
 }
+exports.analyze_hidden_attr("test.js", []);
 
-//  exports.get_name_by_loc(loc);
-// exports.analyze_hidden_attr('../../tests/target/current/node_modules/mongodb/lib/core/wireprotocol/query.js',['query']);
+// exports.get_name_by_loc(loc);
+// exports.analyze_hidden_attr('../../tests/target/TestMongoDb/node_modules/bson/lib/bson/parser/serializer.js',['']);
