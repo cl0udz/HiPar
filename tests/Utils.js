@@ -76,19 +76,23 @@
     //Instrument Single Js File
     function runFile(filename, targetDir, callback, iterationsCallback, creationCallback) {
         var file = path.resolve(targetDir + "/" + filename)
-        var analysisPath = path.resolve(__dirname, "../taintable/dynamic_taint/TaintAnalysis.js")
-        var ctrlFlowMonPath = path.resolve(__dirname, "../taintable/dynamic_taint/ControlFlowMon.js")
-        var mainProc = null;
+        var analysisPath = path.resolve(__dirname, "../taintable/dynamic_taint/TaintAnalysis.js");
+        var ctrlFlowMonPath = path.resolve(__dirname, "../taintable/dynamic_taint/ControlFlowMon.js");
+        var HiparVerifyPath = path.resolve(__dirname, "../taintable/dynamic_taint/HiparVerification.js");
         console.log("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/analyses/ChainedAnalyses.js") + " --analysis " + analysisPath + " --analysis " + ctrlFlowMonPath + " " + escapeShell(file))
 
 
         //var runProcCtrlFlow = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + ctrlFlowMonPath + " --analysis " + analysisPath + " " + escapeShell(file));
-        console.log("[+] Analysis Result :")
+        console.log("[+] Analysis Result :");
         var runProc = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/analyses/ChainedAnalyses.js") + " --analysis " + analysisPath + " --analysis " + ctrlFlowMonPath + " " + escapeShell(file));
 
         //var runProc = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + analysisPath  + " " + escapeShell(file));
         //console.log("executing: " + "node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + analysisPath + " " + escapeShell(file))
-        console.log(runProc.toString())
+        console.log(runProc.toString());
+
+        console.log("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + HiparVerifyPath + " " + escapeShell(file));
+        var verifyProc = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + HiparVerifyPath + " " + escapeShell(file));
+        console.log(verifyProc);
 
 
     }

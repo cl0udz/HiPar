@@ -4,7 +4,6 @@ var path = require('path')
 var utils = require(path.resolve(__dirname,"../Utils.js"))
 
 const url = 'mongodb://localhost:27017';
- 
 // Database Name
 const dbName = 'myproject';
  
@@ -79,7 +78,7 @@ function test(query) {
 // control iterations and pass names to Analysis Func
 function main(){
 	var query = {'a': 3}
-	utils.loopProperty(test,query)
+	utils.loopProperty(test,query,__dirname)
 }
 
 

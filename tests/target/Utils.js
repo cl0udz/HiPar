@@ -1,9 +1,10 @@
 var path = require('path');
 var tynt = require('tynt');
+var fs = require('fs')
 var traceCmp = require(path.resolve(__dirname, "../../taintable/utils/traceCmp.js"));
 
 //loop iteration
-function loopProperty(testFunc, param) {
+function loopProperty(testFunc, param, ProjectDir) {
     var properties = Object.getOwnPropertyNames(param);
     console.log("properties: ", properties);
 
@@ -11,7 +12,7 @@ function loopProperty(testFunc, param) {
     console.log(tynt.Green('[-]Running test with purely untainted param'));
     testFunc(param);
     traceCmp.log_trace_and_cmp(-1);
-    
+
     //Running test with with tainted property
     for (var property of properties) {
         console.log(tynt.Green('[-]Running test with tainted property: ' + property));
@@ -27,9 +28,33 @@ function loopProperty(testFunc, param) {
     console.log(tynt.Green('[-]Running test with param tainted in root'));
     testFunc(param);
     traceCmp.log_trace_and_cmp(varName);
+
+
+    //verify Hipar 
+    verifyPath = path.resolve(__dirname, "../../outputs/hidden_attr/" + ProjectDir.split('/').pop() + ".json")
+    console.log(tynt.Green("located verify json file in "+verifyPath));
+    if (fs.existsSync(verifyPath)) {
+        console.log(tynt.Green('[-]Verifying hidden Parameter'));
+        var result = JSON.parse(fs.readFileSync(verifyPath));
+        console.log(result);
+        for (var property in result) {
+            for (var hipar_name in result[property]) {
+                var hipar_path = result[property][hipar_name];
+                console.log(tynt.Green('adding the magic word to ' + hipar_name + ' of property ' + property));
+                var tmp = clone(param); // generate a copy of param
+                tmp[property][hipar_name] = "H1P4r";
+                verify_hipar(hipar_path, hipar_name);
+                testFunc(tmp);
+            }
+        }
+    }
 }
 
 function source(source_var) {
+    return source_var;
+}
+
+function verify_hipar(source_var) {
     return source_var;
 }
 

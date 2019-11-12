@@ -9,4 +9,4 @@ var query = {
     "id": "101"
 };
 
-utils.loopProperty(parser.parse,query);
+utils.loopProperty(parser.parse,query,__dirname);
