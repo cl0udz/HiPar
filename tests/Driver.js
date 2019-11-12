@@ -68,7 +68,7 @@ function run(task) {
 
     
     if (tasks.length > 0) {
-        run(tasks.pop());
+        run(tasks.shift());
     } else {
         process.exit(0);
     }
@@ -95,4 +95,4 @@ function getFilesToInstr(path) {
 }
 
 // entry point
-run(tasks.pop());
+run(tasks.shift());
