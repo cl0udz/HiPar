@@ -1,1 +1,0 @@
-babel src --out-dir lib --copy-files --presets=@babel/preset-env

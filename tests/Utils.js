@@ -22,41 +22,39 @@
         var projectCache = path.resolve(cacheRoot, projectDir.split('/target/')[1])
         var completed = path.resolve(projectCache, "complete_instrumented");
         console.log("instrumentSync:" + projectDir);
+        var files = [];
 
         if (fs.existsSync(completed)) {
-            console.log(tynt.Green("Cache of " + testName + " found"));
-            return projectCache;
+            console.log(tynt.Green("Cache of module " + testName + " found"));
         }
-        else console.log(tynt.Red("Cache of " + testName + " not found. Start instrumenting new files"));
-
-        console.log("[-]Copying all project files to prjectCache");
-        //copy all files in project to temp directory
-        wrench.copyDirSyncRecursive(projectDir, projectCache, {
-            forceDelete: true
-        });
-        console.log("[+]Copying all project files to projectCache ...done");
+        else{ 
+            console.log(tynt.Red("Cache of module " + testName + " not found. Start instrumenting new files"));
+            console.log("[-]Copying all project files to prjectCache");
+            //copy all files in project to temp directory
+            wrench.copyDirSyncRecursive(projectDir, projectCache, {
+                forceDelete: true
+            });
+            console.log("[+]Copying all project files to projectCache ...done");
+            // add module files to file list
+            files = files.concat(getFilesRec(path.resolve(projectDir, "./node_modules/")))
+        }
 
         process.chdir(cacheRoot);
-        var files = [];
+        
         console.log(files2Instru.length + " Files to be instrumented.");
         // add Testxxx files to file list 
         for (var i = 0; i < files2Instru.length; i++) {
             files = files.concat(getFilesRec(path.resolve(projectDir, files2Instru[i])));
         }
-        // add module files to file list
-        files = files.concat(getFilesRec(path.resolve(projectDir, "./node_modules/")))
-        // output all instrumented file to instrumented.txt
-        var iFileOut = path.resolve(projectCache, "instrumented.txt");
-        fs.writeFileSync(iFileOut, "");
+
+
         // instrument all files in file list
         for (var i = 0; i < files.length; i++) {
             console.log(files[i]);
-            fs.appendFileSync(iFileOut, files[i]);
             instrumentFile(files[i], cacheRoot);
         }
-
-        //Back up instrumented files to cache 
-        fs.mkdirSync(completed);
+        if(!fs.existsSync(completed))
+            fs.mkdirSync(completed);
         return projectCache;
     }
 
@@ -81,19 +79,16 @@
         var analysisPath = path.resolve(__dirname, "../taintable/dynamic_taint/TaintAnalysis.js")
         var ctrlFlowMonPath = path.resolve(__dirname, "../taintable/dynamic_taint/ControlFlowMon.js")
         var mainProc = null;
-        console.log("=========================================================")
         console.log("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/analyses/ChainedAnalyses.js") + " --analysis " + analysisPath + " --analysis " + ctrlFlowMonPath + " " + escapeShell(file))
-        console.log("[+] ControlFlowMon  Result :")
+
 
         //var runProcCtrlFlow = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + ctrlFlowMonPath + " --analysis " + analysisPath + " " + escapeShell(file));
         var runProc = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/analyses/ChainedAnalyses.js") + " --analysis " + analysisPath + " --analysis " + ctrlFlowMonPath + " " + escapeShell(file));
 
         //var runProc = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + analysisPath  + " " + escapeShell(file));
-        //console.log("=========================================================")
         //console.log("executing: " + "node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + analysisPath + " " + escapeShell(file))
         console.log("[+] Analysis Result :")
         console.log(runProc.toString())
-        console.log("=========================================================")
 
 
     }
