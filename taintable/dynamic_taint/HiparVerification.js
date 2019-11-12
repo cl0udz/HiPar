@@ -1,5 +1,5 @@
 /*
- * control flow monitor by calltrace and vartrace
+ * Hipar Dynamic Verification
  */
 const path = require('path')
 const tynt = require('tynt');
@@ -11,6 +11,16 @@ J$.analysis = {};
         var file_path;
         var hipar_name;
         var is_found = false;
+
+        function visit_obj(obj){
+            var proto_flag = false;
+            var attr_flag = has_hipar(obj);
+            // check hipar in prototype
+            if (obj) {
+                proto_flag = has_hipar(obj.__proto__);
+            }
+            return attr_flag || proto_flag ; 
+        }
 
         function check_hipar(obj) {
             var walked = [];
@@ -63,11 +73,13 @@ J$.analysis = {};
         };
 
         this.read = function (iid, name, val, isGlobal) {
-            if ( !is_found && file_path && iidToLocation(iid) == file_path) {
-                if (check_hipar(val)){
+            var cur_file = iidToLocation(iid);
+            console.log(cur_file);
+            if ( !is_found && file_path && cur_file == file_path) {
+                if (visit_obj(val)){
                     console.log(tynt.Green("[+] HiparVerification HiPar found in " + name + " at " + file_path));
                     is_found = true;
-                    }
+                }
             }
             return val;
         };
