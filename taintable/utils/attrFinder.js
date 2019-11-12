@@ -24,7 +24,7 @@ exports.get_name_by_loc = function get_name_by_loc(loc){
         console.log(tynt.Red("[x] get_name_by_loc error: " + JSON.stringify(loc)+ ' not found'));
         return -1;
     }
-    console.log(cmd.res);
+    //console.log(cmd.res);
     return cmd.res[0];
 }
 
