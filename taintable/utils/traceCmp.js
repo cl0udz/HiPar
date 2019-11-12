@@ -25,7 +25,7 @@ exports.log_trace_and_cmp = function log_trace_and_cmp(tainted_arg){
         console.log('[+] ControlFlowMon execution paths correct with ' + tainted_arg);
     }else{
         console.log('[x] ControlFlowMon execution path diffs with '+ tainted_arg);
-        console.log(fs.readFileSync(diff_path).toString('utf8'));
+        // console.log(fs.readFileSync(diff_path).toString('utf8'));
     }
 }
 
