@@ -67,7 +67,7 @@
                 console.log("node " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " " + escapeShell(filePath) + " --out " + escapeShell(targetFilePath));
                 execSync("node " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " " + escapeShell(filePath) + " --out " + escapeShell(targetFilePath));
             } catch (e) {
-                console.log("\nPreprocessor: Error when instrumenting " + file + ". Will ignore this file.\n" + e);
+                console.log(tynt.Red("\nPreprocessor: Error when instrumenting " + file + ". Will ignore this file.\n" + e +"\nPlease try babel to format the target js file to ES5"));
                 return;
             }
         }
