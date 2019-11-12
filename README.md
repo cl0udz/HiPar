@@ -1,5 +1,4 @@
-# How to install
+# How to run
 
-1. cd Goldie
-2. export PATH=`pwd`/node-v5.7.1-linux-x64/bin:$PATH
-3. ln -s `pwd`/node-v5.7.1-linux-x64/lib/node_modules/iflow `pwd`/iflow/iflow2017-sp/pu/tests/object_as_inputs-2/node_modules
+1. Install node 5.7.1(we haven't tested our tool on other version of node)
+2. cd to tests and execute node Driver.js Target_path
