@@ -6,7 +6,7 @@ var traceCmp = require(path.resolve(__dirname, "../../taintable/utils/traceCmp.j
 //loop iteration
 function loopProperty(testFunc, param, ProjectDir) {
     var properties = Object.getOwnPropertyNames(param);
-    console.log("properties: ", properties);
+    
 
     //Running test with purely untainted param
     console.log(tynt.Green('[-]Running test with purely untainted param'));
@@ -14,6 +14,8 @@ function loopProperty(testFunc, param, ProjectDir) {
     traceCmp.log_trace_and_cmp(-1);
 
     //Running test with with tainted property
+    if(typeof(param) == 'string') return;
+    console.log("properties: ", properties);
     for (var property of properties) {
         console.log(tynt.Green('[-]Running test with tainted property: ' + property));
         var tmp = clone(param); // generate a copy of param
