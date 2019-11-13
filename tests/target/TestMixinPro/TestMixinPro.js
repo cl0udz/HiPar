@@ -1,7 +1,6 @@
 var utils = require(__dirname + "/../Utils.js");
 var mixin = require("mixin-pro");
 
-var x = {};
 
 
 // traditional: create base class Foo, Foo1, Foo2, ...
@@ -15,6 +14,12 @@ Foo.prototype = {
    t1: function() { console.log('Foo1->t1()'); }
 };
 // normal mixin: add features to existing classes
-var Foo1 = mixin(Foo1, Foo);
+function test(payload){
+    console.log(Foo1);
+    console.log(payload)
+    var Foo1 = mixin(Foo1, payload);
+    console.log(Foo1);
+}
 
+utils.loopProperty(test,Foo);
 
