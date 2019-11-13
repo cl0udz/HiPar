@@ -19,6 +19,7 @@ J$.analysis = {};
         var iid_to_name = {};
 
         var omap = new WeakMap();
+        var tainted_var = {};
 
         var currentFunc;
         var valueID = 0;
@@ -112,6 +113,7 @@ J$.analysis = {};
                 //console.log(("[source] name: " + args[1]));
 
                 hidden_attr[args[1]] = {};
+                tainted_var[args[1]] = [];
 
                 source_executed = true;
             }
@@ -141,7 +143,7 @@ J$.analysis = {};
             // offset   ->      the string "b"
             // val      ->      object c
             
-            if(taint_state && val && source_executed){
+            if(taint_state && val ){//&& source_executed){
                 name_data = get_loc_by_iid(iid);
                 if(name_data == null)
                     return val;
@@ -161,23 +163,29 @@ J$.analysis = {};
                     console.log(tynt.Red("[Error] val: " + val));
                 }
 
+                try{
 	            if(val && val.hasOwnProperty('tainted') && val.tainted > 0 && analysis_property.indexOf(offset) == -1){
-                    //console.log(("[Tainted variable] source name: " + taint_tag_to_input[val.tainted_iiid].name));//+ ", val: " + val);
-		    
                     val.tainted_loc = name_data[0];
 
-                    //console.log("[tainted_path] " + omap.get(val));
                     if(name_data != null){
-                        //console.log(("[Tainted variable - getField] current name: " + omap.get(val)));
-                        //console.log(("arg[0]: " + name_data[0]));
-                        hidden_list = attr_finder.analyze_hidden_attr(name_data[0], [omap.get(val)]);
+                        //tainted_var[taint_tag_to_input[val.tainted].name].push([name_data[0], [omap.get(val)]]);
+                        //hidden_list = attr_finder.analyze_hidden_attr(name_data[0], [omap.get(val)]);
                         //console.log(tynt.Green("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + hidden_list));
+                        if(tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]] == undefined)
+                            tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]] = [omap.get(val)];
+                        else if(tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]].indexOf(omap.get(val)) == -1)
+                            tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]].push(omap.get(val));
                             
-                        for(var key in hidden_list){
-                            original_param = hidden_list[key].split(".");
-                            hidden_attr[taint_tag_to_input[val.tainted].name][original_param[original_param.length - 1]] = name_data[0];
-                        }
+                        //for(var key in hidden_list){
+                        //    original_param = hidden_list[key].split(".");
+                        //    hidden_attr[taint_tag_to_input[val.tainted].name][original_param[original_param.length - 1]] = name_data[0];
+                        //}
                     }
+                }
+                } catch(e){
+                    console.log("val type: " + typeof(val));
+                    console.log(val);
+                    console.log("jiguaner");
                 }
             }
             return val;
@@ -193,13 +201,18 @@ J$.analysis = {};
 	        if(val && val.hasOwnProperty('tainted') && val.tainted > 0){
                 name_data = get_loc_by_iid(iid);
                 if(name_data != null){
+                    if(tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]] == undefined)
+                        tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]] = [name_data[1]];
+                    else if(tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]].indexOf(name_data[1]) == -1)
+                        tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]].push(name_data[1]);
+                    //console.log(name_data[0] + ", " + name_data[1]);
                     //console.log("arg[0]: " + name_data[0]);
-		            hidden_list = attr_finder.analyze_hidden_attr(name_data[0], [name_data[1]]);
+		            //hidden_list = attr_finder.analyze_hidden_attr(name_data[0], [name_data[1]]);
                     //console.log(tynt.Green("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + hidden_list));
-                    for(var key in hidden_list){
-                        original_param = hidden_list[key].split(".");
-                        hidden_attr[taint_tag_to_input[val.tainted].name][original_param[original_param.length - 1]] = name_data[0];
-                    }
+                    //for(var key in hidden_list){
+                    //    original_param = hidden_list[key].split(".");
+                    //    hidden_attr[taint_tag_to_input[val.tainted].name][original_param[original_param.length - 1]] = name_data[0];
+                    //}
 	            }
             }
 
@@ -230,6 +243,21 @@ J$.analysis = {};
             return result_c;
         };
         
+        function get_hidden_attr(tainted_dict){
+            //tainted_dict =  {"param": {file_path: [tainted_varibles], file_path2: [tainted_variable2]}}
+            for(var param in tainted_dict){
+                for(var file in tainted_dict[param]){
+                    console.log("file: " + file + ", param: " + JSON.stringify(tainted_dict[param][file]));
+                    hidden_list = attr_finder.analyze_hidden_attr(file, tainted_dict[param][file]);
+                    console.log("hidden_list: " + hidden_list);
+                    for(var key in hidden_list){
+                        original_param = hidden_list[key].split(".");
+                        hidden_attr[param][original_param[original_param.length - 1]] = file;
+                    }
+                }
+            }
+        }
+
         this.endExecution = function(){
             //console.log(omap);
             if(!source_executed){
@@ -237,9 +265,11 @@ J$.analysis = {};
                 return;
             }
 
-            //console.log("End");
             //console.log("sname: " + sname);
-            console.log(hidden_attr);
+            get_hidden_attr(tainted_var);
+            //console.log(JSON.stringify(tainted_var));
+
+            //console.log(hidden_attr);
             fs.writeFileSync(__dirname + "/../../outputs/hidden_attr/" + sname, JSON.stringify(hidden_attr));
         }
     }
