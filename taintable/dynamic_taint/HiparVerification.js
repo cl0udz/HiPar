@@ -13,12 +13,38 @@ J$.analysis = {};
         var is_found = false;
         var verifed_hipar = [];
 
+
+        function get_loc_by_iid(iid){
+            var vlocation = iidToLocation(iid);
+            // original location format: {file_path:start_line:start_column:end_line:end_column}
+            // all the number start from 1 while not 0
+            if(/.*:\d*:\d*:\d*:\d*/.test(vlocation)){
+                var content = vlocation.slice(1,-1).split(":");
+                var loc = {};
+                //console.log(content);
+                loc['file_loc'] = content[0];
+                loc['var_loc'] = {};
+                loc['var_loc']['start'] = {};
+                loc['var_loc']['end'] = {};
+                loc['var_loc']['start']['line'] = parseInt(content[1], 10);
+
+                loc['var_loc']['start']['column'] = parseInt(content[2], 10) - 1;
+                loc['var_loc']['end']['line'] = parseInt(content[3], 10);
+                loc['var_loc']['end']['column'] = parseInt(content[4], 10) - 1;
+                //console.log(JSON.stringify(loc));
+
+                return loc['file_loc'];
+            } else {
+                return null;
+            }
+        }
+
         function visit_obj(obj){
             var proto_flag = false;
-            var attr_flag = has_hipar(obj);
+            var attr_flag = check_hipar(obj);
             // check hipar in prototype
             if (obj) {
-                proto_flag = has_hipar(obj.__proto__);
+                proto_flag = check_hipar(obj.__proto__);
             }
             return attr_flag || proto_flag ; 
         }
@@ -74,7 +100,7 @@ J$.analysis = {};
         };
 
         this.read = function (iid, name, val, isGlobal) {
-            var cur_file = iidToLocation(iid);
+            var cur_file = get_loc_by_iid(iid);
             if ( !is_found && file_path && cur_file == file_path) {
                 if (visit_obj(val)){
                     verifed_hipar.push((file_path, hipar_name))
@@ -85,7 +111,7 @@ J$.analysis = {};
         };
 
         this.endExecution = function(){
-            // print final result on exit 
+            // print final result on exit
             console.log(tynt.Green("[+] HiparVerification HiPar verified" + verifed_hipar));
         };
     }
