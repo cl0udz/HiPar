@@ -9,7 +9,6 @@ exports.analyze_hidden_attr = function analyze_hidden_attr(file_loc, domain){
     var content = fs.readFileSync(file_loc, 'utf-8');
     var cmd = {'mode':'getAll', 'res' : []};
     search_all_attr(file_loc, content, cmd);
-    // console.log(cmd.res);
     var taint_lst = cal_taintable_attr(domain, cmd.res);
     return taint_lst;
 
@@ -33,6 +32,7 @@ function cal_taintable_attr(domain, attr_lst){
     var taint_lst = [];
     for (const attr of attr_lst){
         for (const d of domain){
+            if (attr == domain) continue;
             if (attr.startsWith(d) && taint_lst.indexOf(attr) === -1){
                 taint_lst.push(attr);
             }
@@ -156,7 +156,6 @@ function read_standalone_or_base(node, path, cmd){
                 return;
             }
             console.log(tynt.Red("[x] read_standalone_or_base error: unknown object type " + JSON.stringify(node.object.type)));
-            cmd.res.push(-1);
             return;
         }
 
@@ -248,7 +247,8 @@ var loc = {
         }
     }
 }
-// exports.analyze_hidden_attr("test.js", []);
+
+// console.log(exports.analyze_hidden_attr("test.js", ['a']));
 
 //  exports.get_name_by_loc(loc);
 // exports.analyze_hidden_attr('../../tests/target/TestMongoDb/node_modules/bson/lib/bson/parser/serializer.js',['']);
