@@ -27,7 +27,7 @@
         if (fs.existsSync(completed)) {
             console.log(tynt.Green("Cache of module " + testName + " found"));
         }
-        else{ 
+        else {
             console.log(tynt.Red("Cache of module " + testName + " not found. Start instrumenting new files"));
             console.log("[-]Copying all project files to prjectCache");
             //copy all files in project to temp directory
@@ -40,7 +40,7 @@
         }
 
         process.chdir(cacheRoot);
-        
+
         console.log(files2Instru.length + " Files to be instrumented.");
         // add Testxxx files to file list 
         for (var i = 0; i < files2Instru.length; i++) {
@@ -49,11 +49,11 @@
 
 
         // instrument all files in file list
+        console.log("Start instrumenting....")
         for (var i = 0; i < files.length; i++) {
-            console.log(files[i]);
             instrumentFile(files[i], cacheRoot);
         }
-        if(!fs.existsSync(completed))
+        if (!fs.existsSync(completed))
             fs.mkdirSync(completed);
         return projectCache;
     }
@@ -64,10 +64,10 @@
             var filePath = path.resolve(file);
             var targetFilePath = path.resolve(cacheRoot, file.toString().split('target/')[1])
             try {
-                console.log("node " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " " + escapeShell(filePath) + " --out " + escapeShell(targetFilePath));
+                process.stdout.write("\rnode " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " " + escapeShell(filePath) + " --out " + escapeShell(targetFilePath));
                 execSync("node " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " " + escapeShell(filePath) + " --out " + escapeShell(targetFilePath));
             } catch (e) {
-                console.log(tynt.Red("\nPreprocessor: Error when instrumenting " + file + ". Will ignore this file.\n" + e +"\nPlease try babel to format the target js file to ES5,or just delete it if it's unused file "));
+                console.log(tynt.Red("\nPreprocessor: Error when instrumenting " + file + ". Will ignore this file.\n" + e + "\nPlease try babel to format the target js file to ES5,or just delete it if it's unused file "));
                 return;
             }
         }
@@ -92,7 +92,7 @@
 
         console.log("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + HiparVerifyPath + " " + escapeShell(file));
         var verifyProc = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + HiparVerifyPath + " " + escapeShell(file));
-        console.log(verifyProc.toString());
+        console.log(tynt.Green(verifyProc.toString()));
 
 
     }

@@ -34,14 +34,14 @@ function loopProperty(testFunc, param, ProjectDir) {
 
     //verify Hipar 
     verifyPath = path.resolve(__dirname, "../../outputs/hidden_attr/" + ProjectDir.split('/').pop() + ".json")
-    console.log(tynt.Green("located verify json file in w"+verifyPath));
+    // console.log(tynt.Green("located verify json file in w"+verifyPath));
     if (fs.existsSync(verifyPath)) {
         console.log(tynt.Green('[-]Verifying hidden Parameter'));
         var result = JSON.parse(fs.readFileSync(verifyPath));
         for (var property in result) {
             for (var hipar_name in result[property]) {
                 var hipar_path = result[property][hipar_name];
-                console.log(tynt.Green('adding the magic word to ' + hipar_name + ' of property ' + property));
+                // console.log(tynt.Green('adding the magic word to ' + hipar_name + ' of property ' + property));
                 var tmp = clone(param); // generate a copy of param
                 tmp[property][hipar_name] = "H1P4r";
                 verify_hipar(hipar_path, hipar_name);
