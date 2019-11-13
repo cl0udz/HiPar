@@ -10,8 +10,11 @@ Foo.prototype = {
    t0: function() { console.log('Foo->t0()'); }
 };
 
+function Foo1() {}
+Foo.prototype = {
+   t1: function() { console.log('Foo1->t1()'); }
+};
 // normal mixin: add features to existing classes
-Foo1 = mixin(Foo1, Foo2);
+var Foo1 = mixin(Foo1, Foo);
 
-mixin(Foo, x);
 
