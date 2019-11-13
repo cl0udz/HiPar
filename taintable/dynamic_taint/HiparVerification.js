@@ -11,6 +11,7 @@ J$.analysis = {};
         var file_path;
         var hipar_name;
         var is_found = false;
+        var verifed_hipar = [];
 
         function visit_obj(obj){
             var proto_flag = false;
@@ -74,17 +75,19 @@ J$.analysis = {};
 
         this.read = function (iid, name, val, isGlobal) {
             var cur_file = iidToLocation(iid);
-            console.log(cur_file);
             if ( !is_found && file_path && cur_file == file_path) {
                 if (visit_obj(val)){
-                    console.log(tynt.Green("[+] HiparVerification HiPar found in " + name + " at " + file_path));
+                    verifed_hipar.push((file_path, hipar_name))
                     is_found = true;
                 }
             }
             return val;
         };
 
-
+        this.endExecution = function(){
+            // print final result on exit 
+            console.log(tynt.Green("[+] HiparVerification HiPar verified" + verifed_hipar));
+        };
     }
 
     sandbox.analysis = new HiparVerification();
