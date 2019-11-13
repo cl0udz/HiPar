@@ -247,9 +247,9 @@ J$.analysis = {};
             //tainted_dict =  {"param": {file_path: [tainted_varibles], file_path2: [tainted_variable2]}}
             for(var param in tainted_dict){
                 for(var file in tainted_dict[param]){
-                    console.log("file: " + file + ", param: " + JSON.stringify(tainted_dict[param][file]));
+                    //console.log("file: " + file + ", param: " + JSON.stringify(tainted_dict[param][file]));
                     hidden_list = attr_finder.analyze_hidden_attr(file, tainted_dict[param][file]);
-                    console.log("hidden_list: " + hidden_list);
+                    //console.log("hidden_list: " + hidden_list);
                     for(var key in hidden_list){
                         original_param = hidden_list[key].split(".");
                         hidden_attr[param][original_param[original_param.length - 1]] = file;
