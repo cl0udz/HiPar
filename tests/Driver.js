@@ -55,13 +55,7 @@ function run(task) {
     var children = [];
     
     // Analysis testcases with Jalangi
-    utils.runFile(task.startFile, targetPath, function() {
-        console.log("New iteration");
-        newIteration = true;
-    }, function(cp) {
-        console.log("New Process was created");
-        children.push(cp);
-    });
+    utils.runFile(task.startFile, targetPath);
 
     console.log("Finished executing " + task.startFile)
     traceCmp.cmp_fini()
@@ -69,9 +63,7 @@ function run(task) {
     
     if (tasks.length > 0) {
         run(tasks.shift());
-    } else {
-        process.exit(0);
-    }
+    } 
 
 }
 

@@ -58,6 +58,7 @@
         return projectCache;
     }
 
+    //Instrument Single Js File
     function instrumentFile(file, cacheRoot) {
         var TanitPath = path.resolve(__dirname, "../taintable/dynamic_taint")
         if (file.match(/^.*\.js$/)) {
@@ -73,28 +74,41 @@
         }
     }
 
-    //Instrument Single Js File
-    function runFile(filename, targetDir, callback, iterationsCallback, creationCallback) {
+    
+    function runFile(filename, targetDir) {
         var file = path.resolve(targetDir + "/" + filename)
         var analysisPath = path.resolve(__dirname, "../taintable/dynamic_taint/TaintAnalysis.js");
         var ctrlFlowMonPath = path.resolve(__dirname, "../taintable/dynamic_taint/ControlFlowMon.js");
         var HiparVerifyPath = path.resolve(__dirname, "../taintable/dynamic_taint/HiparVerification.js");
-        console.log("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/analyses/ChainedAnalyses.js") + " --analysis " + analysisPath + " --analysis " + ctrlFlowMonPath + " " + escapeShell(file))
+
+        var cmd = "node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/analyses/ChainedAnalyses.js") + " --analysis " + analysisPath + " --analysis " + ctrlFlowMonPath + " --analysis " + HiparVerifyPath + " " + escapeShell(file);
+        console.log(cmd);
 
 
-        //var runProcCtrlFlow = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + ctrlFlowMonPath + " --analysis " + analysisPath + " " + escapeShell(file));
         console.log("[+] Analysis Result :");
-        var runProc = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/analyses/ChainedAnalyses.js") + " --analysis " + analysisPath + " --analysis " + ctrlFlowMonPath + " " + escapeShell(file));
+        var runProc = exec('ls -lh /usr',{});
 
-        //var runProc = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + analysisPath  + " " + escapeShell(file));
-        //console.log("executing: " + "node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + analysisPath + " " + escapeShell(file))
-        console.log(runProc.toString());
-
-        console.log("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + HiparVerifyPath + " " + escapeShell(file));
-        var verifyProc = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + HiparVerifyPath + " " + escapeShell(file));
-        console.log(tynt.Green(verifyProc.toString()));
-
-
+        // runProc.stdout.pipe(process.stdout);
+        // runProc.stderr.pipe(process.stderr);
+        // var runProc = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/analyses/ChainedAnalyses.js") + " --analysis " + analysisPath + " --analysis " + ctrlFlowMonPath + " --analysis " + HiparVerifyPath + " " + escapeShell(file));
+        // console.log("executing: " + "node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + analysisPath + " " + escapeShell(file))
+        // console.log(runProc.toString());
+        runProc.stdout.on('data', function (data) {
+            console.log('stdout: ' + data);
+          });
+        
+        runProc.stderr.on('data', function (data) {
+            console.log('stderr: ' + data);
+          });
+        
+        runProc.on('exit', function (code) {
+            console.log('child process exited with code ' + code);
+          });
+        runProc.on('uncaughtException', function(err) {
+            console.log(err.stack);
+            if (err.stack.toString().indexOf("deprecated") === -1)
+                throw err;
+        });
     }
 
 

@@ -1,6 +1,7 @@
 var path = require('path');
 var tynt = require('tynt');
 var fs = require('fs')
+var execSync = require('child_process').execSync;
 var traceCmp = require(path.resolve(__dirname, "../../taintable/utils/traceCmp.js"));
 
 //loop iteration
@@ -32,9 +33,9 @@ function loopProperty(testFunc, param, ProjectDir) {
     traceCmp.log_trace_and_cmp(varName);
 
 
+    if(varName.length > 0 )
+        closeTaintAnalysis();
 
-
-    
     //verify Hipar 
     var verifyPath = path.resolve(__dirname, "../../outputs/hidden_attr/" + ProjectDir.split('/').pop() + ".json");
     // console.log(tynt.Green("located verify json file in "+verifyPath));
@@ -56,7 +57,7 @@ function loopProperty(testFunc, param, ProjectDir) {
 }
 
 function closeTaintAnalysis(){
-    return null;
+    execSync("echo 0;");
 }
 
 function source(source_var) {
