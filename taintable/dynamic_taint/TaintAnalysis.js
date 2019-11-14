@@ -192,31 +192,34 @@ J$.analysis = {};
         }
 
         this.read = function(iid, name, val, isGlobal) {
-            if(val && val.hasOwnProperty('tainted') && val.tainted == "source"){
-                taint_tag_to_input[val.tainted_iiid].location = iidToLocation(iid);
-                //console.log(("[Tagging] source: " + taint_tag_to_input[val.tainted_iiid].name + ", tag: " + valueID));
-                val.tainted = val.tainted_iiid;
-            }
+            if(taint_state){
+                if(val && val.hasOwnProperty('tainted') && val.tainted == "source"){
+                    taint_tag_to_input[val.tainted_iiid].location = iidToLocation(iid);
+                    //console.log(("[Tagging] source: " + taint_tag_to_input[val.tainted_iiid].name + ", tag: " + valueID));
+                    val.tainted = val.tainted_iiid;
+                }
 
-	        if(val && val.hasOwnProperty('tainted') && val.tainted > 0){
-                name_data = get_loc_by_iid(iid);
-                if(name_data != null){
-                    if(tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]] == undefined)
-                        tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]] = [name_data[1]];
-                    else if(tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]].indexOf(name_data[1]) == -1)
-                        tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]].push(name_data[1]);
-                    //console.log(name_data[0] + ", " + name_data[1]);
-                    //console.log("arg[0]: " + name_data[0]);
-		            //hidden_list = attr_finder.analyze_hidden_attr(name_data[0], [name_data[1]]);
-                    //console.log(tynt.Green("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + hidden_list));
-                    //for(var key in hidden_list){
-                    //    original_param = hidden_list[key].split(".");
-                    //    hidden_attr[taint_tag_to_input[val.tainted].name][original_param[original_param.length - 1]] = name_data[0];
-                    //}
-	            }
-            }
+	            if(val && val.hasOwnProperty('tainted') && val.tainted > 0){
+                    name_data = get_loc_by_iid(iid);
+                    if(name_data != null){
+                        if(tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]] == undefined)
+                            tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]] = [name_data[1]];
+                        else if(tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]].indexOf(name_data[1]) == -1)
+                            tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]].push(name_data[1]);
+                        //console.log(name_data[0] + ", " + name_data[1]);
+                        //console.log("arg[0]: " + name_data[0]);
+		                //hidden_list = attr_finder.analyze_hidden_attr(name_data[0], [name_data[1]]);
+                        //console.log(tynt.Green("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + hidden_list));
+                        //for(var key in hidden_list){
+                        //    original_param = hidden_list[key].split(".");
+                        //    hidden_attr[taint_tag_to_input[val.tainted].name][original_param[original_param.length - 1]] = name_data[0];
+                        //}
+	                }
+                }
 
-            iid_to_name[iid] = name;
+                iid_to_name[iid] = name;
+                return val;
+            }
             return val;
         };
 
@@ -252,7 +255,7 @@ J$.analysis = {};
                     //console.log("hidden_list: " + hidden_list);
                     for(var key in hidden_list){
                         original_param = hidden_list[key].split(".");
-                        hidden_attr[param][original_param[original_param.length - 1]] = file;
+                        hidden_attr[param][original_param[original_param.length - 1]] = {"base": original_param[1], "file": file};
                     }
                 }
             }
@@ -269,7 +272,7 @@ J$.analysis = {};
             get_hidden_attr(tainted_var);
             //console.log(JSON.stringify(tainted_var));
 
-            //console.log(hidden_attr);
+            console.log(hidden_attr);
             fs.writeFileSync(__dirname + "/../../outputs/hidden_attr/" + sname, JSON.stringify(hidden_attr));
         }
     }
