@@ -32,7 +32,7 @@ function cal_taintable_attr(domain, attr_lst){
     var taint_lst = [];
     for (const attr of attr_lst){
         for (const d of domain){
-            if (attr == domain) continue;
+            if (attr == d) continue;
             if (attr.startsWith(d) && taint_lst.indexOf(attr) === -1){
                 taint_lst.push(attr);
             }
@@ -248,7 +248,7 @@ var loc = {
     }
 }
 
-// console.log(exports.analyze_hidden_attr("test.js", ['a']));
+//  console.log(exports.analyze_hidden_attr("test.js", ['a', 'b']));
 
 //  exports.get_name_by_loc(loc);
 // exports.analyze_hidden_attr('../../tests/target/TestMongoDb/node_modules/bson/lib/bson/parser/serializer.js',['']);
