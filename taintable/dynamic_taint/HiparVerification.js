@@ -10,9 +10,9 @@ J$.analysis = {};
         var iidToLocation = sandbox.iidToLocation;
         var file_path;
         var hipar_name;
+        var var_name;
         var is_found = false;
-        var verifed_hipar = [];
-
+        var verified_hipar = [];
 
         function get_loc_by_iid(iid){
             var vlocation = iidToLocation(iid);
@@ -31,7 +31,6 @@ J$.analysis = {};
                 loc['var_loc']['start']['column'] = parseInt(content[2], 10) - 1;
                 loc['var_loc']['end']['line'] = parseInt(content[3], 10);
                 loc['var_loc']['end']['column'] = parseInt(content[4], 10) - 1;
-                //console.log(JSON.stringify(loc));
 
                 return loc['file_loc'];
             } else {
@@ -50,6 +49,9 @@ J$.analysis = {};
         }
 
         function check_hipar(obj) {
+            // skip empty variables
+            if (Object.keys(obj).length == 0) return false;
+
             var walked = [];
             var stack = [{obj: obj}];
             while(stack.length > 0)
@@ -57,7 +59,7 @@ J$.analysis = {};
                 var item = stack.pop();
                 var obj = item.obj;
                 for (var property in obj) {
-                    if (obj.hasOwnProperty(property)) {
+                    if (Object.prototype.hasOwnProperty.call(obj, property)) {
                         if (typeof obj[property] == "object") {
                             var alreadyFound = false;
                             for(var i = 0; i < walked.length; i++)
@@ -90,10 +92,11 @@ J$.analysis = {};
         }
 
         this.invokeFun = function (iid, f, base, args, val, isConstructor) {
-            if(f.name === "verify_hipar"){
+            if(f.name === "verify_hipar" && "_bsontype" == args[1]){
                 // get file_pathh and the hiddden parameter to check
                 file_path = args[0];
                 hipar_name = args[1];
+                var_name = args[2];
                 is_found = false;
             }
             return val;
@@ -101,9 +104,9 @@ J$.analysis = {};
 
         this.read = function (iid, name, val, isGlobal) {
             var cur_file = get_loc_by_iid(iid);
-            if ( !is_found && file_path && cur_file == file_path) {
+            if ( !is_found && file_path && cur_file == file_path && name ==  var_name) {
                 if (visit_obj(val)){
-                    verifed_hipar.push((file_path, hipar_name))
+                    verified_hipar.push((file_path, hipar_name))
                     is_found = true;
                 }
             }
@@ -112,7 +115,8 @@ J$.analysis = {};
 
         this.endExecution = function(){
             // print final result on exit
-            console.log(tynt.Green("[+] HiparVerification HiPar verified" + verifed_hipar));
+            console.log(tynt.Green("[+] HiparVerification HiPar verified"))
+            console.log(verified_hipar);
         };
     }
 
