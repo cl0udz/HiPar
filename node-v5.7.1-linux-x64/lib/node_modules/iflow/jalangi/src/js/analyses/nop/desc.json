@@ -1,6 +1,0 @@
-{
-    "name" : "Do nothing",
-    "description" : "Analysis that doesn't do anything (for demonstration)",
-    "author" : "Koushik Sen",
-    "file" : "NOPEngine.js"
-}
