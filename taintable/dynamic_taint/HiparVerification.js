@@ -57,7 +57,8 @@ J$.analysis = {};
                 var item = stack.pop();
                 var obj = item.obj;
                 for (var property in obj) {
-                    if (obj.hasOwnProperty(property)) {
+                    try{
+                    if (obj && obj.hasOwnProperty(property)) {
                         if (typeof obj[property] == "object") {
                             var alreadyFound = false;
                             for(var i = 0; i < walked.length; i++)
@@ -84,6 +85,10 @@ J$.analysis = {};
                             }
                         }
                     }
+                    } catch(e){
+                        console.log("jesus.");
+                        console.log(obj);
+                    }    
                 }
             }
             return false;
