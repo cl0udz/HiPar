@@ -32,9 +32,12 @@ function loopProperty(testFunc, param, ProjectDir) {
     traceCmp.log_trace_and_cmp(varName);
 
 
+
+
+    closeTaintAnalysis();
     //verify Hipar 
-    verifyPath = path.resolve(__dirname, "../../outputs/hidden_attr/" + ProjectDir.split('/').pop() + ".json")
-    // console.log(tynt.Green("located verify json file in w"+verifyPath));
+    var verifyPath = path.resolve(__dirname, "../../outputs/hidden_attr/" + ProjectDir.split('/').pop() + ".json");
+    // console.log(tynt.Green("located verify json file in "+verifyPath));
     if (fs.existsSync(verifyPath)) {
         console.log(tynt.Green('[-]Verifying hidden Parameter'));
         var result = JSON.parse(fs.readFileSync(verifyPath));
@@ -49,6 +52,10 @@ function loopProperty(testFunc, param, ProjectDir) {
             }
         }
     }
+}
+
+function closeTaintAnalysis(){
+    return null;
 }
 
 function source(source_var) {
