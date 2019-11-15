@@ -92,7 +92,8 @@ J$.analysis = {};
         }
 
         this.invokeFun = function (iid, f, base, args, val, isConstructor) {
-            if(f.name === "verify_hipar" && "_bsontype" == args[1]){
+            
+            if(f.name === "verify_hipar"){
                 // get file_pathh and the hiddden parameter to check
                 file_path = args[0];
                 hipar_name = args[1];
@@ -105,6 +106,7 @@ J$.analysis = {};
         this.read = function (iid, name, val, isGlobal) {
             var cur_file = get_loc_by_iid(iid);
             if ( !is_found && file_path && cur_file == file_path && name ==  var_name) {
+                // console.log(val);
                 if (visit_obj(val)){
                     verified_hipar.push((file_path, hipar_name))
                     is_found = true;
