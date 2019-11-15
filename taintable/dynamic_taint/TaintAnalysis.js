@@ -109,12 +109,12 @@ J$.analysis = {};
 		        val.tainted = "source";
                 val.tainted_iiid = valueID;
                 taint_tag_to_input[valueID] = {"name": args[1], "location": "undefined"};
-                //val.tainted_path = args[1];
-                //console.log(("[source] name: " + args[1]));
+                console.log(("[source] name: " + args[1]));
 
                 hidden_attr[args[1]] = {};
                 tainted_var[args[1]] = [];
 
+                taint_state = true;
                 source_executed = true;
             }
             return val;
@@ -183,7 +183,8 @@ J$.analysis = {};
                     }
                 }
                 } catch(e){
-                    console.log("val type: " + typeof(val));
+                    console.log("val type: " + typeof(val) + ", offset: " + offset);
+                    console.log(iidToLocation(iid));
                     console.log(val);
                     console.log("jiguaner");
                 }
@@ -202,6 +203,7 @@ J$.analysis = {};
 	            if(val && val.hasOwnProperty('tainted') && val.tainted > 0){
                     name_data = get_loc_by_iid(iid);
                     if(name_data != null){
+                        //console.log(name_data[1]);
                         if(tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]] == undefined)
                             tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]] = [name_data[1]];
                         else if(tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]].indexOf(name_data[1]) == -1)
@@ -234,9 +236,6 @@ J$.analysis = {};
                 //console.log("[Tagging] source: " + taint_tag_to_input[val.tainted_iiid].name + ", tag: " + valueID);
                 val.tainted = val.tainted_iiid;
             }
-
-            if(name == "verifyPath")
-                taint_state = false;
 
             iid_to_name[iid] = name;
             return val;
