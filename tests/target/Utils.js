@@ -3,11 +3,17 @@ var tynt = require('tynt');
 var fs = require('fs')
 var traceCmp = require(path.resolve(__dirname, "../../taintable/utils/traceCmp.js"));
 
+
+
+function whatWeDoThisTime(testFunc, param, ProjectDir){
+    if(process.argv[2] == 'analysis') loopProperty(testFunc, param);
+    else if(process.argv[2] == 'verify') verifyHipar(testFunc, ProjectDir);
+    else console.log(tynt.Red('Incorrect Prompt argumnet'));
+}
 //loop iteration
-function loopProperty(testFunc, param, ProjectDir) {
+function loopProperty(testFunc, param) {
     var properties = Object.getOwnPropertyNames(param);
     
-
     //Running test with purely untainted param
     console.log(tynt.Green('[-]Running test with purely untainted param'));
     testFunc(param);
@@ -31,21 +37,20 @@ function loopProperty(testFunc, param, ProjectDir) {
     testFunc(param);
     traceCmp.log_trace_and_cmp(varName);
 
+}
 
 
-
-    
+function verifyHipar(testFunc, ProjectDir){
     //verify Hipar 
     var verifyPath = path.resolve(__dirname, "../../outputs/hidden_attr/" + ProjectDir.split('/').pop() + ".json");
     // console.log(tynt.Green("located verify json file in "+verifyPath));
     if (fs.existsSync(verifyPath)) {
         console.log(tynt.Green('[-]Verifying hidden Parameter'));
         var result = JSON.parse(fs.readFileSync(verifyPath));
-        closeTaintAnalysis();
+
         for (var property in result) {
             for (var hipar_name in result[property]) {
                 var hipar_path = result[property][hipar_name];
-                // console.log(tynt.Green('adding the magic word to ' + hipar_name + ' of property ' + property));
                 var tmp = clone(param); // generate a copy of param
                 tmp[property][hipar_name] = "H1P4r";
                 verify_hipar(hipar_path, hipar_name);
@@ -55,9 +60,7 @@ function loopProperty(testFunc, param, ProjectDir) {
     }
 }
 
-function closeTaintAnalysis(){
-    return null;
-}
+
 
 function source(source_var) {
     return source_var;
@@ -104,3 +107,5 @@ function varToString(varObj) {
 exports.clone = clone;
 exports.varToString = varToString;
 exports.loopProperty = loopProperty;
+exports.verifyHipar = verifyHipar;
+exports.whatWeDoThisTime = whatWeDoThisTime;

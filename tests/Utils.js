@@ -2,13 +2,7 @@
     var execSync = require('child_process').execSync;
     var fs = require('fs');
     var path = require('path');
-    var esprima = require('esprima');
-    var escodegen = require('escodegen');
-    var exec = require('child_process').exec;
-    var sloc = require("sloc");
     var tynt = require('tynt');
-    var Promise = require("bluebird");
-    var tmp = require('tmp');
     var wrench = require('wrench');
     var cacheRoot = path.resolve(__dirname, '../outputs/target_cache/');
     var escapeShell = function (cmd) {
@@ -58,6 +52,7 @@
         return projectCache;
     }
 
+    //Instrument Single Js File
     function instrumentFile(file, cacheRoot) {
         var TanitPath = path.resolve(__dirname, "../taintable/dynamic_taint")
         if (file.match(/^.*\.js$/)) {
@@ -73,28 +68,36 @@
         }
     }
 
-    //Instrument Single Js File
-    function runFile(filename, targetDir, callback, iterationsCallback, creationCallback) {
+
+    function runAnalysis(filename, targetDir) {
+        var file = path.resolve(targetDir + "/" + filename)
+        var analysisPath = path.resolve(__dirname, "../taintable/dynamic_taint/TaintAnalysis.js");
+        var ctrlFlowMonPath = path.resolve(__dirname, "../taintable/dynamic_taint/ControlFlowMon.js");
+        var cmd = "node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/analyses/ChainedAnalyses.js") + " --analysis " + analysisPath + " --analysis " + ctrlFlowMonPath + " " + escapeShell(file);
+        cmd += ' analysis';
+        console.log(cmd);
+        //var runProcCtrlFlow = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + ctrlFlowMonPath + " --analysis " + analysisPath + " " + escapeShell(file));
+        console.log("[+] Analysis Result :");
+        var runProc = execSync(cmd);
+
+        //var runProc = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + analysisPath  + " " + escapeShell(file));
+        //console.log("executing: " + "node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + analysisPath + " " + escapeShell(file))
+        console.log(tynt.Green(runProc.toString()));
+
+    }
+
+    function runVerify(filename, targetDir) {
         var file = path.resolve(targetDir + "/" + filename)
         var analysisPath = path.resolve(__dirname, "../taintable/dynamic_taint/TaintAnalysis.js");
         var ctrlFlowMonPath = path.resolve(__dirname, "../taintable/dynamic_taint/ControlFlowMon.js");
         var HiparVerifyPath = path.resolve(__dirname, "../taintable/dynamic_taint/HiparVerification.js");
-        console.log("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/analyses/ChainedAnalyses.js") + " --analysis " + analysisPath + " --analysis " + ctrlFlowMonPath + " " + escapeShell(file))
+        var cmd = "node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + HiparVerifyPath + " " + escapeShell(file);
+        cmd += ' verify';
+        console.log(cmd);
+        console.log("[+] Verify Result :");
 
-
-        //var runProcCtrlFlow = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + ctrlFlowMonPath + " --analysis " + analysisPath + " " + escapeShell(file));
-        console.log("[+] Analysis Result :");
-        var runProc = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/analyses/ChainedAnalyses.js") + " --analysis " + analysisPath + " --analysis " + ctrlFlowMonPath + " " + escapeShell(file));
-
-        //var runProc = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + analysisPath  + " " + escapeShell(file));
-        //console.log("executing: " + "node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + analysisPath + " " + escapeShell(file))
-        console.log(runProc.toString());
-
-        console.log("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + HiparVerifyPath + " " + escapeShell(file));
-        var verifyProc = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + HiparVerifyPath + " " + escapeShell(file));
+        var verifyProc = execSync(cmd);
         console.log(tynt.Green(verifyProc.toString()));
-
-
     }
 
 
@@ -123,8 +126,6 @@
         }
     }
 
-
-
     function deleteFolderRecursive(path) {
         if (fs.existsSync(path)) {
             var list = fs.readdirSync(path)
@@ -140,12 +141,11 @@
         }
     }
 
-
-    exports.runFile = runFile;
     exports.walkDirectory = walkDirectory;
     exports.getFilesRec = getFilesRec;
     exports.instrumentFile = instrumentFile;
-    exports.runFile = runFile;
+    exports.runAnalysis = runAnalysis;
+    exports.runVerify = runVerify;
     exports.deleteFolderRecursive = deleteFolderRecursive;
     exports.instrumentSync = instrumentSync;
     exports.escapeShell = escapeShell;

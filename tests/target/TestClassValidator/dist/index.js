@@ -47,7 +47,7 @@ var userJson = JSON.parse('{"title":"Hello","rating":5}');
 
 var path = require('path')
 var utils = require(path.resolve(__dirname,"../../Utils.js"))
-utils.loopProperty(test,userJson)
+utils.whatWeDoThisTime(test,userJson)
 
 function test(userJson){
     var users = class_transformer_1.plainToClass(Post, userJson);

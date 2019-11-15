@@ -40,7 +40,7 @@ function run(task) {
     
     
     // Analysis testcases with Jalangi
-    utils.runFile(task.startFile, targetPath)
+    utils.runVerify(task.startFile, targetPath)
 
     console.log("Finished executing " + task.startFile)
     traceCmp.cmp_fini()
