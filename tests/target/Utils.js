@@ -8,7 +8,10 @@ var traceCmp = require(path.resolve(__dirname, "../../taintable/utils/traceCmp.j
 function whatWeDoThisTime(testFunc, param, ProjectDir){
     if(process.argv[2] == 'analysis') loopProperty(testFunc, param);
     else if(process.argv[2] == 'verify') verifyHipar(testFunc, ProjectDir);
-    else console.log(tynt.Red('Incorrect Prompt argumnet'));
+    else {
+        console.log(tynt.Red('Incorrect Prompt argumnet, we do analysis by default'));
+        loopProperty(testFunc, param);
+    }
 }
 //loop iteration
 function loopProperty(testFunc, param) {

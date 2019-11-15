@@ -88,8 +88,6 @@
 
     function runVerify(filename, targetDir) {
         var file = path.resolve(targetDir + "/" + filename)
-        var analysisPath = path.resolve(__dirname, "../taintable/dynamic_taint/TaintAnalysis.js");
-        var ctrlFlowMonPath = path.resolve(__dirname, "../taintable/dynamic_taint/ControlFlowMon.js");
         var HiparVerifyPath = path.resolve(__dirname, "../taintable/dynamic_taint/HiparVerification.js");
         var cmd = "node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + HiparVerifyPath + " " + escapeShell(file);
         cmd += ' verify';
