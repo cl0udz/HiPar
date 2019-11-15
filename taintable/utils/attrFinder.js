@@ -249,7 +249,7 @@ var loc = {
     }
 }
 
- console.log(exports.analyze_hidden_attr("test.js", ['a', 'b']));
+ //console.log(exports.analyze_hidden_attr("test.js", ['a', 'b']));
 
 //  exports.get_name_by_loc(loc);
 // exports.analyze_hidden_attr('../../tests/target/TestMongoDb/node_modules/bson/lib/bson/parser/serializer.js',['']);
