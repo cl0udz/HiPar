@@ -7,7 +7,7 @@ var traceCmp = require(path.resolve(__dirname, "../../taintable/utils/traceCmp.j
 
 function whatWeDoThisTime(testFunc, param, ProjectDir){
     if(process.argv[2] == 'analysis') loopProperty(testFunc, param);
-    else if(process.argv[2] == 'verify') verifyHipar(testFunc, ProjectDir);
+    else if(process.argv[2] == 'verify') verifyHipar(testFunc, param, ProjectDir);
     else {
         console.log(tynt.Red('Incorrect Prompt argumnet, we do analysis by default'));
         loopProperty(testFunc, param);
@@ -43,7 +43,7 @@ function loopProperty(testFunc, param) {
 }
 
 
-function verifyHipar(testFunc, ProjectDir){
+function verifyHipar(testFunc, param, ProjectDir){
     //verify Hipar 
     var verifyPath = path.resolve(__dirname, "../../outputs/hidden_attr/" + ProjectDir.split('/').pop() + ".json");
     // console.log(tynt.Green("located verify json file in "+verifyPath));
