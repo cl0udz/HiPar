@@ -2,7 +2,7 @@ var path = require('path');
 var tynt = require('tynt');
 var fs = require('fs')
 var traceCmp = require(path.resolve(__dirname, "../../taintable/utils/traceCmp.js"));
-
+var rootMagicName = 'R0ot';
 
 
 function whatWeDoThisTime(testFunc, param, ProjectDir){
@@ -34,11 +34,10 @@ function loopProperty(testFunc, param) {
     }
 
     //Running test with param tainted in root
-    var varName = varToString(param);
-    param = source(param, varName);
+    param = source(param, rootMagicName);
     console.log(tynt.Green('[-]Running test with param tainted in root'));
     testFunc(param);
-    traceCmp.log_trace_and_cmp(varName);
+    traceCmp.log_trace_and_cmp(rootMagicName);
 
 }
 
@@ -55,8 +54,12 @@ function verifyHipar(testFunc, param, ProjectDir){
             for (var hipar_name in result[property]) {
                 var hipar_content = result[property][hipar_name];
                 var tmp = clone(param); // generate a copy of param
-                tmp[property][hipar_name] = "H1P4r";
+                if(property == rootMagicName)
+                    tmp[hipar_name] = "H1P4r";
+                else
+                    tmp[property][hipar_name] = "H1P4r";
                 verify_hipar(hipar_content.file, hipar_name,hipar_content.base);
+                console.log(tmp)
                 testFunc(tmp);
             }
         }
@@ -65,7 +68,7 @@ function verifyHipar(testFunc, param, ProjectDir){
 
 
 
-function source(source_var) {
+function source(source_var, var_name) {
     return source_var;
 }
 
@@ -103,12 +106,8 @@ function clone(obj) {
     throw new Error("Unable to copy obj! Its type isn't supported.");
 }
 
-function varToString(varObj) {
-    return Object.keys(varObj)[0]
-}
 
 exports.clone = clone;
-exports.varToString = varToString;
 exports.loopProperty = loopProperty;
 exports.verifyHipar = verifyHipar;
 exports.whatWeDoThisTime = whatWeDoThisTime;
