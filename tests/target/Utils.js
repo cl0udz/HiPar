@@ -53,10 +53,10 @@ function verifyHipar(testFunc, ProjectDir){
 
         for (var property in result) {
             for (var hipar_name in result[property]) {
-                var hipar_path = result[property][hipar_name];
+                var hipar_content = result[property][hipar_name];
                 var tmp = clone(param); // generate a copy of param
                 tmp[property][hipar_name] = "H1P4r";
-                verify_hipar(hipar_path, hipar_name);
+                verify_hipar(hipar_content.file, hipar_name,hipar_content.base);
                 testFunc(tmp);
             }
         }
