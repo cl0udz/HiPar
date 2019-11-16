@@ -98,18 +98,54 @@ J$.analysis = {};
                 var var_name = args[2];
                 if (!(file_path in target_lst)) target_lst[file_path] = {};
                     target_lst[file_path][var_name] = attr_name;
+                console.log("list:");
+                console.log(target_lst);
             }
             return val;
         };
 
+        this.getField = function (iid, base, offset, val) {
+            var cur_file = get_loc_by_iid(iid);
+            try{
+            if(val.hasOwnProperty("_bsontype") && val._bsontype == "H1P4r"){
+                console.log(val);
+                console.log(cur_file);
+            }} catch (e){
+                return val;
+            }
+ 
+            /*if(cur_file in target_lst && val == "H1P4r"){
+                var target_attr = target_lst[cur_file][offset];
+                console.log("offset: " + offset + ", target_attr: " + target_attr);
+                if(visit_obj(val, target_attr)){
+                    if(!(target_attr in verified_hipar)) verified_hipar[target_attr] = cur_file;
+                }
+            }*/
+            return val;
+        }
+
         this.read = function (iid, name, val, isGlobal) {
             var cur_file = get_loc_by_iid(iid);
-            if ( (cur_file in target_lst) && (name in target_lst[cur_file])) {
+            try{
+            if(val.hasOwnProperty("_bsontype") && val._bsontype == "H1P4r"){
+                console.log(val);
+                console.log(cur_file);
+            }} catch (e){
+                return val;
+            }
+            /*if ( (cur_file in target_lst) && (name in target_lst[cur_file])) {
                 var target_attr = target_lst[cur_file][name];
                 if (visit_obj(val, target_attr)){
                     if (!(target_attr in verified_hipar)) verified_hipar[target_attr]= cur_file;
                 }
-            }
+            }*/
+            /*if(cur_file in target_lst && val == "H1P4r"){
+                console.log("read: " + name);
+                var target_attr = target_lst[cur_file][name];
+                if(visit_obj(val, target_attr)){
+                    if(!(target_attr in verified_hipar)) verified_hipar[target_attr] = cur_file;
+                }
+            }*/
             return val;
         };
 
