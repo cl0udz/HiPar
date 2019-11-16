@@ -50,8 +50,7 @@ J$.analysis = {};
 
         function check_hipar(obj) {
             // skip empty variables
-            if (Object.keys(obj).length == 0) return false;
-
+            if ( !obj || Object.keys(obj).length == 0) return false;
             var walked = [];
             var stack = [{obj: obj}];
             while(stack.length > 0)
@@ -80,6 +79,7 @@ J$.analysis = {};
                         }
                         else
                         {
+                            if (hipar_name == "_bsontype") console.log(obj);
 
                             if (property == hipar_name && obj[property] == "H1P4r"){
                                 return true;
@@ -105,10 +105,10 @@ J$.analysis = {};
 
         this.read = function (iid, name, val, isGlobal) {
             var cur_file = get_loc_by_iid(iid);
-            if ( !is_found && file_path && cur_file == file_path && name ==  var_name) {
-                // console.log(val);
+            if ( !is_found && file_path && cur_file == file_path && name == var_name) {
+                if (hipar_name == "_bsontype") console.log(name);
                 if (visit_obj(val)){
-                    verified_hipar.push((file_path, hipar_name))
+                    verified_hipar.push([file_path, hipar_name])
                     is_found = true;
                 }
             }
