@@ -1,9 +1,9 @@
 [
     {
-        "testName": "mongodb",
-        "projPath": "./target/TestMongoDb",
-        "startFile": "./TestMongoDb.js",
-        "instrFiles": ["./TestMongoDb.js","../Utils.js"],
+        "testName": "regre_tester",
+        "projPath": "./target/TestRegression",
+        "startFile": "./TestRegression.js",
+        "instrFiles": ["./TestRegression.js","../Utils.js"],
         "sources": "intf"
 
     }

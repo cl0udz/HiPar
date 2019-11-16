@@ -8,10 +8,7 @@ J$.analysis = {};
 (function (sandbox) {
     function HiparVerification() {
         var iidToLocation = sandbox.iidToLocation;
-        var file_path;
-        var hipar_name;
-        var var_name;
-        var is_found = false;
+        var target_lst = {};
         var verified_hipar = [];
 
         function get_loc_by_iid(iid){
@@ -38,17 +35,17 @@ J$.analysis = {};
             }
         }
 
-        function visit_obj(obj){
+        function visit_obj(obj, target_attr){
             var proto_flag = false;
-            var attr_flag = check_hipar(obj);
+            var attr_flag = check_hipar(obj, target_attr);
             // check hipar in prototype
             if (obj) {
-                proto_flag = check_hipar(obj.__proto__);
+                proto_flag = check_hipar(obj.__proto__, target_attr);
             }
             return attr_flag || proto_flag ; 
         }
 
-        function check_hipar(obj) {
+        function check_hipar(obj, target_attr) {
             // skip empty variables
             if ( !obj || Object.keys(obj).length == 0) return false;
             var walked = [];
@@ -79,9 +76,7 @@ J$.analysis = {};
                         }
                         else
                         {
-                            if (hipar_name == "_bsontype") console.log(obj);
-
-                            if (property == hipar_name && obj[property] == "H1P4r"){
+                            if (property == target_attr && obj[property] == "H1P4r"){
                                 return true;
                             }
                         }
@@ -95,21 +90,21 @@ J$.analysis = {};
             
             if(f.name === "verify_hipar"){
                 // get file_pathh and the hiddden parameter to check
-                file_path = args[0];
-                hipar_name = args[1];
-                var_name = args[2];
-                is_found = false;
+                var file_path = args[0];
+                var attr_name = args[1];
+                var var_name = args[2];
+                if (!(file_path in target_lst)) target_lst[file_path] = {};
+                    target_lst[file_path][var_name] = attr_name;
             }
             return val;
         };
 
         this.read = function (iid, name, val, isGlobal) {
             var cur_file = get_loc_by_iid(iid);
-            if ( !is_found && file_path && cur_file == file_path && name == var_name) {
-                if (hipar_name == "_bsontype") console.log(name);
-                if (visit_obj(val)){
-                    verified_hipar.push([file_path, hipar_name])
-                    is_found = true;
+            if ( (cur_file in target_lst) && (name in target_lst[cur_file])) {
+                var target_attr = target_lst[cur_file][name];
+                if (visit_obj(val, target_attr)){
+                    if (!(target_attr in verified_hipar)) verified_hipar[target_attr]= cur_file;
                 }
             }
             return val;
