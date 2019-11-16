@@ -74,35 +74,37 @@
         var analysisPath = path.resolve(__dirname, "../taintable/dynamic_taint/TaintAnalysis.js");
         var cmd = "node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/analyses/ChainedAnalyses.js") + " --analysis " + analysisPath + " " + escapeShell(file);
         cmd += ' analysis';
-        // console.log(cmd);
+        console.log(cmd);
         //var runProcCtrlFlow = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + ctrlFlowMonPath + " --analysis " + analysisPath + " " + escapeShell(file));
         console.log("[+] Analysis Result :");
         try {
             var runProc = execSync(cmd);
+            console.log(tynt.Green(runProc.toString()));
         }catch(e){
-            console.log(e);
+            console.log("jalangi Error:"+e.toString());
         }
 
         //var runProc = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + analysisPath  + " " + escapeShell(file));
         //console.log("executing: " + "node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + analysisPath + " " + escapeShell(file))
-        console.log(tynt.Green(runProc.toString()));
+        
 
     }
 
     function runVerify(filename, targetDir) {
-        var file = path.resolve(targetDir + "/" + filename)
+        var file = path.resolve(targetDir + "/" + filename);
         var HiparVerifyPath = path.resolve(__dirname, "../taintable/dynamic_taint/HiparVerification.js");
         var cmd = "node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + HiparVerifyPath + " " + escapeShell(file);
         cmd += ' verify';
-        // console.log(cmd);
+        console.log(cmd);
         console.log("[+] Verify Result :");
 
         try {
             var verifyProc = execSync(cmd);
+            console.log(tynt.Green(verifyProc.toString()));
         }catch(e){
-            console.log(e);
+            console.log("jalangi Error:"+e.toString());
         }
-        console.log(tynt.Green(verifyProc.toString()));
+        
     }
 
 
