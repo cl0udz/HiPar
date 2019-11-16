@@ -46,21 +46,6 @@ const findOneDocuments = function(db, query, callback) {
   });
 }
 
-// init db content
-function init(callback){
-  // Use connect method to connect to the server
-  MongoClient.connect(url, function(err, client) {
-    assert.equal(null, err);
-    console.log("Connected successfully to server");
-
-    const db = client.db(dbName);
-
-    insertManyDocuments(db, function() {
-      callback(0);
-      client.close();
-    });
-  });
-}
 
 // connect and  find result of query
 function test(query) {
@@ -69,20 +54,17 @@ function test(query) {
     console.log("Connected successfully to server");
 
     const db = client.db(dbName);
-
+    insertManyDocuments(db, function() {
     findOneDocuments(db, query, function() {
       client.close();
-    });
+    })});
   });
 }
 
 // control iterations and pass names to Analysis Func
 function main(){
-  init(function() {
     var query = {'a': 3}
     utils.whatWeDoThisTime(test,query,__dirname)
-  });
-
 }
 
 
