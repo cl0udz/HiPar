@@ -6,14 +6,14 @@ var utils = require(path.resolve(__dirname,"../Utils.js"))
 const url = 'mongodb://localhost:27017';
 // Database Name
 const dbName = 'myproject';
- 
+
 // first connect test
 MongoClient.connect(url, function(err, client) {
   assert.equal(null, err);
   console.log("Connected successfully to server");
- 
+
   const db = client.db(dbName);
- 
+
   client.close();
 });
 
@@ -38,7 +38,7 @@ const findOneDocuments = function(db, query, callback) {
   // Get the documents collection
   const collection = db.collection('documents');
   // Find some documents
-  collection.findOne(query).toArray(function(err, docs) {
+  collection.findOne(query,function(err, docs) {
     assert.equal(err, null);
     console.log("Found the following records");
     console.log(docs);
@@ -47,38 +47,42 @@ const findOneDocuments = function(db, query, callback) {
 }
 
 // init db content
-function init(){
-	// Use connect method to connect to the server
-	MongoClient.connect(url, function(err, client) {
-	  assert.equal(null, err);
-	  console.log("Connected successfully to server");
-	 
-	  const db = client.db(dbName);
-	 
-	  insertManyDocuments(db, function() {
-	    client.close();
-	  });
-	});
+function init(callback){
+  // Use connect method to connect to the server
+  MongoClient.connect(url, function(err, client) {
+    assert.equal(null, err);
+    console.log("Connected successfully to server");
+
+    const db = client.db(dbName);
+
+    insertManyDocuments(db, function() {
+      callback(0);
+      client.close();
+    });
+  });
 }
 
-// connect and  find result of query 
+// connect and  find result of query
 function test(query) {
-	MongoClient.connect(url, function(err, client) {
-	  assert.equal(null, err);
-	  console.log("Connected successfully to server");
-	 
-	  const db = client.db(dbName);
-	 
-	  findOneDocuments(db, query, function() {
-	    client.close();
-	  });
-	});
+  MongoClient.connect(url, function(err, client) {
+    assert.equal(null, err);
+    console.log("Connected successfully to server");
+
+    const db = client.db(dbName);
+
+    findOneDocuments(db, query, function() {
+      client.close();
+    });
+  });
 }
 
 // control iterations and pass names to Analysis Func
 function main(){
-	var query = {'a': 3}
-	utils.whatWeDoThisTime(test,query,__dirname)
+  init(function() {
+    var query = {'a': 3}
+    utils.whatWeDoThisTime(test,query,__dirname)
+  });
+
 }
 
 
