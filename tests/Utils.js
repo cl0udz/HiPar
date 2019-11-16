@@ -77,7 +77,11 @@
         // console.log(cmd);
         //var runProcCtrlFlow = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + ctrlFlowMonPath + " --analysis " + analysisPath + " " + escapeShell(file));
         console.log("[+] Analysis Result :");
-        var runProc = execSync(cmd);
+        try {
+            var runProc = execSync(cmd);
+        }catch(e){
+            console.log(e);
+        }
 
         //var runProc = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + analysisPath  + " " + escapeShell(file));
         //console.log("executing: " + "node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + analysisPath + " " + escapeShell(file))
@@ -93,7 +97,11 @@
         // console.log(cmd);
         console.log("[+] Verify Result :");
 
-        var verifyProc = execSync(cmd);
+        try {
+            var verifyProc = execSync(cmd);
+        }catch(e){
+            console.log(e);
+        }
         console.log(tynt.Green(verifyProc.toString()));
     }
 
