@@ -59,7 +59,7 @@
             var filePath = path.resolve(file);
             var targetFilePath = path.resolve(cacheRoot, file.toString().split('target/')[1])
             try {
-                process.stdout.write("\rnode " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " " + escapeShell(filePath) + " --out " + escapeShell(targetFilePath));
+                // process.stdout.write("\rnode " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " " + escapeShell(filePath) + " --out " + escapeShell(targetFilePath));
                 execSync("node " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " " + escapeShell(filePath) + " --out " + escapeShell(targetFilePath));
             } catch (e) {
                 console.log(tynt.Red("\nPreprocessor: Error when instrumenting " + file + ". Will ignore this file.\n" + e + "\nPlease try babel to format the target js file to ES5,or just delete it if it's unused file "));
@@ -74,14 +74,14 @@
         var analysisPath = path.resolve(__dirname, "../taintable/dynamic_taint/TaintAnalysis.js");
         var cmd = "node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/analyses/ChainedAnalyses.js") + " --analysis " + analysisPath + " " + escapeShell(file);
         cmd += ' analysis';
-        console.log(cmd);
+        // console.log(cmd);
         //var runProcCtrlFlow = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + ctrlFlowMonPath + " --analysis " + analysisPath + " " + escapeShell(file));
         console.log("[+] Analysis Result :");
         try {
             var runProc = execSync(cmd);
             console.log(tynt.Green(runProc.toString()));
         }catch(e){
-            console.log("jalangi Error:"+e.toString());
+            console.log(tynt.Red("[Catched Error]:"+e.toString()));
         }
 
         //var runProc = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + analysisPath  + " " + escapeShell(file));
@@ -95,14 +95,14 @@
         var HiparVerifyPath = path.resolve(__dirname, "../taintable/dynamic_taint/HiparVerification.js");
         var cmd = "node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + HiparVerifyPath + " " + escapeShell(file);
         cmd += ' verify';
-        console.log(cmd);
+        // console.log(cmd);
         console.log("[+] Verify Result :");
 
         try {
             var verifyProc = execSync(cmd);
             console.log(tynt.Green(verifyProc.toString()));
         }catch(e){
-            console.log("jalangi Error:"+e.toString());
+            console.log(tynt.Red("[Catched Error]:"+e.toString()));
         }
         
     }
