@@ -56,6 +56,9 @@ J$.analysis = {};
                 var obj = item.obj;
                 for (var property in obj) {
                     if (Object.prototype.hasOwnProperty.call(obj, property)) {
+                        // Detect if obj has a Setter without Getter, which may cause obj to be undefined when accessing its property
+                        try{ obj[property]; }catch(e){ return false; }
+
                         if (typeof obj[property] == "object") {
                             var alreadyFound = false;
                             for(var i = 0; i < walked.length; i++)
