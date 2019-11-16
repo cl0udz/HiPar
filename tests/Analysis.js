@@ -2,10 +2,8 @@ var fs = require('fs');
 var path = require('path');
 var utils = require(path.resolve(__dirname, "Utils"));
 var configs = require(path.resolve(__dirname, "configs.json"))
-var traceCmp = require(path.resolve(__dirname, "../taintable/utils/traceCmp.js"))
 
 
-var targetRoot = path.resolve(__dirname,'target');
 var cacheRoot = path.resolve(__dirname,'../outputs/target_cache/');
 if(!fs.existsSync(cacheRoot))
     fs.mkdirSync(cacheRoot);
@@ -43,13 +41,10 @@ function run(task) {
     utils.runAnalysis(task.startFile, targetPath)
 
     console.log("Finished executing " + task.startFile)
-    traceCmp.cmp_fini()
 
     if (tasks.length > 0) {
         run(tasks.shift());
-    } else {
-        process.exit(0);
-    }
+    } 
 }
 
 

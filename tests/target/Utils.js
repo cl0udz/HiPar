@@ -1,7 +1,6 @@
 var path = require('path');
 var tynt = require('tynt');
 var fs = require('fs')
-var traceCmp = require(path.resolve(__dirname, "../../taintable/utils/traceCmp.js"));
 var rootMagicName = 'R0ot';
 
 
@@ -20,7 +19,6 @@ function loopProperty(testFunc, param) {
     //Running test with purely untainted param
     console.log(tynt.Green('[-]Running test with purely untainted param'));
     testFunc(param);
-    traceCmp.log_trace_and_cmp(-1);
 
     //Running test with with tainted property
     if(typeof(param) == 'string') return;
@@ -30,14 +28,12 @@ function loopProperty(testFunc, param) {
         var tmp = clone(param); // generate a copy of param
         tmp[property] = source(tmp[property], property);
         testFunc(tmp);
-        traceCmp.log_trace_and_cmp(property);
     }
 
     //Running test with param tainted in root
     param = source(param, rootMagicName);
     console.log(tynt.Green('[-]Running test with param tainted in root'));
     testFunc(param);
-    traceCmp.log_trace_and_cmp(rootMagicName);
 
 }
 
@@ -60,7 +56,12 @@ function verifyHipar(testFunc, param, ProjectDir){
                     tmp[property][hipar_name] = "H1P4r";
                 verify_hipar(hipar_content.file, hipar_name,hipar_content.base);
                 console.log(tmp)
-                testFunc(tmp);
+                try{
+                    testFunc(tmp);
+                }catch(e){
+                    process.stdout.write(tynt.Red('Verify Error:'));
+                    console.log(e);
+                }
             }
         }
     }
