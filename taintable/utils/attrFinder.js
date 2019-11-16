@@ -156,6 +156,10 @@ function read_standalone_or_base(node, path, cmd){
                 cmd.res.push(-1);
                 return;
             }
+            if (node.object.type === "AssignmentExpression"){
+                cmd.res.push(-1);
+                return;
+            }
             console.log(tynt.Red("[x] read_standalone_or_base error: unknown object type " + JSON.stringify(node.object.type)));
             return;
         }
@@ -236,20 +240,19 @@ function read_property(node, path, offset, cmd){
 }
 
 var loc = {
-    "file_loc": "../../tests/target/TestMongoDb/node_modules/mongodb/lib/topologies/server.js",
+    "file_loc": "../../tests/target/TestRegression/node_modules/regre_tester/index.js",
     "var_loc": {
         "start": {
-            "line": 329,
-            "column": 8
+            "line": 65,
+            "column": 12
         },
         "end": {
-            "line": 329,
-            "column": 56 
+            "line": 65,
+            "column": 20 
         }
     }
 }
 
  //console.log(exports.analyze_hidden_attr("test.js", ['a', 'b']));
 
-//  exports.get_name_by_loc(loc);
-// exports.analyze_hidden_attr('../../tests/target/TestMongoDb/node_modules/bson/lib/bson/parser/serializer.js',['']);
+ // console.log( exports.get_name_by_loc(loc));
