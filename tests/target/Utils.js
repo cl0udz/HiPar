@@ -1,7 +1,6 @@
 var path = require('path');
 var tynt = require('tynt');
 var fs = require('fs')
-var traceCmp = require(path.resolve(__dirname, "../../taintable/utils/traceCmp.js"));
 var rootMagicName = 'R0ot';
 
 
