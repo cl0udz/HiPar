@@ -6,12 +6,5 @@
         "instrFiles": ["./TestMongoDb.js","../Utils.js"],
         "sources": "intf"
 
-    },
-    {
-        "testName": "regre_tester",
-        "projPath": "./target/TestRegression",
-        "startFile": "./TestRegression.js",
-        "instrFiles": ["./TestRegression.js","../Utils.js"],
-        "sources": "intf"
     }
 ]
