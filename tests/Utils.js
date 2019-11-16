@@ -74,7 +74,7 @@
         var analysisPath = path.resolve(__dirname, "../taintable/dynamic_taint/TaintAnalysis.js");
         var cmd = "node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/analyses/ChainedAnalyses.js") + " --analysis " + analysisPath + " " + escapeShell(file);
         cmd += ' analysis';
-        console.log(cmd);
+        // console.log(cmd);
         //var runProcCtrlFlow = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + ctrlFlowMonPath + " --analysis " + analysisPath + " " + escapeShell(file));
         console.log("[+] Analysis Result :");
         var runProc = execSync(cmd);
@@ -90,7 +90,7 @@
         var HiparVerifyPath = path.resolve(__dirname, "../taintable/dynamic_taint/HiparVerification.js");
         var cmd = "node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + HiparVerifyPath + " " + escapeShell(file);
         cmd += ' verify';
-        console.log(cmd);
+        // console.log(cmd);
         console.log("[+] Verify Result :");
 
         var verifyProc = execSync(cmd);
