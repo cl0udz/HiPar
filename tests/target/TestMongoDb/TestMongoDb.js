@@ -48,12 +48,12 @@ function test(query) {
   MongoClient.connect(url, function(err, client) {
     console.log("Connected successfully to server");
     const db = client.db(dbName);
-    insertManyDocuments(db, function() {
+    // insertManyDocuments(db, function() {
       findOneDocuments(db, query, function() {
         client.close();
-      })
+      });
     });
-  });
+  // });
 }
 
 // control iterations and pass names to Analysis Func
