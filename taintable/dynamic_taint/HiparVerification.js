@@ -35,58 +35,10 @@ J$.analysis = {};
             }
         }
 
-        function visit_obj(obj, target_attr){
-            var proto_flag = false;
-            var attr_flag = check_hipar(obj, target_attr);
-            // check hipar in prototype
-            if (obj) {
-                proto_flag = check_hipar(obj.__proto__, target_attr);
-            }
-            return attr_flag || proto_flag ; 
-        }
-
-        function check_hipar(obj, target_attr) {
-            // skip empty variables
-            if ( !obj || Object.keys(obj).length == 0) return false;
-            var walked = [];
-            var stack = [{obj: obj}];
-            while(stack.length > 0)
-            {
-                var item = stack.pop();
-                var obj = item.obj;
-                for (var property in obj) {
-                    if (Object.prototype.hasOwnProperty.call(obj, property)) {
-                        // Detect if obj has a Setter without Getter, which may cause obj to be undefined when accessing its property
-                        try{ obj[property]; }catch(e){ return false; }
-
-                        if (typeof obj[property] == "object") {
-                            var alreadyFound = false;
-                            for(var i = 0; i < walked.length; i++)
-                            {
-                                if (walked[i] === obj[property])
-                                {
-                                    alreadyFound = true;
-                                    break;
-                                }
-                            }
-
-                            if (!alreadyFound)
-                            {
-                                walked.push(obj[property]);
-                                stack.push({obj: obj[property]});
-                            }
-
-                        }
-                        else
-                        {
-                            if (property == target_attr && obj[property] == "H1P4r"){
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }
-            return false;
+        function log_hipar(file_path, var_name, hipar_name){
+            if (!(file_path in verified_hipar)) verified_hipar[file_path] = [];
+            res = var_name +"."+ hipar_name;
+            if (verified_hipar[file_path].indexOf(res) == -1 ) verified_hipar[file_path].push(res);
         }
 
         this.invokeFun = function (iid, f, base, args, val, isConstructor) {
@@ -113,10 +65,7 @@ J$.analysis = {};
                     if(offset in target_lst[cur_file]){
                         for(var property in val){
                             if(property in target_lst[cur_file][offset] && val[property] == "H1P4r"){
-                                /*console.log("Offset: " + offset);
-                                console.log("property: " + property);
-                                console.log(val);*/
-                                console.log("found hipar in getField! " + offset + "." + property);
+                                log_hipar(cur_file, offset, property);
                             }
                         }
                     }
@@ -134,10 +83,7 @@ J$.analysis = {};
                     if(name in target_lst[cur_file]){
                         for(var property in val){
                             if(target_lst[cur_file][name].indexOf(property) != -1 && val[property] == "H1P4r"){
-                                /*console.log("Name: " + name);
-                                console.log("property: " + property);
-                                console.log(val);*/
-                                console.log("found hipar! (format: var_name.attr_name): " + name + "." + property);
+                                log_hipar(cur_file, name, property);
                             }
                         }
                     }
