@@ -96,56 +96,55 @@ J$.analysis = {};
                 var file_path = args[0];
                 var attr_name = args[1];
                 var var_name = args[2];
-                if (!(file_path in target_lst)) target_lst[file_path] = {};
-                    target_lst[file_path][var_name] = attr_name;
-                console.log("list:");
-                console.log(target_lst);
+                if (!(file_path in target_lst))
+                    target_lst[file_path] = {};
+                if(target_lst[file_path][var_name])
+                    target_lst[file_path][var_name].push(attr_name);
+                else
+                    target_lst[file_path][var_name] = [attr_name];
             }
             return val;
         };
 
         this.getField = function (iid, base, offset, val) {
             var cur_file = get_loc_by_iid(iid);
-            try{
-            if(val.hasOwnProperty("_bsontype") && val._bsontype == "H1P4r"){
-                console.log(val);
-                console.log(cur_file);
-            }} catch (e){
-                return val;
-            }
- 
-            /*if(cur_file in target_lst && val == "H1P4r"){
-                var target_attr = target_lst[cur_file][offset];
-                console.log("offset: " + offset + ", target_attr: " + target_attr);
-                if(visit_obj(val, target_attr)){
-                    if(!(target_attr in verified_hipar)) verified_hipar[target_attr] = cur_file;
+            if(cur_file in target_lst){
+                try{
+                    if(offset in target_lst[cur_file]){
+                        for(var property in val){
+                            if(property in target_lst[cur_file][offset] && val[property] == "H1P4r"){
+                                /*console.log("Offset: " + offset);
+                                console.log("property: " + property);
+                                console.log(val);*/
+                                console.log("found hipar in getField! " + offset + "." + property);
+                            }
+                        }
+                    }
+                } catch (e){
+                    return val;
                 }
-            }*/
+            }
             return val;
         }
 
         this.read = function (iid, name, val, isGlobal) {
             var cur_file = get_loc_by_iid(iid);
-            try{
-            if(val.hasOwnProperty("_bsontype") && val._bsontype == "H1P4r"){
-                console.log(val);
-                console.log(cur_file);
-            }} catch (e){
-                return val;
+            if(cur_file in target_lst){
+                try{
+                    if(name in target_lst[cur_file]){
+                        for(var property in val){
+                            if(target_lst[cur_file][name].indexOf(property) != -1 && val[property] == "H1P4r"){
+                                /*console.log("Name: " + name);
+                                console.log("property: " + property);
+                                console.log(val);*/
+                                console.log("found hipar! (format: var_name.attr_name): " + name + "." + property);
+                            }
+                        }
+                    }
+                } catch (e){
+                    return val;
+                }
             }
-            /*if ( (cur_file in target_lst) && (name in target_lst[cur_file])) {
-                var target_attr = target_lst[cur_file][name];
-                if (visit_obj(val, target_attr)){
-                    if (!(target_attr in verified_hipar)) verified_hipar[target_attr]= cur_file;
-                }
-            }*/
-            /*if(cur_file in target_lst && val == "H1P4r"){
-                console.log("read: " + name);
-                var target_attr = target_lst[cur_file][name];
-                if(visit_obj(val, target_attr)){
-                    if(!(target_attr in verified_hipar)) verified_hipar[target_attr] = cur_file;
-                }
-            }*/
             return val;
         };
 
