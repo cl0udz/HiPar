@@ -35,55 +35,10 @@ J$.analysis = {};
             }
         }
 
-        function visit_obj(obj, target_attr){
-            var proto_flag = false;
-            var attr_flag = check_hipar(obj, target_attr);
-            // check hipar in prototype
-            if (obj) {
-                proto_flag = check_hipar(obj.__proto__, target_attr);
-            }
-            return attr_flag || proto_flag ; 
-        }
-
-        function check_hipar(obj, target_attr) {
-            // skip empty variables
-            if ( !obj || Object.keys(obj).length == 0) return false;
-            var walked = [];
-            var stack = [{obj: obj}];
-            while(stack.length > 0)
-            {
-                var item = stack.pop();
-                var obj = item.obj;
-                for (var property in obj) {
-                    if (Object.prototype.hasOwnProperty.call(obj, property)) {
-                        if (typeof obj[property] == "object") {
-                            var alreadyFound = false;
-                            for(var i = 0; i < walked.length; i++)
-                            {
-                                if (walked[i] === obj[property])
-                                {
-                                    alreadyFound = true;
-                                    break;
-                                }
-                            }
-
-                            if (!alreadyFound)
-                            {
-                                walked.push(obj[property]);
-                                stack.push({obj: obj[property]});
-                            }
-
-                        }
-                        else
-                        {
-                            if (property == target_attr && obj[property] == "H1P4r"){
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }
-            return false;
+        function log_hipar(file_path, var_name, hipar_name){
+            if (!(file_path in verified_hipar)) verified_hipar[file_path] = [];
+            res = var_name +"."+ hipar_name;
+            if (verified_hipar[file_path].indexOf(res) == -1 ) verified_hipar[file_path].push(res);
         }
 
         this.invokeFun = function (iid, f, base, args, val, isConstructor) {
@@ -93,18 +48,47 @@ J$.analysis = {};
                 var file_path = args[0];
                 var attr_name = args[1];
                 var var_name = args[2];
-                if (!(file_path in target_lst)) target_lst[file_path] = {};
-                    target_lst[file_path][var_name] = attr_name;
+                if (!(file_path in target_lst))
+                    target_lst[file_path] = {};
+                if(target_lst[file_path][var_name])
+                    target_lst[file_path][var_name].push(attr_name);
+                else
+                    target_lst[file_path][var_name] = [attr_name];
             }
             return val;
         };
 
+        this.getField = function (iid, base, offset, val) {
+            var cur_file = get_loc_by_iid(iid);
+            if(cur_file in target_lst){
+                try{
+                    if(offset in target_lst[cur_file]){
+                        for(var property in val){
+                            if(property in target_lst[cur_file][offset] && val[property] == "H1P4r"){
+                                log_hipar(cur_file, offset, property);
+                            }
+                        }
+                    }
+                } catch (e){
+                    return val;
+                }
+            }
+            return val;
+        }
+
         this.read = function (iid, name, val, isGlobal) {
             var cur_file = get_loc_by_iid(iid);
-            if ( (cur_file in target_lst) && (name in target_lst[cur_file])) {
-                var target_attr = target_lst[cur_file][name];
-                if (visit_obj(val, target_attr)){
-                    if (!(target_attr in verified_hipar)) verified_hipar[target_attr]= cur_file;
+            if(cur_file in target_lst){
+                try{
+                    if(name in target_lst[cur_file]){
+                        for(var property in val){
+                            if(target_lst[cur_file][name].indexOf(property) != -1 && val[property] == "H1P4r"){
+                                log_hipar(cur_file, name, property);
+                            }
+                        }
+                    }
+                } catch (e){
+                    return val;
                 }
             }
             return val;

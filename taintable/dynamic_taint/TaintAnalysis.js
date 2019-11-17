@@ -109,7 +109,7 @@ J$.analysis = {};
 		        val.tainted = "source";
                 val.tainted_iiid = valueID;
                 taint_tag_to_input[valueID] = {"name": args[1], "location": "undefined"};
-                console.log(("[source] name: " + args[1]));
+                //console.log(("[source] name: " + args[1]));
 
                 hidden_attr[args[1]] = {};
                 tainted_var[args[1]] = [];
@@ -186,7 +186,6 @@ J$.analysis = {};
                     console.log("val type: " + typeof(val) + ", offset: " + offset);
                     console.log(iidToLocation(iid));
                     console.log(val);
-                    console.log("jiguaner");
                 }
             }
             return val;
@@ -203,7 +202,7 @@ J$.analysis = {};
 	            if(val && val.hasOwnProperty('tainted') && val.tainted > 0){
                     name_data = get_loc_by_iid(iid);
                     if(name_data != null){
-                        //console.log(name_data[1]);
+                        console.log(name_data[1]);
                         if(tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]] == undefined)
                             tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]] = [name_data[1]];
                         else if(tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]].indexOf(name_data[1]) == -1)
@@ -249,11 +248,11 @@ J$.analysis = {};
             //tainted_dict =  {"param": {file_path: [tainted_varibles], file_path2: [tainted_variable2]}}
             for(var param in tainted_dict){
                 for(var file in tainted_dict[param]){
-                    console.log("file: " + file + ", param: " + JSON.stringify(tainted_dict[param][file]));
+                    //console.log("file: " + file + ", param: " + JSON.stringify(tainted_dict[param][file]));
                     hidden_list = attr_finder.analyze_hidden_attr(file, tainted_dict[param][file]);
-                    console.log("hidden_list: " + hidden_list);
+                    //console.log("hidden_list: " + hidden_list);
                     for(var key in hidden_list){
-                        console.log("key: " + key);
+                        //console.log("key: " + key);
                         for(var hidden_index in hidden_list[key]){
                             obj_index = hidden_list[key][hidden_index].indexOf(key);
                             dot_index = hidden_list[key][hidden_index].substring(obj_index+key.length+1).indexOf(".");
