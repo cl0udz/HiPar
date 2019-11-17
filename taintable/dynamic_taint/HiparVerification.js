@@ -36,6 +36,7 @@ J$.analysis = {};
         }
 
         function log_hipar(file_path, var_name, hipar_name){
+            console.log("var_name: " + var_name + ", hipar_name: " + hipar_name);
             if (!(file_path in verified_hipar)) verified_hipar[file_path] = [];
             res = var_name +"."+ hipar_name;
             if (verified_hipar[file_path].indexOf(res) == -1 ) verified_hipar[file_path].push(res);
@@ -64,7 +65,7 @@ J$.analysis = {};
                 try{
                     if(offset in target_lst[cur_file]){
                         for(var property in val){
-                            if(property in target_lst[cur_file][offset] && val[property] == "H1P4r"){
+                            if(target_lst[cur_file][offset].indexOf(property) != -1 && val[property] == "H1P4r"){
                                 log_hipar(cur_file, offset, property);
                             }
                         }
