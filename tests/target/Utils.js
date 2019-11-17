@@ -59,8 +59,8 @@ function verifyHipar(testFunc, param, ProjectDir){
                 try{
                     testFunc(tmp);
                 }catch(e){
-                    process.stdout.write(tynt.Red('Verify Error:'));
-                    console.log(e);
+                    process.stdout.write(tynt.Red('[Verify Error]:'));
+                    console.log(tynt.Red(e));
                 }
             }
         }
