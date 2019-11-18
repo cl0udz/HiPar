@@ -1,4 +1,4 @@
-var utils = require(__dirname + "/../Utils.js");
+var utils = require(__dirname + "/../TestcaseUtils.js");
 var mixin = require("mixin-pro");
 
 

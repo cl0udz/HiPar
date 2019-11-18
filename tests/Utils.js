@@ -59,7 +59,7 @@
             var filePath = path.resolve(file);
             var targetFilePath = path.resolve(cacheRoot, file.toString().split('target/')[1])
             try {
-                // process.stdout.write("\rnode " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " " + escapeShell(filePath) + " --out " + escapeShell(targetFilePath));
+                process.stdout.write("\rnode " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " " + escapeShell(filePath) + " --out " + escapeShell(targetFilePath));
                 execSync("node " + path.resolve(TanitPath, "./jalangi/src/js/instrument/esnstrument.js") + " " + escapeShell(filePath) + " --out " + escapeShell(targetFilePath));
             } catch (e) {
                 console.log(tynt.Red("\nPreprocessor: Error when instrumenting " + file + ". Will ignore this file.\n" + e + "\nPlease try babel to format the target js file to ES5,or just delete it if it's unused file "));

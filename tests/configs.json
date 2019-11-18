@@ -6,11 +6,11 @@
 	    "instrFiles": ["./TestIsMyJsonValid.js","../Utils.js"],
 		"sources": "intf"
 	},
-    {
-		"testName": "class-validator",
-	    "projPath": "./target/TestClassValidator",
-	    "startFile": "./TestClassValidator.js",
-	    "instrFiles": ["./TestClassValidator.js","../Utils.js"],
+	{
+		"testName": "property-validator",
+	    "projPath": "./target/TestProperty-Validator",
+	    "startFile": "./TestProperty-Validator.js",
+	    "instrFiles": ["./TestProperty-Validator.js","../Utils.js"],
 		"sources": "intf"
 	},
     {

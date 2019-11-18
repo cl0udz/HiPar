@@ -1,32 +1,17 @@
-import { validate, presence, email  } from 'property-validator';
-
-let user = {
+"use strict";
+exports.__esModule = true;
+var property_validator_1 = require("property-validator");
+var user = {
     username: 'nettofarah',
     email_address: 'invalid@email'
+};
 
+function test(user){
+    property_validator_1.validate(user, [
+        property_validator_1.presence('username'),
+        property_validator_1.email('email_address')
+    ]);
 }
 
-validate(user, [
-    presence('username'),
-    email('email_address')
-
-]);
-
-// returns
-
-{
-    valid: false,
-        errors :[
-            {
-                field: "email_address",
-                message: "\"email_address\" should look like an email address"
-
-            }
-
-        ],
-        messages: [
-            "\"email_address\" should look like an email address"
-
-        ]
-
-}
+var utils = require('../TestcaseUtils.js');
+utils.whatWeDoThisTime(test,user,__dirname);

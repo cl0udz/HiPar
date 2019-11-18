@@ -2,7 +2,7 @@
 
 var validator = require('is-my-json-valid');
 
-var utils = require('../Utils.js');
+var utils = require('../TestcaseUtils.js');
 
 var validate = validator({
   required: true,
