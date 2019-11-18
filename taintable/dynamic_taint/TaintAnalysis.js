@@ -126,16 +126,12 @@ J$.analysis = {};
             // base     ->      object a
             // offset   ->      the string "b"
             // val      ->      object c
-            try{
-                if(val && val.hasOwnProperty('tainted') && val.tainted == "source"){
-                    taint_tag_to_input[val.tainted_iiid].location = iidToLocation(iid);
-                    //console.log("---------New Taint - putField--------");
-                    //console.log("[Tagging] source: " + taint_tag_to_input[val.tainted_iiid].name + ", tag: " + val.tainted_iiid + ", func: " + currentFunc);
-                    //console.log("[Tagging] location: " + taint_tag_to_input[val.tainted_iiid].location);
-                    val.tainted = val.tainted_iiid;
-                }
-            } catch(e) {
-
+            if(val && Object.prototype.hasOwnProperty.call(val,'tainted') && val.tainted == "source"){
+                taint_tag_to_input[val.tainted_iiid].location = iidToLocation(iid);
+                //console.log("---------New Taint - putField--------");
+                //console.log("[Tagging] source: " + taint_tag_to_input[val.tainted_iiid].name + ", tag: " + val.tainted_iiid + ", func: " + currentFunc);
+                //console.log("[Tagging] location: " + taint_tag_to_input[val.tainted_iiid].location);
+                val.tainted = val.tainted_iiid;
             }
             return val;
         }
