@@ -1,5 +1,7 @@
 "use strict"; // Require the framework and instantiate it
 
+require("core-js/modules/web.timers");
+
 var fastify = require('fastify')({
   logger: true
 }); // Declare a route
@@ -14,7 +16,6 @@ fastify.get('/', function (request, reply) {
     hello: 'world'
   });
 }); // Run the server!
-
 
 fastify.listen(3000, function (err, address) {
   if (err) throw err;
@@ -32,3 +33,5 @@ function test(user_input) {
   user_input = JSON.stringify(user_input);
   utils.sendViaWebRequest('post', user_input, '/', 3000, '127.0.0.1');
 }
+
+setTimeout(console.log('Exit'), 3000);
