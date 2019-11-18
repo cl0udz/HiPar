@@ -23,7 +23,7 @@
         }
         else {
             console.log(tynt.Red("Cache of module " + testName + " not found. Start instrumenting new files"));
-            console.log("[-]Copying all project files to prjectCache");
+            console.log("[-]Copying all project files to projectCache");
             //copy all files in project to temp directory
             wrench.copyDirSyncRecursive(projectDir, projectCache, {
                 forceDelete: true

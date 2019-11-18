@@ -19,5 +19,19 @@
 	    "startFile": "./dist/index.js",
 	    "instrFiles": ["./dist/index.js","../Utils.js"],
 		"sources": "intf"
-	}
+	},
+	{
+		"testName": "is-my-json-valid",
+	    "projPath": "./target/TestIsMyJsonValid",
+	    "startFile": "./TestIsMyJsonValid.js",
+	    "instrFiles": ["./TestIsMyJsonValid.js","../Utils.js"],
+		"sources": "intf"
+	},
+	{
+        "testName": "regre_tester",
+        "projPath": "./target/TestRegression",
+        "startFile": "./TestRegression.js",
+        "instrFiles": ["./TestRegression.js","../Utils.js"],
+        "sources": "intf"
+    }
 ]

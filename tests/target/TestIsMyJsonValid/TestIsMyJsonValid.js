@@ -12,10 +12,15 @@ var validate = validator({
 })
 
 
-myJson = {hello: 'world'};
-validate(myJson);
-utils.whatWeDoThisTime(validate,myJson,__dirname);
+var myJson = {hello: 'world'}
 
-// get the last list of errors by checking validate.errors
-// the following will print [{field: 'data.hello', message: 'is required'}]
-console.log(validate.errors)
+function test(myJson){
+    console.log('should be valid', validate(myJson))
+    console.log('should not be valid', validate({}))
+     
+    // get the last list of errors by checking validate.errors
+    // the following will print [{field: 'data.hello', message: 'is required'}]
+    console.log(validate.errors)
+}
+
+utils.whatWeDoThisTime(test,myJson,__dirname);
