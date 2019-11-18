@@ -126,12 +126,16 @@ J$.analysis = {};
             // base     ->      object a
             // offset   ->      the string "b"
             // val      ->      object c
-            if(val && val.hasOwnProperty('tainted') && val.tainted == "source"){
-                taint_tag_to_input[val.tainted_iiid].location = iidToLocation(iid);
-                //console.log("---------New Taint - putField--------");
-                //console.log("[Tagging] source: " + taint_tag_to_input[val.tainted_iiid].name + ", tag: " + val.tainted_iiid + ", func: " + currentFunc);
-                //console.log("[Tagging] location: " + taint_tag_to_input[val.tainted_iiid].location);
-                val.tainted = val.tainted_iiid;
+            try{
+                if(val && val.hasOwnProperty('tainted') && val.tainted == "source"){
+                    taint_tag_to_input[val.tainted_iiid].location = iidToLocation(iid);
+                    //console.log("---------New Taint - putField--------");
+                    //console.log("[Tagging] source: " + taint_tag_to_input[val.tainted_iiid].name + ", tag: " + val.tainted_iiid + ", func: " + currentFunc);
+                    //console.log("[Tagging] location: " + taint_tag_to_input[val.tainted_iiid].location);
+                    val.tainted = val.tainted_iiid;
+                }
+            } catch(e) {
+
             }
             return val;
         }
@@ -164,24 +168,24 @@ J$.analysis = {};
                 }
 
                 try{
-	            if(val && val.hasOwnProperty('tainted') && val.tainted > 0 && analysis_property.indexOf(offset) == -1){
-                    val.tainted_loc = name_data[0];
+	                if(val && val.hasOwnProperty('tainted') && val.tainted > 0 && analysis_property.indexOf(offset) == -1){
+                        val.tainted_loc = name_data[0];
 
-                    if(name_data != null){
-                        //tainted_var[taint_tag_to_input[val.tainted].name].push([name_data[0], [omap.get(val)]]);
-                        //hidden_list = attr_finder.analyze_hidden_attr(name_data[0], [omap.get(val)]);
-                        //console.log(tynt.Green("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + hidden_list));
-                        if(tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]] == undefined)
-                            tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]] = [omap.get(val)];
-                        else if(tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]].indexOf(omap.get(val)) == -1)
-                            tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]].push(omap.get(val));
+                        if(name_data != null){
+                            //tainted_var[taint_tag_to_input[val.tainted].name].push([name_data[0], [omap.get(val)]]);
+                            //hidden_list = attr_finder.analyze_hidden_attr(name_data[0], [omap.get(val)]);
+                            //console.log(tynt.Green("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + hidden_list));
+                            if(tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]] == undefined)
+                                tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]] = [omap.get(val)];
+                            else if(tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]].indexOf(omap.get(val)) == -1)
+                                tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]].push(omap.get(val));
                             
-                        //for(var key in hidden_list){
-                        //    original_param = hidden_list[key].split(".");
-                        //    hidden_attr[taint_tag_to_input[val.tainted].name][original_param[original_param.length - 1]] = name_data[0];
-                        //}
+                            //for(var key in hidden_list){
+                            //    original_param = hidden_list[key].split(".");
+                            //    hidden_attr[taint_tag_to_input[val.tainted].name][original_param[original_param.length - 1]] = name_data[0];
+                            //}
+                        }
                     }
-                }
                 } catch(e){
                     console.log("val type: " + typeof(val) + ", offset: " + offset);
                     console.log(iidToLocation(iid));
