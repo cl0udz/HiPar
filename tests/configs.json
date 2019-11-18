@@ -3,21 +3,21 @@
 		"testName": "is-my-json-valid",
 	    "projPath": "./target/TestIsMyJsonValid",
 	    "startFile": "./TestIsMyJsonValid.js",
-	    "instrFiles": ["./TestIsMyJsonValid.js","../Utils.js"],
+	    "instrFiles": ["./TestIsMyJsonValid.js","../TestcaseUtils.js"],
 		"sources": "intf"
 	},
 	{
-		"testName": "property-validator",
-	    "projPath": "./target/TestProperty-Validator",
-	    "startFile": "./TestProperty-Validator.js",
-	    "instrFiles": ["./TestProperty-Validator.js","../Utils.js"],
+		"testName": "fastify",
+	    "projPath": "./target/TestFastify",
+	    "startFile": "./TestFastify.js",
+	    "instrFiles": ["./TestFastify.js","../TestcaseUtils.js"],
 		"sources": "intf"
 	},
     {
         "testName": "regre_tester",
         "projPath": "./target/TestRegression",
         "startFile": "./TestRegression.js",
-        "instrFiles": ["./TestRegression.js","../Utils.js"],
+        "instrFiles": ["./TestRegression.js","../TestcaseUtils.js"],
         "sources": "intf"
     }
 ]

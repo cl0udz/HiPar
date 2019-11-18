@@ -19,10 +19,10 @@
         var files = [];
 
         if (fs.existsSync(completed)) {
-            console.log(tynt.Green("Cache of module " + testName + " found"));
+            console.log(tynt.Green("Module cache of project " + testName + " found"));
         }
         else {
-            console.log(tynt.Red("Cache of module " + testName + " not found. Start instrumenting new files"));
+            console.log(tynt.Red("Module cache of project " + testName + " not found. Start instrumenting new files"));
             console.log("[-]Copying all project files to projectCache");
             //copy all files in project to temp directory
             wrench.copyDirSyncRecursive(projectDir, projectCache, {
