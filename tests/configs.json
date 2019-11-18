@@ -9,8 +9,8 @@
     {
 		"testName": "class-validator",
 	    "projPath": "./target/TestClassValidator",
-	    "startFile": "./index.js",
-	    "instrFiles": ["./index.js","../Utils.js"],
+	    "startFile": "./TestClassValidator.js",
+	    "instrFiles": ["./TestClassValidator.js","../Utils.js"],
 		"sources": "intf"
 	},
     {

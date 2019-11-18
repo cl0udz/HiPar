@@ -46,7 +46,7 @@ var userJson = JSON.parse('{"title":"Hello","rating":5}');
 
 
 var path = require('path')
-var utils = require(path.resolve(__dirname,"../../Utils.js"))
+var utils = require(path.resolve(__dirname,"../Utils.js"))
 utils.whatWeDoThisTime(test,userJson,__dirname)
 
 function test(userJson){
