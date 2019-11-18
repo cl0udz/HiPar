@@ -5,7 +5,9 @@
             {
                 "targets": {
                     "node": "5.7.1"
-                }
+                },
+                "useBuiltIns": "usage",
+                "corejs": 3
             }
         ]
     ]
