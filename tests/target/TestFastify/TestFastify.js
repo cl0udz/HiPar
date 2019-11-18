@@ -5,11 +5,10 @@ var fastify = require('fastify')({
 }); // Declare a route
 
 
-fastify.post('/',function(request, reply){
-    console.log(request.body);
-    reply.send("post successfully!")
+fastify.post('/', function (request, reply) {
+  console.log(request.body);
+  reply.send("post successfully!");
 });
-
 fastify.get('/', function (request, reply) {
   reply.send({
     hello: 'world'
@@ -18,7 +17,7 @@ fastify.get('/', function (request, reply) {
 
 fastify.listen(3000, function (err, address) {
   if (err) throw err;
-  fastify.log.info(`server listening on ${address}`);
+  fastify.log.info("server listening on ".concat(address));
   utils.whatWeDoThisTime(test, user_input, __dirname);
 });
 
@@ -29,7 +28,6 @@ var user_input = {
 };
 
 function test(user_input) {
-    user_input = JSON.stringify(user_input);
-    utils.sendViaWebRequest('post', user_input, '/', 3000, '127.0.0.1');
+  user_input = JSON.stringify(user_input);
+  utils.sendViaWebRequest('post', user_input, '/', 3000, '127.0.0.1');
 }
-
