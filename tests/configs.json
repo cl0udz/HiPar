@@ -7,10 +7,10 @@
 		"sources": "intf"
 	},
 	{
-		"testName": "fastify",
-	    "projPath": "./target/TestFastify",
-	    "startFile": "./TestFastify.js",
-	    "instrFiles": ["./TestFastify.js","../TestcaseUtils.js"],
+		"testName": "property-validator",
+	    "projPath": "./target/TestProperty-Validator",
+	    "startFile": "./TestProperty-Validator.js",
+	    "instrFiles": ["./TestProperty-Validator.js","../TestcaseUtils.js"],
 		"sources": "intf"
 	},
     {

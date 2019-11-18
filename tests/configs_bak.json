@@ -33,5 +33,11 @@
         "startFile": "./TestRegression.js",
         "instrFiles": ["./TestRegression.js","../Utils.js"],
         "sources": "intf"
-    }
+    },{
+		"testName": "property-validator",
+	    "projPath": "./target/TestProperty-Validator",
+	    "startFile": "./TestProperty-Validator.js",
+	    "instrFiles": ["./TestProperty-Validator.js","../Utils.js"],
+		"sources": "intf"
+	}
 ]
