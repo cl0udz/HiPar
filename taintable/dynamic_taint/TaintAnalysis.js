@@ -164,7 +164,7 @@ J$.analysis = {};
                 }
 
                 try{
-	                if(val && val.hasOwnProperty('tainted') && val.tainted > 0 && analysis_property.indexOf(offset) == -1){
+	                if(val && Object.prototype.hasOwnProperty.call(val, 'tainted') && val.tainted > 0 && analysis_property.indexOf(offset) == -1){
                         val.tainted_loc = name_data[0];
 
                         if(name_data != null){
@@ -193,13 +193,13 @@ J$.analysis = {};
 
         this.read = function(iid, name, val, isGlobal) {
             if(taint_state){
-                if(val && val.hasOwnProperty('tainted') && val.tainted == "source"){
+                if(val && Object.prototype.hasOwnProperty.call(val, 'tainted') && val.tainted == "source"){
                     taint_tag_to_input[val.tainted_iiid].location = iidToLocation(iid);
                     //console.log(("[Tagging] source: " + taint_tag_to_input[val.tainted_iiid].name + ", tag: " + valueID));
                     val.tainted = val.tainted_iiid;
                 }
 
-	            if(val && val.hasOwnProperty('tainted') && val.tainted > 0){
+	            if(val && Object.prototype.hasOwnProperty.call(val, 'tainted') && val.tainted > 0){
                     name_data = get_loc_by_iid(iid);
                     if(name_data != null){
                         console.log(name_data[1]);
@@ -230,7 +230,7 @@ J$.analysis = {};
             // name     ->      string "a"
             // val      ->      the value of a after assignment
             // oldValuoe->      the value of a before assignment
-            if(val && val.hasOwnProperty('tainted') && val.tainted == "source"){
+            if(val && Object.prototype.hasOwnProperty.call(val, 'tainted') && val.tainted == "source"){
                 taint_tag_to_input[val.tainted_iiid].location = iidToLocation(iid);
                 //console.log("[Tagging] source: " + taint_tag_to_input[val.tainted_iiid].name + ", tag: " + valueID);
                 val.tainted = val.tainted_iiid;
