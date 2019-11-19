@@ -126,12 +126,16 @@ J$.analysis = {};
             // base     ->      object a
             // offset   ->      the string "b"
             // val      ->      object c
-            if(val && Object.prototype.hasOwnProperty.call(val,'tainted') && val.tainted == "source"){
-                taint_tag_to_input[val.tainted_iiid].location = iidToLocation(iid);
-                //console.log("---------New Taint - putField--------");
-                //console.log("[Tagging] source: " + taint_tag_to_input[val.tainted_iiid].name + ", tag: " + val.tainted_iiid + ", func: " + currentFunc);
-                //console.log("[Tagging] location: " + taint_tag_to_input[val.tainted_iiid].location);
-                val.tainted = val.tainted_iiid;
+            try{
+                if(val && Object.prototype.hasOwnProperty.call(val,'tainted') && val.tainted == "source"){
+                    taint_tag_to_input[val.tainted_iiid].location = iidToLocation(iid);
+                    //console.log("---------New Taint - putField--------");
+                    //console.log("[Tagging] source: " + taint_tag_to_input[val.tainted_iiid].name + ", tag: " + val.tainted_iiid + ", func: " + currentFunc);
+                    //console.log("[Tagging] location: " + taint_tag_to_input[val.tainted_iiid].location);
+                    val.tainted = val.tainted_iiid;
+                }
+            } catch(e){
+                // catch the error caused by getter/setter
             }
             return val;
         }
@@ -199,23 +203,27 @@ J$.analysis = {};
                     val.tainted = val.tainted_iiid;
                 }
 
-	            if(val && Object.prototype.hasOwnProperty.call(val, 'tainted') && val.tainted > 0){
-                    name_data = get_loc_by_iid(iid);
-                    if(name_data != null){
-                        console.log(name_data[1]);
-                        if(tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]] == undefined)
-                            tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]] = [name_data[1]];
-                        else if(tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]].indexOf(name_data[1]) == -1)
-                            tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]].push(name_data[1]);
-                        //console.log(name_data[0] + ", " + name_data[1]);
-                        //console.log("arg[0]: " + name_data[0]);
-		                //hidden_list = attr_finder.analyze_hidden_attr(name_data[0], [name_data[1]]);
-                        //console.log(tynt.Green("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + hidden_list));
-                        //for(var key in hidden_list){
-                        //    original_param = hidden_list[key].split(".");
-                        //    hidden_attr[taint_tag_to_input[val.tainted].name][original_param[original_param.length - 1]] = name_data[0];
-                        //}
-	                }
+                try{
+	                if(val && Object.prototype.hasOwnProperty.call(val, 'tainted') && val.tainted > 0){
+                        name_data = get_loc_by_iid(iid);
+                        if(name_data != null){
+                            console.log(name_data[1]);
+                            if(tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]] == undefined)
+                                tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]] = [name_data[1]];
+                            else if(tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]].indexOf(name_data[1]) == -1)
+                                tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]].push(name_data[1]);
+                            //console.log(name_data[0] + ", " + name_data[1]);
+                            //console.log("arg[0]: " + name_data[0]);
+		                    //hidden_list = attr_finder.analyze_hidden_attr(name_data[0], [name_data[1]]);
+                            //console.log(tynt.Green("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + hidden_list));
+                            //for(var key in hidden_list){
+                            //    original_param = hidden_list[key].split(".");
+                            //    hidden_attr[taint_tag_to_input[val.tainted].name][original_param[original_param.length - 1]] = name_data[0];
+                            //}
+	                    }
+                    }
+                } catch (e){
+                    // catch the error caused by getter/setter
                 }
 
                 iid_to_name[iid] = name;
@@ -230,10 +238,14 @@ J$.analysis = {};
             // name     ->      string "a"
             // val      ->      the value of a after assignment
             // oldValuoe->      the value of a before assignment
-            if(val && Object.prototype.hasOwnProperty.call(val, 'tainted') && val.tainted == "source"){
-                taint_tag_to_input[val.tainted_iiid].location = iidToLocation(iid);
-                //console.log("[Tagging] source: " + taint_tag_to_input[val.tainted_iiid].name + ", tag: " + valueID);
-                val.tainted = val.tainted_iiid;
+            try{
+                if(val && Object.prototype.hasOwnProperty.call(val, 'tainted') && val.tainted == "source"){
+                    taint_tag_to_input[val.tainted_iiid].location = iidToLocation(iid);
+                    //console.log("[Tagging] source: " + taint_tag_to_input[val.tainted_iiid].name + ", tag: " + valueID);
+                    val.tainted = val.tainted_iiid;
+                }
+            } catch (e){
+                // catch the error caused by getter/setter
             }
 
             iid_to_name[iid] = name;
