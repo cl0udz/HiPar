@@ -10,14 +10,14 @@
 		"testName": "class-validator",
 	    "projPath": "./target/TestClassValidator",
 	    "startFile": "./TestClassValidator.js",
-	    "instrFiles": ["./TestClassValidator.js","../Utils.js"],
+	    "instrFiles": ["./TestClassValidator.js","../TestcaseUtils.js"],
 		"sources": "intf"
 	},
 	{
 		"testName": "property-validator",
 	    "projPath": "./target/TestProperty-Validator",
 	    "startFile": "./TestProperty-Validator.js",
-	    "instrFiles": ["./TestProperty-Validator.js","../Utils.js"],
+	    "instrFiles": ["./TestProperty-Validator.js","../TestcaseUtils.js"],
 		"sources": "intf"
 	},
 	{
