@@ -7,6 +7,14 @@
 		"sources": "intf"
 	},
 	{
+		"testName": "schema-inspector",
+	    "projPath": "./target/TestSchema-inspector",
+	    "startFile": "./TestSchema-inspector.js",
+	    "instrFiles": ["./TestSchema-inspector.js","../TestcaseUtils.js"],
+		"sources": "intf"
+	},
+		
+	{
 		"testName": "class-validator",
 	    "projPath": "./target/TestClassValidator",
 	    "startFile": "./TestClassValidator.js",
@@ -18,13 +26,6 @@
 	    "projPath": "./target/TestProperty-Validator",
 	    "startFile": "./TestProperty-Validator.js",
 	    "instrFiles": ["./TestProperty-Validator.js","../TestcaseUtils.js"],
-		"sources": "intf"
-	},
-	{
-		"testName": "fastify",
-	    "projPath": "./target/TestFastify",
-	    "startFile": "./TestFastify.js",
-	    "instrFiles": ["./TestFastify.js","../TestcaseUtils.js"],
 		"sources": "intf"
 	},
     {
