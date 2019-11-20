@@ -1,3 +1,5 @@
+var Ajv = require('ajv');
+
 var ajv = new Ajv({$data: true});
 
 var schema = {
@@ -15,4 +17,10 @@ var validData = {
   larger: 7
 };
 
-ajv.validate(schema, validData); // true
+function test(validData){
+    ajv.validate(schema, validData); // true
+}
+
+var utils = require('../TestcaseUtils');
+
+utils.whatWeDoThisTime(test,validData,__dirname);

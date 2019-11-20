@@ -13,7 +13,13 @@
 	    "instrFiles": ["./TestSchema-inspector.js","../TestcaseUtils.js"],
 		"sources": "intf"
 	},
-		
+	{
+		"testName": "ajv",
+	    "projPath": "./target/TestAjv",
+	    "startFile": "./TestAjv.js",
+	    "instrFiles": ["./TestAjv.js","../TestcaseUtils.js"],
+		"sources": "intf"
+	},
 	{
 		"testName": "class-validator",
 	    "projPath": "./target/TestClassValidator",
