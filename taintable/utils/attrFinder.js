@@ -33,7 +33,7 @@ function cal_taintable_attr(domain, attr_lst){
     for (const attr of attr_lst){
         for (const d of domain){
             if (attr == d) continue;
-            if (attr.startsWith(d)){
+            if (attr.startsWith(d + '.')){
                 if (!(d in taint_lst)) taint_lst[d] = [];
                 if (taint_lst[d].indexOf(attr) === -1) taint_lst[d].push(attr);
             }
@@ -253,6 +253,6 @@ var loc = {
     }
 }
 
- //console.log(exports.analyze_hidden_attr("test.js", ['a', 'b']));
+ // console.log(exports.analyze_hidden_attr("test.js", ['a']));
 
  // console.log( exports.get_name_by_loc(loc));
