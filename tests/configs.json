@@ -1,5 +1,12 @@
 [
     {
+		"testName": "jsonschema",
+	    "projPath": "./target/TestJsonschema",
+	    "startFile": "./TestJsonschema.js",
+	    "instrFiles": ["./TestJsonschema.js","../TestcaseUtils.js"],
+		"sources": "intf"
+	},
+	{
 		"testName": "is-my-json-valid",
 	    "projPath": "./target/TestIsMyJsonValid",
 	    "startFile": "./TestIsMyJsonValid.js",
