@@ -172,9 +172,10 @@ J$.analysis = {};
                         val.tainted_loc = name_data[0];
 
                         if(name_data != null){
-                            //tainted_var[taint_tag_to_input[val.tainted].name].push([name_data[0], [omap.get(val)]]);
-                            //hidden_list = attr_finder.analyze_hidden_attr(name_data[0], [omap.get(val)]);
+                            tainted_var[taint_tag_to_input[val.tainted].name].push([name_data[0], [omap.get(val)]]);
+                            hidden_list = attr_finder.analyze_hidden_attr(name_data[0], [omap.get(val)]);
                             //console.log(tynt.Green("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + hidden_list));
+                            
                             if(tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]] == undefined)
                                 tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]] = [omap.get(val)];
                             else if(tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]].indexOf(omap.get(val)) == -1)
@@ -207,7 +208,7 @@ J$.analysis = {};
 	                if(val && Object.prototype.hasOwnProperty.call(val, 'tainted') && val.tainted > 0){
                         name_data = get_loc_by_iid(iid);
                         if(name_data != null){
-                            console.log(name_data[1]);
+                            //console.log(name_data[1]);
                             if(tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]] == undefined)
                                 tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]] = [name_data[1]];
                             else if(tainted_var[taint_tag_to_input[val.tainted].name][name_data[0]].indexOf(name_data[1]) == -1)
@@ -261,7 +262,11 @@ J$.analysis = {};
             for(var param in tainted_dict){
                 for(var file in tainted_dict[param]){
                     //console.log("file: " + file + ", param: " + JSON.stringify(tainted_dict[param][file]));
-                    hidden_list = attr_finder.analyze_hidden_attr(file, tainted_dict[param][file]);
+                    try{
+                        hidden_list = attr_finder.analyze_hidden_attr(file, tainted_dict[param][file]);
+                    }catch(e){
+                        console.log("file: " + file + ", param: " + JSON.stringify(tainted_dict[param][file]));
+                    }
                     //console.log("hidden_list: " + hidden_list);
                     for(var key in hidden_list){
                         //console.log("key: " + key);
