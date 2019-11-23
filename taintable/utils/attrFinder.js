@@ -233,15 +233,30 @@ function read_property(node, path, offset, cmd){
             }
         } else {
             // this is statement like func('aaa').b, just ignore
-            if ( node.object.type === "CallExpression" ) return;
+            if ( node.object.type === "CallExpression" ) {
+                if (node.object.callee.type === "MemberExpression"){
+                    read_property(node.object.callee, path.splice(0,offset), offset, cmd);
+                }
+                return;
+            }
             // this is statement like "i love".concat("china"), just ignore
             if ( node.object.type === "Literal" ) return;
+
             // this is statement like new String(aaa), just ignore
-            if (node.object.type === "NewExpression") return;
+            if (node.object.type === "NewExpression") {
+                const args = node.object.arguments;
+                for (const id in args) read_property(args[id], path.splice(0,offset), offset, cmd);
+                return;           
+            }
+
             // this is statement like (a?b:c).aaa, just ignore
             if (node.object.type === "ConditionalExpression") return;
             // this is statement like [a,b].concat(), just ignore
-            if (node.object.type === "ArrayExpression") return;
+            if (node.object.type === "ArrayExpression"){
+                const ele = node.object.elements; 
+                for (const id in ele) read_property(ele[id], path.splice(0,offset), offset, cmd);
+                return;
+            }
             console.log("[x] read_property error: unknown object tpye " + JSON.stringify(node.object));
             console.log(cmd.loc);
             return;
