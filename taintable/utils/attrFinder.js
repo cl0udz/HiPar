@@ -7,7 +7,7 @@ var tynt = require('tynt');
 exports.analyze_hidden_attr = function analyze_hidden_attr(file_loc, domain){
     var file_loc, domain;
     var content = fs.readFileSync(file_loc, 'utf-8');
-    var cmd = {'mode':'getAll', 'res' : []};
+    var cmd = {'mode':'getAll', 'res' : [], "loc":file_loc};
     search_all_attr(file_loc, content, cmd);
     var taint_lst = cal_taintable_attr(domain, cmd.res);
     return taint_lst;
@@ -160,6 +160,10 @@ function read_standalone_or_base(node, path, cmd){
                 cmd.res.push(-1);
                 return;
             }
+            if (node.object.type === "ConditionalExpression"){
+                cmd.res.push(-1);
+                return;
+            }
             console.log(tynt.Red("[x] read_standalone_or_base error: unknown object type " + JSON.stringify(node.object.type)));
             return;
         }
@@ -184,7 +188,9 @@ function read_standalone_or_base(node, path, cmd){
 // get a specifcy property referrenced in the file
 function read_property(node, path, offset, cmd){
     if (node.hasOwnProperty('property')) {
-       // it is a member expr 
+       // it is a member expr
+        
+        //[1] handle property here 
         if (node.property.type === "Literal"){
             // it is a array indexing expr (a['c'])
             path.splice(offset, 0, node.property.value);
@@ -201,9 +207,13 @@ function read_property(node, path, offset, cmd){
             while (path.length > offset) path.pop();
         }else {
             console.log(tynt.Red("[x] read_property error: unknown attribute indexing type " + JSON.stringify(node.property.type)));
+            console.log(cmd.loc);
             return;
         }
 
+
+
+        //[2] handle object here 
         if ( node.object.type === "Identifier" ){
             // this is the end
             path.splice(offset, 0, node.object.name);
@@ -226,7 +236,15 @@ function read_property(node, path, offset, cmd){
             if ( node.object.type === "CallExpression" ) return;
             // this is statement like "i love".concat("china"), just ignore
             if ( node.object.type === "Literal" ) return;
+            // this is statement like new String(aaa), just ignore
+            if (node.object.type === "NewExpression") return;
+            // this is statement like (a?b:c).aaa, just ignore
+            if (node.object.type === "ConditionalExpression") return;
+            // this is statement like [a,b].concat(), just ignore
+            if (node.object.type === "ArrayExpression") return;
             console.log("[x] read_property error: unknown object tpye " + JSON.stringify(node.object));
+            console.log(cmd.loc);
+            return;
         }
         
     } else{
@@ -253,6 +271,6 @@ var loc = {
     }
 }
 
- // console.log(exports.analyze_hidden_attr("test.js", ['a']));
+ //  console.log(exports.analyze_hidden_attr("test.js", ['a']));
 
  // console.log( exports.get_name_by_loc(loc));

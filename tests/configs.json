@@ -7,31 +7,10 @@
 		"sources": "intf"
 	},
 	{
-		"testName": "is-my-json-valid",
-	    "projPath": "./target/TestIsMyJsonValid",
-	    "startFile": "./TestIsMyJsonValid.js",
-	    "instrFiles": ["./TestIsMyJsonValid.js","../TestcaseUtils.js"],
-		"sources": "intf"
-	},
-	{
 		"testName": "schema-inspector",
 	    "projPath": "./target/TestSchema-inspector",
 	    "startFile": "./TestSchema-inspector.js",
 	    "instrFiles": ["./TestSchema-inspector.js","../TestcaseUtils.js"],
-		"sources": "intf"
-	},
-	{
-		"testName": "ajv",
-	    "projPath": "./target/TestAjv",
-	    "startFile": "./TestAjv.js",
-	    "instrFiles": ["./TestAjv.js","../TestcaseUtils.js"],
-		"sources": "intf"
-	},
-	{
-		"testName": "class-validator",
-	    "projPath": "./target/TestClassValidator",
-	    "startFile": "./TestClassValidator.js",
-	    "instrFiles": ["./TestClassValidator.js","../TestcaseUtils.js"],
 		"sources": "intf"
 	},
 	{
