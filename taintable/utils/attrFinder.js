@@ -39,7 +39,7 @@ function cal_taintable_attr(domain, attr_lst){
             }
         }
     }
-    
+
     return taint_lst;
 }
 
@@ -131,10 +131,10 @@ function read_standalone_or_base(node, path, cmd){
     // find the exact match of the loc 
     if (node.hasOwnProperty("property")){
         // this is a member expr 
-        
+
         // find the a in a.b.c.d.e.f 
         while (node.object.type === "MemberExpression") node = node.object;
-        
+
         if (node.object.type === "Identifier"){
             path.push( node.object.name );
         } else if (node.object.type === "ThisExpression"){
@@ -171,7 +171,7 @@ function read_standalone_or_base(node, path, cmd){
         // return results here 
         cmd.res.push(path.join("."));
         return;
-    
+
     }else{
         // this is a standalone var
         if (JSON.stringify(node.loc) === JSON.stringify(cmd.loc)){
@@ -188,8 +188,8 @@ function read_standalone_or_base(node, path, cmd){
 // get a specifcy property referrenced in the file
 function read_property(node, path, offset, cmd){
     if (node.hasOwnProperty('property')) {
-       // it is a member expr
-        
+        // it is a member expr
+
         //[1] handle property here 
         if (node.property.type === "Literal"){
             // it is a array indexing expr (a['c'])
@@ -261,7 +261,7 @@ function read_property(node, path, offset, cmd){
             console.log(cmd.loc);
             return;
         }
-        
+
     } else{
         // it is a standalone variable
         path.splice(offset, 0, node.name);
@@ -286,6 +286,6 @@ var loc = {
     }
 }
 
- //  console.log(exports.analyze_hidden_attr("test.js", ['a']));
+//  console.log(exports.analyze_hidden_attr("test.js", ['a']));
 
- // console.log( exports.get_name_by_loc(loc));
+// console.log( exports.get_name_by_loc(loc));

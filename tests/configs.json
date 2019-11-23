@@ -1,26 +1,5 @@
 [
     {
-		"testName": "jsonschema",
-	    "projPath": "./target/TestJsonschema",
-	    "startFile": "./TestJsonschema.js",
-	    "instrFiles": ["./TestJsonschema.js","../TestcaseUtils.js"],
-		"sources": "intf"
-	},
-	{
-		"testName": "schema-inspector",
-	    "projPath": "./target/TestSchema-inspector",
-	    "startFile": "./TestSchema-inspector.js",
-	    "instrFiles": ["./TestSchema-inspector.js","../TestcaseUtils.js"],
-		"sources": "intf"
-	},
-	{
-		"testName": "property-validator",
-	    "projPath": "./target/TestProperty-Validator",
-	    "startFile": "./TestProperty-Validator.js",
-	    "instrFiles": ["./TestProperty-Validator.js","../TestcaseUtils.js"],
-		"sources": "intf"
-	},
-    {
         "testName": "regre_tester",
         "projPath": "./target/TestRegression",
         "startFile": "./TestRegression.js",
