@@ -36,7 +36,7 @@ J$.analysis = {};
         }
 
         function log_hipar(file_path, var_name, hipar_name){
-            console.log("var_name: " + var_name + ", hipar_name: " + hipar_name);
+            //console.log("var_name: " + var_name + ", hipar_name: " + hipar_name);
             if (!(file_path in verified_hipar)) verified_hipar[file_path] = [];
             res = var_name +"."+ hipar_name;
             if (verified_hipar[file_path].indexOf(res) == -1 ) verified_hipar[file_path].push(res);

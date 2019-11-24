@@ -2,77 +2,77 @@ J$.noInstrEval = false;
 jalangiLabel1:
     while (true) {
         try {
-            J$.Se(3836945, '/mnt/data/fxiao/HiPar/outputs/target_cache/TestJsonschema/TestJsonschema.js');
+            J$.Se(7436569, '/home/james/nodejs/HiPar/outputs/target_cache/TestJsonschema/TestJsonschema.js');
             function test(p) {
                 jalangiLabel0:
                     while (true) {
                         try {
-                            J$.Fe(3836881, arguments.callee, this, arguments);
-                            arguments = J$.N(3836889, 'arguments', arguments, true, false, false);
-                            p = J$.N(3836897, 'p', p, true, false, false);
-                            J$.M(3836873, J$.I(typeof console === 'undefined' ? console = J$.R(3836833, 'console', undefined, true, true) : console = J$.R(3836833, 'console', console, true, true)), 'log', false)(J$.M(3836865, J$.R(3836841, 'v', v, false, true), 'validate', false)(J$.R(3836849, 'p', p, false, false), J$.R(3836857, 'schema', schema, false, true)));
+                            J$.Fe(7436505, arguments.callee, this, arguments);
+                            arguments = J$.N(7436513, 'arguments', arguments, true, false, false);
+                            p = J$.N(7436521, 'p', p, true, false, false);
+                            J$.M(7436497, J$.I(typeof console === 'undefined' ? console = J$.R(7436457, 'console', undefined, true, true) : console = J$.R(7436457, 'console', console, true, true)), 'log', false)(J$.M(7436489, J$.R(7436465, 'v', v, false, true), 'validate', false)(J$.R(7436473, 'p', p, false, false), J$.R(7436481, 'schema', schema, false, true)));
                         } catch (J$e) {
-                            J$.Ex(3837017, J$e);
+                            J$.Ex(7436641, J$e);
                         } finally {
-                            if (J$.Fr(3837025))
+                            if (J$.Fr(7436649))
                                 continue jalangiLabel0;
                             else
                                 return J$.Ra();
                         }
                     }
             }
-            J$.N(3836953, 'Validator', Validator, false, false, false);
-            J$.N(3836961, 'v', v, false, false, false);
-            J$.N(3836969, 'addressSchema', addressSchema, false, false, false);
-            J$.N(3836977, 'schema', schema, false, false, false);
-            J$.N(3836985, 'p', p, false, false, false);
-            J$.N(3836993, 'utils', utils, false, false, false);
-            test = J$.N(3837009, 'test', J$.T(3837001, test, 12, false), true, false, false);
-            var Validator = J$.W(3836425, 'Validator', J$.G(3836417, J$.F(3836409, J$.I(typeof require === 'undefined' ? require = J$.R(3836393, 'require', undefined, true, true) : require = J$.R(3836393, 'require', require, true, true)), false)(J$.T(3836401, 'jsonschema', 21, false)), 'Validator'), Validator, false, true);
-            var v = J$.W(3836449, 'v', J$.F(3836441, J$.R(3836433, 'Validator', Validator, false, true), true)(), v, false, true);
-            var addressSchema = J$.W(3836585, 'addressSchema', J$.T(3836577, {
-                'id': J$.T(3836457, '/SimpleAddress', 21, false),
-                'type': J$.T(3836465, 'object', 21, false),
-                'properties': J$.T(3836553, {
-                    'lines': J$.T(3836497, {
-                        'type': J$.T(3836473, 'array', 21, false),
-                        'items': J$.T(3836489, { 'type': J$.T(3836481, 'string', 21, false) }, 11, false)
+            J$.N(7436577, 'Validator', Validator, false, false, false);
+            J$.N(7436585, 'v', v, false, false, false);
+            J$.N(7436593, 'addressSchema', addressSchema, false, false, false);
+            J$.N(7436601, 'schema', schema, false, false, false);
+            J$.N(7436609, 'p', p, false, false, false);
+            J$.N(7436617, 'utils', utils, false, false, false);
+            test = J$.N(7436633, 'test', J$.T(7436625, test, 12, false), true, false, false);
+            var Validator = J$.W(7436049, 'Validator', J$.G(7436041, J$.F(7436033, J$.I(typeof require === 'undefined' ? require = J$.R(7436017, 'require', undefined, true, true) : require = J$.R(7436017, 'require', require, true, true)), false)(J$.T(7436025, 'jsonschema', 21, false)), 'Validator'), Validator, false, true);
+            var v = J$.W(7436073, 'v', J$.F(7436065, J$.R(7436057, 'Validator', Validator, false, true), true)(), v, false, true);
+            var addressSchema = J$.W(7436209, 'addressSchema', J$.T(7436201, {
+                'id': J$.T(7436081, '/SimpleAddress', 21, false),
+                'type': J$.T(7436089, 'object', 21, false),
+                'properties': J$.T(7436177, {
+                    'lines': J$.T(7436121, {
+                        'type': J$.T(7436097, 'array', 21, false),
+                        'items': J$.T(7436113, { 'type': J$.T(7436105, 'string', 21, false) }, 11, false)
                     }, 11, false),
-                    'zip': J$.T(3836513, { 'type': J$.T(3836505, 'string', 21, false) }, 11, false),
-                    'city': J$.T(3836529, { 'type': J$.T(3836521, 'string', 21, false) }, 11, false),
-                    'country': J$.T(3836545, { 'type': J$.T(3836537, 'string', 21, false) }, 11, false)
+                    'zip': J$.T(7436137, { 'type': J$.T(7436129, 'string', 21, false) }, 11, false),
+                    'city': J$.T(7436153, { 'type': J$.T(7436145, 'string', 21, false) }, 11, false),
+                    'country': J$.T(7436169, { 'type': J$.T(7436161, 'string', 21, false) }, 11, false)
                 }, 11, false),
-                'required': J$.T(3836569, [J$.T(3836561, 'country', 21, false)], 10, false)
+                'required': J$.T(7436193, [J$.T(7436185, 'country', 21, false)], 10, false)
             }, 11, false), addressSchema, false, true);
-            var schema = J$.W(3836681, 'schema', J$.T(3836673, {
-                'id': J$.T(3836593, '/SimplePerson', 21, false),
-                'type': J$.T(3836601, 'object', 21, false),
-                'properties': J$.T(3836665, {
-                    'name': J$.T(3836617, { 'type': J$.T(3836609, 'string', 21, false) }, 11, false),
-                    'address': J$.T(3836633, { '$ref': J$.T(3836625, '/SimpleAddress', 21, false) }, 11, false),
-                    'votes': J$.T(3836657, {
-                        'type': J$.T(3836641, 'integer', 21, false),
-                        'minimum': J$.T(3836649, 1, 22, false)
+            var schema = J$.W(7436305, 'schema', J$.T(7436297, {
+                'id': J$.T(7436217, '/SimplePerson', 21, false),
+                'type': J$.T(7436225, 'object', 21, false),
+                'properties': J$.T(7436289, {
+                    'name': J$.T(7436241, { 'type': J$.T(7436233, 'string', 21, false) }, 11, false),
+                    'address': J$.T(7436257, { '$ref': J$.T(7436249, '/SimpleAddress', 21, false) }, 11, false),
+                    'votes': J$.T(7436281, {
+                        'type': J$.T(7436265, 'integer', 21, false),
+                        'minimum': J$.T(7436273, 1, 22, false)
                     }, 11, false)
                 }, 11, false)
             }, 11, false), schema, false, true);
-            var p = J$.W(3836761, 'p', J$.T(3836753, {
-                'name': J$.T(3836689, 'Barack Obama', 21, false),
-                'address': J$.T(3836737, {
-                    'lines': J$.T(3836705, [J$.T(3836697, '1600 Pennsylvania Avenue Northwest', 21, false)], 10, false),
-                    'zip': J$.T(3836713, 'DC 20500', 21, false),
-                    'city': J$.T(3836721, 'Washington', 21, false),
-                    'country': J$.T(3836729, 'USA', 21, false)
+            var p = J$.W(7436385, 'p', J$.T(7436377, {
+                'name': J$.T(7436313, 'Barack Obama', 21, false),
+                'address': J$.T(7436361, {
+                    'lines': J$.T(7436329, [J$.T(7436321, '1600 Pennsylvania Avenue Northwest', 21, false)], 10, false),
+                    'zip': J$.T(7436337, 'DC 20500', 21, false),
+                    'city': J$.T(7436345, 'Washington', 21, false),
+                    'country': J$.T(7436353, 'USA', 21, false)
                 }, 11, false),
-                'votes': J$.T(3836745, 'lots', 21, false)
+                'votes': J$.T(7436369, 'lots', 21, false)
             }, 11, false), p, false, true);
-            J$.M(3836793, J$.R(3836769, 'v', v, false, true), 'addSchema', false)(J$.R(3836777, 'addressSchema', addressSchema, false, true), J$.T(3836785, '/SimpleAddress', 21, false));
-            var utils = J$.W(3836825, 'utils', J$.F(3836817, J$.I(typeof require === 'undefined' ? require = J$.R(3836801, 'require', undefined, true, true) : require = J$.R(3836801, 'require', require, true, true)), false)(J$.T(3836809, '../TestcaseUtils', 21, false)), utils, false, true);
-            J$.M(3836937, J$.R(3836905, 'utils', utils, false, true), 'whatWeDoThisTime', false)(J$.R(3836913, 'test', test, false, true), J$.R(3836921, 'p', p, false, true), J$.I(typeof __dirname === 'undefined' ? __dirname = J$.R(3836929, '__dirname', undefined, true, true) : __dirname = J$.R(3836929, '__dirname', __dirname, true, true)));
+            J$.M(7436417, J$.R(7436393, 'v', v, false, true), 'addSchema', false)(J$.R(7436401, 'addressSchema', addressSchema, false, true), J$.T(7436409, '/SimpleAddress', 21, false));
+            var utils = J$.W(7436449, 'utils', J$.F(7436441, J$.I(typeof require === 'undefined' ? require = J$.R(7436425, 'require', undefined, true, true) : require = J$.R(7436425, 'require', require, true, true)), false)(J$.T(7436433, '../TestcaseUtils', 21, false)), utils, false, true);
+            J$.M(7436561, J$.R(7436529, 'utils', utils, false, true), 'whatWeDoThisTime', false)(J$.R(7436537, 'test', test, false, true), J$.R(7436545, 'p', p, false, true), J$.I(typeof __dirname === 'undefined' ? __dirname = J$.R(7436553, '__dirname', undefined, true, true) : __dirname = J$.R(7436553, '__dirname', __dirname, true, true)));
         } catch (J$e) {
-            J$.Ex(3837033, J$e);
+            J$.Ex(7436657, J$e);
         } finally {
-            if (J$.Sr(3837041))
+            if (J$.Sr(7436665))
                 continue jalangiLabel1;
             else
                 break jalangiLabel1;

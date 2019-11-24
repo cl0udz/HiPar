@@ -1,0 +1,412 @@
+Running /home/james/nodejs/HiPar/tests/target/TestRegression
+instrumentSync:/home/james/nodejs/HiPar/tests/target/TestRegression
+[32mCache of module regre_tester found[0m
+2 Files to be instrumented.
+Start instrumenting....
+/home/james/nodejs/HiPar/outputs/target_cache/TestRegression regre_tester { testName: 'regre_tester',
+  projPath: '/home/james/nodejs/HiPar/tests/target/TestRegression',
+  startFile: './TestRegression.js',
+  instrFiles: [ './TestRegression.js', '../Utils.js' ],
+  sources: 'intf' }
+[+] Verify Result :
+[32m[32m[-]Verifying hidden Parameter[0m
+{ username: 'a', explicit_one_layer_hipar: 'H1P4r' }
+found hipar! (format: var_name.attr_name): obj.explicit_one_layer_hipar
+found hipar! (format: var_name.attr_name): obj.explicit_one_layer_hipar
+found hipar! (format: var_name.attr_name): obj.explicit_one_layer_hipar
+found hipar! (format: var_name.attr_name): obj.explicit_one_layer_hipar
+found hipar! (format: var_name.attr_name): obj.explicit_one_layer_hipar
+found hipar! (format: var_name.attr_name): obj.explicit_one_layer_hipar
+found hipar! (format: var_name.attr_name): obj.explicit_one_layer_hipar
+found hipar! (format: var_name.attr_name): obj.explicit_one_layer_hipar
+found hipar! (format: var_name.attr_name): obj.explicit_one_layer_hipar
+this is function
+found hipar! (format: var_name.attr_name): obj.explicit_one_layer_hipar
+found hipar! (format: var_name.attr_name): obj.explicit_one_layer_hipar
+{ username: 'a', implicit_one_layer_hipar: 'H1P4r' }
+found hipar! (format: var_name.attr_name): obj.implicit_one_layer_hipar
+found hipar! (format: var_name.attr_name): obj.implicit_one_layer_hipar
+found hipar! (format: var_name.attr_name): obj.implicit_one_layer_hipar
+found hipar! (format: var_name.attr_name): obj.implicit_one_layer_hipar
+found hipar! (format: var_name.attr_name): obj.implicit_one_layer_hipar
+found hipar! (format: var_name.attr_name): obj.implicit_one_layer_hipar
+found hipar! (format: var_name.attr_name): obj.implicit_one_layer_hipar
+found hipar! (format: var_name.attr_name): obj.implicit_one_layer_hipar
+found hipar! (format: var_name.attr_name): obj.implicit_one_layer_hipar
+this is function
+found hipar! (format: var_name.attr_name): obj.implicit_one_layer_hipar
+found hipar! (format: var_name.attr_name): obj.implicit_one_layer_hipar
+{ username: 'a', a: 'H1P4r' }
+found hipar! (format: var_name.attr_name): obj.a
+found hipar! (format: var_name.attr_name): obj.a
+this is function
+{ username: 'a', b: 'H1P4r' }
+found hipar! (format: var_name.attr_name): obj.b
+found hipar! (format: var_name.attr_name): obj.b
+found hipar! (format: var_name.attr_name): obj.b
+found hipar! (format: var_name.attr_name): obj.b
+found hipar! (format: var_name.attr_name): obj.b
+found hipar! (format: var_name.attr_name): obj.b
+found hipar! (format: var_name.attr_name): obj.b
+found hipar! (format: var_name.attr_name): obj.b
+found hipar! (format: var_name.attr_name): obj.b
+this is function
+found hipar! (format: var_name.attr_name): obj.b
+found hipar! (format: var_name.attr_name): obj.b
+{ username: 'a', 'b.multi_layer_hipar': 'H1P4r' }
+found hipar! (format: var_name.attr_name): obj.b.multi_layer_hipar
+found hipar! (format: var_name.attr_name): obj.b.multi_layer_hipar
+found hipar! (format: var_name.attr_name): obj.b.multi_layer_hipar
+found hipar! (format: var_name.attr_name): obj.b.multi_layer_hipar
+found hipar! (format: var_name.attr_name): obj.b.multi_layer_hipar
+found hipar! (format: var_name.attr_name): obj.b.multi_layer_hipar
+found hipar! (format: var_name.attr_name): obj.b.multi_layer_hipar
+found hipar! (format: var_name.attr_name): obj.b.multi_layer_hipar
+found hipar! (format: var_name.attr_name): obj.b.multi_layer_hipar
+this is function
+found hipar! (format: var_name.attr_name): obj.b.multi_layer_hipar
+found hipar! (format: var_name.attr_name): obj.b.multi_layer_hipar
+{ username: 'a', 'b.c': 'H1P4r' }
+found hipar! (format: var_name.attr_name): obj.b.c
+found hipar! (format: var_name.attr_name): obj.b.c
+found hipar! (format: var_name.attr_name): obj.b.c
+found hipar! (format: var_name.attr_name): obj.b.c
+found hipar! (format: var_name.attr_name): obj.b.c
+found hipar! (format: var_name.attr_name): obj.b.c
+found hipar! (format: var_name.attr_name): obj.b.c
+found hipar! (format: var_name.attr_name): obj.b.c
+found hipar! (format: var_name.attr_name): obj.b.c
+this is function
+found hipar! (format: var_name.attr_name): obj.b.c
+found hipar! (format: var_name.attr_name): obj.b.c
+{ username: 'a', 'b.c.mix_hipar': 'H1P4r' }
+found hipar! (format: var_name.attr_name): obj.b.c.mix_hipar
+found hipar! (format: var_name.attr_name): obj.b.c.mix_hipar
+found hipar! (format: var_name.attr_name): obj.b.c.mix_hipar
+found hipar! (format: var_name.attr_name): obj.b.c.mix_hipar
+found hipar! (format: var_name.attr_name): obj.b.c.mix_hipar
+found hipar! (format: var_name.attr_name): obj.b.c.mix_hipar
+found hipar! (format: var_name.attr_name): obj.b.c.mix_hipar
+found hipar! (format: var_name.attr_name): obj.b.c.mix_hipar
+found hipar! (format: var_name.attr_name): obj.b.c.mix_hipar
+this is function
+found hipar! (format: var_name.attr_name): obj.b.c.mix_hipar
+found hipar! (format: var_name.attr_name): obj.b.c.mix_hipar
+{ username: 'a', normal_hipar: 'H1P4r' }
+found hipar! (format: var_name.attr_name): overwritten_obj.normal_hipar
+found hipar! (format: var_name.attr_name): overwritten_obj.normal_hipar
+found hipar! (format: var_name.attr_name): overwritten_obj.normal_hipar
+this is function
+{ username: 'a', constructor: 'H1P4r' }
+found hipar! (format: var_name.attr_name): overwritten_obj.constructor
+found hipar! (format: var_name.attr_name): overwritten_obj.constructor
+found hipar! (format: var_name.attr_name): overwritten_obj.constructor
+this is function
+{ username: 'a', func_hipar: 'H1P4r' }
+found hipar! (format: var_name.attr_name): overwritten_obj.func_hipar
+found hipar! (format: var_name.attr_name): overwritten_obj.func_hipar
+found hipar! (format: var_name.attr_name): overwritten_obj.func_hipar
+[31mVerify Error:[0m[TypeError: Function.prototype.apply was called on H1P4r, which is a string and not a function]
+{ username: 'a', child_hipar: 'H1P4r' }
+this is function
+{ username: 'a', timing_hipar: 'H1P4r' }
+this is function
+{ username: 'a', func_anon_hipar: 'H1P4r' }
+this is function
+found hipar! (format: var_name.attr_name): anon.func_anon_hipar
+{ username: 'a', func_func_hipar: 'H1P4r' }
+this is function
+found hipar! (format: var_name.attr_name): n_obj.func_func_hipar
+calling end execution callback
+[32m[+] HiparVerification HiPar verified[0m
+[]
+[0m
+Finished executing ./TestRegression.js
+Running /home/james/nodejs/HiPar/tests/target/TestMongoDb
+instrumentSync:/home/james/nodejs/HiPar/tests/target/TestMongoDb
+[32mCache of module mongodb found[0m
+2 Files to be instrumented.
+Start instrumenting....
+/home/james/nodejs/HiPar/outputs/target_cache/TestMongoDb mongodb { testName: 'mongodb',
+  projPath: '/home/james/nodejs/HiPar/tests/target/TestMongoDb',
+  startFile: './TestMongoDb.js',
+  instrFiles: [ './TestMongoDb.js', '../Utils.js' ],
+  sources: 'intf' }
+[+] Verify Result :
+[32m[32m[-]Verifying hidden Parameter[0m
+{ '0': 'H1P4r', a: 3 }
+{ '1': 'H1P4r', a: 3 }
+{ '2': 'H1P4r', a: 3 }
+{ '3': 'H1P4r', a: 3 }
+{ a: 3, constructor: 'H1P4r' }
+{ a: 3, size: 'H1P4r' }
+{ a: 3, length: 'H1P4r' }
+{ a: 3, _bsontype: 'H1P4r' }
+{ a: 3, entries: 'H1P4r' }
+{ a: 3, toBSON: 'H1P4r' }
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+Connected successfully to server
+Connected successfully to server
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+Connected successfully to server
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+Connected successfully to server
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+Connected successfully to server
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+Inserted 3 documents into the collection
+found hipar! (format: var_name.attr_name): object.0
+undefined
+undefined
+undefined
+Inserted 3 documents into the collection
+found hipar! (format: var_name.attr_name): object.1
+undefined
+undefined
+undefined
+Inserted 3 documents into the collection
+found hipar! (format: var_name.attr_name): object.2
+undefined
+undefined
+undefined
+Connected successfully to server
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+Found the following records
+null
+undefined
+undefined
+undefined
+undefined
+Found the following records
+null
+undefined
+undefined
+undefined
+undefined
+Found the following records
+null
+undefined
+undefined
+undefined
+undefined
+Inserted 3 documents into the collection
+found hipar! (format: var_name.attr_name): object.3
+undefined
+undefined
+undefined
+Inserted 3 documents into the collection
+undefined
+found hipar! (format: var_name.attr_name): obj.constructor
+found hipar! (format: var_name.attr_name): obj.constructor
+undefined
+undefined
+Connected successfully to server
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+Connected successfully to server
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+Found the following records
+null
+undefined
+undefined
+undefined
+undefined
+Found the following records
+null
+undefined
+undefined
+undefined
+undefined
+Inserted 3 documents into the collection
+found hipar! (format: var_name.attr_name): object.size
+undefined
+undefined
+undefined
+Inserted 3 documents into the collection
+undefined
+found hipar! (format: var_name.attr_name): object.length
+undefined
+found hipar! (format: var_name.attr_name): object.length
+found hipar! (format: var_name.attr_name): object.length
+found hipar! (format: var_name.attr_name): object.length
+found hipar! (format: var_name.attr_name): object.length
+found hipar! (format: var_name.attr_name): object.length
+found hipar! (format: var_name.attr_name): object.length
+undefined
+Connected successfully to server
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+Found the following records
+null
+undefined
+undefined
+undefined
+undefined
+Found the following records
+null
+undefined
+undefined
+undefined
+undefined
+Inserted 3 documents into the collection
+undefined
+found hipar! (format: var_name.attr_name): value._bsontype
+found hipar! (format: var_name.attr_name): value._bsontype
+found hipar! (format: var_name.attr_name): value._bsontype
+found hipar! (format: var_name.attr_name): value._bsontype
+found hipar! (format: var_name.attr_name): value._bsontype
+found hipar! (format: var_name.attr_name): value._bsontype
+found hipar! (format: var_name.attr_name): value._bsontype
+found hipar! (format: var_name.attr_name): value._bsontype
+found hipar! (format: var_name.attr_name): value._bsontype
+found hipar! (format: var_name.attr_name): value._bsontype
+found hipar! (format: var_name.attr_name): value._bsontype
+found hipar! (format: var_name.attr_name): value._bsontype
+found hipar! (format: var_name.attr_name): value._bsontype
+found hipar! (format: var_name.attr_name): value._bsontype
+found hipar! (format: var_name.attr_name): value._bsontype
+found hipar! (format: var_name.attr_name): value._bsontype
+found hipar! (format: var_name.attr_name): value._bsontype
+found hipar! (format: var_name.attr_name): value._bsontype
+found hipar! (format: var_name.attr_name): value._bsontype
+found hipar! (format: var_name.attr_name): value._bsontype
+found hipar! (format: var_name.attr_name): value._bsontype
+found hipar! (format: var_name.attr_name): value._bsontype
+found hipar! (format: var_name.attr_name): value._bsontype
+found hipar! (format: var_name.attr_name): value._bsontype
+found hipar! (format: var_name.attr_name): value._bsontype
+found hipar! (format: var_name.attr_name): value._bsontype
+undefined
+Connected successfully to server
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+Connected successfully to server
+undefined
+undefined
+undefined
+undefined
+undefined
+undefined
+Found the following records
+{ _id: 5dcf79f0717aac4448384af9, a: 1 }
+undefined
+undefined
+undefined
+undefined
+Inserted 3 documents into the collection
+undefined
+found hipar! (format: var_name.attr_name): object.entries
+undefined
+found hipar! (format: var_name.attr_name): object.entries
+found hipar! (format: var_name.attr_name): object.entries
+found hipar! (format: var_name.attr_name): object.entries
+found hipar! (format: var_name.attr_name): object.entries
+found hipar! (format: var_name.attr_name): object.entries
+found hipar! (format: var_name.attr_name): object.entries
+undefined
+Inserted 3 documents into the collection
+undefined
+found hipar! (format: var_name.attr_name): value.toBSON
+found hipar! (format: var_name.attr_name): value.toBSON
+found hipar! (format: var_name.attr_name): value.toBSON
+calling end execution callback
+[32m[+] HiparVerification HiPar verified[0m
+[]
+[0m
+Finished executing ./TestMongoDb.js

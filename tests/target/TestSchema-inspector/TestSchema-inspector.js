@@ -4,10 +4,11 @@ var inspector = require('schema-inspector');
 var data = {
 	firstname: 'sterling  ',
 	lastname: '  archer',
-	jobs: 'Special agent, cocaine Dealer',
+	jobs: {"name" : 'Special agent, cocaine Dealer', "hasOwnProperty": "jb"},
 	email: 'NEVER!',
 };
 
+test(data);
 
 function test(data){
     // Sanitization Schema
@@ -57,5 +58,5 @@ function test(data){
     */
 }
 
-var utils = require('../TestcaseUtils');
-utils.whatWeDoThisTime(test,data,__dirname);
+//var utils = require('../TestcaseUtils');
+//utils.whatWeDoThisTime(test,data,__dirname);
