@@ -65,8 +65,10 @@ J$.analysis = {};
                 try{
                     if(offset in target_lst[cur_file]){
                         for(var property in val){
-                            if(target_lst[cur_file][offset].indexOf(property) != -1 && val[property] == "H1P4r"){
-                                log_hipar(cur_file, offset, property);
+                            p_index = target_lst[cur_file][offset].indexOf(property);
+                            if(p_index != -1 && val[property] != "H1P4r"){
+                                //log_hipar(cur_file, offset, property);
+                                target_lst[cur_file][offset][p_index] = undefined;
                             }
                         }
                     }
@@ -83,8 +85,10 @@ J$.analysis = {};
                 try{
                     if(name in target_lst[cur_file]){
                         for(var property in val){
-                            if(target_lst[cur_file][name].indexOf(property) != -1 && val[property] == "H1P4r"){
-                                log_hipar(cur_file, name, property);
+                            p_index = target_lst[cur_file][name].indexOf(property);
+                            if(p_index != -1 && val[property] != "H1P4r"){
+                                //log_hipar(cur_file, name, property);
+                                target_lst[cur_file][name][p_index] = undefined;
                             }
                         }
                     }
@@ -97,6 +101,14 @@ J$.analysis = {};
 
         this.endExecution = function(){
             // print final result on exit
+            for(var f in target_lst){
+                for(var vn in target_lst[f]){
+                    for(var pi in target_lst[f][vn]){
+                        if(target_lst[f][vn][pi] != undefined)
+                            log_hipar(f, vn, target_lst[f][vn][pi]);
+                    }
+                }
+            }
             console.log(tynt.Green("[+] HiparVerification HiPar verified"))
             console.log(verified_hipar);
         };
