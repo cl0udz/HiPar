@@ -65,7 +65,7 @@ function test(query) {
 // control iterations and pass names to Analysis Func
 function main(){
     var query = {'a': 3}
-	utils.whatWeDoThisTime(test,query,__dirname)
+	utils.entry(test,query,__dirname)
 }
 
 

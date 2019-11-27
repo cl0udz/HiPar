@@ -57,7 +57,7 @@ function sendViaWebRequest(method, data, location, port, hostname) {
 
 
 
-function whatWeDoThisTime(testFunc, param, ProjectDir) {
+function entry(testFunc, param) {
     if (process.argv[2] == 'analysis') loopProperty(testFunc, param);
     else if (process.argv[2] == 'verify') verifyHipar(testFunc, param, ProjectDir);
     else {
@@ -91,10 +91,12 @@ function loopProperty(testFunc, param) {
 }
 
 
-function verifyHipar(testFunc, param, ProjectDir) {
+function verifyHipar(testFunc, param) {
     //verify Hipar 
-    var verifyPath = path.resolve(__dirname, "../../outputs/hidden_attr/" + ProjectDir.split('/').pop() + ".json");
+    testFileName = process.argv[1].split('/').pop()
+    var verifyPath = path.resolve(__dirname, "../../outputs/hidden_attr/" + testFileName + "on");
     // console.log(tynt.Green("located verify json file in "+verifyPath));
+    console.log(verifyPath)
     if (fs.existsSync(verifyPath)) {
         console.log(tynt.Green('[-]Verifying hidden Parameter'));
         var result = JSON.parse(fs.readFileSync(verifyPath));
@@ -164,5 +166,5 @@ function clone(obj) {
 exports.clone = clone;
 exports.loopProperty = loopProperty;
 exports.verifyHipar = verifyHipar;
-exports.whatWeDoThisTime = whatWeDoThisTime;
+exports.entry = entry;
 exports.sendViaWebRequest = sendViaWebRequest;

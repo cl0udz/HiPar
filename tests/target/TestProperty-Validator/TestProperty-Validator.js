@@ -14,4 +14,4 @@ function test(user){
 }
 
 var utils = require('../TestcaseUtils.js');
-utils.whatWeDoThisTime(test,user,__dirname);
+utils.entry(test,user);

@@ -20,7 +20,7 @@ fastify.get('/', function (request, reply) {
 fastify.listen(3000, function (err, address) {
   if (err) throw err;
   fastify.log.info("server listening on ".concat(address));
-  utils.whatWeDoThisTime(test, user_input, __dirname);
+  utils.entry(test, user_input, __dirname);
 });
 
 var utils = require('../TestcaseUtils');

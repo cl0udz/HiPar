@@ -26,4 +26,4 @@ function test(myJson) {
   console.log(validate.errors);
 }
 
-utils.whatWeDoThisTime(test, myJson, __dirname);
+utils.entry(test, myJson);

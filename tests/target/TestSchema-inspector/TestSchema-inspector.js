@@ -58,4 +58,4 @@ function test(data){
 }
 
 var utils = require('../TestcaseUtils');
-utils.whatWeDoThisTime(test,data,__dirname);
+utils.entry(test,data);

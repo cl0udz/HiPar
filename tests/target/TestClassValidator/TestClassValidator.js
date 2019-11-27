@@ -45,9 +45,7 @@ var Post = (function () {
 var userJson = JSON.parse('{"title":"Hello","rating":5}');
 
 
-var path = require('path')
-var utils = require(path.resolve(__dirname,"../TestcaseUtils.js"))
-utils.whatWeDoThisTime(test,userJson,__dirname)
+var utils = require("../TestcaseUtils.js");
 
 function test(userJson){
     var users = class_transformer_1.plainToClass(Post, userJson);
@@ -60,4 +58,6 @@ function test(userJson){
         }
     });
 }
+
+utils.entry(test,userJson);
 //# sourceMappingURL=index.js.map

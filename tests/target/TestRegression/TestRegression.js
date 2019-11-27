@@ -10,4 +10,4 @@ var user_input = {
   'username': 'a'
 };
 
-utils.whatWeDoThisTime(do_test, user_input, __dirname);
+utils.entry(do_test, user_input);

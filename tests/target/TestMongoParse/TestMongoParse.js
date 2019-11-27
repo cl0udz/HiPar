@@ -11,4 +11,4 @@ var query = {
 
 
 
-utils.whatWeDoThisTime(parser.parse,query,__dirname);
+utils.entry(parser.parse,query);

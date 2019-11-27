@@ -29,4 +29,4 @@ function test(validData) {
 
 var utils = require('../TestcaseUtils');
 
-utils.whatWeDoThisTime(test, validData, __dirname);
+utils.entry(test, validData);

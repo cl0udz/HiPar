@@ -21,5 +21,5 @@ function test(payload){
     console.log(Foo1);
 }
 
-utils.loopProperty(test,Foo);
+utils.entry(test,Foo,__dirname);
 
