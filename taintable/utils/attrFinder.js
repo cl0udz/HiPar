@@ -7,7 +7,7 @@ var tynt = require('tynt');
 exports.analyze_hidden_attr = function analyze_hidden_attr(file_loc, domain){
     var file_loc, domain;
     var content = fs.readFileSync(file_loc, 'utf-8');
-    var cmd = {'mode':'getAll', 'res' : []};
+    var cmd = {'mode':'getAll', 'res' : [], "loc":file_loc};
     search_all_attr(file_loc, content, cmd);
     var taint_lst = cal_taintable_attr(domain, cmd.res);
     return taint_lst;
@@ -33,13 +33,13 @@ function cal_taintable_attr(domain, attr_lst){
     for (const attr of attr_lst){
         for (const d of domain){
             if (attr == d) continue;
-            if (attr.startsWith(d)){
+            if (attr.startsWith(d + '.')){
                 if (!(d in taint_lst)) taint_lst[d] = [];
                 if (taint_lst[d].indexOf(attr) === -1) taint_lst[d].push(attr);
             }
         }
     }
-    
+
     return taint_lst;
 }
 
@@ -131,10 +131,10 @@ function read_standalone_or_base(node, path, cmd){
     // find the exact match of the loc 
     if (node.hasOwnProperty("property")){
         // this is a member expr 
-        
+
         // find the a in a.b.c.d.e.f 
         while (node.object.type === "MemberExpression") node = node.object;
-        
+
         if (node.object.type === "Identifier"){
             path.push( node.object.name );
         } else if (node.object.type === "ThisExpression"){
@@ -160,6 +160,10 @@ function read_standalone_or_base(node, path, cmd){
                 cmd.res.push(-1);
                 return;
             }
+            if (node.object.type === "ConditionalExpression"){
+                cmd.res.push(-1);
+                return;
+            }
             console.log(tynt.Red("[x] read_standalone_or_base error: unknown object type " + JSON.stringify(node.object.type)));
             return;
         }
@@ -167,7 +171,7 @@ function read_standalone_or_base(node, path, cmd){
         // return results here 
         cmd.res.push(path.join("."));
         return;
-    
+
     }else{
         // this is a standalone var
         if (JSON.stringify(node.loc) === JSON.stringify(cmd.loc)){
@@ -184,7 +188,9 @@ function read_standalone_or_base(node, path, cmd){
 // get a specifcy property referrenced in the file
 function read_property(node, path, offset, cmd){
     if (node.hasOwnProperty('property')) {
-       // it is a member expr 
+        // it is a member expr
+
+        //[1] handle property here 
         if (node.property.type === "Literal"){
             // it is a array indexing expr (a['c'])
             path.splice(offset, 0, node.property.value);
@@ -201,9 +207,13 @@ function read_property(node, path, offset, cmd){
             while (path.length > offset) path.pop();
         }else {
             console.log(tynt.Red("[x] read_property error: unknown attribute indexing type " + JSON.stringify(node.property.type)));
+            console.log(cmd.loc);
             return;
         }
 
+
+
+        //[2] handle object here 
         if ( node.object.type === "Identifier" ){
             // this is the end
             path.splice(offset, 0, node.object.name);
@@ -223,12 +233,35 @@ function read_property(node, path, offset, cmd){
             }
         } else {
             // this is statement like func('aaa').b, just ignore
-            if ( node.object.type === "CallExpression" ) return;
+            if ( node.object.type === "CallExpression" ) {
+                if (node.object.callee.type === "MemberExpression"){
+                    read_property(node.object.callee, path.splice(0,offset), offset, cmd);
+                }
+                return;
+            }
             // this is statement like "i love".concat("china"), just ignore
             if ( node.object.type === "Literal" ) return;
+
+            // this is statement like new String(aaa), just ignore
+            if (node.object.type === "NewExpression") {
+                const args = node.object.arguments;
+                for (const id in args) read_property(args[id], path.splice(0,offset), offset, cmd);
+                return;           
+            }
+
+            // this is statement like (a?b:c).aaa, just ignore
+            if (node.object.type === "ConditionalExpression") return;
+            // this is statement like [a,b].concat(), just ignore
+            if (node.object.type === "ArrayExpression"){
+                const ele = node.object.elements; 
+                for (const id in ele) read_property(ele[id], path.splice(0,offset), offset, cmd);
+                return;
+            }
             console.log("[x] read_property error: unknown object tpye " + JSON.stringify(node.object));
+            console.log(cmd.loc);
+            return;
         }
-        
+
     } else{
         // it is a standalone variable
         path.splice(offset, 0, node.name);
@@ -253,6 +286,6 @@ var loc = {
     }
 }
 
- //console.log(exports.analyze_hidden_attr("test.js", ['a', 'b']));
+//  console.log(exports.analyze_hidden_attr("test.js", ['a']));
 
- // console.log( exports.get_name_by_loc(loc));
+// console.log( exports.get_name_by_loc(loc));
