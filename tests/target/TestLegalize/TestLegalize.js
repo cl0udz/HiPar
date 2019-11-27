@@ -1,8 +1,6 @@
 "use strict";
 
 var Legalize = require('legalize');
-var path = require('path');
-var utils = require(path.resolve(__dirname, "../TestcaseUtils.js"));
 
 var personSchema = {
     firstName:
@@ -25,6 +23,12 @@ var user_input = {
     age: 27,
     sex: "Male"
 }
-console.log(Legalize.validate(user_input, personSchema));
-console.log(1111);
-utils.whatWeDoThisTime(Legalize.validate, user_input, personSchema, __dirname);
+
+
+var utils = require("../TestcaseUtils.js");
+
+function test(userJson){
+    Legalize.validate(userJson, personSchema);
+}
+utils.entry(test, user_input);
+

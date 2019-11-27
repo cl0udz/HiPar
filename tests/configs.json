@@ -6,6 +6,14 @@
         "instrFiles": ["./TestJpv.js","../TestcaseUtils.js"],
         "sources": "intf"
 
+    },
+    {
+        "testName": "legalize",
+        "projPath": "./target/TestLegalize",
+        "startFile": "./TestLegalize.js",
+        "instrFiles": ["./TestLegalize.js","../TestcaseUtils.js"],
+        "sources": "intf"
+
     }
 
 ]
