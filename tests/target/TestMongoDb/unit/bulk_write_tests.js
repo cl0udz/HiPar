@@ -1,81 +1,63 @@
 'use strict';
 
-require("core-js/modules/es.array.fill");
+const expect = require('chai').expect;
+const mock = require('mongodb-mock-server');
 
-require("core-js/modules/es.array.map");
+describe('Bulk Writes', function() {
+  const test = {};
 
-require("core-js/modules/es.object.assign");
-
-var expect = require('chai').expect;
-
-var mock = require('mongodb-mock-server');
-
-describe('Bulk Writes', function () {
-  var test = {};
-  var documents;
-  before(function () {
-    documents = new Array(20000).fill('').map(function () {
-      return {
-        arr: new Array(19).fill('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-      };
-    });
+  let documents;
+  before(() => {
+    documents = new Array(20000).fill('').map(() => ({
+      arr: new Array(19).fill('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+    }));
   });
-  beforeEach(function () {
-    return mock.createServer().then(function (server) {
+
+  beforeEach(() => {
+    return mock.createServer().then(server => {
       test.server = server;
     });
   });
-  afterEach(function () {
-    return mock.cleanup();
-  });
-  it('should propagate errors', function (done) {
-    var client = this.configuration.newClient("mongodb://".concat(test.server.uri(), "/test"));
+  afterEach(() => mock.cleanup());
 
-    var _close = function close(e) {
-      _close = function close() {};
+  it('should propagate errors', function(done) {
+    const client = this.configuration.newClient(`mongodb://${test.server.uri()}/test`);
 
-      client.close(function () {
-        return done(e);
-      });
+    let close = e => {
+      close = () => {};
+      client.close(() => done(e));
     };
 
-    var hasErrored = false;
-    test.server.setMessageHandler(function (request) {
-      var doc = request.document;
+    let hasErrored = false;
 
+    test.server.setMessageHandler(request => {
+      const doc = request.document;
       if (doc.ismaster) {
         request.reply(Object.assign({}, mock.DEFAULT_ISMASTER));
       } else if (doc.endSessions) {
-        request.reply({
-          ok: 1
-        });
+        request.reply({ ok: 1 });
       } else if (doc.insert) {
         if (hasErrored) {
-          return request.reply({
-            ok: 1
-          });
+          return request.reply({ ok: 1 });
         }
-
         hasErrored = true;
-        return request.reply({
-          ok: 0
-        });
+        return request.reply({ ok: 0 });
       } else {
-        _close("Received unknown command ".concat(doc));
+        close(`Received unknown command ${doc}`);
       }
     });
-    client.connect(function (err) {
-      expect(err).to.be["null"];
-      var coll = client.db('foo').collection('bar');
-      coll.insert(documents, {
-        ordered: false
-      }, function (err) {
+
+    client.connect(function(err) {
+      expect(err).to.be.null;
+
+      const coll = client.db('foo').collection('bar');
+
+      coll.insert(documents, { ordered: false }, function(err) {
         try {
           expect(err).to.be.an.instanceOf(Error);
-
-          _close();
+          close();
         } catch (e) {
-          _close(e);
+          close(e);
         }
       });
     });

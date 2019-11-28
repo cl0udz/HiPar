@@ -47,4 +47,4 @@ function test(p){
     console.log(v.validate(p, schema));
 }
 
-utils.entry(test,p,__dirname);
+utils.entry(test,p);

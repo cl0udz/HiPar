@@ -1,8 +1,8 @@
 ## TestcaseUtils
 使用entry方法来调用：
 `entry(function TestFunc,var parameter)`
-TestcaseUtils会遍历taint输入参数parameter并将其传入TestFunc
-这里TestFunc需要手动编写，不同到api的调用不一样故此处需要人工抽象一个单参数的TestFunc
+TestcaseUtils会遍历taint输入参数parameter并将其传入TestFunc  
+这里TestFunc需要手动编写，不同到api的调用不一样故此处需要人工抽象一个单参数的TestFunc  
 例：  
 ```
 var userJson = JSON.parse('{"title":"Hello","rating":5}');

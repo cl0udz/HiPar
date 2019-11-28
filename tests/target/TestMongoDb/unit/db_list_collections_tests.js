@@ -1,28 +1,15 @@
 'use strict';
 
-require("core-js/modules/es.symbol");
+const mock = require('mongodb-mock-server');
+const expect = require('chai').expect;
 
-require("core-js/modules/es.symbol.description");
-
-require("core-js/modules/es.array.for-each");
-
-require("core-js/modules/es.object.assign");
-
-require("core-js/modules/web.dom-collections.for-each");
-
-var mock = require('mongodb-mock-server');
-
-var expect = require('chai').expect;
-
-describe('db.listCollections', function () {
-  var testHarness = {};
-  afterEach(function () {
-    return mock.cleanup();
-  });
-  beforeEach(function () {
-    return mock.createServer().then(function (server) {
-      server.setMessageHandler(function (request) {
-        var doc = request.document;
+describe('db.listCollections', function() {
+  const testHarness = {};
+  afterEach(() => mock.cleanup());
+  beforeEach(() => {
+    return mock.createServer().then(server => {
+      server.setMessageHandler(request => {
+        const doc = request.document;
 
         if (doc.ismaster) {
           return request.reply(Object.assign({}, mock.DEFAULT_ISMASTER));
@@ -34,10 +21,7 @@ describe('db.listCollections', function () {
             cursor: {
               id: 0,
               ns: 'test.$cmd.listCollections',
-              firstBatch: [{
-                name: 'test',
-                type: 'collection'
-              }]
+              firstBatch: [{ name: 'test', type: 'collection' }]
             }
           });
         }
@@ -45,71 +29,58 @@ describe('db.listCollections', function () {
       testHarness.server = server;
     });
   });
-  [{
-    description: 'should always send nameOnly option, defaulting to false',
-    command: function command(db) {
-      return db.listCollections().toArray(function () {});
+
+  [
+    {
+      description: 'should always send nameOnly option, defaulting to false',
+      command: db => db.listCollections().toArray(() => {}),
+      listCollectionsValue: false
     },
-    listCollectionsValue: false
-  }, {
-    description: 'should propagate the nameOnly option',
-    command: function command(db) {
-      return db.listCollections({}, {
-        nameOnly: true
-      }).toArray(function () {});
+    {
+      description: 'should propagate the nameOnly option',
+      command: db => db.listCollections({}, { nameOnly: true }).toArray(() => {}),
+      listCollectionsValue: true
     },
-    listCollectionsValue: true
-  }, {
-    description: 'should send nameOnly: true for db.createCollection',
-    command: function command(db) {
-      return db.createCollection('foo', function () {});
+    {
+      description: 'should send nameOnly: true for db.createCollection',
+      command: db => db.createCollection('foo', () => {}),
+      listCollectionsValue: true
     },
-    listCollectionsValue: true
-  }, {
-    description: 'should send nameOnly: true for db.collections',
-    command: function command(db) {
-      return db.collections(function () {});
+    {
+      description: 'should send nameOnly: true for db.collections',
+      command: db => db.collections(() => {}),
+      listCollectionsValue: true
     },
-    listCollectionsValue: true
-  }, {
-    description: 'should send nameOnly: true for db.collection',
-    command: function command(db) {
-      return db.collection('foo', {
-        strict: true
-      }, function () {});
-    },
-    listCollectionsValue: true
-  }].forEach(function (config) {
+    {
+      description: 'should send nameOnly: true for db.collection',
+      command: db => db.collection('foo', { strict: true }, () => {}),
+      listCollectionsValue: true
+    }
+  ].forEach(config => {
     function testFn(done) {
-      var configuration = this.configuration;
-      var client = configuration.newClient("mongodb://".concat(testHarness.server.uri(), "/test"), {
+      const configuration = this.configuration;
+      const client = configuration.newClient(`mongodb://${testHarness.server.uri()}/test`, {
         monitorCommands: true
       });
-      client.connect(function (err, client) {
-        var db = client.db('foo');
-        client.on('commandStarted', function (e) {
+
+      client.connect((err, client) => {
+        const db = client.db('foo');
+
+        client.on('commandStarted', e => {
           if (e.commandName === 'listCollections') {
             try {
               expect(e).to.have.nested.property('command.nameOnly', config.listCollectionsValue);
               client.close(done);
             } catch (err) {
-              client.close(function () {
-                return done(err);
-              });
+              client.close(() => done(err));
             }
           }
         });
+
         config.command(db);
       });
     }
 
-    it(config.description, {
-      test: testFn,
-      metadata: {
-        requires: {
-          mongodb: '>=2.7.6'
-        }
-      }
-    });
+    it(config.description, { test: testFn, metadata: { requires: { mongodb: '>=2.7.6' } } });
   });
 });
