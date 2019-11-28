@@ -14,6 +14,14 @@
         "instrFiles": ["./TestLegalize.js","../TestcaseUtils.js"],
         "sources": "intf"
 
+    },
+    {
+        "testName": "valib",
+        "projPath": "./target/TestValib",
+        "startFile": "./TestValib.js",
+        "instrFiles": ["./TestValib.js","../TestcaseUtils.js"],
+        "sources": "intf"
     }
+
 
 ]
