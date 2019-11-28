@@ -42,4 +42,4 @@ function test(input){
 }
 
 var utils = require('../TestcaseUtils.js');
-utils.whatWeDoThisTime(test, data, __dirname);
+utils.whatWeDoThisTime(test, data);

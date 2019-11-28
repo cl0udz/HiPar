@@ -1,7 +1,7 @@
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var path = require('path')
-var utils = require(path.resolve(__dirname, "../TestcaseUtils.js"))
+var utils = require('../TestcaseUtils.js')
 
 const url = 'mongodb://localhost:27017';
 // Database Name
