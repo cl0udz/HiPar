@@ -29,6 +29,10 @@ J$.analysis = {};
 	        return new String(val);
 	    }
 
+        function convertNumber(val){
+            return new Number(val);
+        }
+
         // return location of given iid
         // input: iid of (function, variable ...)
         // output: [file_path, the name of something]
@@ -71,18 +75,33 @@ J$.analysis = {};
         this.invokeFun = function(iid, f, base, args, val, isConstructor) {
             // hook source to insert taint tag
             if (f.name === "source") {
-		        if(typeof(args[0]) == "string"){
-		            args[0] = convertString(args[0]);
-		        }
-		        args[0].tainted = "source";
+		        //if(typeof(args[0]) == "string"){
+		        //    args[0] = convertString(args[0]);
+                //} else if(typeof(args[0] == "number")){
+                //    args[0] = convertNumber(args[0]);
+                //} else if(args[0] == null || args[0] == undefined){
+                //    return val;
+                //}
+
+                //if(typeof(args[0] == "object"))
+    		    //    args[0].tainted = "source";
 
 		        if(typeof(val) == "string"){
 		            val = convertString(val);
-		        }
+                } else if (typeof(val) == "number"){
+                    val = convertNumber(val);
+                } else if(val == null || val == undefined){
+                    return val;
+                }
 
-                valueID++;
-		        val.tainted = "source";
-                val.tainted_iiid = valueID;
+                if(typeof(val) != "object")
+                    return val;
+
+                var source_id = ++valueID;
+		        //val.tainted = "source";
+                //val.tainted_iiid = valueID;
+                Object.defineProperty(val, "tainted", {configurable: true, get: function() {return "source";}});
+                Object.defineProperty(val, "tainted_iiid", {configurable: true, get: function() {return source_id;}});
                 taint_tag_to_input[valueID] = {"name": args[1], "location": "undefined"};
                 //console.log(("[source] name: " + args[1]));
 
@@ -105,7 +124,9 @@ J$.analysis = {};
             try{
                 if(val && Object.prototype.hasOwnProperty.call(val,'tainted') && val.tainted == "source"){
                     taint_tag_to_input[val.tainted_iiid].location = iidToLocation(iid);
-                    val.tainted = val.tainted_iiid;
+                    //val.tainted = val.tainted_iiid;
+                    delete val.tainted;
+                    Object.defineProperty(val, "tainted", {configurable: true, get: function() {return val.tainted_iiid;}});
                 }
             } catch(e){
                 // catch the error caused by getter/setter
@@ -156,7 +177,9 @@ J$.analysis = {};
             if(taint_state){
                 if(val && Object.prototype.hasOwnProperty.call(val, 'tainted') && val.tainted == "source"){
                     taint_tag_to_input[val.tainted_iiid].location = iidToLocation(iid);
-                    val.tainted = val.tainted_iiid;
+                    //val.tainted = val.tainted_iiid;
+                    delete val.tainted;
+                    Object.defineProperty(val, "tainted", {configurable: true, get: function() {return val.tainted_iiid;}});
                 }
 
                 try{
