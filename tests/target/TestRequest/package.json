@@ -1,7 +1,8 @@
 {
   "name": "TestRequest",
   "version": "1.0.0",
-  "dependencies": {
-    
+  "dependencies": {},
+  "devDependencies": {
+    "request": "^2.88.0"
   }
 }
