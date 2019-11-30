@@ -2,110 +2,110 @@ J$.noInstrEval = false;
 jalangiLabel1:
     while (true) {
         try {
-            J$.Se(7445521, '/home/james/nodejs/HiPar/outputs/target_cache/TestSchema-inspector/TestSchema-inspector.js');
+            J$.Se(2837849, '/mnt/data/fxiao/HiPar/outputs/target_cache/TestSchema-inspector/TestSchema-inspector.js');
             function test(data) {
                 jalangiLabel0:
                     while (true) {
                         try {
-                            J$.Fe(7445473, arguments.callee, this, arguments);
-                            arguments = J$.N(7445481, 'arguments', arguments, true, false, false);
-                            data = J$.N(7445489, 'data', data, true, false, false);
-                            J$.N(7445497, 'sanitization', sanitization, false, false, false);
-                            J$.N(7445505, 'validation', validation, false, false, false);
-                            J$.N(7445513, 'result', result, false, false, false);
-                            var sanitization = J$.W(7445201, 'sanitization', J$.T(7445193, {
-                                type: J$.T(7444993, 'object', 21, false),
-                                properties: J$.T(7445185, {
-                                    firstname: J$.T(7445033, {
-                                        type: J$.T(7445001, 'string', 21, false),
-                                        rules: J$.T(7445025, [
-                                            J$.T(7445009, 'trim', 21, false),
-                                            J$.T(7445017, 'title', 21, false)
+                            J$.Fe(2837801, arguments.callee, this, arguments);
+                            arguments = J$.N(2837809, 'arguments', arguments, true, false, false);
+                            data = J$.N(2837817, 'data', data, true, false, false);
+                            J$.N(2837825, 'sanitization', sanitization, false, false, false);
+                            J$.N(2837833, 'validation', validation, false, false, false);
+                            J$.N(2837841, 'result', result, false, false, false);
+                            var sanitization = J$.W(2837529, 'sanitization', J$.T(2837521, {
+                                type: J$.T(2837321, 'object', 21, false),
+                                properties: J$.T(2837513, {
+                                    firstname: J$.T(2837361, {
+                                        type: J$.T(2837329, 'string', 21, false),
+                                        rules: J$.T(2837353, [
+                                            J$.T(2837337, 'trim', 21, false),
+                                            J$.T(2837345, 'title', 21, false)
                                         ], 10, false)
                                     }, 11, false),
-                                    lastname: J$.T(7445073, {
-                                        type: J$.T(7445041, 'string', 21, false),
-                                        rules: J$.T(7445065, [
-                                            J$.T(7445049, 'trim', 21, false),
-                                            J$.T(7445057, 'title', 21, false)
+                                    lastname: J$.T(2837401, {
+                                        type: J$.T(2837369, 'string', 21, false),
+                                        rules: J$.T(2837393, [
+                                            J$.T(2837377, 'trim', 21, false),
+                                            J$.T(2837385, 'title', 21, false)
                                         ], 10, false)
                                     }, 11, false),
-                                    jobs: J$.T(7445137, {
-                                        type: J$.T(7445081, 'array', 21, false),
-                                        splitWith: J$.T(7445089, ',', 21, false),
-                                        items: J$.T(7445129, {
-                                            type: J$.T(7445097, 'string', 21, false),
-                                            rules: J$.T(7445121, [
-                                                J$.T(7445105, 'trim', 21, false),
-                                                J$.T(7445113, 'title', 21, false)
+                                    jobs: J$.T(2837465, {
+                                        type: J$.T(2837409, 'array', 21, false),
+                                        splitWith: J$.T(2837417, ',', 21, false),
+                                        items: J$.T(2837457, {
+                                            type: J$.T(2837425, 'string', 21, false),
+                                            rules: J$.T(2837449, [
+                                                J$.T(2837433, 'trim', 21, false),
+                                                J$.T(2837441, 'title', 21, false)
                                             ], 10, false)
                                         }, 11, false)
                                     }, 11, false),
-                                    email: J$.T(7445177, {
-                                        type: J$.T(7445145, 'string', 21, false),
-                                        rules: J$.T(7445169, [
-                                            J$.T(7445153, 'trim', 21, false),
-                                            J$.T(7445161, 'lower', 21, false)
+                                    email: J$.T(2837505, {
+                                        type: J$.T(2837473, 'string', 21, false),
+                                        rules: J$.T(2837497, [
+                                            J$.T(2837481, 'trim', 21, false),
+                                            J$.T(2837489, 'lower', 21, false)
                                         ], 10, false)
                                     }, 11, false)
                                 }, 11, false)
                             }, 11, false), sanitization, false, false);
-                            J$.M(7445233, J$.R(7445209, 'inspector', inspector, false, true), 'sanitize', false)(J$.R(7445217, 'sanitization', sanitization, false, false), J$.R(7445225, 'data', data, false, false));
-                            var validation = J$.W(7445377, 'validation', J$.T(7445369, {
-                                type: J$.T(7445241, 'object', 21, false),
-                                properties: J$.T(7445361, {
-                                    firstname: J$.T(7445265, {
-                                        type: J$.T(7445249, 'string', 21, false),
-                                        minLength: J$.T(7445257, 1, 22, false)
+                            J$.M(2837561, J$.R(2837537, 'inspector', inspector, false, true), 'sanitize', false)(J$.R(2837545, 'sanitization', sanitization, false, false), J$.R(2837553, 'data', data, false, false));
+                            var validation = J$.W(2837705, 'validation', J$.T(2837697, {
+                                type: J$.T(2837569, 'object', 21, false),
+                                properties: J$.T(2837689, {
+                                    firstname: J$.T(2837593, {
+                                        type: J$.T(2837577, 'string', 21, false),
+                                        minLength: J$.T(2837585, 1, 22, false)
                                     }, 11, false),
-                                    lastname: J$.T(7445289, {
-                                        type: J$.T(7445273, 'string', 21, false),
-                                        minLength: J$.T(7445281, 1, 22, false)
+                                    lastname: J$.T(2837617, {
+                                        type: J$.T(2837601, 'string', 21, false),
+                                        minLength: J$.T(2837609, 1, 22, false)
                                     }, 11, false),
-                                    jobs: J$.T(7445329, {
-                                        type: J$.T(7445297, 'array', 21, false),
-                                        items: J$.T(7445321, {
-                                            type: J$.T(7445305, 'string', 21, false),
-                                            minLength: J$.T(7445313, 1, 22, false)
+                                    jobs: J$.T(2837657, {
+                                        type: J$.T(2837625, 'array', 21, false),
+                                        items: J$.T(2837649, {
+                                            type: J$.T(2837633, 'string', 21, false),
+                                            minLength: J$.T(2837641, 1, 22, false)
                                         }, 11, false)
                                     }, 11, false),
-                                    email: J$.T(7445353, {
-                                        type: J$.T(7445337, 'string', 21, false),
-                                        pattern: J$.T(7445345, 'email', 21, false)
+                                    email: J$.T(2837681, {
+                                        type: J$.T(2837665, 'string', 21, false),
+                                        pattern: J$.T(2837673, 'email', 21, false)
                                     }, 11, false)
                                 }, 11, false)
                             }, 11, false), validation, false, false);
-                            var result = J$.W(7445417, 'result', J$.M(7445409, J$.R(7445385, 'inspector', inspector, false, true), 'validate', false)(J$.R(7445393, 'validation', validation, false, false), J$.R(7445401, 'data', data, false, false)), result, false, false);
-                            if (J$.C(394600, J$.U(717002, '!', J$.G(7445433, J$.R(7445425, 'result', result, false, false), 'valid'))))
-                                J$.M(7445465, J$.I(typeof console === 'undefined' ? console = J$.R(7445441, 'console', undefined, true, true) : console = J$.R(7445441, 'console', console, true, true)), 'log', false)(J$.M(7445457, J$.R(7445449, 'result', result, false, false), 'format', false)());
+                            var result = J$.W(2837745, 'result', J$.M(2837737, J$.R(2837713, 'inspector', inspector, false, true), 'validate', false)(J$.R(2837721, 'validation', validation, false, false), J$.R(2837729, 'data', data, false, false)), result, false, false);
+                            if (J$.C(145080, J$.U(202146, '!', J$.G(2837761, J$.R(2837753, 'result', result, false, false), 'valid'))))
+                                J$.M(2837793, J$.I(typeof console === 'undefined' ? console = J$.R(2837769, 'console', undefined, true, true) : console = J$.R(2837769, 'console', console, true, true)), 'log', false)(J$.M(2837785, J$.R(2837777, 'result', result, false, false), 'format', false)());
                         } catch (J$e) {
-                            J$.Ex(7445561, J$e);
+                            J$.Ex(2837889, J$e);
                         } finally {
-                            if (J$.Fr(7445569))
+                            if (J$.Fr(2837897))
                                 continue jalangiLabel0;
                             else
                                 return J$.Ra();
                         }
                     }
             }
-            J$.N(7445529, 'inspector', inspector, false, false, false);
-            J$.N(7445537, 'data', data, false, false, false);
-            test = J$.N(7445553, 'test', J$.T(7445545, test, 12, false), true, false, false);
-            var inspector = J$.W(7444897, 'inspector', J$.F(7444889, J$.I(typeof require === 'undefined' ? require = J$.R(7444873, 'require', undefined, true, true) : require = J$.R(7444873, 'require', require, true, true)), false)(J$.T(7444881, 'schema-inspector', 21, false)), inspector, false, true);
-            var data = J$.W(7444961, 'data', J$.T(7444953, {
-                firstname: J$.T(7444905, 'sterling  ', 21, false),
-                lastname: J$.T(7444913, '  archer', 21, false),
-                jobs: J$.T(7444937, {
-                    'name': J$.T(7444921, 'Special agent, cocaine Dealer', 21, false),
-                    'hasOwnProperty': J$.T(7444929, 'jb', 21, false)
+            J$.N(2837857, 'inspector', inspector, false, false, false);
+            J$.N(2837865, 'data', data, false, false, false);
+            test = J$.N(2837881, 'test', J$.T(2837873, test, 12, false), true, false, false);
+            var inspector = J$.W(2837225, 'inspector', J$.F(2837217, J$.I(typeof require === 'undefined' ? require = J$.R(2837201, 'require', undefined, true, true) : require = J$.R(2837201, 'require', require, true, true)), false)(J$.T(2837209, 'schema-inspector', 21, false)), inspector, false, true);
+            var data = J$.W(2837289, 'data', J$.T(2837281, {
+                firstname: J$.T(2837233, 'sterling  ', 21, false),
+                lastname: J$.T(2837241, '  archer', 21, false),
+                jobs: J$.T(2837265, {
+                    'name': J$.T(2837249, 'Special agent, cocaine Dealer', 21, false),
+                    'hasOwnProperty': J$.T(2837257, 'jb', 21, false)
                 }, 11, false),
-                email: J$.T(7444945, 'NEVER!', 21, false)
+                email: J$.T(2837273, 'NEVER!', 21, false)
             }, 11, false), data, false, true);
-            J$.F(7444985, J$.R(7444969, 'test', test, false, true), false)(J$.R(7444977, 'data', data, false, true));
+            J$.F(2837313, J$.R(2837297, 'test', test, false, true), false)(J$.R(2837305, 'data', data, false, true));
         } catch (J$e) {
-            J$.Ex(7445577, J$e);
+            J$.Ex(2837905, J$e);
         } finally {
-            if (J$.Sr(7445585))
+            if (J$.Sr(2837913))
                 continue jalangiLabel1;
             else
                 break jalangiLabel1;
