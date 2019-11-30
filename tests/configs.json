@@ -1,19 +1,17 @@
 [
     {
-        "testName": "jpv",
-        "projPath": "./target/TestJpv",
-        "startFile": "./TestJpv.js",
-        "instrFiles": ["./TestJpv.js","../TestcaseUtils.js"],
+        "testName": "monogdb",
+        "projPath": "./target/TestMongoDb",
+        "startFile": "./TestMongoDb.js",
+        "instrFiles": ["./TestMongoDb.js","../TestcaseUtils.js"],
         "sources": "intf"
 
     },
     {
-        "testName": "legalize",
-        "projPath": "./target/TestLegalize",
-        "startFile": "./TestLegalize.js",
-        "instrFiles": ["./TestLegalize.js","../TestcaseUtils.js"],
+        "testName": "l",
+        "projPath": "./target/TestCouchDb",
+        "startFile": "./TestCouchDb.js",
+        "instrFiles": ["./TestCouchDb.js","../TestcaseUtils.js"],
         "sources": "intf"
-
     }
-
 ]
