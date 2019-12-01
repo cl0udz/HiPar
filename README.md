@@ -5,4 +5,4 @@
 
 ## Babel Tutorial
 
-[Babel教程](./tests/babel7_for_jalangi)
+[Babel教程](./babel7_for_jalangi)
