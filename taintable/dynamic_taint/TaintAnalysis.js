@@ -228,7 +228,6 @@ J$.analysis = {};
                 for(var file in tainted_dict[param]){
                     try{
                         hidden_list = attr_finder.analyze_hidden_attr(file, tainted_dict[param][file]);
-                        console.log(hidden_list);
                     }catch(e){
                         console.log(tynt.Red("[Error]@TaintAnalysis - get_hidden_httr. " + e));
                         console.log(tynt.Red("[Error]params: file: " + file + ", param: " + JSON.stringify(tainted_dict[param][file])));
@@ -238,7 +237,6 @@ J$.analysis = {};
                             obj_index = hidden_list[key][hidden_index].indexOf(key);
                             dot_index = hidden_list[key][hidden_index].substring(obj_index+key.length+1).indexOf(".");
                             hidden_param = hidden_list[key][hidden_index].substring(obj_index+key.length+1);
-                            console.log("key: " + key);
                             base_param = "";
 
                             if(key.indexOf(".") == -1){
