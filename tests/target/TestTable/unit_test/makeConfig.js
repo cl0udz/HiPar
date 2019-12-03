@@ -1,73 +1,48 @@
+"use strict";
+
+var _chai = require("chai");
+
+var _makeConfig = _interopRequireDefault(require("../src/makeConfig"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
 /* eslint-disable max-nested-callbacks */
-
-import {
-  expect
-} from 'chai';
-import makeConfig from '../src/makeConfig';
-
-describe('makeConfig', () => {
-  it('does not affect the parameter configuration object', () => {
-    const config = {};
-
-    makeConfig([
-      [
-        'aaaaa'
-      ]
-    ], config);
-
-    expect(config).to.deep.equal({});
+describe('makeConfig', function () {
+  it('does not affect the parameter configuration object', function () {
+    var config = {};
+    (0, _makeConfig["default"])([['aaaaa']], config);
+    (0, _chai.expect)(config).to.deep.equal({});
   });
-
-  context('column', () => {
-    context('"alignment"', () => {
-      context('is not provided', () => {
-        it('defaults to "left"', () => {
-          const config = makeConfig([
-            [
-              'aaaaa'
-            ]
-          ]);
-
-          expect(config.columns[0].alignment).to.equal('left');
+  context('column', function () {
+    context('"alignment"', function () {
+      context('is not provided', function () {
+        it('defaults to "left"', function () {
+          var config = (0, _makeConfig["default"])([['aaaaa']]);
+          (0, _chai.expect)(config.columns[0].alignment).to.equal('left');
         });
       });
     });
-    context('"width"', () => {
-      context('is not provided', () => {
-        it('defaults to the maximum column width', () => {
-          const config = makeConfig([
-            [
-              'aaaaa'
-            ]
-          ]);
-
-          expect(config.columns[0].width).to.equal(5);
+    context('"width"', function () {
+      context('is not provided', function () {
+        it('defaults to the maximum column width', function () {
+          var config = (0, _makeConfig["default"])([['aaaaa']]);
+          (0, _chai.expect)(config.columns[0].width).to.equal(5);
         });
       });
     });
-    context('"paddingLeft"', () => {
-      context('is not provided', () => {
-        it('defaults to 1', () => {
-          const config = makeConfig([
-            [
-              'aaaaa'
-            ]
-          ]);
-
-          expect(config.columns[0].paddingLeft).to.equal(1);
+    context('"paddingLeft"', function () {
+      context('is not provided', function () {
+        it('defaults to 1', function () {
+          var config = (0, _makeConfig["default"])([['aaaaa']]);
+          (0, _chai.expect)(config.columns[0].paddingLeft).to.equal(1);
         });
       });
     });
-    context('"paddingRight"', () => {
-      context('is not provided', () => {
-        it('defaults to 1', () => {
-          const config = makeConfig([
-            [
-              'aaaaa'
-            ]
-          ]);
-
-          expect(config.columns[0].paddingRight).to.equal(1);
+    context('"paddingRight"', function () {
+      context('is not provided', function () {
+        it('defaults to 1', function () {
+          var config = (0, _makeConfig["default"])([['aaaaa']]);
+          (0, _chai.expect)(config.columns[0].paddingRight).to.equal(1);
         });
       });
     });

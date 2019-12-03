@@ -1,18 +1,11 @@
-'use strict'
+'use strict';
 
-var table = require('table');
-// Using commonjs?
+var table = require('table'); // Using commonjs?
 // const {table} = require('table');
 
-let data,
-    output;
 
-data = [
-    ['0A', '0B', '0C'],
-    ['1A', '1B', '1C'],
-    ['2A', '2B', '2C']
-];
-
+var data, output;
+data = [['0A', '0B', '0C'], ['1A', '1B', '1C'], ['2A', '2B', '2C']];
 /**
  * @typedef {string} table~cell
  */
@@ -74,6 +67,6 @@ data = [
  * @param {table~config} config
  * @return {String}
  */
-output = table(data);
 
+output = table(data);
 console.log(output);

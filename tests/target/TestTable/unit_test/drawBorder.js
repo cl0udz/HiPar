@@ -1,84 +1,70 @@
+"use strict";
+
+var _chai = require("chai");
+
+var _drawBorder = require("../src/drawBorder");
+
 /* eslint-disable sort-keys */
-
-import {
-  expect
-} from 'chai';
-import {
-  drawBorder,
-  drawBorderTop,
-  drawBorderJoin,
-  drawBorderBottom
-} from '../src/drawBorder';
-
-describe('drawBorder', () => {
-  it('draws a border using parts', () => {
-    const parts = {
+describe('drawBorder', function () {
+  it('draws a border using parts', function () {
+    var parts = {
       left: '╔',
       right: '╗',
       body: '═',
       join: '╤'
     };
-
-    expect(drawBorder([1], parts)).to.equal('╔═╗\n');
-    expect(drawBorder([1, 1], parts)).to.equal('╔═╤═╗\n');
-    expect(drawBorder([5, 10], parts)).to.equal('╔═════╤══════════╗\n');
+    (0, _chai.expect)((0, _drawBorder.drawBorder)([1], parts)).to.equal('╔═╗\n');
+    (0, _chai.expect)((0, _drawBorder.drawBorder)([1, 1], parts)).to.equal('╔═╤═╗\n');
+    (0, _chai.expect)((0, _drawBorder.drawBorder)([5, 10], parts)).to.equal('╔═════╤══════════╗\n');
   });
 });
-
-describe('drawBorderTop', () => {
-  it('draws a border using parts', () => {
-    const parts = {
+describe('drawBorderTop', function () {
+  it('draws a border using parts', function () {
+    var parts = {
       topLeft: '╔',
       topRight: '╗',
       topBody: '═',
       topJoin: '╤'
     };
-
-    expect(drawBorderTop([1], parts)).to.equal('╔═╗\n');
-    expect(drawBorderTop([1, 1], parts)).to.equal('╔═╤═╗\n');
-    expect(drawBorderTop([5, 10], parts)).to.equal('╔═════╤══════════╗\n');
+    (0, _chai.expect)((0, _drawBorder.drawBorderTop)([1], parts)).to.equal('╔═╗\n');
+    (0, _chai.expect)((0, _drawBorder.drawBorderTop)([1, 1], parts)).to.equal('╔═╤═╗\n');
+    (0, _chai.expect)((0, _drawBorder.drawBorderTop)([5, 10], parts)).to.equal('╔═════╤══════════╗\n');
   });
-
-  it('no leading new line if borderless', () => {
-    const parts = {
+  it('no leading new line if borderless', function () {
+    var parts = {
       topLeft: '',
       topRight: '',
       topBody: '',
       topJoin: ''
     };
-
-    expect(drawBorderTop([1], parts)).to.equal('');
-    expect(drawBorderTop([1, 1], parts)).to.equal('');
-    expect(drawBorderTop([5, 10], parts)).to.equal('');
+    (0, _chai.expect)((0, _drawBorder.drawBorderTop)([1], parts)).to.equal('');
+    (0, _chai.expect)((0, _drawBorder.drawBorderTop)([1, 1], parts)).to.equal('');
+    (0, _chai.expect)((0, _drawBorder.drawBorderTop)([5, 10], parts)).to.equal('');
   });
 });
-
-describe('drawBorderJoin', () => {
-  it('draws a border using parts', () => {
-    const parts = {
+describe('drawBorderJoin', function () {
+  it('draws a border using parts', function () {
+    var parts = {
       joinBody: '─',
       joinLeft: '╟',
       joinRight: '╢',
       joinJoin: '┼'
     };
-
-    expect(drawBorderJoin([1], parts)).to.equal('╟─╢\n');
-    expect(drawBorderJoin([1, 1], parts)).to.equal('╟─┼─╢\n');
-    expect(drawBorderJoin([5, 10], parts)).to.equal('╟─────┼──────────╢\n');
+    (0, _chai.expect)((0, _drawBorder.drawBorderJoin)([1], parts)).to.equal('╟─╢\n');
+    (0, _chai.expect)((0, _drawBorder.drawBorderJoin)([1, 1], parts)).to.equal('╟─┼─╢\n');
+    (0, _chai.expect)((0, _drawBorder.drawBorderJoin)([5, 10], parts)).to.equal('╟─────┼──────────╢\n');
   });
 });
-
-describe('drawBorderBottom', () => {
-  it('draws a border using parts', () => {
-    const parts = {
+describe('drawBorderBottom', function () {
+  it('draws a border using parts', function () {
+    var parts = {
       bottomBody: '═',
       bottomJoin: '╧',
       bottomLeft: '╚',
       bottomRight: '╝'
     };
-
-    expect(drawBorderBottom([1], parts)).to.equal('╚═╝\n');
-    expect(drawBorderBottom([1, 1], parts)).to.equal('╚═╧═╝\n');
-    expect(drawBorderBottom([5, 10], parts)).to.equal('╚═════╧══════════╝\n');
+    (0, _chai.expect)((0, _drawBorder.drawBorderBottom)([1], parts)).to.equal('╚═╝\n');
+    (0, _chai.expect)((0, _drawBorder.drawBorderBottom)([1, 1], parts)).to.equal('╚═╧═╝\n');
+    (0, _chai.expect)((0, _drawBorder.drawBorderBottom)([5, 10], parts)).to.equal('╚═════╧══════════╝\n');
   });
 });

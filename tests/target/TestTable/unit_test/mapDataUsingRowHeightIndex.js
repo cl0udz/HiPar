@@ -1,137 +1,75 @@
-import {
-  expect
-} from 'chai';
-import chalk from 'chalk';
-import mapDataUsingRowHeightIndex from '../src/mapDataUsingRowHeightIndex';
+"use strict";
 
-describe('mapDataUsingRowHeightIndex', () => {
-  context('no data spans multiple rows', () => {
-    it('maps data to a single cell', () => {
-      const config = {
+var _chai = require("chai");
+
+var _chalk = _interopRequireDefault(require("chalk"));
+
+var _mapDataUsingRowHeightIndex = _interopRequireDefault(require("../src/mapDataUsingRowHeightIndex"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+describe('mapDataUsingRowHeightIndex', function () {
+  context('no data spans multiple rows', function () {
+    it('maps data to a single cell', function () {
+      var config = {
         columns: {
           0: {
             width: 2
           }
         }
       };
-
-      const rowSpanIndex = [
-        1
-      ];
-
-      const data = [
-        [
-          'aa'
-        ]
-      ];
-
-      const mappedData = mapDataUsingRowHeightIndex(data, rowSpanIndex, config);
-
-      expect(mappedData).to.deep.equal([
-        [
-          'aa'
-        ]
-      ]);
+      var rowSpanIndex = [1];
+      var data = [['aa']];
+      var mappedData = (0, _mapDataUsingRowHeightIndex["default"])(data, rowSpanIndex, config);
+      (0, _chai.expect)(mappedData).to.deep.equal([['aa']]);
     });
   });
-
-  context('single cell spans multiple rows', () => {
-    it('maps data to multiple rows', () => {
-      const config = {
+  context('single cell spans multiple rows', function () {
+    it('maps data to multiple rows', function () {
+      var config = {
         columns: {
           0: {
             width: 2
           }
         }
       };
-
-      const rowSpanIndex = [
-        5
-      ];
-
-      const data = [
-        [
-          'aabbccddee'
-        ]
-      ];
-
-      const mappedData = mapDataUsingRowHeightIndex(data, rowSpanIndex, config);
-
-      expect(mappedData).to.deep.equal([
-        ['aa'],
-        ['bb'],
-        ['cc'],
-        ['dd'],
-        ['ee']
-      ]);
+      var rowSpanIndex = [5];
+      var data = [['aabbccddee']];
+      var mappedData = (0, _mapDataUsingRowHeightIndex["default"])(data, rowSpanIndex, config);
+      (0, _chai.expect)(mappedData).to.deep.equal([['aa'], ['bb'], ['cc'], ['dd'], ['ee']]);
     });
   });
-
-  context('single cell contains newlines', () => {
-    it('maps data to multiple rows', () => {
-      const config = {
+  context('single cell contains newlines', function () {
+    it('maps data to multiple rows', function () {
+      var config = {
         columns: {
           0: {
             width: 100
           }
         }
       };
-
-      const rowSpanIndex = [
-        5
-      ];
-
-      const data = [
-        [
-          'aa\nbb\ncc\ndd\nee'
-        ]
-      ];
-
-      const mappedData = mapDataUsingRowHeightIndex(data, rowSpanIndex, config);
-
-      expect(mappedData).to.deep.equal([
-        ['aa'],
-        ['bb'],
-        ['cc'],
-        ['dd'],
-        ['ee']
-      ]);
+      var rowSpanIndex = [5];
+      var data = [['aa\nbb\ncc\ndd\nee']];
+      var mappedData = (0, _mapDataUsingRowHeightIndex["default"])(data, rowSpanIndex, config);
+      (0, _chai.expect)(mappedData).to.deep.equal([['aa'], ['bb'], ['cc'], ['dd'], ['ee']]);
     });
-
-    it('maps data with color coding to multiple rows', () => {
-      const config = {
+    it('maps data with color coding to multiple rows', function () {
+      var config = {
         columns: {
           0: {
             width: 100
           }
         }
       };
-
-      const rowSpanIndex = [
-        5
-      ];
-
-      const data = [
-        [
-          chalk.red('aa\nbb\ncc\ndd\nee')
-        ]
-      ];
-
-      const mappedData = mapDataUsingRowHeightIndex(data, rowSpanIndex, config);
-
-      expect(mappedData).to.deep.equal([
-        [chalk.red('aa')],
-        [chalk.red('bb')],
-        [chalk.red('cc')],
-        [chalk.red('dd')],
-        [chalk.red('ee')]
-      ]);
+      var rowSpanIndex = [5];
+      var data = [[_chalk["default"].red('aa\nbb\ncc\ndd\nee')]];
+      var mappedData = (0, _mapDataUsingRowHeightIndex["default"])(data, rowSpanIndex, config);
+      (0, _chai.expect)(mappedData).to.deep.equal([[_chalk["default"].red('aa')], [_chalk["default"].red('bb')], [_chalk["default"].red('cc')], [_chalk["default"].red('dd')], [_chalk["default"].red('ee')]]);
     });
   });
-
-  context('multiple cells spans multiple rows', () => {
-    it('maps data to multiple rows', () => {
-      const config = {
+  context('multiple cells spans multiple rows', function () {
+    it('maps data to multiple rows', function () {
+      var config = {
         columns: {
           0: {
             width: 2
@@ -141,42 +79,10 @@ describe('mapDataUsingRowHeightIndex', () => {
           }
         }
       };
-
-      const rowSpanIndex = [
-        5
-      ];
-
-      const data = [
-        [
-          'aabbccddee',
-          '00001111'
-        ]
-      ];
-
-      const mappedData = mapDataUsingRowHeightIndex(data, rowSpanIndex, config);
-
-      expect(mappedData).to.deep.equal([
-        [
-          'aa',
-          '0000'
-        ],
-        [
-          'bb',
-          '1111'
-        ],
-        [
-          'cc',
-          ''
-        ],
-        [
-          'dd',
-          ''
-        ],
-        [
-          'ee',
-          ''
-        ]
-      ]);
+      var rowSpanIndex = [5];
+      var data = [['aabbccddee', '00001111']];
+      var mappedData = (0, _mapDataUsingRowHeightIndex["default"])(data, rowSpanIndex, config);
+      (0, _chai.expect)(mappedData).to.deep.equal([['aa', '0000'], ['bb', '1111'], ['cc', ''], ['dd', ''], ['ee', '']]);
     });
   });
 });

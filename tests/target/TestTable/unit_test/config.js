@@ -1,33 +1,78 @@
-import {
-  expect
-} from 'chai';
-import Ajv from 'ajv';
-import ajvKeywords from 'ajv-keywords';
-import validateConfig from '../dist/validateConfig';
-import configSchema from '../src/schemas/config.json';
-import configSamples from './configSamples';
+"use strict";
 
-describe('config.json schema', () => {
-  let validate;
+var _chai = require("chai");
 
-  before(() => {
-    const ajv = new Ajv({allErrors: true});
+var _ajv = _interopRequireDefault(require("ajv"));
 
-    ajvKeywords(ajv, 'typeof');
-    validate = ajv.compile(configSchema);
+var _ajvKeywords = _interopRequireDefault(require("ajv-keywords"));
+
+var _validateConfig = _interopRequireDefault(require("../dist/validateConfig"));
+
+var _config = _interopRequireDefault(require("../src/schemas/config.json"));
+
+var _configSamples = _interopRequireDefault(require("./configSamples"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+describe('config.json schema', function () {
+  var validate;
+  before(function () {
+    var ajv = new _ajv["default"]({
+      allErrors: true
+    });
+    (0, _ajvKeywords["default"])(ajv, 'typeof');
+    validate = ajv.compile(_config["default"]);
   });
+  it('passes validation of valid config samples', function () {
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
 
-  it('passes validation of valid config samples', () => {
-    for (const sample of configSamples.valid) {
-      expect(validate(sample)).to.equal(true);
-      expect(validateConfig(sample)).to.equal(true);
+    try {
+      for (var _iterator = _configSamples["default"].valid[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var sample = _step.value;
+        (0, _chai.expect)(validate(sample)).to.equal(true);
+        (0, _chai.expect)((0, _validateConfig["default"])(sample)).to.equal(true);
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+          _iterator["return"]();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
     }
   });
+  it('fails validation of invalid config samples', function () {
+    var _iteratorNormalCompletion2 = true;
+    var _didIteratorError2 = false;
+    var _iteratorError2 = undefined;
 
-  it('fails validation of invalid config samples', () => {
-    for (const sample of configSamples.invalid) {
-      expect(validate(sample)).to.equal(false);
-      expect(validateConfig(sample)).to.equal(false);
+    try {
+      for (var _iterator2 = _configSamples["default"].invalid[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        var sample = _step2.value;
+        (0, _chai.expect)(validate(sample)).to.equal(false);
+        (0, _chai.expect)((0, _validateConfig["default"])(sample)).to.equal(false);
+      }
+    } catch (err) {
+      _didIteratorError2 = true;
+      _iteratorError2 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+          _iterator2["return"]();
+        }
+      } finally {
+        if (_didIteratorError2) {
+          throw _iteratorError2;
+        }
+      }
     }
   });
 });
