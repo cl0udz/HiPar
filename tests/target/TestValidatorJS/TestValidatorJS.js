@@ -1,5 +1,3 @@
-'use strict';
-
 var Validator = require('validatorjs');
 
 var data = {
