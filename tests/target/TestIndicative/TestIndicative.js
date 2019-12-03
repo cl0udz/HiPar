@@ -1,7 +1,6 @@
 "use strict";
 
-require { sanitize  } from 'indicative/sanitizer'
-//var santitize = require("indicative").sanitizer.sanitize;
+var _sanitizer = require("indicative/sanitizer");
 
 var rules = {
   username: 'trim',
@@ -12,5 +11,5 @@ var data = {
   email: 'john+doe@gmail.com'
 }; // mutates the original data object
 
-sanitize(data, rules);
+(0, _sanitizer.sanitize)(data, rules);
 console.log(data);
