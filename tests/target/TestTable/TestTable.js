@@ -1,6 +1,6 @@
 'use strict';
 
-var table = require('table'); // Using commonjs?
+var table = require('table').table; // Using commonjs?
 // const {table} = require('table');
 
 
