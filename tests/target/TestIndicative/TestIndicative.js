@@ -1,7 +1,7 @@
 "use strict";
 
-//require { sanitize  } from 'indicative/sanitizer'
-var santitize = require("indicative").sanitizer;
+require { sanitize  } from 'indicative/sanitizer'
+//var santitize = require("indicative").sanitizer.sanitize;
 
 var rules = {
   username: 'trim',
