@@ -1,9 +1,11 @@
+"use strict";
+
 var baseGetTag = require('./_baseGetTag'),
     isObjectLike = require('./isObjectLike');
-
 /** `Object#toString` result references. */
-var symbolTag = '[object Symbol]';
 
+
+var symbolTag = '[object Symbol]';
 /**
  * Checks if `value` is classified as a `Symbol` primitive or object.
  *
@@ -21,9 +23,9 @@ var symbolTag = '[object Symbol]';
  * _.isSymbol('abc');
  * // => false
  */
+
 function isSymbol(value) {
-  return typeof value == 'symbol' ||
-    (isObjectLike(value) && baseGetTag(value) == symbolTag);
+  return typeof value == 'symbol' || isObjectLike(value) && baseGetTag(value) == symbolTag;
 }
 
 module.exports = isSymbol;

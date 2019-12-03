@@ -4,7 +4,11 @@ var _src = require("../../../src");
 
 var _expectTable = _interopRequireDefault(require("./expectTable"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    "default": obj
+  };
+}
 
 describe('README.md usage/', function () {
   describe('process.stdout.write', function () {

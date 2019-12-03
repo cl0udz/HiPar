@@ -6,7 +6,11 @@ var _chalk = _interopRequireDefault(require("chalk"));
 
 var _mapDataUsingRowHeightIndex = _interopRequireDefault(require("../src/mapDataUsingRowHeightIndex"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    "default": obj
+  };
+}
 
 describe('mapDataUsingRowHeightIndex', function () {
   context('no data spans multiple rows', function () {

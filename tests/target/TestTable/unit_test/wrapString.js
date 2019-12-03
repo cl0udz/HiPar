@@ -6,9 +6,14 @@ var _chalk = _interopRequireDefault(require("chalk"));
 
 var _wrapString = _interopRequireDefault(require("../src/wrapString"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    "default": obj
+  };
+}
 /* eslint-disable max-nested-callbacks */
+
+
 describe('wrapString', function () {
   context('subject is a plain text string', function () {
     context('subject is lesser than the chunk size', function () {

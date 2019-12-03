@@ -6,9 +6,14 @@ var _chalk = _interopRequireDefault(require("chalk"));
 
 var _alignString = _interopRequireDefault(require("../src/alignString"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    "default": obj
+  };
+}
 /* eslint-disable max-nested-callbacks */
+
+
 describe('alignString', function () {
   context('subject parameter value is not a string', function () {
     it('throws an error', function () {

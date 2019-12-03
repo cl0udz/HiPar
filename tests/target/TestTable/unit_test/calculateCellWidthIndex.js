@@ -4,7 +4,11 @@ var _chai = require("chai");
 
 var _calculateCellWidthIndex = _interopRequireDefault(require("../src/calculateCellWidthIndex"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    "default": obj
+  };
+}
 
 describe('calculateCellWidthIndex', function () {
   context('all cells have different width', function () {

@@ -4,9 +4,14 @@ var _chai = require("chai");
 
 var _calculateCellHeight = _interopRequireDefault(require("../src/calculateCellHeight"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    "default": obj
+  };
+}
 /* eslint-disable max-nested-callbacks */
+
+
 describe('calculateCellHeight', function () {
   describe('value', function () {
     context('is not a string', function () {

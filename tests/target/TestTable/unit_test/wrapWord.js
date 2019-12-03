@@ -4,7 +4,11 @@ var _chai = require("chai");
 
 var _wrapWord = _interopRequireDefault(require("../src/wrapWord"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    "default": obj
+  };
+}
 
 describe('wrapWord', function () {
   it('wraps a string at a nearest whitespace', function () {

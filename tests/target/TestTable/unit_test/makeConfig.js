@@ -4,9 +4,14 @@ var _chai = require("chai");
 
 var _makeConfig = _interopRequireDefault(require("../src/makeConfig"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    "default": obj
+  };
+}
 /* eslint-disable max-nested-callbacks */
+
+
 describe('makeConfig', function () {
   it('does not affect the parameter configuration object', function () {
     var config = {};

@@ -6,7 +6,11 @@ var _chalk = _interopRequireDefault(require("chalk"));
 
 var _src = require("../../../src");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    "default": obj
+  };
+}
 
 describe('README.md usage/', function () {
   it('moon_mission', function () {

@@ -1,5 +1,13 @@
 "use strict";
 
+require("core-js/modules/es.symbol");
+
+require("core-js/modules/es.symbol.description");
+
+require("core-js/modules/es.array.iterator");
+
+require("core-js/modules/es.object.to-string");
+
 var _chai = require("chai");
 
 var _ajv = _interopRequireDefault(require("ajv"));
@@ -14,7 +22,11 @@ var _streamConfig = _interopRequireDefault(require("../src/schemas/streamConfig.
 
 var _streamConfigSamples = _interopRequireDefault(require("./streamConfigSamples"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    "default": obj
+  };
+}
 
 describe('streamConfig.json schema', function () {
   var validate;

@@ -6,7 +6,11 @@ var _chalk = _interopRequireDefault(require("chalk"));
 
 var _calculateMaximumColumnWidthIndex = _interopRequireDefault(require("../src/calculateMaximumColumnWidthIndex"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    "default": obj
+  };
+}
 
 describe('calculateMaximumColumnWidthIndex', function () {
   it('throws an error when attempting to calculate maximum column value index for an empty data set', function () {

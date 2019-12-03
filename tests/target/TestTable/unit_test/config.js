@@ -1,5 +1,13 @@
 "use strict";
 
+require("core-js/modules/es.symbol");
+
+require("core-js/modules/es.symbol.description");
+
+require("core-js/modules/es.array.iterator");
+
+require("core-js/modules/es.object.to-string");
+
 var _chai = require("chai");
 
 var _ajv = _interopRequireDefault(require("ajv"));
@@ -12,7 +20,11 @@ var _config = _interopRequireDefault(require("../src/schemas/config.json"));
 
 var _configSamples = _interopRequireDefault(require("./configSamples"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    "default": obj
+  };
+}
 
 describe('config.json schema', function () {
   var validate;

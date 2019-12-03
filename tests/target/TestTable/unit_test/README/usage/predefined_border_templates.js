@@ -1,12 +1,18 @@
 "use strict";
 
+require("core-js/modules/es.string.trim");
+
 var _lodash = _interopRequireDefault(require("lodash"));
 
 var _src = require("../../../src");
 
 var _expectTable = _interopRequireDefault(require("./expectTable"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    "default": obj
+  };
+}
 
 describe('README.md usage/predefined_border_templates', function () {
   var data;

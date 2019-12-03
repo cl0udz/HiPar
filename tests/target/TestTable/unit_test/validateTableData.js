@@ -4,9 +4,14 @@ var _chai = require("chai");
 
 var _validateTableData = _interopRequireDefault(require("../src/validateTableData"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    "default": obj
+  };
+}
 /* eslint-disable max-nested-callbacks */
+
+
 describe('validateTableData', function () {
   context('table does not have a row', function () {
     it('throws an error', function () {

@@ -3,8 +3,9 @@
 var _chai = require("chai");
 
 var _drawBorder = require("../src/drawBorder");
-
 /* eslint-disable sort-keys */
+
+
 describe('drawBorder', function () {
   it('draws a border using parts', function () {
     var parts = {
