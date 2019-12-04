@@ -1,5 +1,29 @@
 [
     {
+        "testName": "CouchNode",
+        "projPath": "./target/TestCouchNode",
+        "startFile": "./TestCouchNode.js",
+        "instrFiles": ["./TestCouchNode.js","../TestcaseUtils.js"],
+        "sources": "intf"
+
+    },
+    {
+        "testName": "yup",
+        "projPath": "./target/TestYup",
+        "startFile": "./TestYup.js",
+        "instrFiles": ["./TestYup.js","../TestcaseUtils.js"],
+        "sources": "intf"
+
+    },
+    {
+        "testName": "datalize",
+        "projPath": "./target/TestDatalize",
+        "startFile": "./TestDatalize.js",
+        "instrFiles": ["./TestDatalize.js","../TestcaseUtils.js"],
+        "sources": "intf"
+
+    },
+    {
         "testName": "monogdb",
         "projPath": "./target/TestMongoDb",
         "startFile": "./TestMongoDb.js",
@@ -8,7 +32,7 @@
 
     },
     {
-        "testName": "l",
+        "testName": "couchdb",
         "projPath": "./target/TestCouchDb",
         "startFile": "./TestCouchDb.js",
         "instrFiles": ["./TestCouchDb.js","../TestcaseUtils.js"],
