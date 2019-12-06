@@ -1,31 +1,45 @@
 [
     {
+        "testName": "Indicative",
+        "projPath": "./target/TestIndicative",
+        "startFile": "./TestIndicative.js",
+        "instrFiles": ["./TestIndicative.js", "../TestcaseUtils.js"],
+        "enable": false
+    },
+    {
+        "testName": "Table",
+        "projPath": "./target/TestTable",
+        "startFile": "./TestTable.js",
+        "instrFiles": ["./TestTable.js","../TestcaseUtils.js"],
+        "enable" : false
+    },
+    {
         "testName": "CouchNode",
         "projPath": "./target/TestCouchNode",
         "startFile": "./TestCouchNode.js",
         "instrFiles": ["./TestCouchNode.js","../TestcaseUtils.js"],
-        "enable" : true
+        "enable" : false
     },
     {
         "testName": "yup",
         "projPath": "./target/TestYup",
         "startFile": "./TestYup.js",
         "instrFiles": ["./TestYup.js","../TestcaseUtils.js"],
-        "enable" : true
+        "enable" : false
     },
     {
         "testName": "datalize",
         "projPath": "./target/TestDatalize",
         "startFile": "./TestDatalize.js",
         "instrFiles": ["./TestDatalize.js","../TestcaseUtils.js"],
-        "enable" : true
+        "enable" : false
     },
     {
         "testName": "monogdb",
         "projPath": "./target/TestMongoDb",
         "startFile": "./TestMongoDb.js",
         "instrFiles": ["./TestMongoDb.js","../TestcaseUtils.js"],
-        "enable" : true
+        "enable" : false
 
     },
     {
@@ -33,6 +47,6 @@
         "projPath": "./target/TestCouchDb",
         "startFile": "./TestCouchDb.js",
         "instrFiles": ["./TestCouchDb.js","../TestcaseUtils.js"],
-        "enable" : true
+        "enable" : false
     }
 ]
