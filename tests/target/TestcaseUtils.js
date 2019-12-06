@@ -105,10 +105,18 @@ function verifyHipar(testFunc, param) {
             for (var hipar_name in result[property]) {
                 var hipar_content = result[property][hipar_name];
                 var tmp = clone(param); // generate a copy of param
-                if (property == rootMagicName)
-                    tmp[hipar_name] = "H1P4r";
-                else
-                    tmp[property][hipar_name] = "H1P4r";
+                hipar_multi_names = hipar_name.split('.')
+                
+                if (property != rootMagicName)
+                    tmp = tmp[property];
+                while(hipar_multi_names.length > 1){
+                    name = hipar_multi_names.shift()
+                    tmp[name] = {};
+                    tmp = tmp[name];
+                }
+                name = hipar_multi_names.shift()
+                tmp[name] = "H1P4r";
+                    
                 verify_hipar(hipar_content.file, hipar_name, hipar_content.base);
                 console.log(tmp)
                 try {
