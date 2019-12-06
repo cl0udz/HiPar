@@ -16,6 +16,7 @@
 
     },
     {
+<<<<<<< HEAD
         "testName": "datalize",
         "projPath": "./target/TestDatalize",
         "startFile": "./TestDatalize.js",
@@ -38,4 +39,14 @@
         "instrFiles": ["./TestCouchDb.js","../TestcaseUtils.js"],
         "sources": "intf"
     }
+=======
+        "testName": "valib",
+        "projPath": "./target/TestValib",
+        "startFile": "./TestValib.js",
+        "instrFiles": ["./TestValib.js","../TestcaseUtils.js"],
+        "sources": "intf"
+    }
+
+
+>>>>>>> 389a934426ca4929eda4e7e562a58d11d3747815
 ]

@@ -13,7 +13,7 @@ var json = {
     key4: "OK",
     key5: "2012-10-06T04:13:00+00:00",
     key6: [1, 2, 3],
-    key7: "Yes"
+    key7: {"a":1}
 };
 var pattern = {
     key1: '(null)',
@@ -23,11 +23,12 @@ var pattern = {
     key3: /[0-9]+/i,
     key4: "OK",
     key5: '[datetime]',
-    key6: '![empty]'
+    key6: '![empty]',
+    key7: '(object)'
 };
 
 function test(userJson){
-    jpv.validate(userJson, pattern);
+   return  jpv.validate(userJson, pattern);
 }
-console.log(json);
-utils.entry(test, json);
+console.log(test(json));
+// utils.entry(test, json);

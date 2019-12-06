@@ -27,6 +27,33 @@ exports.get_name_by_loc = function get_name_by_loc(loc){
     return cmd.res[0];
 }
 
+exports.relaxed_analyze_hidden_attr = function relaxed_analyze_hidden_attr(file_loc, domain){
+    var file_loc, domain;
+    var content = fs.readFileSync(file_loc, 'utf-8');
+    var cmd = {'mode':'getAll', 'res' : [], "loc":file_loc, 'relaxed':1};
+    search_all_attr(file_loc, content, cmd);
+    var taint_lst = cal_taintable_attr(domain, cmd.res);
+    return taint_lst;
+
+}
+
+
+exports.relaxed_get_name_by_loc = function relaxed_get_name_by_loc(loc){
+    var content = fs.readFileSync(loc.file_loc, 'utf-8');
+    var cmd = {'mode':'findOne', 'loc':loc.var_loc, 'res':[], 'relaxed':1};
+    search_all_attr(loc.file_loc, content, cmd);
+    if (cmd.res.length ===  0){
+        console.log(tynt.Red("[x] get_name_by_loc error: " + JSON.stringify(loc)+ ' not found'));
+        return -1;
+    }
+    //console.log(cmd.res);
+    return cmd.res[0];
+}
+
+
+
+
+
 //calculate taintable attributes according to dynamic taint result
 function cal_taintable_attr(domain, attr_lst){
     var taint_lst = {};
@@ -51,7 +78,11 @@ function search_all_attr(file_loc, text, cmd) {
         console.log(tynt.Red("\n[x] get_all_attr : Error when parsing "+ file_loc +", Will ignore this file.\n" + e));
         return;
     }
-    traverse(ast['body'], [], propertyVisitor, cmd);
+    if (cmd.relaxed) {
+        relaxed_traverse(ast['body'], [], propertyVisitor, cmd);
+    }else{
+        traverse(ast['body'], [], propertyVisitor, cmd);
+    }
     return;
 }
 
@@ -87,6 +118,28 @@ function traverse(object, domain, Visitor, cmd) {
         }
     }
 }
+
+
+// Executes visitor on the ast tree and its children in relatexed_mode.
+function relaxed_traverse(object, domain, Visitor, cmd) {
+    var key, child;
+
+    if (Visitor.call(null, object, domain, cmd) === false) {
+        return;
+    }
+    
+    for (key in object) {
+        if (object.hasOwnProperty(key)) {
+            child = object[key];
+            if (typeof child === 'object' && child !== null) {
+                relaxed_traverse(child, domain, Visitor, cmd);
+            }
+        }
+    }
+}
+
+
+
 
 
 // recursively visit a property 
@@ -232,6 +285,8 @@ function read_property(node, path, offset, cmd){
                 cmd.res.push(path_to_store);
             }
         } else {
+            // here we handle special cases
+            
             // this is statement like func('aaa').b, just ignore
             if ( node.object.type === "CallExpression" ) {
                 if (node.object.callee.type === "MemberExpression"){
@@ -242,21 +297,56 @@ function read_property(node, path, offset, cmd){
             // this is statement like "i love".concat("china"), just ignore
             if ( node.object.type === "Literal" ) return;
 
-            // this is statement like new String(aaa), just ignore
+            // this is statement like new String(aaa),we want to get aaa 
             if (node.object.type === "NewExpression") {
                 const args = node.object.arguments;
                 for (const id in args) read_property(args[id], path.splice(0,offset), offset, cmd);
                 return;           
             }
 
-            // this is statement like (a?b:c).aaa, just ignore
-            if (node.object.type === "ConditionalExpression") return;
-            // this is statement like [a,b].concat(), just ignore
-            if (node.object.type === "ArrayExpression"){
-                const ele = node.object.elements; 
-                for (const id in ele) read_property(ele[id], path.splice(0,offset), offset, cmd);
+            // this is statement like (a?b:c).aaa, we want a, b, c
+            if (node.object.type === "ConditionalExpression"){
+                const args = node.object;
+                for (const id in args) read_property(args[id], path.splice(0,offset), offset, cmd);
                 return;
             }
+
+            // this is statement like (a||b).aaa, we want a, b
+            if (node.object.type === "LogicalExpression"){
+                var args = node.object;
+                // read right 
+                while (args.left.type === "LogicalExpression") {
+                    read_property(args.right, path.splice(0,offset), offset, cmd);
+                    args = args.left;
+                }
+                read_property(args.right, path.splice(0,offset), offset, cmd);
+                // read left 
+                read_property(args.left, path.splice(0,offset), offset, cmd);
+                return;
+            }
+
+
+            // this is statement like (a + b + c).aaa, we want a, b, c
+            if (node.object.type === "BinaryExpression"){
+                var args = node.object;
+                // read right 
+                while (args.left.type === "BinaryExpression") {
+                    read_property(args.right, path.splice(0,offset), offset, cmd);
+                    args = args.left;
+                }
+                read_property(args.right, path.splice(0,offset), offset, cmd);
+                // read left 
+                read_property(args.left, path.splice(0,offset), offset, cmd);
+                return;
+            }
+
+            // this is statement like [a,b].concat(), we want a,b
+            if (node.object.type === "ArrayExpression"){
+                const args = node.object.elements; 
+                for (const id in args) read_property(args[id], path.splice(0,offset), offset, cmd);
+                return;
+            }
+
             console.log("[x] read_property error: unknown object tpye " + JSON.stringify(node.object));
             console.log(cmd.loc);
             return;
@@ -273,19 +363,20 @@ function read_property(node, path, offset, cmd){
 }
 
 var loc = {
-    "file_loc": "../../tests/target/TestRegression/node_modules/regre_tester/index.js",
+    "file_loc": "test.js",
     "var_loc": {
         "start": {
-            "line": 65,
-            "column": 12
+            "line": 6,
+            "column": 0
         },
         "end": {
-            "line": 65,
-            "column": 20 
+            "line": 6,
+            "column": 9 
         }
     }
 }
 
-//  console.log(exports.analyze_hidden_attr("test.js", ['a']));
-
+// console.log(exports.analyze_hidden_attr("test.js", ['a', 'e', 'i']));
+// console.log(exports.relaxed_analyze_hidden_attr("test.js", ['a']));
 // console.log( exports.get_name_by_loc(loc));
+// console.log(exports.relaxed_get_name_by_loc(loc));

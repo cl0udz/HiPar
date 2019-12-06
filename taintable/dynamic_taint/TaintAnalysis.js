@@ -236,7 +236,7 @@ J$.analysis = {};
                         for(var hidden_index in hidden_list[key]){
                             obj_index = hidden_list[key][hidden_index].indexOf(key);
                             dot_index = hidden_list[key][hidden_index].substring(obj_index+key.length+1).indexOf(".");
-                            hidden_param = hidden_list[key][hidden_index].substring(obj_index+dot_index+key.length+2);
+                            hidden_param = hidden_list[key][hidden_index].substring(obj_index+key.length+1);
                             base_param = "";
 
                             if(key.indexOf(".") == -1){
