@@ -4,31 +4,28 @@
         "projPath": "./target/TestCouchNode",
         "startFile": "./TestCouchNode.js",
         "instrFiles": ["./TestCouchNode.js","../TestcaseUtils.js"],
-        "sources": "intf"
-
+        "enable" : true
     },
     {
         "testName": "yup",
         "projPath": "./target/TestYup",
         "startFile": "./TestYup.js",
         "instrFiles": ["./TestYup.js","../TestcaseUtils.js"],
-        "sources": "intf"
-
+        "enable" : true
     },
     {
         "testName": "datalize",
         "projPath": "./target/TestDatalize",
         "startFile": "./TestDatalize.js",
         "instrFiles": ["./TestDatalize.js","../TestcaseUtils.js"],
-        "sources": "intf"
-
+        "enable" : true
     },
     {
         "testName": "monogdb",
         "projPath": "./target/TestMongoDb",
         "startFile": "./TestMongoDb.js",
         "instrFiles": ["./TestMongoDb.js","../TestcaseUtils.js"],
-        "sources": "intf"
+        "enable" : true
 
     },
     {
@@ -36,6 +33,6 @@
         "projPath": "./target/TestCouchDb",
         "startFile": "./TestCouchDb.js",
         "instrFiles": ["./TestCouchDb.js","../TestcaseUtils.js"],
-        "sources": "intf"
+        "enable" : true
     }
 ]

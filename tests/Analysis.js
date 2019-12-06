@@ -14,7 +14,8 @@ var useCache = true;
 
 for (var i = 0; i < configs.length; i++) {
     configs[i].projPath = path.resolve(__dirname, configs[i].projPath)
-    tasks.push(configs[i]);
+    if (configs[i].enable)
+        tasks.push(configs[i]);
 }
 
 
