@@ -1,6 +1,13 @@
 [
 
     {
+        "testName": "archiver",
+        "projPath": "./target/TestArchiver",
+        "startFile": "./TestArchiver",
+        "instrFiles": ["./TestArchiver.js","../TestcaseUtils.js"],
+        "enable": true
+    },
+    {
         "testName": "BSON-object",
         "projPath": "./target/TestBson-object",
         "startFile": "./TestBson-object.js",
