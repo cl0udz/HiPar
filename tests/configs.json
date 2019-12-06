@@ -1,4 +1,19 @@
 [
+
+    {
+        "testName": "BSON-object",
+        "projPath": "./target/TestBson-object",
+        "startFile": "./TestBson-object.js",
+        "instrFiles": ["./TestBson-object.js","../TestcaseUtils.js"],
+        "enable": false
+    },
+    {
+        "testName": "consono",
+        "projPath": "./target/TestConsono",
+        "startFile": "./TestConsono.js",
+        "instrFiles": ["./TestConsono.js","../TestcaseUtils.js"],
+        "enable": false
+    },
     {
         "testName": "Indicative",
         "projPath": "./target/TestIndicative",

@@ -2,6 +2,7 @@
 
 var _require = require("consono"),
     consono = _require.consono;
+
 var utils = require('../TestcaseUtils.js');
 
 var json = {
