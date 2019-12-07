@@ -26,7 +26,7 @@
         "projPath": "./target/TestConsono",
         "startFile": "./TestConsono.js",
         "instrFiles": ["./TestConsono.js","../TestcaseUtils.js"],
-        "enable": true
+        "enable": false
     },
     {
         "testName": "Indicative",
@@ -76,6 +76,13 @@
         "projPath": "./target/TestCouchDb",
         "startFile": "./TestCouchDb.js",
         "instrFiles": ["./TestCouchDb.js","../TestcaseUtils.js"],
+        "enable" : false
+    },
+    {
+        "testName": "request",
+        "projPath": "./target/TestRequest",
+        "startFile": "./TestRequest.js",
+        "instrFiles": ["./TestRequest.js","../TestcaseUtils.js"],
         "enable" : false
     }
 ]

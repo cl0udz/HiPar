@@ -146,7 +146,6 @@ function verifyHipar(testFunc, param) {
 
 function source(source_var, var_name) {
     console.log(tynt.Green(var_name))
-    source_var = 'hipar'
     return source_var;
 }
 
