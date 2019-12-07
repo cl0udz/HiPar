@@ -26,7 +26,7 @@
         "projPath": "./target/TestConsono",
         "startFile": "./TestConsono.js",
         "instrFiles": ["./TestConsono.js","../TestcaseUtils.js"],
-        "enable": false
+        "enable": true
     },
     {
         "testName": "Indicative",

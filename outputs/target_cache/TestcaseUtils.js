@@ -1,56 +1,56 @@
 J$.noInstrEval = false;
-jalangiLabel13:
+jalangiLabel14:
     while (true) {
         try {
-            J$.Se(320241, '/mnt/data/fxiao/HiPar/outputs/target_cache/TestcaseUtils.js');
+            J$.Se(423809, '/Users/ex1t/Desktop/nodeAnalysis/HiPar/outputs/target_cache/TestcaseUtils.js');
             function sendViaWebRequest(method, data, location, port, hostname) {
                 jalangiLabel6:
                     while (true) {
                         try {
-                            J$.Fe(317705, arguments.callee, this, arguments);
-                            arguments = J$.N(317713, 'arguments', arguments, true, false, false);
-                            method = J$.N(317721, 'method', method, true, false, false);
-                            data = J$.N(317729, 'data', data, true, false, false);
-                            location = J$.N(317737, 'location', location, true, false, false);
-                            port = J$.N(317745, 'port', port, true, false, false);
-                            hostname = J$.N(317753, 'hostname', hostname, true, false, false);
-                            J$.N(317761, 'http', http, false, false, false);
-                            J$.N(317769, 'content', content, false, false, false);
-                            J$.N(317777, 'options', options, false, false, false);
-                            J$.N(317785, 'req', req, false, false, false);
-                            var http = J$.W(316721, 'http', J$.F(316713, J$.I(typeof require === 'undefined' ? require = J$.R(316697, 'require', undefined, true, true) : require = J$.R(316697, 'require', require, true, true)), false)(J$.T(316705, 'http', 21, false)), http, false, false);
-                            var content = J$.W(316737, 'content', J$.R(316729, 'data', data, false, false), content, false, false);
-                            var options = J$.W(316801, 'options', J$.T(316793, {
-                                hostname: J$.C(11088, J$.R(316745, 'hostname', hostname, false, false)) ? J$._() : J$.T(316753, '127.0.0.1', 21, false),
-                                port: J$.R(316761, 'port', port, false, false),
-                                path: J$.C(11096, J$.R(316769, 'location', location, false, false)) ? J$._() : J$.T(316777, '/', 21, false),
-                                method: J$.T(316785, 'GET', 21, false)
+                            J$.Fe(421129, arguments.callee, this, arguments);
+                            arguments = J$.N(421137, 'arguments', arguments, true, false, false);
+                            method = J$.N(421145, 'method', method, true, false, false);
+                            data = J$.N(421153, 'data', data, true, false, false);
+                            location = J$.N(421161, 'location', location, true, false, false);
+                            port = J$.N(421169, 'port', port, true, false, false);
+                            hostname = J$.N(421177, 'hostname', hostname, true, false, false);
+                            J$.N(421185, 'http', http, false, false, false);
+                            J$.N(421193, 'content', content, false, false, false);
+                            J$.N(421201, 'options', options, false, false, false);
+                            J$.N(421209, 'req', req, false, false, false);
+                            var http = J$.W(420145, 'http', J$.F(420137, J$.I(typeof require === 'undefined' ? require = J$.R(420121, 'require', undefined, true, true) : require = J$.R(420121, 'require', require, true, true)), false)(J$.T(420129, 'http', 21, false)), http, false, false);
+                            var content = J$.W(420161, 'content', J$.R(420153, 'data', data, false, false), content, false, false);
+                            var options = J$.W(420225, 'options', J$.T(420217, {
+                                hostname: J$.C(15424, J$.R(420169, 'hostname', hostname, false, false)) ? J$._() : J$.T(420177, '127.0.0.1', 21, false),
+                                port: J$.R(420185, 'port', port, false, false),
+                                path: J$.C(15432, J$.R(420193, 'location', location, false, false)) ? J$._() : J$.T(420201, '/', 21, false),
+                                method: J$.T(420209, 'GET', 21, false)
                             }, 11, false), options, false, false);
-                            if (J$.C(11104, J$.B(28178, '==', J$.R(316809, 'method', method, false, false), J$.T(316817, 'post', 21, false)))) {
-                                J$.P(316841, J$.R(316825, 'options', options, false, false), 'method', J$.T(316833, 'POST', 21, false));
-                                J$.P(316873, J$.R(316849, 'options', options, false, false), 'headers', J$.T(316865, { 'Content-Type': J$.T(316857, 'application/json', 21, false) }, 11, false));
-                                var req = J$.W(317145, 'req', J$.M(317137, J$.R(316881, 'http', http, false, false), 'request', false)(J$.R(316889, 'options', options, false, false), J$.T(317129, function (res) {
+                            if (J$.C(15440, J$.B(37050, '==', J$.R(420233, 'method', method, false, false), J$.T(420241, 'post', 21, false)))) {
+                                J$.P(420265, J$.R(420249, 'options', options, false, false), 'method', J$.T(420257, 'POST', 21, false));
+                                J$.P(420297, J$.R(420273, 'options', options, false, false), 'headers', J$.T(420289, { 'Content-Type': J$.T(420281, 'application/json', 21, false) }, 11, false));
+                                var req = J$.W(420569, 'req', J$.M(420561, J$.R(420305, 'http', http, false, false), 'request', false)(J$.R(420313, 'options', options, false, false), J$.T(420553, function (res) {
                                     jalangiLabel1:
                                         while (true) {
                                             try {
-                                                J$.Fe(317105, arguments.callee, this, arguments);
-                                                arguments = J$.N(317113, 'arguments', arguments, true, false, false);
-                                                res = J$.N(317121, 'res', res, true, false, false);
-                                                J$.M(316929, J$.I(typeof console === 'undefined' ? console = J$.R(316897, 'console', undefined, true, true) : console = J$.R(316897, 'console', console, true, true)), 'log', false)(J$.B(28186, '+', J$.T(316905, 'STATUS: ', 21, false), J$.G(316921, J$.R(316913, 'res', res, false, false), 'statusCode')));
-                                                J$.M(316985, J$.I(typeof console === 'undefined' ? console = J$.R(316937, 'console', undefined, true, true) : console = J$.R(316937, 'console', console, true, true)), 'log', false)(J$.B(28194, '+', J$.T(316945, 'HEADERS: ', 21, false), J$.M(316977, J$.I(typeof JSON === 'undefined' ? JSON = J$.R(316953, 'JSON', undefined, true, true) : JSON = J$.R(316953, 'JSON', JSON, true, true)), 'stringify', false)(J$.G(316969, J$.R(316961, 'res', res, false, false), 'headers'))));
-                                                J$.M(317009, J$.R(316993, 'res', res, false, false), 'setEncoding', false)(J$.T(317001, 'utf8', 21, false));
-                                                J$.M(317097, J$.R(317017, 'res', res, false, false), 'on', false)(J$.T(317025, 'data', 21, false), J$.T(317089, function (chunk) {
+                                                J$.Fe(420529, arguments.callee, this, arguments);
+                                                arguments = J$.N(420537, 'arguments', arguments, true, false, false);
+                                                res = J$.N(420545, 'res', res, true, false, false);
+                                                J$.M(420353, J$.I(typeof console === 'undefined' ? console = J$.R(420321, 'console', undefined, true, true) : console = J$.R(420321, 'console', console, true, true)), 'log', false)(J$.B(37058, '+', J$.T(420329, 'STATUS: ', 21, false), J$.G(420345, J$.R(420337, 'res', res, false, false), 'statusCode')));
+                                                J$.M(420409, J$.I(typeof console === 'undefined' ? console = J$.R(420361, 'console', undefined, true, true) : console = J$.R(420361, 'console', console, true, true)), 'log', false)(J$.B(37066, '+', J$.T(420369, 'HEADERS: ', 21, false), J$.M(420401, J$.I(typeof JSON === 'undefined' ? JSON = J$.R(420377, 'JSON', undefined, true, true) : JSON = J$.R(420377, 'JSON', JSON, true, true)), 'stringify', false)(J$.G(420393, J$.R(420385, 'res', res, false, false), 'headers'))));
+                                                J$.M(420433, J$.R(420417, 'res', res, false, false), 'setEncoding', false)(J$.T(420425, 'utf8', 21, false));
+                                                J$.M(420521, J$.R(420441, 'res', res, false, false), 'on', false)(J$.T(420449, 'data', 21, false), J$.T(420513, function (chunk) {
                                                     jalangiLabel0:
                                                         while (true) {
                                                             try {
-                                                                J$.Fe(317065, arguments.callee, this, arguments);
-                                                                arguments = J$.N(317073, 'arguments', arguments, true, false, false);
-                                                                chunk = J$.N(317081, 'chunk', chunk, true, false, false);
-                                                                J$.M(317057, J$.I(typeof console === 'undefined' ? console = J$.R(317033, 'console', undefined, true, true) : console = J$.R(317033, 'console', console, true, true)), 'log', false)(J$.B(28202, '+', J$.T(317041, 'BODY: ', 21, false), J$.R(317049, 'chunk', chunk, false, false)));
+                                                                J$.Fe(420489, arguments.callee, this, arguments);
+                                                                arguments = J$.N(420497, 'arguments', arguments, true, false, false);
+                                                                chunk = J$.N(420505, 'chunk', chunk, true, false, false);
+                                                                J$.M(420481, J$.I(typeof console === 'undefined' ? console = J$.R(420457, 'console', undefined, true, true) : console = J$.R(420457, 'console', console, true, true)), 'log', false)(J$.B(37074, '+', J$.T(420465, 'BODY: ', 21, false), J$.R(420473, 'chunk', chunk, false, false)));
                                                             } catch (J$e) {
-                                                                J$.Ex(320401, J$e);
+                                                                J$.Ex(423985, J$e);
                                                             } finally {
-                                                                if (J$.Fr(320409))
+                                                                if (J$.Fr(423993))
                                                                     continue jalangiLabel0;
                                                                 else
                                                                     return J$.Ra();
@@ -58,59 +58,59 @@ jalangiLabel13:
                                                         }
                                                 }, 12, false));
                                             } catch (J$e) {
-                                                J$.Ex(320417, J$e);
+                                                J$.Ex(424001, J$e);
                                             } finally {
-                                                if (J$.Fr(320425))
+                                                if (J$.Fr(424009))
                                                     continue jalangiLabel1;
                                                 else
                                                     return J$.Ra();
                                             }
                                         }
                                 }, 12, false)), req, false, false);
-                                J$.M(317241, J$.R(317153, 'req', req, false, false), 'on', false)(J$.T(317161, 'error', 21, false), J$.T(317233, function (e) {
+                                J$.M(420665, J$.R(420577, 'req', req, false, false), 'on', false)(J$.T(420585, 'error', 21, false), J$.T(420657, function (e) {
                                     jalangiLabel2:
                                         while (true) {
                                             try {
-                                                J$.Fe(317209, arguments.callee, this, arguments);
-                                                arguments = J$.N(317217, 'arguments', arguments, true, false, false);
-                                                e = J$.N(317225, 'e', e, true, false, false);
-                                                J$.M(317201, J$.I(typeof console === 'undefined' ? console = J$.R(317169, 'console', undefined, true, true) : console = J$.R(317169, 'console', console, true, true)), 'log', false)(J$.B(28210, '+', J$.T(317177, 'problem with request: ', 21, false), J$.G(317193, J$.R(317185, 'e', e, false, false), 'message')));
+                                                J$.Fe(420633, arguments.callee, this, arguments);
+                                                arguments = J$.N(420641, 'arguments', arguments, true, false, false);
+                                                e = J$.N(420649, 'e', e, true, false, false);
+                                                J$.M(420625, J$.I(typeof console === 'undefined' ? console = J$.R(420593, 'console', undefined, true, true) : console = J$.R(420593, 'console', console, true, true)), 'log', false)(J$.B(37082, '+', J$.T(420601, 'problem with request: ', 21, false), J$.G(420617, J$.R(420609, 'e', e, false, false), 'message')));
                                             } catch (J$e) {
-                                                J$.Ex(320433, J$e);
+                                                J$.Ex(424017, J$e);
                                             } finally {
-                                                if (J$.Fr(320441))
+                                                if (J$.Fr(424025))
                                                     continue jalangiLabel2;
                                                 else
                                                     return J$.Ra();
                                             }
                                         }
                                 }, 12, false));
-                                J$.M(317265, J$.R(317249, 'req', req, false, false), 'write', false)(J$.R(317257, 'content', content, false, false));
-                                J$.M(317281, J$.R(317273, 'req', req, false, false), 'end', false)();
+                                J$.M(420689, J$.R(420673, 'req', req, false, false), 'write', false)(J$.R(420681, 'content', content, false, false));
+                                J$.M(420705, J$.R(420697, 'req', req, false, false), 'end', false)();
                             } else {
-                                J$.A(317313, J$.R(317289, 'options', options, false, false), 'location', '+')(J$.B(28218, '+', J$.T(317297, '?', 21, false), J$.R(317305, 'content', content, false, false)));
-                                var req = J$.W(317585, 'req', J$.M(317577, J$.R(317321, 'http', http, false, false), 'request', false)(J$.R(317329, 'options', options, false, false), J$.T(317569, function (res) {
+                                J$.A(420737, J$.R(420713, 'options', options, false, false), 'location', '+')(J$.B(37090, '+', J$.T(420721, '?', 21, false), J$.R(420729, 'content', content, false, false)));
+                                var req = J$.W(421009, 'req', J$.M(421001, J$.R(420745, 'http', http, false, false), 'request', false)(J$.R(420753, 'options', options, false, false), J$.T(420993, function (res) {
                                     jalangiLabel4:
                                         while (true) {
                                             try {
-                                                J$.Fe(317545, arguments.callee, this, arguments);
-                                                arguments = J$.N(317553, 'arguments', arguments, true, false, false);
-                                                res = J$.N(317561, 'res', res, true, false, false);
-                                                J$.M(317369, J$.I(typeof console === 'undefined' ? console = J$.R(317337, 'console', undefined, true, true) : console = J$.R(317337, 'console', console, true, true)), 'log', false)(J$.B(28226, '+', J$.T(317345, 'STATUS: ', 21, false), J$.G(317361, J$.R(317353, 'res', res, false, false), 'statusCode')));
-                                                J$.M(317425, J$.I(typeof console === 'undefined' ? console = J$.R(317377, 'console', undefined, true, true) : console = J$.R(317377, 'console', console, true, true)), 'log', false)(J$.B(28234, '+', J$.T(317385, 'HEADERS: ', 21, false), J$.M(317417, J$.I(typeof JSON === 'undefined' ? JSON = J$.R(317393, 'JSON', undefined, true, true) : JSON = J$.R(317393, 'JSON', JSON, true, true)), 'stringify', false)(J$.G(317409, J$.R(317401, 'res', res, false, false), 'headers'))));
-                                                J$.M(317449, J$.R(317433, 'res', res, false, false), 'setEncoding', false)(J$.T(317441, 'utf8', 21, false));
-                                                J$.M(317537, J$.R(317457, 'res', res, false, false), 'on', false)(J$.T(317465, 'data', 21, false), J$.T(317529, function (chunk) {
+                                                J$.Fe(420969, arguments.callee, this, arguments);
+                                                arguments = J$.N(420977, 'arguments', arguments, true, false, false);
+                                                res = J$.N(420985, 'res', res, true, false, false);
+                                                J$.M(420793, J$.I(typeof console === 'undefined' ? console = J$.R(420761, 'console', undefined, true, true) : console = J$.R(420761, 'console', console, true, true)), 'log', false)(J$.B(37098, '+', J$.T(420769, 'STATUS: ', 21, false), J$.G(420785, J$.R(420777, 'res', res, false, false), 'statusCode')));
+                                                J$.M(420849, J$.I(typeof console === 'undefined' ? console = J$.R(420801, 'console', undefined, true, true) : console = J$.R(420801, 'console', console, true, true)), 'log', false)(J$.B(37106, '+', J$.T(420809, 'HEADERS: ', 21, false), J$.M(420841, J$.I(typeof JSON === 'undefined' ? JSON = J$.R(420817, 'JSON', undefined, true, true) : JSON = J$.R(420817, 'JSON', JSON, true, true)), 'stringify', false)(J$.G(420833, J$.R(420825, 'res', res, false, false), 'headers'))));
+                                                J$.M(420873, J$.R(420857, 'res', res, false, false), 'setEncoding', false)(J$.T(420865, 'utf8', 21, false));
+                                                J$.M(420961, J$.R(420881, 'res', res, false, false), 'on', false)(J$.T(420889, 'data', 21, false), J$.T(420953, function (chunk) {
                                                     jalangiLabel3:
                                                         while (true) {
                                                             try {
-                                                                J$.Fe(317505, arguments.callee, this, arguments);
-                                                                arguments = J$.N(317513, 'arguments', arguments, true, false, false);
-                                                                chunk = J$.N(317521, 'chunk', chunk, true, false, false);
-                                                                J$.M(317497, J$.I(typeof console === 'undefined' ? console = J$.R(317473, 'console', undefined, true, true) : console = J$.R(317473, 'console', console, true, true)), 'log', false)(J$.B(28242, '+', J$.T(317481, 'BODY: ', 21, false), J$.R(317489, 'chunk', chunk, false, false)));
+                                                                J$.Fe(420929, arguments.callee, this, arguments);
+                                                                arguments = J$.N(420937, 'arguments', arguments, true, false, false);
+                                                                chunk = J$.N(420945, 'chunk', chunk, true, false, false);
+                                                                J$.M(420921, J$.I(typeof console === 'undefined' ? console = J$.R(420897, 'console', undefined, true, true) : console = J$.R(420897, 'console', console, true, true)), 'log', false)(J$.B(37114, '+', J$.T(420905, 'BODY: ', 21, false), J$.R(420913, 'chunk', chunk, false, false)));
                                                             } catch (J$e) {
-                                                                J$.Ex(320449, J$e);
+                                                                J$.Ex(424033, J$e);
                                                             } finally {
-                                                                if (J$.Fr(320457))
+                                                                if (J$.Fr(424041))
                                                                     continue jalangiLabel3;
                                                                 else
                                                                     return J$.Ra();
@@ -118,39 +118,39 @@ jalangiLabel13:
                                                         }
                                                 }, 12, false));
                                             } catch (J$e) {
-                                                J$.Ex(320465, J$e);
+                                                J$.Ex(424049, J$e);
                                             } finally {
-                                                if (J$.Fr(320473))
+                                                if (J$.Fr(424057))
                                                     continue jalangiLabel4;
                                                 else
                                                     return J$.Ra();
                                             }
                                         }
                                 }, 12, false)), req, false, false);
-                                J$.M(317681, J$.R(317593, 'req', req, false, false), 'on', false)(J$.T(317601, 'error', 21, false), J$.T(317673, function (e) {
+                                J$.M(421105, J$.R(421017, 'req', req, false, false), 'on', false)(J$.T(421025, 'error', 21, false), J$.T(421097, function (e) {
                                     jalangiLabel5:
                                         while (true) {
                                             try {
-                                                J$.Fe(317649, arguments.callee, this, arguments);
-                                                arguments = J$.N(317657, 'arguments', arguments, true, false, false);
-                                                e = J$.N(317665, 'e', e, true, false, false);
-                                                J$.M(317641, J$.I(typeof console === 'undefined' ? console = J$.R(317609, 'console', undefined, true, true) : console = J$.R(317609, 'console', console, true, true)), 'log', false)(J$.B(28250, '+', J$.T(317617, 'problem with request: ', 21, false), J$.G(317633, J$.R(317625, 'e', e, false, false), 'message')));
+                                                J$.Fe(421073, arguments.callee, this, arguments);
+                                                arguments = J$.N(421081, 'arguments', arguments, true, false, false);
+                                                e = J$.N(421089, 'e', e, true, false, false);
+                                                J$.M(421065, J$.I(typeof console === 'undefined' ? console = J$.R(421033, 'console', undefined, true, true) : console = J$.R(421033, 'console', console, true, true)), 'log', false)(J$.B(37122, '+', J$.T(421041, 'problem with request: ', 21, false), J$.G(421057, J$.R(421049, 'e', e, false, false), 'message')));
                                             } catch (J$e) {
-                                                J$.Ex(320481, J$e);
+                                                J$.Ex(424065, J$e);
                                             } finally {
-                                                if (J$.Fr(320489))
+                                                if (J$.Fr(424073))
                                                     continue jalangiLabel5;
                                                 else
                                                     return J$.Ra();
                                             }
                                         }
                                 }, 12, false));
-                                J$.M(317697, J$.R(317689, 'req', req, false, false), 'end', false)();
+                                J$.M(421121, J$.R(421113, 'req', req, false, false), 'end', false)();
                             }
                         } catch (J$e) {
-                            J$.Ex(320497, J$e);
+                            J$.Ex(424081, J$e);
                         } finally {
-                            if (J$.Fr(320505))
+                            if (J$.Fr(424089))
                                 continue jalangiLabel6;
                             else
                                 return J$.Ra();
@@ -161,22 +161,22 @@ jalangiLabel13:
                 jalangiLabel7:
                     while (true) {
                         try {
-                            J$.Fe(318017, arguments.callee, this, arguments);
-                            arguments = J$.N(318025, 'arguments', arguments, true, false, false);
-                            testFunc = J$.N(318033, 'testFunc', testFunc, true, false, false);
-                            param = J$.N(318041, 'param', param, true, false, false);
-                            if (J$.C(11120, J$.B(28258, '==', J$.G(317817, J$.G(317801, J$.I(typeof process === 'undefined' ? process = J$.R(317793, 'process', undefined, true, true) : process = J$.R(317793, 'process', process, true, true)), 'argv'), J$.T(317809, 2, 22, false)), J$.T(317825, 'analysis', 21, false))))
-                                J$.F(317857, J$.R(317833, 'loopProperty', loopProperty, false, true), false)(J$.R(317841, 'testFunc', testFunc, false, false), J$.R(317849, 'param', param, false, false));
-                            else if (J$.C(11112, J$.B(28266, '==', J$.G(317889, J$.G(317873, J$.I(typeof process === 'undefined' ? process = J$.R(317865, 'process', undefined, true, true) : process = J$.R(317865, 'process', process, true, true)), 'argv'), J$.T(317881, 2, 22, false)), J$.T(317897, 'verify', 21, false))))
-                                J$.F(317937, J$.R(317905, 'verifyHipar', verifyHipar, false, true), false)(J$.R(317913, 'testFunc', testFunc, false, false), J$.R(317921, 'param', param, false, false), J$.I(typeof ProjectDir === 'undefined' ? ProjectDir = J$.R(317929, 'ProjectDir', undefined, true, true) : ProjectDir = J$.R(317929, 'ProjectDir', ProjectDir, true, true)));
+                            J$.Fe(421441, arguments.callee, this, arguments);
+                            arguments = J$.N(421449, 'arguments', arguments, true, false, false);
+                            testFunc = J$.N(421457, 'testFunc', testFunc, true, false, false);
+                            param = J$.N(421465, 'param', param, true, false, false);
+                            if (J$.C(15456, J$.B(37130, '==', J$.G(421241, J$.G(421225, J$.I(typeof process === 'undefined' ? process = J$.R(421217, 'process', undefined, true, true) : process = J$.R(421217, 'process', process, true, true)), 'argv'), J$.T(421233, 2, 22, false)), J$.T(421249, 'analysis', 21, false))))
+                                J$.F(421281, J$.R(421257, 'loopProperty', loopProperty, false, true), false)(J$.R(421265, 'testFunc', testFunc, false, false), J$.R(421273, 'param', param, false, false));
+                            else if (J$.C(15448, J$.B(37138, '==', J$.G(421313, J$.G(421297, J$.I(typeof process === 'undefined' ? process = J$.R(421289, 'process', undefined, true, true) : process = J$.R(421289, 'process', process, true, true)), 'argv'), J$.T(421305, 2, 22, false)), J$.T(421321, 'verify', 21, false))))
+                                J$.F(421361, J$.R(421329, 'verifyHipar', verifyHipar, false, true), false)(J$.R(421337, 'testFunc', testFunc, false, false), J$.R(421345, 'param', param, false, false), J$.I(typeof ProjectDir === 'undefined' ? ProjectDir = J$.R(421353, 'ProjectDir', undefined, true, true) : ProjectDir = J$.R(421353, 'ProjectDir', ProjectDir, true, true)));
                             else {
-                                J$.M(317977, J$.I(typeof console === 'undefined' ? console = J$.R(317945, 'console', undefined, true, true) : console = J$.R(317945, 'console', console, true, true)), 'log', false)(J$.M(317969, J$.R(317953, 'tynt', tynt, false, true), 'Red', false)(J$.T(317961, 'Incorrect Prompt argumnet, we do analysis by default', 21, false)));
-                                J$.F(318009, J$.R(317985, 'loopProperty', loopProperty, false, true), false)(J$.R(317993, 'testFunc', testFunc, false, false), J$.R(318001, 'param', param, false, false));
+                                J$.M(421401, J$.I(typeof console === 'undefined' ? console = J$.R(421369, 'console', undefined, true, true) : console = J$.R(421369, 'console', console, true, true)), 'log', false)(J$.M(421393, J$.R(421377, 'tynt', tynt, false, true), 'Red', false)(J$.T(421385, 'Incorrect Prompt argumnet, we do analysis by default', 21, false)));
+                                J$.F(421433, J$.R(421409, 'loopProperty', loopProperty, false, true), false)(J$.R(421417, 'testFunc', testFunc, false, false), J$.R(421425, 'param', param, false, false));
                             }
                         } catch (J$e) {
-                            J$.Ex(320513, J$e);
+                            J$.Ex(424097, J$e);
                         } finally {
-                            if (J$.Fr(320521))
+                            if (J$.Fr(424105))
                                 continue jalangiLabel7;
                             else
                                 return J$.Ra();
@@ -187,86 +187,133 @@ jalangiLabel13:
                 jalangiLabel8:
                     while (true) {
                         try {
-                            J$.Fe(318489, arguments.callee, this, arguments);
-                            arguments = J$.N(318497, 'arguments', arguments, true, false, false);
-                            testFunc = J$.N(318505, 'testFunc', testFunc, true, false, false);
-                            param = J$.N(318513, 'param', param, true, false, false);
-                            J$.N(318521, 'properties', properties, false, false, false);
-                            J$.N(318529, 'property', property, false, false, false);
-                            J$.N(318537, 'tmp', tmp, false, false, false);
-                            var properties = J$.W(318073, 'properties', J$.M(318065, J$.I(typeof Object === 'undefined' ? Object = J$.R(318049, 'Object', undefined, true, true) : Object = J$.R(318049, 'Object', Object, true, true)), 'getOwnPropertyNames', false)(J$.R(318057, 'param', param, false, false)), properties, false, false);
-                            J$.M(318113, J$.I(typeof console === 'undefined' ? console = J$.R(318081, 'console', undefined, true, true) : console = J$.R(318081, 'console', console, true, true)), 'log', false)(J$.M(318105, J$.R(318089, 'tynt', tynt, false, true), 'Green', false)(J$.T(318097, '[-]Running test with purely untainted param', 21, false)));
-                            J$.F(318137, J$.R(318121, 'testFunc', testFunc, false, false), false)(J$.R(318129, 'param', param, false, false));
-                            if (J$.C(11128, J$.B(28282, '==', J$.U(28274, 'typeof', J$.R(318145, 'param', param, false, false)), J$.T(318153, 'string', 21, false))))
-                                return J$.Rt(318161, undefined);
-                            J$.M(318193, J$.I(typeof console === 'undefined' ? console = J$.R(318169, 'console', undefined, true, true) : console = J$.R(318169, 'console', console, true, true)), 'log', false)(J$.T(318177, 'properties: ', 21, false), J$.R(318185, 'properties', properties, false, false));
-                            for (var property of J$.R(318201, 'properties', properties, false, false)) {
-                                J$.M(318249, J$.I(typeof console === 'undefined' ? console = J$.R(318209, 'console', undefined, true, true) : console = J$.R(318209, 'console', console, true, true)), 'log', false)(J$.M(318241, J$.R(318217, 'tynt', tynt, false, true), 'Green', false)(J$.B(28290, '+', J$.T(318225, '[-]Running test with tainted property: ', 21, false), J$.R(318233, 'property', property, false, false))));
-                                var tmp = J$.W(318281, 'tmp', J$.F(318273, J$.R(318257, 'clone', clone, false, true), false)(J$.R(318265, 'param', param, false, false)), tmp, false, false);
-                                J$.P(318353, J$.R(318289, 'tmp', tmp, false, false), J$.R(318297, 'property', property, false, false), J$.F(318345, J$.R(318305, 'source', source, false, true), false)(J$.G(318329, J$.R(318313, 'tmp', tmp, false, false), J$.R(318321, 'property', property, false, false)), J$.R(318337, 'property', property, false, false)));
-                                J$.F(318377, J$.R(318361, 'testFunc', testFunc, false, false), false)(J$.R(318369, 'tmp', tmp, false, false));
+                            J$.Fe(422193, arguments.callee, this, arguments);
+                            arguments = J$.N(422201, 'arguments', arguments, true, false, false);
+                            testFunc = J$.N(422209, 'testFunc', testFunc, true, false, false);
+                            param = J$.N(422217, 'param', param, true, false, false);
+                            J$.N(422225, 'stack', stack, false, false, false);
+                            J$.N(422233, 'tmp', tmp, false, false, false);
+                            J$.N(422241, 'i', i, false, false, false);
+                            J$.N(422249, 'nameChain', nameChain, false, false, false);
+                            J$.N(422257, 'properties', properties, false, false, false);
+                            J$.N(422265, 'property', property, false, false, false);
+                            var stack = J$.W(421505, 'stack', J$.T(421497, [J$.T(421489, {
+                                    param: J$.R(421473, 'param', param, false, false),
+                                    nameChain: J$.T(421481, [], 10, false)
+                                }, 11, false)], 10, false), stack, false, false);
+                            var tmp = J$.W(421537, 'tmp', J$.F(421529, J$.R(421513, 'clone', clone, false, true), false)(J$.R(421521, 'param', param, false, false)), tmp, false, false);
+                            tmp = J$.W(421577, 'tmp', J$.F(421569, J$.R(421545, 'source', source, false, true), false)(J$.R(421553, 'tmp', tmp, false, false), J$.R(421561, 'rootMagicName', rootMagicName, false, true)), tmp, false, false);
+                            J$.F(421601, J$.R(421585, 'testFunc', testFunc, false, false), false)(J$.R(421593, 'tmp', tmp, false, false));
+                            while (J$.C(15504, J$.B(37146, '>', J$.G(421617, J$.R(421609, 'stack', stack, false, false), 'length'), J$.T(421625, 0, 22, false)))) {
+                                s = J$.W(421649, 's', J$.M(421641, J$.R(421633, 'stack', stack, false, false), 'shift', false)(), J$.I(typeof s === 'undefined' ? undefined : s), true, true);
+                                if (J$.C(15480, J$.C(15472, J$.C(15464, J$.B(37162, '==', J$.U(37154, 'typeof', J$.G(421665, J$.I(typeof s === 'undefined' ? s = J$.R(421657, 's', undefined, true, true) : s = J$.R(421657, 's', s, true, true)), 'param')), J$.T(421673, 'string', 21, false))) ? J$._() : J$.B(37178, '==', J$.U(37170, 'typeof', J$.G(421689, J$.I(typeof s === 'undefined' ? s = J$.R(421681, 's', undefined, true, true) : s = J$.R(421681, 's', s, true, true)), 'param')), J$.T(421697, 'null', 21, false))) ? J$._() : J$.B(37194, '==', J$.U(37186, 'typeof', J$.G(421713, J$.I(typeof s === 'undefined' ? s = J$.R(421705, 's', undefined, true, true) : s = J$.R(421705, 's', s, true, true)), 'param')), J$.T(421721, 'undefined', 21, false))))
+                                    continue;
+                                if (J$.C(15496, J$.M(421753, J$.I(typeof Array === 'undefined' ? Array = J$.R(421729, 'Array', undefined, true, true) : Array = J$.R(421729, 'Array', Array, true, true)), 'isArray', false)(J$.G(421745, J$.I(typeof s === 'undefined' ? s = J$.R(421737, 's', undefined, true, true) : s = J$.R(421737, 's', s, true, true)), 'param')))) {
+                                    for (var i = J$.W(421769, 'i', J$.T(421761, 0, 22, false), i, false, false); J$.C(15488, J$.B(37202, '<', J$.R(421777, 'i', i, false, false), J$.G(421801, J$.G(421793, J$.I(typeof s === 'undefined' ? s = J$.R(421785, 's', undefined, true, true) : s = J$.R(421785, 's', s, true, true)), 'param'), 'length'))); J$.B(37226, '-', i = J$.W(421817, 'i', J$.B(37218, '+', J$.U(37210, '+', J$.R(421809, 'i', i, false, false)), 1), i, false, false), 1)) {
+                                        var nameChain = J$.W(421857, 'nameChain', J$.M(421849, J$.G(421833, J$.I(typeof s === 'undefined' ? s = J$.R(421825, 's', undefined, true, true) : s = J$.R(421825, 's', s, true, true)), 'nameChain'), 'concat', false)(J$.R(421841, 'i', i, false, false)), nameChain, false, false);
+                                        J$.M(421913, J$.R(421865, 'stack', stack, false, false), 'push', false)(J$.T(421905, {
+                                            param: J$.G(421889, J$.R(421873, 'param', param, false, false), J$.R(421881, 'i', i, false, false)),
+                                            nameChain: J$.R(421897, 'nameChain', nameChain, false, false)
+                                        }, 11, false));
+                                    }
+                                    continue;
+                                }
+                                J$.M(421945, J$.I(typeof console === 'undefined' ? console = J$.R(421921, 'console', undefined, true, true) : console = J$.R(421921, 'console', console, true, true)), 'log', false)(J$.G(421937, J$.I(typeof s === 'undefined' ? s = J$.R(421929, 's', undefined, true, true) : s = J$.R(421929, 's', s, true, true)), 'param'));
+                                var properties = J$.W(421985, 'properties', J$.M(421977, J$.I(typeof Object === 'undefined' ? Object = J$.R(421953, 'Object', undefined, true, true) : Object = J$.R(421953, 'Object', Object, true, true)), 'getOwnPropertyNames', false)(J$.G(421969, J$.I(typeof s === 'undefined' ? s = J$.R(421961, 's', undefined, true, true) : s = J$.R(421961, 's', s, true, true)), 'param')), properties, false, false);
+                                for (var property of J$.R(421993, 'properties', properties, false, false)) {
+                                    var nameChain = J$.W(422033, 'nameChain', J$.M(422025, J$.G(422009, J$.I(typeof s === 'undefined' ? s = J$.R(422001, 's', undefined, true, true) : s = J$.R(422001, 's', s, true, true)), 'nameChain'), 'concat', false)(J$.R(422017, 'property', property, false, false)), nameChain, false, false);
+                                    J$.M(422097, J$.R(422041, 'stack', stack, false, false), 'push', false)(J$.T(422089, {
+                                        param: J$.G(422073, J$.G(422057, J$.I(typeof s === 'undefined' ? s = J$.R(422049, 's', undefined, true, true) : s = J$.R(422049, 's', s, true, true)), 'param'), J$.R(422065, 'property', property, false, false)),
+                                        nameChain: J$.R(422081, 'nameChain', nameChain, false, false)
+                                    }, 11, false));
+                                    var tmp = J$.W(422129, 'tmp', J$.F(422121, J$.R(422105, 'clone', clone, false, true), false)(J$.R(422113, 'param', param, false, false)), tmp, false, false);
+                                    J$.F(422161, J$.R(422137, 'addSource', addSource, false, true), false)(J$.R(422145, 'tmp', tmp, false, false), J$.R(422153, 'nameChain', nameChain, false, false));
+                                    J$.F(422185, J$.R(422169, 'testFunc', testFunc, false, false), false)(J$.R(422177, 'tmp', tmp, false, false));
+                                }
                             }
-                            param = J$.W(318417, 'param', J$.F(318409, J$.R(318385, 'source', source, false, true), false)(J$.R(318393, 'param', param, false, false), J$.R(318401, 'rootMagicName', rootMagicName, false, true)), param, false, false);
-                            J$.M(318457, J$.I(typeof console === 'undefined' ? console = J$.R(318425, 'console', undefined, true, true) : console = J$.R(318425, 'console', console, true, true)), 'log', false)(J$.M(318449, J$.R(318433, 'tynt', tynt, false, true), 'Green', false)(J$.T(318441, '[-]Running test with param tainted in root', 21, false)));
-                            J$.F(318481, J$.R(318465, 'testFunc', testFunc, false, false), false)(J$.R(318473, 'param', param, false, false));
                         } catch (J$e) {
-                            J$.Ex(320529, J$e);
+                            J$.Ex(424113, J$e);
                         } finally {
-                            if (J$.Fr(320537))
+                            if (J$.Fr(424121))
                                 continue jalangiLabel8;
                             else
                                 return J$.Ra();
                         }
                     }
             }
-            function verifyHipar(testFunc, param) {
+            function addSource(obj, hiparNames) {
                 jalangiLabel9:
                     while (true) {
                         try {
-                            J$.Fe(319393, arguments.callee, this, arguments);
-                            arguments = J$.N(319401, 'arguments', arguments, true, false, false);
-                            testFunc = J$.N(319409, 'testFunc', testFunc, true, false, false);
-                            param = J$.N(319417, 'param', param, true, false, false);
-                            J$.N(319425, 'verifyPath', verifyPath, false, false, false);
-                            J$.N(319433, 'result', result, false, false, false);
-                            J$.N(319441, 'property', property, false, false, false);
-                            J$.N(319449, 'hipar_name', hipar_name, false, false, false);
-                            J$.N(319457, 'hipar_content', hipar_content, false, false, false);
-                            J$.N(319465, 'tmp', tmp, false, false, false);
-                            testFileName = J$.W(318601, 'testFileName', J$.M(318593, J$.M(318585, J$.G(318569, J$.G(318553, J$.I(typeof process === 'undefined' ? process = J$.R(318545, 'process', undefined, true, true) : process = J$.R(318545, 'process', process, true, true)), 'argv'), J$.T(318561, 1, 22, false)), 'split', false)(J$.T(318577, '/', 21, false)), 'pop', false)(), J$.I(typeof testFileName === 'undefined' ? undefined : testFileName), true, true);
-                            var verifyPath = J$.W(318657, 'verifyPath', J$.M(318649, J$.R(318609, 'path', path, false, true), 'resolve', false)(J$.I(typeof __dirname === 'undefined' ? __dirname = J$.R(318617, '__dirname', undefined, true, true) : __dirname = J$.R(318617, '__dirname', __dirname, true, true)), J$.B(28306, '+', J$.B(28298, '+', J$.T(318625, '../../outputs/hidden_attr/', 21, false), J$.I(typeof testFileName === 'undefined' ? testFileName = J$.R(318633, 'testFileName', undefined, true, true) : testFileName = J$.R(318633, 'testFileName', testFileName, true, true))), J$.T(318641, 'on', 21, false))), verifyPath, false, false);
-                            J$.M(318681, J$.I(typeof console === 'undefined' ? console = J$.R(318665, 'console', undefined, true, true) : console = J$.R(318665, 'console', console, true, true)), 'log', false)(J$.R(318673, 'verifyPath', verifyPath, false, false));
-                            if (J$.C(11152, J$.M(318705, J$.R(318689, 'fs', fs, false, true), 'existsSync', false)(J$.R(318697, 'verifyPath', verifyPath, false, false)))) {
-                                J$.M(318745, J$.I(typeof console === 'undefined' ? console = J$.R(318713, 'console', undefined, true, true) : console = J$.R(318713, 'console', console, true, true)), 'log', false)(J$.M(318737, J$.R(318721, 'tynt', tynt, false, true), 'Green', false)(J$.T(318729, '[-]Verifying hidden Parameter', 21, false)));
-                                var result = J$.W(318793, 'result', J$.M(318785, J$.I(typeof JSON === 'undefined' ? JSON = J$.R(318753, 'JSON', undefined, true, true) : JSON = J$.R(318753, 'JSON', JSON, true, true)), 'parse', false)(J$.M(318777, J$.R(318761, 'fs', fs, false, true), 'readFileSync', false)(J$.R(318769, 'verifyPath', verifyPath, false, false))), result, false, false);
-                                for (var property in J$.H(319377, J$.R(318801, 'result', result, false, false))) {
-                                    J$.N(319385, 'property', property, false, true, false);
+                            J$.Fe(422505, arguments.callee, this, arguments);
+                            arguments = J$.N(422513, 'arguments', arguments, true, false, false);
+                            obj = J$.N(422521, 'obj', obj, true, false, false);
+                            hiparNames = J$.N(422529, 'hiparNames', hiparNames, true, false, false);
+                            J$.N(422537, 'nextProperty', nextProperty, false, false, false);
+                            if (J$.C(15512, J$.B(37234, '==', J$.G(422281, J$.R(422273, 'hiparNames', hiparNames, false, false), 'length'), J$.T(422289, 1, 22, false)))) {
+                                J$.P(422409, J$.R(422297, 'obj', obj, false, false), J$.G(422321, J$.R(422305, 'hiparNames', hiparNames, false, false), J$.T(422313, 0, 22, false)), J$.F(422401, J$.R(422329, 'source', source, false, true), false)(J$.G(422369, J$.R(422337, 'obj', obj, false, false), J$.G(422361, J$.R(422345, 'hiparNames', hiparNames, false, false), J$.T(422353, 0, 22, false))), J$.G(422393, J$.R(422377, 'hiparNames', hiparNames, false, false), J$.T(422385, 0, 22, false))));
+                                return J$.Rt(422417, undefined);
+                            }
+                            var nextProperty = J$.W(422441, 'nextProperty', J$.M(422433, J$.R(422425, 'hiparNames', hiparNames, false, false), 'shift', false)(), nextProperty, false, false);
+                            return J$.Rt(422497, J$.F(422489, J$.R(422449, 'addSource', addSource, false, true), false)(J$.G(422473, J$.R(422457, 'obj', obj, false, false), J$.R(422465, 'nextProperty', nextProperty, false, false)), J$.R(422481, 'hiparNames', hiparNames, false, false)));
+                        } catch (J$e) {
+                            J$.Ex(424129, J$e);
+                        } finally {
+                            if (J$.Fr(424137))
+                                continue jalangiLabel9;
+                            else
+                                return J$.Ra();
+                        }
+                    }
+            }
+            function verifyHipar(testFunc, param) {
+                jalangiLabel10:
+                    while (true) {
+                        try {
+                            J$.Fe(423393, arguments.callee, this, arguments);
+                            arguments = J$.N(423401, 'arguments', arguments, true, false, false);
+                            testFunc = J$.N(423409, 'testFunc', testFunc, true, false, false);
+                            param = J$.N(423417, 'param', param, true, false, false);
+                            J$.N(423425, 'verifyPath', verifyPath, false, false, false);
+                            J$.N(423433, 'result', result, false, false, false);
+                            J$.N(423441, 'property', property, false, false, false);
+                            J$.N(423449, 'hipar_name', hipar_name, false, false, false);
+                            J$.N(423457, 'hipar_content', hipar_content, false, false, false);
+                            J$.N(423465, 'tmp', tmp, false, false, false);
+                            testFileName = J$.W(422601, 'testFileName', J$.M(422593, J$.M(422585, J$.G(422569, J$.G(422553, J$.I(typeof process === 'undefined' ? process = J$.R(422545, 'process', undefined, true, true) : process = J$.R(422545, 'process', process, true, true)), 'argv'), J$.T(422561, 1, 22, false)), 'split', false)(J$.T(422577, '/', 21, false)), 'pop', false)(), J$.I(typeof testFileName === 'undefined' ? undefined : testFileName), true, true);
+                            var verifyPath = J$.W(422657, 'verifyPath', J$.M(422649, J$.R(422609, 'path', path, false, true), 'resolve', false)(J$.I(typeof __dirname === 'undefined' ? __dirname = J$.R(422617, '__dirname', undefined, true, true) : __dirname = J$.R(422617, '__dirname', __dirname, true, true)), J$.B(37250, '+', J$.B(37242, '+', J$.T(422625, '../../outputs/hidden_attr/', 21, false), J$.I(typeof testFileName === 'undefined' ? testFileName = J$.R(422633, 'testFileName', undefined, true, true) : testFileName = J$.R(422633, 'testFileName', testFileName, true, true))), J$.T(422641, 'on', 21, false))), verifyPath, false, false);
+                            J$.M(422681, J$.I(typeof console === 'undefined' ? console = J$.R(422665, 'console', undefined, true, true) : console = J$.R(422665, 'console', console, true, true)), 'log', false)(J$.R(422673, 'verifyPath', verifyPath, false, false));
+                            if (J$.C(15536, J$.M(422705, J$.R(422689, 'fs', fs, false, true), 'existsSync', false)(J$.R(422697, 'verifyPath', verifyPath, false, false)))) {
+                                J$.M(422745, J$.I(typeof console === 'undefined' ? console = J$.R(422713, 'console', undefined, true, true) : console = J$.R(422713, 'console', console, true, true)), 'log', false)(J$.M(422737, J$.R(422721, 'tynt', tynt, false, true), 'Green', false)(J$.T(422729, '[-]Verifying hidden Parameter', 21, false)));
+                                var result = J$.W(422793, 'result', J$.M(422785, J$.I(typeof JSON === 'undefined' ? JSON = J$.R(422753, 'JSON', undefined, true, true) : JSON = J$.R(422753, 'JSON', JSON, true, true)), 'parse', false)(J$.M(422777, J$.R(422761, 'fs', fs, false, true), 'readFileSync', false)(J$.R(422769, 'verifyPath', verifyPath, false, false))), result, false, false);
+                                for (var property in J$.H(423377, J$.R(422801, 'result', result, false, false))) {
+                                    J$.N(423385, 'property', property, false, true, false);
                                     {
                                         {
-                                            for (var hipar_name in J$.H(319361, J$.G(318825, J$.R(318809, 'result', result, false, false), J$.R(318817, 'property', property, false, false)))) {
-                                                J$.N(319369, 'hipar_name', hipar_name, false, true, false);
+                                            for (var hipar_name in J$.H(423361, J$.G(422825, J$.R(422809, 'result', result, false, false), J$.R(422817, 'property', property, false, false)))) {
+                                                J$.N(423369, 'hipar_name', hipar_name, false, true, false);
                                                 {
                                                     {
-                                                        var hipar_content = J$.W(318873, 'hipar_content', J$.G(318865, J$.G(318849, J$.R(318833, 'result', result, false, false), J$.R(318841, 'property', property, false, false)), J$.R(318857, 'hipar_name', hipar_name, false, false)), hipar_content, false, false);
-                                                        var tmp = J$.W(318905, 'tmp', J$.F(318897, J$.R(318881, 'clone', clone, false, true), false)(J$.R(318889, 'param', param, false, false)), tmp, false, false);
-                                                        hipar_multi_names = J$.W(318937, 'hipar_multi_names', J$.M(318929, J$.R(318913, 'hipar_name', hipar_name, false, false), 'split', false)(J$.T(318921, '.', 21, false)), J$.I(typeof hipar_multi_names === 'undefined' ? undefined : hipar_multi_names), true, true);
-                                                        if (J$.C(11136, J$.B(28314, '!=', J$.R(318945, 'property', property, false, false), J$.R(318953, 'rootMagicName', rootMagicName, false, true))))
-                                                            tmp = J$.W(318985, 'tmp', J$.G(318977, J$.R(318961, 'tmp', tmp, false, false), J$.R(318969, 'property', property, false, false)), tmp, false, false);
-                                                        while (J$.C(11144, J$.B(28322, '>', J$.G(319001, J$.I(typeof hipar_multi_names === 'undefined' ? hipar_multi_names = J$.R(318993, 'hipar_multi_names', undefined, true, true) : hipar_multi_names = J$.R(318993, 'hipar_multi_names', hipar_multi_names, true, true)), 'length'), J$.T(319009, 1, 22, false)))) {
-                                                            name = J$.W(319033, 'name', J$.M(319025, J$.I(typeof hipar_multi_names === 'undefined' ? hipar_multi_names = J$.R(319017, 'hipar_multi_names', undefined, true, true) : hipar_multi_names = J$.R(319017, 'hipar_multi_names', hipar_multi_names, true, true)), 'shift', false)(), J$.I(typeof name === 'undefined' ? undefined : name), true, true);
-                                                            J$.P(319065, J$.R(319041, 'tmp', tmp, false, false), J$.I(typeof name === 'undefined' ? name = J$.R(319049, 'name', undefined, true, true) : name = J$.R(319049, 'name', name, true, true)), J$.T(319057, {}, 11, false));
-                                                            tmp = J$.W(319097, 'tmp', J$.G(319089, J$.R(319073, 'tmp', tmp, false, false), J$.I(typeof name === 'undefined' ? name = J$.R(319081, 'name', undefined, true, true) : name = J$.R(319081, 'name', name, true, true))), tmp, false, false);
+                                                        var hipar_content = J$.W(422873, 'hipar_content', J$.G(422865, J$.G(422849, J$.R(422833, 'result', result, false, false), J$.R(422841, 'property', property, false, false)), J$.R(422857, 'hipar_name', hipar_name, false, false)), hipar_content, false, false);
+                                                        var tmp = J$.W(422905, 'tmp', J$.F(422897, J$.R(422881, 'clone', clone, false, true), false)(J$.R(422889, 'param', param, false, false)), tmp, false, false);
+                                                        hipar_multi_names = J$.W(422937, 'hipar_multi_names', J$.M(422929, J$.R(422913, 'hipar_name', hipar_name, false, false), 'split', false)(J$.T(422921, '.', 21, false)), J$.I(typeof hipar_multi_names === 'undefined' ? undefined : hipar_multi_names), true, true);
+                                                        if (J$.C(15520, J$.B(37258, '!=', J$.R(422945, 'property', property, false, false), J$.R(422953, 'rootMagicName', rootMagicName, false, true))))
+                                                            tmp = J$.W(422985, 'tmp', J$.G(422977, J$.R(422961, 'tmp', tmp, false, false), J$.R(422969, 'property', property, false, false)), tmp, false, false);
+                                                        while (J$.C(15528, J$.B(37266, '>', J$.G(423001, J$.I(typeof hipar_multi_names === 'undefined' ? hipar_multi_names = J$.R(422993, 'hipar_multi_names', undefined, true, true) : hipar_multi_names = J$.R(422993, 'hipar_multi_names', hipar_multi_names, true, true)), 'length'), J$.T(423009, 1, 22, false)))) {
+                                                            name = J$.W(423033, 'name', J$.M(423025, J$.I(typeof hipar_multi_names === 'undefined' ? hipar_multi_names = J$.R(423017, 'hipar_multi_names', undefined, true, true) : hipar_multi_names = J$.R(423017, 'hipar_multi_names', hipar_multi_names, true, true)), 'shift', false)(), J$.I(typeof name === 'undefined' ? undefined : name), true, true);
+                                                            J$.P(423065, J$.R(423041, 'tmp', tmp, false, false), J$.I(typeof name === 'undefined' ? name = J$.R(423049, 'name', undefined, true, true) : name = J$.R(423049, 'name', name, true, true)), J$.T(423057, {}, 11, false));
+                                                            tmp = J$.W(423097, 'tmp', J$.G(423089, J$.R(423073, 'tmp', tmp, false, false), J$.I(typeof name === 'undefined' ? name = J$.R(423081, 'name', undefined, true, true) : name = J$.R(423081, 'name', name, true, true))), tmp, false, false);
                                                         }
-                                                        name = J$.W(319121, 'name', J$.M(319113, J$.I(typeof hipar_multi_names === 'undefined' ? hipar_multi_names = J$.R(319105, 'hipar_multi_names', undefined, true, true) : hipar_multi_names = J$.R(319105, 'hipar_multi_names', hipar_multi_names, true, true)), 'shift', false)(), J$.I(typeof name === 'undefined' ? undefined : name), true, true);
-                                                        J$.P(319153, J$.R(319129, 'tmp', tmp, false, false), J$.I(typeof name === 'undefined' ? name = J$.R(319137, 'name', undefined, true, true) : name = J$.R(319137, 'name', name, true, true)), J$.T(319145, 'H1P4r', 21, false));
-                                                        J$.F(319209, J$.R(319161, 'verify_hipar', verify_hipar, false, true), false)(J$.G(319177, J$.R(319169, 'hipar_content', hipar_content, false, false), 'file'), J$.R(319185, 'hipar_name', hipar_name, false, false), J$.G(319201, J$.R(319193, 'hipar_content', hipar_content, false, false), 'base'));
-                                                        J$.M(319233, J$.I(typeof console === 'undefined' ? console = J$.R(319217, 'console', undefined, true, true) : console = J$.R(319217, 'console', console, true, true)), 'log', false)(J$.R(319225, 'tmp', tmp, false, false));
+                                                        name = J$.W(423121, 'name', J$.M(423113, J$.I(typeof hipar_multi_names === 'undefined' ? hipar_multi_names = J$.R(423105, 'hipar_multi_names', undefined, true, true) : hipar_multi_names = J$.R(423105, 'hipar_multi_names', hipar_multi_names, true, true)), 'shift', false)(), J$.I(typeof name === 'undefined' ? undefined : name), true, true);
+                                                        J$.P(423153, J$.R(423129, 'tmp', tmp, false, false), J$.I(typeof name === 'undefined' ? name = J$.R(423137, 'name', undefined, true, true) : name = J$.R(423137, 'name', name, true, true)), J$.T(423145, 'H1P4r', 21, false));
+                                                        J$.F(423209, J$.R(423161, 'verify_hipar', verify_hipar, false, true), false)(J$.G(423177, J$.R(423169, 'hipar_content', hipar_content, false, false), 'file'), J$.R(423185, 'hipar_name', hipar_name, false, false), J$.G(423201, J$.R(423193, 'hipar_content', hipar_content, false, false), 'base'));
+                                                        J$.M(423233, J$.I(typeof console === 'undefined' ? console = J$.R(423217, 'console', undefined, true, true) : console = J$.R(423217, 'console', console, true, true)), 'log', false)(J$.R(423225, 'tmp', tmp, false, false));
                                                         try {
-                                                            J$.F(319257, J$.R(319241, 'testFunc', testFunc, false, false), false)(J$.R(319249, 'tmp', tmp, false, false));
+                                                            J$.F(423257, J$.R(423241, 'testFunc', testFunc, false, false), false)(J$.R(423249, 'tmp', tmp, false, false));
                                                         } catch (e) {
-                                                            J$.N(319353, 'e', e, false, false, true);
-                                                            J$.M(319305, J$.G(319273, J$.I(typeof process === 'undefined' ? process = J$.R(319265, 'process', undefined, true, true) : process = J$.R(319265, 'process', process, true, true)), 'stdout'), 'write', false)(J$.M(319297, J$.R(319281, 'tynt', tynt, false, true), 'Red', false)(J$.T(319289, '[Verify Error]:', 21, false)));
-                                                            J$.M(319345, J$.I(typeof console === 'undefined' ? console = J$.R(319313, 'console', undefined, true, true) : console = J$.R(319313, 'console', console, true, true)), 'log', false)(J$.M(319337, J$.R(319321, 'tynt', tynt, false, true), 'Red', false)(J$.R(319329, 'e', e, false, false)));
+                                                            J$.N(423353, 'e', e, false, false, true);
+                                                            J$.M(423305, J$.G(423273, J$.I(typeof process === 'undefined' ? process = J$.R(423265, 'process', undefined, true, true) : process = J$.R(423265, 'process', process, true, true)), 'stdout'), 'write', false)(J$.M(423297, J$.R(423281, 'tynt', tynt, false, true), 'Red', false)(J$.T(423289, '[Verify Error]:', 21, false)));
+                                                            J$.M(423345, J$.I(typeof console === 'undefined' ? console = J$.R(423313, 'console', undefined, true, true) : console = J$.R(423313, 'console', console, true, true)), 'log', false)(J$.M(423337, J$.R(423321, 'tynt', tynt, false, true), 'Red', false)(J$.R(423329, 'e', e, false, false)));
                                                         }
                                                     }
                                                 }
@@ -276,130 +323,102 @@ jalangiLabel13:
                                 }
                             }
                         } catch (J$e) {
-                            J$.Ex(320545, J$e);
+                            J$.Ex(424145, J$e);
                         } finally {
-                            if (J$.Fr(320553))
-                                continue jalangiLabel9;
-                            else
-                                return J$.Ra();
-                        }
-                    }
-            }
-            function source(source_var, var_name) {
-                jalangiLabel10:
-                    while (true) {
-                        try {
-                            J$.Fe(319489, arguments.callee, this, arguments);
-                            arguments = J$.N(319497, 'arguments', arguments, true, false, false);
-                            source_var = J$.N(319505, 'source_var', source_var, true, false, false);
-                            var_name = J$.N(319513, 'var_name', var_name, true, false, false);
-                            return J$.Rt(319481, J$.R(319473, 'source_var', source_var, false, false));
-                        } catch (J$e) {
-                            J$.Ex(320561, J$e);
-                        } finally {
-                            if (J$.Fr(320569))
+                            if (J$.Fr(424153))
                                 continue jalangiLabel10;
                             else
                                 return J$.Ra();
                         }
                     }
             }
-            function verify_hipar(source_var) {
+            function source(source_var, var_name) {
                 jalangiLabel11:
                     while (true) {
                         try {
-                            J$.Fe(319537, arguments.callee, this, arguments);
-                            arguments = J$.N(319545, 'arguments', arguments, true, false, false);
-                            source_var = J$.N(319553, 'source_var', source_var, true, false, false);
-                            return J$.Rt(319529, J$.R(319521, 'source_var', source_var, false, false));
+                            J$.Fe(423545, arguments.callee, this, arguments);
+                            arguments = J$.N(423553, 'arguments', arguments, true, false, false);
+                            source_var = J$.N(423561, 'source_var', source_var, true, false, false);
+                            var_name = J$.N(423569, 'var_name', var_name, true, false, false);
+                            J$.M(423505, J$.I(typeof console === 'undefined' ? console = J$.R(423473, 'console', undefined, true, true) : console = J$.R(423473, 'console', console, true, true)), 'log', false)(J$.M(423497, J$.R(423481, 'tynt', tynt, false, true), 'Green', false)(J$.R(423489, 'var_name', var_name, false, false)));
+                            source_var = J$.W(423521, 'source_var', J$.T(423513, 'hipar', 21, false), source_var, false, false);
+                            return J$.Rt(423537, J$.R(423529, 'source_var', source_var, false, false));
                         } catch (J$e) {
-                            J$.Ex(320577, J$e);
+                            J$.Ex(424161, J$e);
                         } finally {
-                            if (J$.Fr(320585))
+                            if (J$.Fr(424169))
                                 continue jalangiLabel11;
                             else
                                 return J$.Ra();
                         }
                     }
             }
-            function clone(obj) {
+            function verify_hipar(source_var) {
                 jalangiLabel12:
                     while (true) {
                         try {
-                            J$.Fe(320065, arguments.callee, this, arguments);
-                            arguments = J$.N(320073, 'arguments', arguments, true, false, false);
-                            obj = J$.N(320081, 'obj', obj, true, false, false);
-                            J$.N(320089, 'copy', copy, false, false, false);
-                            J$.N(320097, 'i', i, false, false, false);
-                            J$.N(320105, 'len', len, false, false, false);
-                            J$.N(320113, 'attr', attr, false, false, false);
-                            if (J$.C(11168, J$.C(11160, J$.B(28330, '==', J$.T(319561, null, 25, false), J$.R(319569, 'obj', obj, false, false))) ? J$._() : J$.B(28346, '!=', J$.T(319577, 'object', 21, false), J$.U(28338, 'typeof', J$.R(319585, 'obj', obj, false, false)))))
-                                return J$.Rt(319601, J$.R(319593, 'obj', obj, false, false));
-                            if (J$.C(11176, J$.B(28354, 'instanceof', J$.R(319609, 'obj', obj, false, false), J$.I(typeof Date === 'undefined' ? Date = J$.R(319617, 'Date', undefined, true, true) : Date = J$.R(319617, 'Date', Date, true, true))))) {
-                                var copy = J$.W(319641, 'copy', J$.F(319633, J$.I(typeof Date === 'undefined' ? Date = J$.R(319625, 'Date', undefined, true, true) : Date = J$.R(319625, 'Date', Date, true, true)), true)(), copy, false, false);
-                                J$.M(319673, J$.R(319649, 'copy', copy, false, false), 'setTime', false)(J$.M(319665, J$.R(319657, 'obj', obj, false, false), 'getTime', false)());
-                                return J$.Rt(319689, J$.R(319681, 'copy', copy, false, false));
-                            }
-                            if (J$.C(11192, J$.B(28362, 'instanceof', J$.R(319697, 'obj', obj, false, false), J$.I(typeof Array === 'undefined' ? Array = J$.R(319705, 'Array', undefined, true, true) : Array = J$.R(319705, 'Array', Array, true, true))))) {
-                                var copy = J$.W(319721, 'copy', J$.T(319713, [], 10, false), copy, false, false);
-                                for (var i = J$.W(319753, 'i', J$.T(319729, 0, 22, false), i, false, false), len = J$.W(319761, 'len', J$.G(319745, J$.R(319737, 'obj', obj, false, false), 'length'), len, false, false); J$.C(11184, J$.B(28370, '<', J$.R(319769, 'i', i, false, false), J$.R(319777, 'len', len, false, false))); i = J$.W(319793, 'i', J$.B(28386, '+', J$.U(28378, '+', J$.R(319785, 'i', i, false, false)), 1), i, false, false)) {
-                                    J$.P(319857, J$.R(319801, 'copy', copy, false, false), J$.R(319809, 'i', i, false, false), J$.F(319849, J$.R(319817, 'clone', clone, false, true), false)(J$.G(319841, J$.R(319825, 'obj', obj, false, false), J$.R(319833, 'i', i, false, false))));
-                                }
-                                return J$.Rt(319873, J$.R(319865, 'copy', copy, false, false));
-                            }
-                            if (J$.C(11208, J$.B(28394, 'instanceof', J$.R(319881, 'obj', obj, false, false), J$.I(typeof Object === 'undefined' ? Object = J$.R(319889, 'Object', undefined, true, true) : Object = J$.R(319889, 'Object', Object, true, true))))) {
-                                var copy = J$.W(319905, 'copy', J$.T(319897, {}, 11, false), copy, false, false);
-                                for (var attr in J$.H(320009, J$.R(319913, 'obj', obj, false, false))) {
-                                    J$.N(320017, 'attr', attr, false, true, false);
-                                    {
-                                        {
-                                            if (J$.C(11200, J$.M(319937, J$.R(319921, 'obj', obj, false, false), 'hasOwnProperty', false)(J$.R(319929, 'attr', attr, false, false))))
-                                                J$.P(320001, J$.R(319945, 'copy', copy, false, false), J$.R(319953, 'attr', attr, false, false), J$.F(319993, J$.R(319961, 'clone', clone, false, true), false)(J$.G(319985, J$.R(319969, 'obj', obj, false, false), J$.R(319977, 'attr', attr, false, false))));
-                                        }
-                                    }
-                                }
-                                return J$.Rt(320033, J$.R(320025, 'copy', copy, false, false));
-                            }
-                            throw J$.F(320057, J$.I(typeof Error === 'undefined' ? Error = J$.R(320041, 'Error', undefined, true, true) : Error = J$.R(320041, 'Error', Error, true, true)), true)(J$.T(320049, 'Unable to copy obj! Its type isn\'t supported.', 21, false));
+                            J$.Fe(423593, arguments.callee, this, arguments);
+                            arguments = J$.N(423601, 'arguments', arguments, true, false, false);
+                            source_var = J$.N(423609, 'source_var', source_var, true, false, false);
+                            return J$.Rt(423585, J$.R(423577, 'source_var', source_var, false, false));
                         } catch (J$e) {
-                            J$.Ex(320593, J$e);
+                            J$.Ex(424177, J$e);
                         } finally {
-                            if (J$.Fr(320601))
+                            if (J$.Fr(424185))
                                 continue jalangiLabel12;
                             else
                                 return J$.Ra();
                         }
                     }
             }
-            J$.N(320249, 'path', path, false, false, false);
-            J$.N(320257, 'tynt', tynt, false, false, false);
-            J$.N(320265, 'fs', fs, false, false, false);
-            J$.N(320273, 'rootMagicName', rootMagicName, false, false, false);
-            J$.N(320281, 'http', http, false, false, false);
-            sendViaWebRequest = J$.N(320297, 'sendViaWebRequest', J$.T(320289, sendViaWebRequest, 12, false), true, false, false);
-            entry = J$.N(320313, 'entry', J$.T(320305, entry, 12, false), true, false, false);
-            loopProperty = J$.N(320329, 'loopProperty', J$.T(320321, loopProperty, 12, false), true, false, false);
-            verifyHipar = J$.N(320345, 'verifyHipar', J$.T(320337, verifyHipar, 12, false), true, false, false);
-            source = J$.N(320361, 'source', J$.T(320353, source, 12, false), true, false, false);
-            verify_hipar = J$.N(320377, 'verify_hipar', J$.T(320369, verify_hipar, 12, false), true, false, false);
-            clone = J$.N(320393, 'clone', J$.T(320385, clone, 12, false), true, false, false);
-            var path = J$.W(316577, 'path', J$.F(316569, J$.I(typeof require === 'undefined' ? require = J$.R(316553, 'require', undefined, true, true) : require = J$.R(316553, 'require', require, true, true)), false)(J$.T(316561, 'path', 21, false)), path, false, true);
-            var tynt = J$.W(316609, 'tynt', J$.F(316601, J$.I(typeof require === 'undefined' ? require = J$.R(316585, 'require', undefined, true, true) : require = J$.R(316585, 'require', require, true, true)), false)(J$.T(316593, 'tynt', 21, false)), tynt, false, true);
-            var fs = J$.W(316641, 'fs', J$.F(316633, J$.I(typeof require === 'undefined' ? require = J$.R(316617, 'require', undefined, true, true) : require = J$.R(316617, 'require', require, true, true)), false)(J$.T(316625, 'fs', 21, false)), fs, false, true);
-            var rootMagicName = J$.W(316657, 'rootMagicName', J$.T(316649, 'R0ot', 21, false), rootMagicName, false, true);
-            var http = J$.W(316689, 'http', J$.F(316681, J$.I(typeof require === 'undefined' ? require = J$.R(316665, 'require', undefined, true, true) : require = J$.R(316665, 'require', require, true, true)), false)(J$.T(316673, 'http', 21, false)), http, false, true);
-            J$.P(320137, J$.I(typeof exports === 'undefined' ? exports = J$.R(320121, 'exports', undefined, true, true) : exports = J$.R(320121, 'exports', exports, true, true)), 'clone', J$.R(320129, 'clone', clone, false, true));
-            J$.P(320161, J$.I(typeof exports === 'undefined' ? exports = J$.R(320145, 'exports', undefined, true, true) : exports = J$.R(320145, 'exports', exports, true, true)), 'loopProperty', J$.R(320153, 'loopProperty', loopProperty, false, true));
-            J$.P(320185, J$.I(typeof exports === 'undefined' ? exports = J$.R(320169, 'exports', undefined, true, true) : exports = J$.R(320169, 'exports', exports, true, true)), 'verifyHipar', J$.R(320177, 'verifyHipar', verifyHipar, false, true));
-            J$.P(320209, J$.I(typeof exports === 'undefined' ? exports = J$.R(320193, 'exports', undefined, true, true) : exports = J$.R(320193, 'exports', exports, true, true)), 'entry', J$.R(320201, 'entry', entry, false, true));
-            J$.P(320233, J$.I(typeof exports === 'undefined' ? exports = J$.R(320217, 'exports', undefined, true, true) : exports = J$.R(320217, 'exports', exports, true, true)), 'sendViaWebRequest', J$.R(320225, 'sendViaWebRequest', sendViaWebRequest, false, true));
+            function clone(a) {
+                jalangiLabel13:
+                    while (true) {
+                        try {
+                            J$.Fe(423665, arguments.callee, this, arguments);
+                            arguments = J$.N(423673, 'arguments', arguments, true, false, false);
+                            a = J$.N(423681, 'a', a, true, false, false);
+                            return J$.Rt(423657, J$.M(423649, J$.I(typeof JSON === 'undefined' ? JSON = J$.R(423617, 'JSON', undefined, true, true) : JSON = J$.R(423617, 'JSON', JSON, true, true)), 'parse', false)(J$.M(423641, J$.I(typeof JSON === 'undefined' ? JSON = J$.R(423625, 'JSON', undefined, true, true) : JSON = J$.R(423625, 'JSON', JSON, true, true)), 'stringify', false)(J$.R(423633, 'a', a, false, false))));
+                        } catch (J$e) {
+                            J$.Ex(424193, J$e);
+                        } finally {
+                            if (J$.Fr(424201))
+                                continue jalangiLabel13;
+                            else
+                                return J$.Ra();
+                        }
+                    }
+            }
+            J$.N(423817, 'path', path, false, false, false);
+            J$.N(423825, 'tynt', tynt, false, false, false);
+            J$.N(423833, 'fs', fs, false, false, false);
+            J$.N(423841, 'rootMagicName', rootMagicName, false, false, false);
+            J$.N(423849, 'http', http, false, false, false);
+            sendViaWebRequest = J$.N(423865, 'sendViaWebRequest', J$.T(423857, sendViaWebRequest, 12, false), true, false, false);
+            entry = J$.N(423881, 'entry', J$.T(423873, entry, 12, false), true, false, false);
+            loopProperty = J$.N(423897, 'loopProperty', J$.T(423889, loopProperty, 12, false), true, false, false);
+            addSource = J$.N(423913, 'addSource', J$.T(423905, addSource, 12, false), true, false, false);
+            verifyHipar = J$.N(423929, 'verifyHipar', J$.T(423921, verifyHipar, 12, false), true, false, false);
+            source = J$.N(423945, 'source', J$.T(423937, source, 12, false), true, false, false);
+            verify_hipar = J$.N(423961, 'verify_hipar', J$.T(423953, verify_hipar, 12, false), true, false, false);
+            clone = J$.N(423977, 'clone', J$.T(423969, clone, 12, false), true, false, false);
+            var path = J$.W(420001, 'path', J$.F(419993, J$.I(typeof require === 'undefined' ? require = J$.R(419977, 'require', undefined, true, true) : require = J$.R(419977, 'require', require, true, true)), false)(J$.T(419985, 'path', 21, false)), path, false, true);
+            var tynt = J$.W(420033, 'tynt', J$.F(420025, J$.I(typeof require === 'undefined' ? require = J$.R(420009, 'require', undefined, true, true) : require = J$.R(420009, 'require', require, true, true)), false)(J$.T(420017, 'tynt', 21, false)), tynt, false, true);
+            var fs = J$.W(420065, 'fs', J$.F(420057, J$.I(typeof require === 'undefined' ? require = J$.R(420041, 'require', undefined, true, true) : require = J$.R(420041, 'require', require, true, true)), false)(J$.T(420049, 'fs', 21, false)), fs, false, true);
+            var rootMagicName = J$.W(420081, 'rootMagicName', J$.T(420073, 'R0ot', 21, false), rootMagicName, false, true);
+            var http = J$.W(420113, 'http', J$.F(420105, J$.I(typeof require === 'undefined' ? require = J$.R(420089, 'require', undefined, true, true) : require = J$.R(420089, 'require', require, true, true)), false)(J$.T(420097, 'http', 21, false)), http, false, true);
+            J$.P(423705, J$.I(typeof exports === 'undefined' ? exports = J$.R(423689, 'exports', undefined, true, true) : exports = J$.R(423689, 'exports', exports, true, true)), 'clone', J$.R(423697, 'clone', clone, false, true));
+            J$.P(423729, J$.I(typeof exports === 'undefined' ? exports = J$.R(423713, 'exports', undefined, true, true) : exports = J$.R(423713, 'exports', exports, true, true)), 'loopProperty', J$.R(423721, 'loopProperty', loopProperty, false, true));
+            J$.P(423753, J$.I(typeof exports === 'undefined' ? exports = J$.R(423737, 'exports', undefined, true, true) : exports = J$.R(423737, 'exports', exports, true, true)), 'verifyHipar', J$.R(423745, 'verifyHipar', verifyHipar, false, true));
+            J$.P(423777, J$.I(typeof exports === 'undefined' ? exports = J$.R(423761, 'exports', undefined, true, true) : exports = J$.R(423761, 'exports', exports, true, true)), 'entry', J$.R(423769, 'entry', entry, false, true));
+            J$.P(423801, J$.I(typeof exports === 'undefined' ? exports = J$.R(423785, 'exports', undefined, true, true) : exports = J$.R(423785, 'exports', exports, true, true)), 'sendViaWebRequest', J$.R(423793, 'sendViaWebRequest', sendViaWebRequest, false, true));
         } catch (J$e) {
-            J$.Ex(320609, J$e);
+            J$.Ex(424209, J$e);
         } finally {
-            if (J$.Sr(320617))
-                continue jalangiLabel13;
+            if (J$.Sr(424217))
+                continue jalangiLabel14;
             else
-                break jalangiLabel13;
+                break jalangiLabel14;
         }
     }
 // JALANGI DO NOT INSTRUMENT
