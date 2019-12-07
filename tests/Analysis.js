@@ -21,8 +21,7 @@ for (var i = 0; i < configs.length; i++) {
 
 
 function run(task) {
-
-    
+    if (!task) return;
     console.log("Running " + task.projPath);
 
     // check the useCache variable to dicide whether we use cache

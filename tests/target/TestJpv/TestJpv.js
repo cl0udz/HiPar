@@ -30,5 +30,5 @@ var pattern = {
 function test(userJson){
    return  jpv.validate(userJson, pattern);
 }
-console.log(test(json));
-// utils.entry(test, json);
+// console.log(test(json));
+utils.entry(test, json);
