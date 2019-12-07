@@ -67,29 +67,40 @@ function entry(testFunc, param) {
 }
 //loop iteration
 function loopProperty(testFunc, param) {
-    var properties = Object.getOwnPropertyNames(param);
-
-    //Running test with purely untainted param
-    console.log(tynt.Green('[-]Running test with purely untainted param'));
-    testFunc(param);
-
-    //Running test with with tainted property
-    if (typeof (param) == 'string') return;
-    console.log("properties: ", properties);
-    for (var property of properties) {
-        console.log(tynt.Green('[-]Running test with tainted property: ' + property));
-        var tmp = clone(param); // generate a copy of param
-        tmp[property] = source(tmp[property], property);
-        testFunc(tmp);
+    var stack = [{ param: param, nameChain: [] }]
+    var tmp = clone(param)
+    tmp = source(tmp, rootMagicName);
+    testFunc(tmp);
+    while (stack.length > 0) {
+        s = stack.shift();
+        if (typeof (s.param) == 'string' || typeof(s.param)== 'null' || typeof(s.param) == 'undefined' ) continue;
+        if (Array.isArray(s.param)) {
+            for (var i = 0; i < s.param.length; i++) {
+                var nameChain = s.nameChain.concat(i);
+                stack.push({param:param[i],nameChain:nameChain});
+            }
+            continue;
+        }
+        console.log(s.param)
+        var properties = Object.getOwnPropertyNames(s.param);
+        for (var property of properties){
+            var nameChain = s.nameChain.concat(property);
+            stack.push({param:s.param[property],nameChain:nameChain})
+            var tmp = clone(param)
+            addSource(tmp,nameChain);
+            testFunc(tmp);
+        }
     }
-
-    //Running test with param tainted in root
-    param = source(param, rootMagicName);
-    console.log(tynt.Green('[-]Running test with param tainted in root'));
-    testFunc(param);
-
 }
 
+function addSource(obj,hiparNames){
+    if(hiparNames.length == 1){
+        obj[hiparNames[0]] = source(obj[hiparNames[0]],hiparNames[0]);
+        return
+    }
+    var nextProperty = hiparNames.shift();
+    return addSource(obj[nextProperty],hiparNames)
+}
 
 function verifyHipar(testFunc, param) {
     //verify Hipar 
@@ -106,17 +117,17 @@ function verifyHipar(testFunc, param) {
                 var hipar_content = result[property][hipar_name];
                 var tmp = clone(param); // generate a copy of param
                 hipar_multi_names = hipar_name.split('.')
-                
+
                 if (property != rootMagicName)
                     tmp = tmp[property];
-                while(hipar_multi_names.length > 1){
+                while (hipar_multi_names.length > 1) {
                     name = hipar_multi_names.shift()
                     tmp[name] = {};
                     tmp = tmp[name];
                 }
                 name = hipar_multi_names.shift()
                 tmp[name] = "H1P4r";
-                    
+
                 verify_hipar(hipar_content.file, hipar_name, hipar_content.base);
                 console.log(tmp)
                 try {
@@ -132,7 +143,10 @@ function verifyHipar(testFunc, param) {
 
 
 
+
 function source(source_var, var_name) {
+    console.log(tynt.Green(var_name))
+    source_var = 'hipar'
     return source_var;
 }
 
@@ -140,35 +154,9 @@ function verify_hipar(source_var) {
     return source_var;
 }
 
-function clone(obj) {
-    // Handle the 3 simple types, and null or undefined
-    if (null == obj || "object" != typeof obj) return obj;
-
-    // Handle Date
-    if (obj instanceof Date) {
-        var copy = new Date();
-        copy.setTime(obj.getTime());
-        return copy;
-    }
-
-    // Handle Array
-    if (obj instanceof Array) {
-        var copy = [];
-        for (var i = 0, len = obj.length; i < len; ++i) {
-            copy[i] = clone(obj[i]);
-        }
-        return copy;
-    }
-    // Handle Object
-    if (obj instanceof Object) {
-        var copy = {};
-        for (var attr in obj) {
-            if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
-        }
-        return copy;
-    }
-    throw new Error("Unable to copy obj! Its type isn't supported.");
-}
+function clone(a) {
+    return JSON.parse(JSON.stringify(a));
+ }
 
 
 exports.clone = clone;
