@@ -1,11 +1,18 @@
 [
 
     {
+        "testName": "ghost-ignition",
+        "projPath": "./target/TestGhost-ignition",
+        "startFile": "./TestGhost-ignition.js",
+        "instrFiles": ["./TestGhost-ignition.js","../TestcaseUtils.js"],
+        "enable": false
+    },
+    {
         "testName": "archiver",
         "projPath": "./target/TestArchiver",
         "startFile": "./TestArchiver",
         "instrFiles": ["./TestArchiver.js","../TestcaseUtils.js"],
-        "enable": true
+        "enable": false
     },
     {
         "testName": "BSON-object",
