@@ -1,8 +1,10 @@
 "use strict";
 
-import JSON from 'json-strictify';
-//var JSON = require('json-strictify');
+var _jsonStrictify = _interopRequireDefault(require("json-strictify"));
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+//var JSON = require('json-strictify');
 var someObject = {
   code: 42,
   items: [{
@@ -15,7 +17,7 @@ var someObject = {
 };
 
 function test(input) {
-  JSON.stringify(input);
+  _jsonStrictify["default"].stringify(input);
 }
 
 var utils = require('../TestcaseUtils.js');
