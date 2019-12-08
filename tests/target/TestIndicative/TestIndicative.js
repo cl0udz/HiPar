@@ -8,8 +8,13 @@ var rules = {
 };
 var data = {
   username: '  foo',
-  email: 'john+doe@gmail.com'
+  email: 'john+doe@gmail.com',
 }; // mutates the original data object
 
-(0, _sanitizer.sanitize)(data, rules);
-console.log(data);
+function test(input){
+    (0, _sanitizer.sanitize)(data, rules);
+}
+//console.log(data);
+//
+var utils = require("../TestcaseUtils.js");
+utils.entry(test, data);
