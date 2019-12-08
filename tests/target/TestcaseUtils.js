@@ -75,9 +75,10 @@ function loopProperty(testFunc, param) {
         s = stack.shift();
         if (typeof (s.param) == 'string' || typeof(s.param)== 'null' || typeof(s.param) == 'undefined' ) continue;
         if (Array.isArray(s.param)) {
+            console.log(s.param);
             for (var i = 0; i < s.param.length; i++) {
                 var nameChain = s.nameChain.concat(i);
-                stack.push({param:param[i],nameChain:nameChain});
+                stack.push({param:s.param[i],nameChain:nameChain});
             }
             continue;
         }
@@ -85,9 +86,9 @@ function loopProperty(testFunc, param) {
         var properties = Object.getOwnPropertyNames(s.param);
         for (var property of properties){
             var nameChain = s.nameChain.concat(property);
-            stack.push({param:s.param[property],nameChain:nameChain})
-            var tmp = clone(param)
-            addSource(tmp,nameChain);
+            stack.push({param:s.param[property],nameChain:nameChain});
+            var tmp = clone(param);
+            addSource(tmp,nameChain.slice());
             testFunc(tmp);
         }
     }
@@ -96,10 +97,10 @@ function loopProperty(testFunc, param) {
 function addSource(obj,hiparNames){
     if(hiparNames.length == 1){
         obj[hiparNames[0]] = source(obj[hiparNames[0]],hiparNames[0]);
-        return
+        return;
     }
     var nextProperty = hiparNames.shift();
-    return addSource(obj[nextProperty],hiparNames)
+    return addSource(obj[nextProperty],hiparNames);
 }
 
 function verifyHipar(testFunc, param) {

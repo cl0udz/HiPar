@@ -79,10 +79,24 @@
         "enable" : false
     },
     {
+        "testName": "couchdb",
+        "projPath": "./target/TestCouchDb",
+        "startFile": "./TestCouchDb.js",
+        "instrFiles": ["./TestCouchDb.js","../TestcaseUtils.js"],
+        "enable" : false
+    },
+    {
         "testName": "request",
         "projPath": "./target/TestRequest",
         "startFile": "./TestRequest.js",
         "instrFiles": ["./TestRequest.js","../TestcaseUtils.js"],
         "enable" : false
+    },
+    {
+        "testName": "TestDataInspector",
+        "projPath": "./target/TestDataInspector",
+        "startFile": "./TestDataInspector.js",
+        "instrFiles": ["./TestDataInspector.js","../TestcaseUtils.js"],
+        "enable" : true
     }
 ]
