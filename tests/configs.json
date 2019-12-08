@@ -4,7 +4,7 @@
         "projPath": "./target/TestValidatorJS",
         "startFile": "./TestValidatorJS.js",
         "instrFiles": ["./TestValidatorJS.js", "../TestcaseUtils.js"],
-        "enable": true
+        "enable": false
     },
     {
         "testName": "ghost-ignition",
@@ -103,6 +103,21 @@
         "projPath": "./target/TestDataInspector",
         "startFile": "./TestDataInspector.js",
         "instrFiles": ["./TestDataInspector.js","../TestcaseUtils.js"],
+        "enable" : false
+    },
+    {
+        "testName": "TestExpressForm",
+        "projPath": "./target/TestExpressForm",
+        "startFile": "./TestExpressForm.js",
+        "instrFiles": ["./TestExpressForm.js","../TestcaseUtils.js"],
+        "enable" : true
+    },
+    {
+        "testName": "TestDumperJs",
+        "projPath": "./target/TestDumperJs",
+        "startFile": "./TestDumperJs.js",
+        "instrFiles": ["./TestDumperJs.js","../TestcaseUtils.js"],
         "enable" : true
     }
+    
 ]

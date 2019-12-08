@@ -88,19 +88,25 @@ function loopProperty(testFunc, param) {
             var nameChain = s.nameChain.concat(property);
             stack.push({param:s.param[property],nameChain:nameChain});
             var tmp = clone(param);
-            addSource(tmp,nameChain.slice());
+            try{
+                addSource(tmp,nameChain.slice());
+            }
+            catch(e){
+                console.log(tynt.Red(e));
+                console.log(nameChain)
+            }
             testFunc(tmp);
         }
     }
 }
 
 function addSource(obj,hiparNames){
-    if(hiparNames.length == 1){
-        obj[hiparNames[0]] = source(obj[hiparNames[0]],hiparNames[0]);
-        return;
+
+    while(hiparNames.length > 1){
+        var nextProperty = hiparNames.shift();
+        obj = obj[nextProperty];
     }
-    var nextProperty = hiparNames.shift();
-    return addSource(obj[nextProperty],hiparNames);
+    obj[hiparNames[0]] = source(obj[hiparNames[0]],hiparNames[0]);     
 }
 
 function verifyHipar(testFunc, param) {
