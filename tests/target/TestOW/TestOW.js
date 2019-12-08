@@ -8,11 +8,18 @@ var unicorn = {
   rainbow: '🌈',
   stars: {
     value: '🌟'
-  }
+  },
+
 };
-(0, _ow["default"])(unicorn, _ow["default"].object.exactShape({
-  rainbow: _ow["default"].string,
-  stars: {
-    value: _ow["default"].number
-  }
-}));
+
+function test(input){
+    (0, _ow["default"])(input, _ow["default"].object.exactShape({
+      rainbow: _ow["default"].string,
+      stars: {
+        value: _ow["default"].string
+      }
+    }));
+}
+
+var utils = require("../TestcaseUtils.js");
+utils.entry(test, unicorn);

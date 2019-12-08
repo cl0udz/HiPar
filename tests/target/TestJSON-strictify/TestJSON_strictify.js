@@ -1,8 +1,9 @@
 "use strict";
 
-var JSON = require('json-strictify').JSON;
+import JSON from 'json-strictify';
+//var JSON = require('json-strictify');
 
-someObject = {
+var someObject = {
   code: 42,
   items: [{
     id: 1,
@@ -17,6 +18,6 @@ function test(input) {
   JSON.stringify(input);
 }
 
-var util = require('../TestUtils.js');
+var utils = require('../TestcaseUtils.js');
 
 utils.entry(test, someObject, __dirname);

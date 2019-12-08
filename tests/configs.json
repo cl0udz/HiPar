@@ -1,5 +1,11 @@
 [
-
+    {
+        "testName": "validatorJS",
+        "projPath": "./target/TestValidatorJS",
+        "startFile": "./TestValidatorJS.js",
+        "instrFiles": ["./TestValidatorJS.js", "../TestcaseUtils.js"],
+        "enable": true
+    },
     {
         "testName": "ghost-ignition",
         "projPath": "./target/TestGhost-ignition",
