@@ -7,6 +7,13 @@
         "enable": true
     },
     {
+        "testName": "ghost-ignition",
+        "projPath": "./target/TestGhost-ignition",
+        "startFile": "./TestGhost-ignition.js",
+        "instrFiles": ["./TestGhost-ignition.js","../TestcaseUtils.js"],
+        "enable": false
+    },
+    {
         "testName": "archiver",
         "projPath": "./target/TestArchiver",
         "startFile": "./TestArchiver",
@@ -75,6 +82,13 @@
         "projPath": "./target/TestCouchDb",
         "startFile": "./TestCouchDb.js",
         "instrFiles": ["./TestCouchDb.js","../TestcaseUtils.js"],
+        "enable" : false
+    },
+    {
+        "testName": "request",
+        "projPath": "./target/TestRequest",
+        "startFile": "./TestRequest.js",
+        "instrFiles": ["./TestRequest.js","../TestcaseUtils.js"],
         "enable" : false
     }
 ]
