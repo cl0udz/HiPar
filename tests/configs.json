@@ -1,11 +1,17 @@
 [
-
+    {
+        "testName": "validatorJS",
+        "projPath": "./target/TestValidatorJS",
+        "startFile": "./TestValidatorJS.js",
+        "instrFiles": ["./TestValidatorJS.js", "../TestcaseUtils.js"],
+        "enable": true
+    },
     {
         "testName": "archiver",
         "projPath": "./target/TestArchiver",
         "startFile": "./TestArchiver",
         "instrFiles": ["./TestArchiver.js","../TestcaseUtils.js"],
-        "enable": true
+        "enable": false
     },
     {
         "testName": "BSON-object",
