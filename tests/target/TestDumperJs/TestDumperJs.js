@@ -1,7 +1,3 @@
-"use strict";
-
-require("core-js/modules/es.date.to-string");
-
 var _require = require('dumper.js'),
     dump = _require.dump;
 

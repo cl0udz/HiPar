@@ -101,12 +101,12 @@ function loopProperty(testFunc, param) {
 }
 
 function addSource(obj,hiparNames){
-
-    while(hiparNames.length > 1){
-        var nextProperty = hiparNames.shift();
-        obj = obj[nextProperty];
+    if(hiparNames.length == 1){
+        obj[hiparNames[0]] = source(obj[hiparNames[0]],hiparNames[0]);     
+        return;
     }
-    obj[hiparNames[0]] = source(obj[hiparNames[0]],hiparNames[0]);     
+    var nextProperty = hiparNames.shift();
+    return addSource(obj[nextProperty],hiparNames);
 }
 
 function verifyHipar(testFunc, param) {
