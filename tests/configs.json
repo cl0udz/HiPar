@@ -1,5 +1,19 @@
 [
     {
+        "testName": "",
+        "projPath": "./target/TestWriteJsonFile",
+        "startFile": "./TestWriteJsonFile.js",
+        "instrFiles": ["./TestWriteJsonFile.js", "../TestcaseUtils.js"],
+        "enable": true
+    },
+    {
+        "testName": "JSON-strictify",
+        "projPath": "./target/TestJSON-strictify",
+        "startFile": "./TestJSON_strictify.js",
+        "instrFiles": ["./TestJSON_strictify.js", "../TestcaseUtils.js"],
+        "enable": false
+    },
+    {
         "testName": "validatorJS",
         "projPath": "./target/TestValidatorJS",
         "startFile": "./TestValidatorJS.js",
