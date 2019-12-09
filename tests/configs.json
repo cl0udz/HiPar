@@ -85,13 +85,6 @@
         "enable" : false
     },
     {
-        "testName": "couchdb",
-        "projPath": "./target/TestCouchDb",
-        "startFile": "./TestCouchDb.js",
-        "instrFiles": ["./TestCouchDb.js","../TestcaseUtils.js"],
-        "enable" : false
-    },
-    {
         "testName": "request",
         "projPath": "./target/TestRequest",
         "startFile": "./TestRequest.js",
@@ -110,13 +103,20 @@
         "projPath": "./target/TestExpressForm",
         "startFile": "./TestExpressForm.js",
         "instrFiles": ["./TestExpressForm.js","../TestcaseUtils.js"],
-        "enable" : true
+        "enable" : false
     },
     {
         "testName": "TestDumperJs",
         "projPath": "./target/TestDumperJs",
         "startFile": "./TestDumperJs.js",
         "instrFiles": ["./TestDumperJs.js","../TestcaseUtils.js"],
+        "enable" : false
+    },
+    {
+        "testName": "TestLokiJS",
+        "projPath": "./target/TestLokiJS",
+        "startFile": "./TestLokiJS.js",
+        "instrFiles": ["./TestLokiJS.js","../TestcaseUtils.js"],
         "enable" : true
     }
     
