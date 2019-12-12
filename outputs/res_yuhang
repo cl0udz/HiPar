@@ -1,0 +1,204 @@
+email-js
+
+{
+  text: {},
+  from: {},
+  to: {},
+  cc: {},
+  subject: {
+    constructor: {
+      base: 'obj',
+      file: '/home/wupco/locales/HiPar/tests/target/Testemail/node_modules/text-encoding/lib/encoding.js'
+    },
+    buffer: {
+      base: 'input',
+      file: '/home/wupco/locales/HiPar/tests/target/Testemail/node_modules/text-encoding/lib/encoding.js'
+    },
+    byteOffset: {
+      base: 'input',
+      file: '/home/wupco/locales/HiPar/tests/target/Testemail/node_modules/text-encoding/lib/encoding.js'
+    },
+    byteLength: {
+      base: 'input',
+      file: '/home/wupco/locales/HiPar/tests/target/Testemail/node_modules/text-encoding/lib/encoding.js'
+    }
+  },
+  attachment: {
+    constructor: {
+      base: 'obj',
+      file: '/home/wupco/locales/HiPar/tests/target/Testemail/node_modules/emailjs/smtp/message.js'
+    },
+    length: {
+      base: 'attachment',
+      file: '/home/wupco/locales/HiPar/tests/target/Testemail/node_modules/emailjs/smtp/message.js'
+    }
+  },
+  R0ot: {
+    from: {
+      base: 'msg',
+      file: '/home/wupco/locales/HiPar/tests/target/Testemail/node_modules/emailjs/smtp/client.js'
+    },
+    to: {
+      base: 'msg',
+      file: '/home/wupco/locales/HiPar/tests/target/Testemail/node_modules/emailjs/smtp/client.js'
+    },
+    cc: {
+      base: 'msg',
+      file: '/home/wupco/locales/HiPar/tests/target/Testemail/node_modules/emailjs/smtp/client.js'
+    },
+    bcc: {
+      base: 'msg',
+      file: '/home/wupco/locales/HiPar/tests/target/Testemail/node_modules/emailjs/smtp/client.js'
+    },
+    text: {
+      base: 'msg',
+      file: '/home/wupco/locales/HiPar/tests/target/Testemail/node_modules/emailjs/smtp/client.js'
+    },
+    attachment: {
+      base: 'msg',
+      file: '/home/wupco/locales/HiPar/tests/target/Testemail/node_modules/emailjs/smtp/client.js'
+    },
+    subject: {
+      base: 'headers',
+      file: '/home/wupco/locales/HiPar/tests/target/Testemail/node_modules/emailjs/smtp/message.js'
+    }
+  }
+}
+
+nodemailer
+
+{
+  from: {
+    constructor: {
+      base: 'obj',
+      file: '/home/wupco/locales/HiPar/tests/target/Testnmail/node_modules/nodemailer/lib/mime-node/index.js'
+    },
+    trim: {
+      base: 'value',
+      file: '/home/wupco/locales/HiPar/tests/target/Testnmail/node_modules/nodemailer/lib/mime-node/index.js'
+    },
+    address: {
+      base: 'address',
+      file: '/home/wupco/locales/HiPar/tests/target/Testnmail/node_modules/nodemailer/lib/mime-node/index.js'
+    },
+    name: {
+      base: 'address',
+      file: '/home/wupco/locales/HiPar/tests/target/Testnmail/node_modules/nodemailer/lib/mime-node/index.js'
+    },
+    charAt: {
+      base: 'value',
+      file: '/home/wupco/locales/HiPar/tests/target/Testnmail/node_modules/nodemailer/lib/mime-node/index.js'
+    },
+    length: {
+      base: 'value',
+      file: '/home/wupco/locales/HiPar/tests/target/Testnmail/node_modules/nodemailer/lib/mime-node/index.js'
+    },
+    join: {
+      base: 'value',
+      file: '/home/wupco/locales/HiPar/tests/target/Testnmail/node_modules/nodemailer/lib/mime-node/index.js'
+    },
+    toUTCString: {
+      base: 'value',
+      file: '/home/wupco/locales/HiPar/tests/target/Testnmail/node_modules/nodemailer/lib/mime-node/index.js'
+    }
+  },
+  to: {
+    constructor: {
+      base: 'obj',
+      file: '/home/wupco/locales/HiPar/tests/target/Testnmail/node_modules/nodemailer/lib/mime-node/index.js'
+    },
+    trim: {
+      base: 'value',
+      file: '/home/wupco/locales/HiPar/tests/target/Testnmail/node_modules/nodemailer/lib/mime-node/index.js'
+    },
+    address: {
+      base: 'address',
+      file: '/home/wupco/locales/HiPar/tests/target/Testnmail/node_modules/nodemailer/lib/mime-node/index.js'
+    },
+    name: {
+      base: 'address',
+      file: '/home/wupco/locales/HiPar/tests/target/Testnmail/node_modules/nodemailer/lib/mime-node/index.js'
+    },
+    charAt: {
+      base: 'value',
+      file: '/home/wupco/locales/HiPar/tests/target/Testnmail/node_modules/nodemailer/lib/mime-node/index.js'
+    },
+    length: {
+      base: 'value',
+      file: '/home/wupco/locales/HiPar/tests/target/Testnmail/node_modules/nodemailer/lib/mime-node/index.js'
+    },
+    join: {
+      base: 'value',
+      file: '/home/wupco/locales/HiPar/tests/target/Testnmail/node_modules/nodemailer/lib/mime-node/index.js'
+    },
+    toUTCString: {
+      base: 'value',
+      file: '/home/wupco/locales/HiPar/tests/target/Testnmail/node_modules/nodemailer/lib/mime-node/index.js'
+    }
+  },
+  subject: {
+    constructor: {
+      base: 'obj',
+      file: '/home/wupco/locales/HiPar/tests/target/Testnmail/node_modules/nodemailer/lib/mime-node/index.js'
+    },
+    trim: {
+      base: 'value',
+      file: '/home/wupco/locales/HiPar/tests/target/Testnmail/node_modules/nodemailer/lib/mime-node/index.js'
+    }
+  },
+  text: {
+    constructor: {
+      base: 'obj',
+      file: '/home/wupco/locales/HiPar/tests/target/Testnmail/node_modules/nodemailer/lib/mail-composer/index.js'
+    },
+    content: {
+      base: 'text',
+      file: '/home/wupco/locales/HiPar/tests/target/Testnmail/node_modules/nodemailer/lib/mail-composer/index.js'
+    },
+    path: {
+      base: 'content',
+      file: '/home/wupco/locales/HiPar/tests/target/Testnmail/node_modules/nodemailer/lib/mime-node/index.js'
+    },
+    href: {
+      base: 'content',
+      file: '/home/wupco/locales/HiPar/tests/target/Testnmail/node_modules/nodemailer/lib/mime-node/index.js'
+    },
+    raw: {
+      base: 'text',
+      file: '/home/wupco/locales/HiPar/tests/target/Testnmail/node_modules/nodemailer/lib/mail-composer/index.js'
+    },
+    _resolvedValue: {
+      base: 'content',
+      file: '/home/wupco/locales/HiPar/tests/target/Testnmail/node_modules/nodemailer/lib/mime-node/index.js'
+    },
+    pipe: {
+      base: 'content',
+      file: '/home/wupco/locales/HiPar/tests/target/Testnmail/node_modules/nodemailer/lib/mime-node/index.js'
+    },
+    httpHeaders: {
+      base: 'content',
+      file: '/home/wupco/locales/HiPar/tests/target/Testnmail/node_modules/nodemailer/lib/mime-node/index.js'
+    }
+  },
+  R0ot: {}
+}
+
+Avsc
+
+{
+  _hash: {},
+  name: {},
+  aliases: {},
+  doc: {},
+  _fieldsByName: {},
+  fields: {},
+  _branchConstructor: {},
+  _isError: {},
+  recordConstructor: {},
+  _read: {},
+  _skip: {},
+  _write: {},
+  _check: {}
+}
+
+
