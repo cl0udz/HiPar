@@ -1,10 +1,17 @@
 [
     {
+        "testName": "object-is",
+        "projPath": "./target/TestObject-is",
+        "startFile": "./TestObject-is.js",
+        "instrFiles": ["./TestObject-is.js", "../TestcaseUtils.js"],
+        "enable": true
+    },{
+
         "testName": "Lowdb",
         "projPath": "./target/TestLowdb",
         "startFile": "./TestLowdb.js",
         "instrFiles": ["./TestLowdb.js", "../TestcaseUtils.js"],
-        "enable": true
+        "enable": false
     },
     {
         "testName": "Write-Jsonfile",
