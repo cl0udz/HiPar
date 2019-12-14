@@ -4,7 +4,7 @@
         "projPath": "./target/TestLowdb",
         "startFile": "./TestLowdb.js",
         "instrFiles": ["./TestLowdb.js", "../TestcaseUtils.js"],
-        "enable": true
+        "enable": false
     },
     {
         "testName": "Write-Jsonfile",
@@ -139,6 +139,36 @@
         "startFile": "./TestLokiJS.js",
         "instrFiles": ["./TestLokiJS.js","../TestcaseUtils.js"],
         "enable" : false
+    },
+    {
+        "testName": "TestCoinBasePro",
+        "projPath": "./target/TestCoinBasePro",
+        "startFile": "./TestCoinBasePro.js",
+        "instrFiles": ["./TestCoinBasePro.js","../TestcaseUtils.js"],
+        "enable" : false
+    },
+    {
+        "testName": "TestAnalytics",
+        "projPath": "./target/TestAnalytics",
+        "startFile": "./TestAnalytics.js",
+        "instrFiles": ["./TestAnalytics.js","../TestcaseUtils.js"],
+        "enable" : false
+    },
+    {
+        "testName": "TestLodash",
+        "projPath": "./target/TestLodash",
+        "startFile": "./TestLodash.js",
+        "instrFiles": ["./TestLodash.js","../TestcaseUtils.js"],
+        "enable" : true
+    },
+    {
+        "testName": "TestJs-yaml",
+        "projPath": "./target/TestJs-yaml",
+        "startFile": "./TestJs-yaml.js",
+        "instrFiles": ["./TestJs-yaml.js","../TestcaseUtils.js"],
+        "enable" : true
     }
+    
+
     
 ]

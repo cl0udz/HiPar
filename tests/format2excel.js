@@ -3,41 +3,88 @@ copy output to excel
 */
 var result = {
   R0ot: {
-    constructor: {
-      base: 'obj',
-      file: '/Users/ex1t/Desktop/nodeAnalysis/HiPar/tests/target/TestLokiJS/node_modules/lokijs/src/lokijs.js'
+    length: {
+      base: 'object',
+      file: '/Users/ex1t/Desktop/nodeAnalysis/HiPar/tests/target/TestJs-yaml/node_modules/js-yaml/lib/js-yaml/dumper.js'
     }
   },
-  name: {},
-  age: {
-    constructor: {
-      base: 'obj',
-      file: '/Users/ex1t/Desktop/nodeAnalysis/HiPar/tests/target/TestLokiJS/node_modules/lokijs/src/lokijs.js'
+  name: {
+    charCodeAt: {
+      base: 'data',
+      file: '/Users/ex1t/Desktop/nodeAnalysis/HiPar/tests/target/TestJs-yaml/node_modules/js-yaml/lib/js-yaml/type/int.js'
     },
-    toString: {
-      base: 'prop1',
-      file: '/Users/ex1t/Desktop/nodeAnalysis/HiPar/tests/target/TestLokiJS/node_modules/lokijs/src/lokijs.js'
+    length: {
+      base: 'data',
+      file: '/Users/ex1t/Desktop/nodeAnalysis/HiPar/tests/target/TestJs-yaml/node_modules/js-yaml/lib/js-yaml/type/int.js'
+    },
+    replace: {
+      base: 'string',
+      file: '/Users/ex1t/Desktop/nodeAnalysis/HiPar/tests/target/TestJs-yaml/node_modules/js-yaml/lib/js-yaml/dumper.js'
+    },
+    slice: {
+      base: 'data',
+      file: '/Users/ex1t/Desktop/nodeAnalysis/HiPar/tests/target/TestJs-yaml/node_modules/js-yaml/lib/js-yaml/type/int.js'
     }
   },
-  '$lte': {
-    '0': {
-      base: 'value',
-      file: '/Users/ex1t/Desktop/nodeAnalysis/HiPar/tests/target/TestLokiJS/node_modules/lokijs/src/lokijs.js'
-    },
-    '1': {
-      base: 'value',
-      file: '/Users/ex1t/Desktop/nodeAnalysis/HiPar/tests/target/TestLokiJS/node_modules/lokijs/src/lokijs.js'
-    },
-    constructor: {
-      base: 'obj',
-      file: '/Users/ex1t/Desktop/nodeAnalysis/HiPar/tests/target/TestLokiJS/node_modules/lokijs/src/lokijs.js'
+  level: {
+    length: {
+      base: 'object',
+      file: '/Users/ex1t/Desktop/nodeAnalysis/HiPar/tests/target/TestJs-yaml/node_modules/js-yaml/lib/js-yaml/dumper.js'
     },
     toString: {
-      base: 'prop2',
-      file: '/Users/ex1t/Desktop/nodeAnalysis/HiPar/tests/target/TestLokiJS/node_modules/lokijs/src/lokijs.js'
+      base: 'obj',
+      file: '/Users/ex1t/Desktop/nodeAnalysis/HiPar/tests/target/TestJs-yaml/node_modules/js-yaml/lib/js-yaml/type/int.js'
+    }
+  },
+  inventory: {
+    length: {
+      base: 'object',
+      file: '/Users/ex1t/Desktop/nodeAnalysis/HiPar/tests/target/TestJs-yaml/node_modules/js-yaml/lib/js-yaml/dumper.js'
+    }
+  },
+  features: {
+    length: {
+      base: 'object',
+      file: '/Users/ex1t/Desktop/nodeAnalysis/HiPar/tests/target/TestJs-yaml/node_modules/js-yaml/lib/js-yaml/dumper.js'
+    }
+  },
+  traits: {
+    length: {
+      base: 'object',
+      file: '/Users/ex1t/Desktop/nodeAnalysis/HiPar/tests/target/TestJs-yaml/node_modules/js-yaml/lib/js-yaml/dumper.js'
+    }
+  },
+  damage: {
+    length: {
+      base: 'object',
+      file: '/Users/ex1t/Desktop/nodeAnalysis/HiPar/tests/target/TestJs-yaml/node_modules/js-yaml/lib/js-yaml/dumper.js'
+    },
+    toString: {
+      base: 'obj',
+      file: '/Users/ex1t/Desktop/nodeAnalysis/HiPar/tests/target/TestJs-yaml/node_modules/js-yaml/lib/js-yaml/type/int.js'
+    }
+  },
+  defence: {
+    length: {
+      base: 'object',
+      file: '/Users/ex1t/Desktop/nodeAnalysis/HiPar/tests/target/TestJs-yaml/node_modules/js-yaml/lib/js-yaml/dumper.js'
+    },
+    toString: {
+      base: 'obj',
+      file: '/Users/ex1t/Desktop/nodeAnalysis/HiPar/tests/target/TestJs-yaml/node_modules/js-yaml/lib/js-yaml/type/int.js'
+    }
+  },
+  comfort: {
+    length: {
+      base: 'object',
+      file: '/Users/ex1t/Desktop/nodeAnalysis/HiPar/tests/target/TestJs-yaml/node_modules/js-yaml/lib/js-yaml/dumper.js'
+    },
+    toString: {
+      base: 'obj',
+      file: '/Users/ex1t/Desktop/nodeAnalysis/HiPar/tests/target/TestJs-yaml/node_modules/js-yaml/lib/js-yaml/type/int.js'
     }
   }
-}
+};
 
 var properties = Object.getOwnPropertyNames(result);
 for (var property of properties){

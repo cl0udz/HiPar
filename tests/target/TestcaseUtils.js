@@ -73,7 +73,7 @@ function loopProperty(testFunc, param) {
     testFunc(tmp);
     while (stack.length > 0) {
         s = stack.shift();
-        if (typeof (s.param) == 'string' || typeof(s.param)== 'null' || typeof(s.param) == 'undefined' ) continue;
+        if (typeof (s.param) == 'string' || s.param== null || s.param == undefined ) continue;
         if (Array.isArray(s.param)) {
             console.log(s.param);
             for (var i = 0; i < s.param.length; i++) {

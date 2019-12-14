@@ -1,0 +1,7 @@
+obj.constructor 	 	 	 	 https://github.com/cl0udz/HiPar/blob/master/tests/target/TestLokiJS/node_modules/lokijs/src/lokijs.js
+obj.constructor 	 	 	 	 https://github.com/cl0udz/HiPar/blob/master/tests/target/TestLokiJS/node_modules/lokijs/src/lokijs.js
+prop1.toString 	 	 	 	 https://github.com/cl0udz/HiPar/blob/master/tests/target/TestLokiJS/node_modules/lokijs/src/lokijs.js
+value.0 	 	 	 	 https://github.com/cl0udz/HiPar/blob/master/tests/target/TestLokiJS/node_modules/lokijs/src/lokijs.js
+value.1 	 	 	 	 https://github.com/cl0udz/HiPar/blob/master/tests/target/TestLokiJS/node_modules/lokijs/src/lokijs.js
+obj.constructor 	 	 	 	 https://github.com/cl0udz/HiPar/blob/master/tests/target/TestLokiJS/node_modules/lokijs/src/lokijs.js
+prop2.toString 	 	 	 	 https://github.com/cl0udz/HiPar/blob/master/tests/target/TestLokiJS/node_modules/lokijs/src/lokijs.js
