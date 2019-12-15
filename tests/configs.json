@@ -1,5 +1,19 @@
 [
     {
+        "testName": "object-inspect",
+        "projPath": "./target/TestObject-inspect",
+        "startFile": "./TestObject-inspect.js",
+        "instrFiles": ["./TestObject-inspect.js", "../TestcaseUtils.js"],
+        "enable": true
+    },
+    {
+        "testName": "object-is",
+        "projPath": "./target/TestObject-is",
+        "startFile": "./TestObject-is.js",
+        "instrFiles": ["./TestObject-is.js", "../TestcaseUtils.js"],
+        "enable": false
+    },
+    {
         "testName": "Lowdb",
         "projPath": "./target/TestLowdb",
         "startFile": "./TestLowdb.js",
