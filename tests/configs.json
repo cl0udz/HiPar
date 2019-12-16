@@ -1,10 +1,31 @@
 [
     {
+        "testName": "BodyParser",
+        "projPath": "./target/TestBodyParser",
+        "startFile": "./TestBodyParser.js",
+        "instrFiles": ["./TestBodyParser.js", "../TestcaseUtils.js"],
+        "enable": false 
+    },
+    {
+        "testName": "OW",
+        "projPath": "./target/TestOW",
+        "startFile": "./TestOW.js",
+        "instrFiles": ["./TestOW.js", "../TestcaseUtils.js"],
+        "enable": false 
+    },
+    {
+	"testName": "Aerospike",
+        "projPath": "./target/TestAerospike",
+        "startFile": "./index.js",
+        "instrFiles": ["./index.js", "../TestcaseUtils.js", "./api.js"],
+        "enable": false 
+    },
+    {
         "testName": "object-inspect",
         "projPath": "./target/TestObject-inspect",
         "startFile": "./TestObject-inspect.js",
         "instrFiles": ["./TestObject-inspect.js", "../TestcaseUtils.js"],
-        "enable": true
+        "enable": false 
     },
     {
         "testName": "object-is",
@@ -18,28 +39,28 @@
         "projPath": "./target/TestLowdb",
         "startFile": "./TestLowdb.js",
         "instrFiles": ["./TestLowdb.js", "../TestcaseUtils.js"],
-        "enable": false
+        "enable": false 
     },
     {
         "testName": "Write-Jsonfile",
         "projPath": "./target/TestWriteJsonFile",
         "startFile": "./TestWriteJsonFile.js",
         "instrFiles": ["./TestWriteJsonFile.js", "../TestcaseUtils.js"],
-        "enable": false
+        "enable": false 
     },
     {
         "testName": "JSON-strictify",
         "projPath": "./target/TestJSON-strictify",
         "startFile": "./TestJSON_strictify.js",
         "instrFiles": ["./TestJSON_strictify.js", "../TestcaseUtils.js"],
-        "enable": false
+        "enable": false 
     },
     {
         "testName": "validatorJS",
         "projPath": "./target/TestValidatorJS",
         "startFile": "./TestValidatorJS.js",
         "instrFiles": ["./TestValidatorJS.js", "../TestcaseUtils.js"],
-        "enable": false
+        "enable": false 
     },
     {
         "testName": "ghost-ignition",
@@ -74,7 +95,7 @@
         "projPath": "./target/TestIndicative",
         "startFile": "./TestIndicative.js",
         "instrFiles": ["./TestIndicative.js", "../TestcaseUtils.js"],
-        "enable": false
+        "enable": false 
     },
     {
         "testName": "Table",

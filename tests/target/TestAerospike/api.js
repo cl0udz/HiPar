@@ -2,7 +2,9 @@
 
 var Aerospike = require('aerospike');
 
-var aerospikeConfig = "aerospike_config.js";
+var aerospikeConfig = require("./aerospike_config.js").aerospikeConfig();
+var aerospikeDBParams = require("./aerospike_config.js").aerospikeDBParams();
+
 var client = Aerospike.client(aerospikeConfig); // Establish connection to the cluster
 
 exports.connect = function (callback) {
