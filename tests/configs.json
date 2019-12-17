@@ -1,10 +1,17 @@
 [
     {
+        "testName": "mongo-extjson",
+        "projPath": "./target/TestMongodbExtjson",
+        "startFile": "./TestMongodbExtjson.js",
+        "instrFiles": ["./TestMongodbExtjson.js", "../TestcaseUtils.js"],
+        "enable": true
+    },
+    {
         "testName": "another-json-schema",
         "projPath": "./target/TestAnotherJsonSchema",
         "startFile": "./TestAnotherJsonSchema.js",
         "instrFiles": ["./TestAnotherJsonSchema.js", "../TestcaseUtils.js"],
-        "enable": true
+        "enable": false
     },
     {
         "testName": "BodyParser",
