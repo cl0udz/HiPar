@@ -1,5 +1,12 @@
 [
     {
+        "testName": "another-json-schema",
+        "projPath": "./target/TestAnotherJsonSchema",
+        "startFile": "./TestAnotherJsonSchema.js",
+        "instrFiles": ["./TestAnotherJsonSchema.js", "../TestcaseUtils.js"],
+        "enable": true
+    },
+    {
         "testName": "BodyParser",
         "projPath": "./target/TestBodyParser",
         "startFile": "./TestBodyParser.js",
