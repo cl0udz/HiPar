@@ -114,13 +114,13 @@ var Post = function () {
   return Post;
 }();
 
-var userJson = JSON.parse('{"title":"Hello","rating":5}');
+var userJson = JSON.parse('{"title":"Hello"}');
 
 var utils = require("../TestcaseUtils.js");
 
 function test(userJson) {
-  var users = Object.assign(Post, userJson);
-  class_validator_1.validate(users).then(function (errors) {
+  var users = class_transformer_1.plainToClass(Post, userJson);
+    class_validator_1.validate(users).then(function (errors) {
     if (errors.length > 0) {
       console.log("validation failed. errors: ", errors);
     } else {
