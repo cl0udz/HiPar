@@ -42,7 +42,7 @@ var Post = (function () {
     ], Post.prototype, "createDate", void 0);
     return Post;
 }());
-var userJson = JSON.parse('{"title":"Hello","rating":5}');
+var userJson = JSON.parse('{"title":"Hello"}');
 
 
 var utils = require("../TestcaseUtils.js");
