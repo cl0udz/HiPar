@@ -6,7 +6,7 @@ var execSync = require('child_process').execSync;
 const TYPE = 0; // 0: analysis, 1: verify
 
 // run each case by chaning config.json file itself
-for (var i = 20; i < configs.length; i++) {
+for (var i = 10; i < configs.length; i++) {
     run_conf(i);
 }
 

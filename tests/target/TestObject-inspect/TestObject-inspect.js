@@ -5,9 +5,10 @@ var utils = require("../TestcaseUtils.js");
 
 var json = {
     "a": {
-        url: "http://example.com"
+        url: "http://example.com",
+        "inspect": "a"
     },
-    "b": [3, 4] 
+    "b": {"22":12}
 };
 
 
@@ -15,6 +16,6 @@ var json = {
 function test(userJson){
     return inspect(userJson);
 }
-
-console.log(utils.entry(test, json));
+console.log(inspect(json));
+// console.log(utils.entry(test, json));
 

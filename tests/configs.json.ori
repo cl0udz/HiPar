@@ -248,6 +248,14 @@
 
 },
 {
+    "testName": "TestKindof",
+    "projPath": "./target/TestKindof",
+    "startFile": "./TestKindof.js",
+    "instrFiles": ["./TestKindof.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
     "testName": "TestLowdb",
     "projPath": "./target/TestLowdb",
     "startFile": "./TestLowdb.js",
