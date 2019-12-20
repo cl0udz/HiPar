@@ -3,22 +3,49 @@
 var esprima = require('esprima');
 var fs = require('fs');
 var tynt = require('tynt');
+const NodeCache = require( "node-cache");
+const astCache = new NodeCache();
 
-exports.analyze_hidden_attr = function analyze_hidden_attr(file_loc, domain){
-    var file_loc, domain;
-    var content = fs.readFileSync(file_loc, 'utf-8');
-    var cmd = {'mode':'getAll', 'res' : [], "loc":file_loc};
-    search_all_attr(file_loc, content, cmd);
-    var taint_lst = cal_taintable_attr(domain, cmd.res);
-    return taint_lst;
 
+
+module.exports = class attrFinder{
+    constructor(){
+        this.astCache = new NodeCache();
+        this.analyze_hidden_attr = f_a;
+        this.get_name_by_loc = f_g;
+    }
 }
 
+var f_a =  function analyze_hidden_attr(file_loc, domain, finder){
+    var file_loc, domain, content;
+    var cmd = {'mode':'getAll', 'res' : [], "loc":file_loc};
+    var cache = finder.astCache.get(file_loc);
+    if (cache == undefined){
+        content = fs.readFileSync(file_loc, 'utf-8');
+        cmd.isAst = false;
+    }else{
+        console.log("cache hit");
+        content = cache;
+        cmd.isAst = true;
+    }
+    search_all_attr(file_loc, content, cmd, finder.astCache);
+    var taint_lst = cal_taintable_attr(domain, cmd.res);
+    return taint_lst;
+}
 
-exports.get_name_by_loc = function get_name_by_loc(loc){
-    var content = fs.readFileSync(loc.file_loc, 'utf-8');
+var f_g = function get_name_by_loc(loc, finder){
+    var content;
     var cmd = {'mode':'findOne', 'loc':loc.var_loc, 'res':[]};
-    search_all_attr(loc.file_loc, content, cmd);
+    var cache = finder.astCache.get(loc.file_loc);
+    if (cache == undefined){
+        content = fs.readFileSync(loc.file_loc, 'utf-8');
+        cmd.isAst = false;
+    }else{
+        content = cache;
+        cmd.isAst = true;
+    }
+  
+    search_all_attr(loc.file_loc, content, cmd, finder.astCache);
     if (cmd.res.length ===  0){
         console.log(tynt.Red("[x] get_name_by_loc error: " + JSON.stringify(loc)+ ' not found'));
         return -1;
@@ -27,7 +54,8 @@ exports.get_name_by_loc = function get_name_by_loc(loc){
     return cmd.res[0];
 }
 
-exports.relaxed_analyze_hidden_attr = function relaxed_analyze_hidden_attr(file_loc, domain){
+
+function relaxed_analyze_hidden_attr(file_loc, domain){
     var file_loc, domain;
     var content = fs.readFileSync(file_loc, 'utf-8');
     var cmd = {'mode':'getAll', 'res' : [], "loc":file_loc, 'relaxed':1};
@@ -38,7 +66,7 @@ exports.relaxed_analyze_hidden_attr = function relaxed_analyze_hidden_attr(file_
 }
 
 
-exports.relaxed_get_name_by_loc = function relaxed_get_name_by_loc(loc){
+function relaxed_get_name_by_loc(loc){
     var content = fs.readFileSync(loc.file_loc, 'utf-8');
     var cmd = {'mode':'findOne', 'loc':loc.var_loc, 'res':[], 'relaxed':1};
     search_all_attr(loc.file_loc, content, cmd);
@@ -71,12 +99,19 @@ function cal_taintable_attr(domain, attr_lst){
 }
 
 
-function search_all_attr(file_loc, text, cmd) {
-    try {
-        var ast = esprima.parse(text, {comment:true, tokens:true, loc:true});
-    } catch (e) {
-        console.log(tynt.Red("\n[x] get_all_attr : Error when parsing "+ file_loc +", Will ignore this file.\n" + e));
-        return;
+function search_all_attr(file_loc, text, cmd, cache) {
+    var ast; 
+    if (cmd.isAst){
+        ast = text;
+    }
+    else{
+        try {
+            ast = esprima.parse(text, {comment:true, tokens:true, loc:true});
+        } catch (e) {
+            console.log(tynt.Red("\n[x] get_all_attr : Error when parsing "+ file_loc +", Will ignore this file.\n" + e));
+            return;
+        }
+        cache.set(file_loc, ast);
     }
     if (cmd.relaxed) {
         relaxed_traverse(ast['body'], [], propertyVisitor, cmd);
@@ -127,7 +162,7 @@ function relaxed_traverse(object, domain, Visitor, cmd) {
     if (Visitor.call(null, object, domain, cmd) === false) {
         return;
     }
-    
+
     for (key in object) {
         if (object.hasOwnProperty(key)) {
             child = object[key];
@@ -286,7 +321,7 @@ function read_property(node, path, offset, cmd){
             }
         } else {
             // here we handle special cases
-            
+
             // this is statement like func('aaa').b, just ignore
             if ( node.object.type === "CallExpression" ) {
                 if (node.object.callee.type === "MemberExpression"){

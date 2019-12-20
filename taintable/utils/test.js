@@ -1,2 +1,5 @@
-[a.arr, c.arr].concat(1).test();
-new String(a.c.d).a.test();
+var attr_finder = require(__dirname + '/attrFinder.js');
+var af = new attr_finder();
+
+console.log(af.analyze_hidden_attr("case.js", ['a'], af));
+console.log(af.analyze_hidden_attr("case.js", ['a'], af));
