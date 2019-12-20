@@ -84,7 +84,7 @@
     "projPath": "./target/TestClassValidator",
     "startFile": "./TestClassValidator.js",
     "instrFiles": ["./TestClassValidator.js","../TestcaseUtils.js"],
-    "enable" : false
+    "enable" : false 
 
 },
 {
@@ -252,7 +252,7 @@
     "projPath": "./target/TestKindof",
     "startFile": "./TestKindof.js",
     "instrFiles": ["./TestKindof.js","../TestcaseUtils.js"],
-    "enable" : true
+    "enable" : false
 
 },
 {
@@ -398,8 +398,13 @@
     "instrFiles": ["./TestYup.js","../TestcaseUtils.js"],
     "enable" : false
 
+},
+{
+    "testName": "TestRegression",
+    "projPath": "./target/TestRegression",
+    "startFile": "./TestRegression",
+    "instrFiles": ["./TestRegression.js", "../TestcaseUtils.js"],
+    "enable": true
 }
-
-
 ]
 

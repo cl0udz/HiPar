@@ -3,7 +3,8 @@ J$.analysis = {};
 (function(sandbox) {
     function TaintAnalysis() {
         var tynt = require('tynt');
-	    var attr_finder = require(__dirname + '/../utils/attrFinder.js');
+	var attr_finder = require(__dirname + '/../utils/attrFinder.js');
+	var af = new attr_finder();
         var fs = require("fs");
 
         var taint_state = true;
@@ -55,7 +56,7 @@ J$.analysis = {};
                 loc['var_loc']['end']['column'] = parseInt(content[4], 10) - 1;
                 //console.log(JSON.stringify(loc));
                 
-                name = attr_finder.get_name_by_loc(loc);
+                name = af.get_name_by_loc(loc, af);
                 //console.log("[get name] " + name);
                 
                 return [loc['file_loc'], name];
@@ -100,8 +101,11 @@ J$.analysis = {};
                 var source_id = ++valueID;
 		        //val.tainted = "source";
                 //val.tainted_iiid = valueID;
-                Object.defineProperty(val, "tainted", {configurable: true, get: function() {return "source";}});
-                Object.defineProperty(val, "tainted_iiid", {configurable: true, get: function() {return source_id;}});
+                //Object.defineProperty(val, "tainted", {configurable: true, get: function() {return "source";}});
+		val.tainted = "source";
+                //Object.defineProperty(val, "tainted_iiid", {configurable: true, get: function() {return source_id;}});
+		val.tainted_iiid = source_id;
+
                 taint_tag_to_input[valueID] = {"name": args[1], "location": "undefined"};
                 //console.log(("[source] name: " + args[1]));
 
@@ -125,8 +129,9 @@ J$.analysis = {};
                 if(val && Object.prototype.hasOwnProperty.call(val,'tainted') && val.tainted == "source"){
                     taint_tag_to_input[val.tainted_iiid].location = iidToLocation(iid);
                     //val.tainted = val.tainted_iiid;
-                    delete val.tainted;
-                    Object.defineProperty(val, "tainted", {configurable: true, get: function() {return val.tainted_iiid;}});
+                    //delete val.tainted;
+                    //Object.defineProperty(val, "tainted", {configurable: true, get: function() {return val.tainted_iiid;}});
+		    val.tainted = val.tainted_iiid;
                 }
             } catch(e){
                 // catch the error caused by getter/setter
@@ -159,8 +164,8 @@ J$.analysis = {};
                 if(val && Object.prototype.hasOwnProperty.call(val, 'tainted') && val.tainted > 0 && analysis_property.indexOf(offset) == -1){
                     val.tainted_loc = variable_name;
                     if(name_data != null){
-                        //hidden_list = attr_finder.analyze_hidden_attr(name_data[0], [omap.get(val)]);
-                        //console.log(tynt.Green("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + hidden_list));
+                        //hidden_list = af.analyze_hidden_attr(name_data[0], [omap.get(val)], af);
+                        //console.log(tynt.Green("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + JSON.stringify(hidden_list)));
                            
                         var input_name = taint_tag_to_input[val.tainted].name;
                         if(tainted_var[input_name][file_path] == undefined)
@@ -169,6 +174,19 @@ J$.analysis = {};
                             tainted_var[input_name][file_path].push(omap.get(val));
                     }
                 }
+
+		if(Object.prototype.hasOwnProperty.call(base, 'tainted') && base.tainted > 0){
+		    if(name_data != null){
+		        //hidden_list = af.analyze_hidden_attr(name_data[0], [variable_name], af);
+	                //console.log(tynt.Green("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[base.tainted].name + ": " + JSON.stringify(hidden_list)));
+                         
+                        var input_name = taint_tag_to_input[base.tainted].name;
+                        if(tainted_var[input_name][file_path] == undefined)
+                            tainted_var[input_name][file_path] = [variable_name];
+                        else if(tainted_var[input_name][file_path].indexOf(variable_name) == -1)
+                            tainted_var[input_name][file_path].push(variable_name);
+		    }
+		}
             }
             return val;
         }
@@ -178,8 +196,9 @@ J$.analysis = {};
                 if(val && Object.prototype.hasOwnProperty.call(val, 'tainted') && val.tainted == "source"){
                     taint_tag_to_input[val.tainted_iiid].location = iidToLocation(iid);
                     //val.tainted = val.tainted_iiid;
-                    delete val.tainted;
-                    Object.defineProperty(val, "tainted", {configurable: true, get: function() {return val.tainted_iiid;}});
+                    //delete val.tainted;
+                    //Object.defineProperty(val, "tainted", {configurable: true, get: function() {return val.tainted_iiid;}});
+		    val.tainted = val.tainted_iiid;
                 }
 
                 try{
@@ -188,6 +207,9 @@ J$.analysis = {};
                         var file_path = name_data[0];
                         var variable_name = name_data[1];
                         if(name_data != null){
+				//hidden_list = af.analyze_hidden_attr(name_data[0], [variable_name], af);
+	                        //console.log(tynt.Green("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + JSON.stringify(hidden_list)));
+                         
                             var input_name = taint_tag_to_input[val.tainted].name;
                             if(tainted_var[input_name][file_path] == undefined)
                                 tainted_var[input_name][file_path] = [variable_name];
@@ -227,7 +249,7 @@ J$.analysis = {};
             for(var param in tainted_dict){
                 for(var file in tainted_dict[param]){
                     try{
-                        hidden_list = attr_finder.analyze_hidden_attr(file, tainted_dict[param][file]);
+                        hidden_list = af.analyze_hidden_attr(file, tainted_dict[param][file], af);
                     }catch(e){
                         console.log(tynt.Red("[Error]@TaintAnalysis - get_hidden_httr. " + e));
                         console.log(tynt.Red("[Error]params: file: " + file + ", param: " + JSON.stringify(tainted_dict[param][file])));
