@@ -24,7 +24,6 @@ var f_a =  function analyze_hidden_attr(file_loc, domain, finder){
         content = fs.readFileSync(file_loc, 'utf-8');
         cmd.isAst = false;
     }else{
-        console.log("cache hit");
         content = cache;
         cmd.isAst = true;
     }
@@ -44,7 +43,6 @@ var f_g = function get_name_by_loc(loc, finder){
         content = cache;
         cmd.isAst = true;
     }
-  
     search_all_attr(loc.file_loc, content, cmd, finder.astCache);
     if (cmd.res.length ===  0){
         console.log(tynt.Red("[x] get_name_by_loc error: " + JSON.stringify(loc)+ ' not found'));
@@ -111,7 +109,10 @@ function search_all_attr(file_loc, text, cmd, cache) {
             console.log(tynt.Red("\n[x] get_all_attr : Error when parsing "+ file_loc +", Will ignore this file.\n" + e));
             return;
         }
-        cache.set(file_loc, ast);
+        // only cache small files 
+        if (text.length < 1000){
+            cache.set(file_loc, ast);
+        }
     }
     if (cmd.relaxed) {
         relaxed_traverse(ast['body'], [], propertyVisitor, cmd);
