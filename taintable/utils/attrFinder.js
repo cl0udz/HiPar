@@ -10,7 +10,7 @@ const astCache = new NodeCache();
 
 module.exports = class attrFinder{
     constructor(){
-        this.astCache = new NodeCache();
+        this.Cache = new NodeCache();
         this.analyze_hidden_attr = f_a;
         this.get_name_by_loc = f_g;
     }
@@ -19,15 +19,14 @@ module.exports = class attrFinder{
 var f_a =  function analyze_hidden_attr(file_loc, domain, finder){
     var file_loc, domain, content;
     var cmd = {'mode':'getAll', 'res' : [], "loc":file_loc};
-    var cache = finder.astCache.get(file_loc);
+    var cache = finder.Cache.get(file_loc);
     if (cache == undefined){
         content = fs.readFileSync(file_loc, 'utf-8');
-        cmd.isAst = false;
+        finder.Cache.set(file_loc, content);
     }else{
         content = cache;
-        cmd.isAst = true;
     }
-    search_all_attr(file_loc, content, cmd, finder.astCache);
+    search_all_attr(file_loc, content, cmd);
     var taint_lst = cal_taintable_attr(domain, cmd.res);
     return taint_lst;
 }
@@ -35,15 +34,14 @@ var f_a =  function analyze_hidden_attr(file_loc, domain, finder){
 var f_g = function get_name_by_loc(loc, finder){
     var content;
     var cmd = {'mode':'findOne', 'loc':loc.var_loc, 'res':[]};
-    var cache = finder.astCache.get(loc.file_loc);
+    var cache = finder.Cache.get(loc.file_loc);
     if (cache == undefined){
         content = fs.readFileSync(loc.file_loc, 'utf-8');
-        cmd.isAst = false;
+        finder.Cache.set(loc.file_loc, content);
     }else{
         content = cache;
-        cmd.isAst = true;
     }
-    search_all_attr(loc.file_loc, content, cmd, finder.astCache);
+    search_all_attr(loc.file_loc, content, cmd);
     if (cmd.res.length ===  0){
         console.log(tynt.Red("[x] get_name_by_loc error: " + JSON.stringify(loc)+ ' not found'));
         return -1;
@@ -97,22 +95,12 @@ function cal_taintable_attr(domain, attr_lst){
 }
 
 
-function search_all_attr(file_loc, text, cmd, cache) {
-    var ast; 
-    if (cmd.isAst){
-        ast = text;
-    }
-    else{
-        try {
-            ast = esprima.parse(text, {comment:true, tokens:true, loc:true});
-        } catch (e) {
-            console.log(tynt.Red("\n[x] get_all_attr : Error when parsing "+ file_loc +", Will ignore this file.\n" + e));
-            return;
-        }
-        // only cache small files 
-        if (text.length < 1000){
-            cache.set(file_loc, ast);
-        }
+function search_all_attr(file_loc, text, cmd) {
+    try {
+        ast = esprima.parse(text, {comment:true, tokens:true, loc:true});
+    } catch (e) {
+        console.log(tynt.Red("\n[x] get_all_attr : Error when parsing "+ file_loc +", Will ignore this file.\n" + e));
+        return;
     }
     if (cmd.relaxed) {
         relaxed_traverse(ast['body'], [], propertyVisitor, cmd);
