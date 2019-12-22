@@ -96,10 +96,11 @@ function cal_taintable_attr(domain, attr_lst){
 
 
 function search_all_attr(file_loc, text, cmd) {
+    var ast;
     try {
-        ast = esprima.parse(text, {comment:true, tokens:true, loc:true});
+        var ast = esprima.parse(text, {comment:true, tokens:true, loc:true});
     } catch (e) {
-        console.log(tynt.Red("\n[x] get_all_attr : Error when parsing "+ file_loc +", Will ignore this file.\n" + e));
+        console.log(tynt.Red("\n[x] search_all_attr : Error when parsing "+ file_loc +", Will ignore this file.\n" + e));
         return;
     }
     if (cmd.relaxed) {
