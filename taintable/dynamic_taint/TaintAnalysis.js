@@ -54,10 +54,10 @@ J$.analysis = {};
                 loc['var_loc']['start']['column'] = parseInt(content[2], 10) - 1;
                 loc['var_loc']['end']['line'] = parseInt(content[3], 10);
                 loc['var_loc']['end']['column'] = parseInt(content[4], 10) - 1;
-                console.log(JSON.stringify(loc));
+                // console.log(JSON.stringify(loc));
                 
                 name = af.get_name_by_loc(loc, af);
-                console.log("[get name] " + name);
+                // console.log("[get name] " + name);
                 
                 return [loc['file_loc'], name];
             } else {
@@ -74,7 +74,7 @@ J$.analysis = {};
         };
 
         this.invokeFunPre = function(iid, f, base, args, isConstructor){
-            console.log("Entering " + f.name);
+           //  console.log("Entering " + f.name);
         }
 
         this.invokeFun = function(iid, f, base, args, val, isConstructor) {
