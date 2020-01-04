@@ -106,9 +106,9 @@ J$.analysis = {};
 		        //val.tainted = "source";
                 //val.tainted_iiid = valueID;
                 //Object.defineProperty(val, "tainted", {configurable: true, get: function() {return "source";}});
-		val.tainted = "source";
+		        val.tainted = "source";
                 //Object.defineProperty(val, "tainted_iiid", {configurable: true, get: function() {return source_id;}});
-		val.tainted_iiid = source_id;
+        		val.tainted_iiid = source_id;
 
                 taint_tag_to_input[valueID] = {"name": args[1], "location": "undefined"};
                 //console.log(("[source] name: " + args[1]));
@@ -135,7 +135,7 @@ J$.analysis = {};
                     //val.tainted = val.tainted_iiid;
                     //delete val.tainted;
                     //Object.defineProperty(val, "tainted", {configurable: true, get: function() {return val.tainted_iiid;}});
-		    val.tainted = val.tainted_iiid;
+	    	    val.tainted = val.tainted_iiid;
                 }
             } catch(e){
                 // catch the error caused by getter/setter
@@ -168,8 +168,8 @@ J$.analysis = {};
                 if(val && Object.prototype.hasOwnProperty.call(val, 'tainted') && val.tainted > 0 && analysis_property.indexOf(offset) == -1){
                     val.tainted_loc = variable_name;
                     if(name_data != null){
-                        hidden_list = af.analyze_hidden_attr(name_data[0], [omap.get(val)], af);
-                        console.log(tynt.Green("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + JSON.stringify(hidden_list)));
+                        //hidden_list = af.analyze_hidden_attr(name_data[0], [omap.get(val)], af);
+                        //console.log(tynt.Green("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + JSON.stringify(hidden_list)));
                            
                         var input_name = taint_tag_to_input[val.tainted].name;
                         if(tainted_var[input_name][file_path] == undefined)
@@ -179,18 +179,18 @@ J$.analysis = {};
                     }
                 }
 
-		if(Object.prototype.hasOwnProperty.call(base, 'tainted') && base.tainted > 0){
-		    if(name_data != null){
-		        hidden_list = af.analyze_hidden_attr(name_data[0], [variable_name], af);
-	                console.log(tynt.Green("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[base.tainted].name + ": " + JSON.stringify(hidden_list)));
+		        if(Object.prototype.hasOwnProperty.call(base, 'tainted') && base.tainted > 0){
+		            if(name_data != null){
+        		        //hidden_list = af.analyze_hidden_attr(name_data[0], [variable_name], af);
+        	            //console.log(tynt.Green("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[base.tainted].name + ": " + JSON.stringify(hidden_list)));
                          
                         var input_name = taint_tag_to_input[base.tainted].name;
                         if(tainted_var[input_name][file_path] == undefined)
                             tainted_var[input_name][file_path] = [variable_name];
                         else if(tainted_var[input_name][file_path].indexOf(variable_name) == -1)
                             tainted_var[input_name][file_path].push(variable_name);
-		    }
-		}
+        		    }
+        		}
             }
             return val;
         }
@@ -202,7 +202,7 @@ J$.analysis = {};
                     //val.tainted = val.tainted_iiid;
                     //delete val.tainted;
                     //Object.defineProperty(val, "tainted", {configurable: true, get: function() {return val.tainted_iiid;}});
-		    val.tainted = val.tainted_iiid;
+        		    val.tainted = val.tainted_iiid;
                 }
 
                 try{
@@ -211,8 +211,8 @@ J$.analysis = {};
                         var file_path = name_data[0];
                         var variable_name = name_data[1];
                         if(name_data != null){
-				hidden_list = af.analyze_hidden_attr(name_data[0], [variable_name], af);
-	                        console.log(tynt.Green("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + JSON.stringify(hidden_list)));
+				            //hidden_list = af.analyze_hidden_attr(name_data[0], [variable_name], af);
+	                        //console.log(tynt.Green("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + JSON.stringify(hidden_list)));
                          
                             var input_name = taint_tag_to_input[val.tainted].name;
                             if(tainted_var[input_name][file_path] == undefined)
@@ -286,7 +286,7 @@ J$.analysis = {};
             }
 
             get_hidden_attr(tainted_var);
-            //console.log(JSON.stringify(tainted_var));
+            console.log(JSON.stringify(tainted_var));
 
             console.log(hidden_attr);
             fs.writeFileSync(__dirname + "/../../outputs/hidden_attr/" + sname, JSON.stringify(hidden_attr));
