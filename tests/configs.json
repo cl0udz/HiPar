@@ -318,7 +318,7 @@
         "projPath": "./target/TestObject-inspect",
         "startFile": "./TestObject-inspect.js",
         "instrFiles": ["./TestObject-inspect.js","../TestcaseUtils.js"],
-        "enable" : false
+        "enable" : true
 
     },
     {
@@ -326,7 +326,7 @@
         "projPath": "./target/TestObject-is",
         "startFile": "./TestObject-is.js",
         "instrFiles": ["./TestObject-is.js","../TestcaseUtils.js"],
-        "enable" : false
+        "enable" : false 
 
     },
     {
@@ -366,9 +366,18 @@
         "projPath": "./target/TestTable",
         "startFile": "./TestTable.js",
         "instrFiles": ["./TestTable.js","../TestcaseUtils.js"],
-        "enable" : true
+        "enable" : false
 
     },
+    {
+        "testName": "TestTaffydb",
+        "projPath": "./target/TestTaffydb",
+        "startFile": "./TestTaffydb.js",
+        "instrFiles": ["./TestTaffydb.js","../TestcaseUtils.js"],
+        "enable" : false
+
+    },
+
     {
         "testName": "TestValib",
         "projPath": "./target/TestValib",
