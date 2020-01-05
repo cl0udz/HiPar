@@ -6,7 +6,6 @@ var table = require('table').table; // Using commonjs?
 
 var data, output;
 data = [['0A', '0B', '0C'], ['1A', '1B', '1C'], ['2A', '2B', '2C']];
-
 /**
  * @typedef {string} table~cell
  */
@@ -68,14 +67,13 @@ data = [['0A', '0B', '0C'], ['1A', '1B', '1C'], ['2A', '2B', '2C']];
  * @param {table~config} config
  * @return {String}
  */
-
 // output = table(data);
 // console.log(output);
 
-
-function test(input){
-    output = table(input);
+function test(input) {
+  output = table(input);
 }
 
 var utils = require("../TestcaseUtils.js");
+
 utils.entry(test, data);

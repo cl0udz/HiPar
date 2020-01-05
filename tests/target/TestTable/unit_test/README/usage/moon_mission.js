@@ -1,5 +1,7 @@
 "use strict";
 
+require("core-js/modules/es.string.bold.js");
+
 var _lodash = _interopRequireDefault(require("lodash"));
 
 var _chalk = _interopRequireDefault(require("chalk"));

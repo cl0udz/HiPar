@@ -1,5 +1,7 @@
 "use strict";
 
+require("core-js/modules/es.string.trim.js");
+
 require("core-js/modules/es.string.trim");
 
 var _lodash = _interopRequireDefault(require("lodash"));
