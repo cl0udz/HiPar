@@ -1,5 +1,6 @@
 "use strict";
-const TAFFY = require('taffy');
+
+var TAFFY = require('taffy');
 var utils = require("../TestcaseUtils.js");
 
 var friends = TAFFY([
@@ -14,5 +15,7 @@ var json = {city:"Seattle, WA"};
 function test(userJson){
     var item1 = friends(userJson);
 }
-// console.log(test(json));
+
+
+ // console.log(test(json));
 utils.entry(test, json);
