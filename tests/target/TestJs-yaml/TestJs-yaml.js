@@ -1,37 +1,16 @@
+"use strict";
+
 var yaml = require('js-yaml');
+var utils = require("../TestcaseUtils.js");
 
+var json = {
+    key4: "OK",
+    key6: [1, 2, 3],
+    key7: {"a":1}
+};
 
-var input = {
-    name      : "Wizzard",
-    level  : 17,
-    sanity    : null,
-    inventory : [
-      {
-        name     : "Hat",
-        features : [ "magic", "pointed" ],
-        traits   : {}
-      },
-      {
-        name     : "Staff",
-        features : [],
-        traits   : { "damage" : 10 }
-      },
-      {
-        name     : "Cloak",
-        features : [ "old" ],
-        traits   : { "defence" : 0, "comfort" : 3 }
-      }
-    ]
-  }
-
-function test(object){
-    yaml.safeDump(object, {
-        flowLevel: 3,
-        styles: {
-          '!!int'  : 'hexadecimal',
-          '!!null' : 'camelcase'
-        }
-      })
+function test(userJson){
+  yaml.safeDump(userJson);
 }
-var utils = require('../TestcaseUtils.js');
-utils.entry(test,input)
+// console.log(test(json));
+utils.entry(test, json);

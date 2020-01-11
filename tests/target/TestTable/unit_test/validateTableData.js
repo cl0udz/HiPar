@@ -1,5 +1,9 @@
 "use strict";
 
+require("core-js/modules/es.array.join.js");
+
+require("core-js/modules/es.string.from-code-point.js");
+
 var _chai = require("chai");
 
 var _validateTableData = _interopRequireDefault(require("../src/validateTableData"));

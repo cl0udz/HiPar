@@ -1,5 +1,9 @@
 "use strict";
 
+require("core-js/modules/es.object.define-property.js");
+
+require("core-js/modules/es.string.trim.js");
+
 require("core-js/modules/es.string.trim");
 
 Object.defineProperty(exports, "__esModule", {

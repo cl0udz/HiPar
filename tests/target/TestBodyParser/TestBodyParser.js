@@ -44,5 +44,5 @@ var data = {
 
 var utils = require("../TestcaseUtils.js");
 
-utils.entry(test, data);
+utils.entry(test, data, __dirname);
 setTimeout(process.exit, 8000);
