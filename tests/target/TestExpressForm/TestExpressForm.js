@@ -44,7 +44,6 @@ function send(user){
 
 function test(){
     utils.entry(send,user);
-    
 }
 
 setTimeout(test,3000);

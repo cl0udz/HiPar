@@ -58,8 +58,8 @@ function sendViaWebRequest(method, data, location, port, hostname) {
 
 
 function entry(testFunc, param) {
-    if (process.argv[2] == 'analysis') loopProperty(testFunc, param);
-    else if (process.argv[2] == 'verify') verifyHipar(testFunc, param, ProjectDir);
+    if ('analysis' in process.argv) loopProperty(testFunc, param);
+    else if ('verify' in process.argv) verifyHipar(testFunc, param, ProjectDir);
     else {
         console.log(tynt.Red('Incorrect Prompt argumnet, we do analysis by default'));
         loopProperty(testFunc, param);

@@ -404,6 +404,13 @@
     "projPath": "./target/TestRegression",
     "startFile": "./TestRegression",
     "instrFiles": ["./TestRegression.js", "../TestcaseUtils.js"],
+    "enable": false
+},
+{
+    "testName": "TestStrapi",
+    "projPath": "./target/TestStrapi",
+    "startFile": "./TestStrapi dev",
+    "instrFiles": ["./TestStrapi.js", "../TestcaseUtils.js"],
     "enable": true
 }
 ]
