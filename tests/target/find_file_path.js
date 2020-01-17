@@ -48,7 +48,7 @@ for (var i=0;i<jsfiles.length;i++){
     var writefile = jsfiles[i];
     // console.log(writefile)
     if (data[0][0] == '#') line = 1;
-    if (data[line].indexOf("process.argv.includes('find_file_path')")!=-1){
+    if (data[line+1].indexOf("/tmp/file_paths")!=-1){
         continue;
         // data.splice(line,2);
         // console.log('already added insert_code');
