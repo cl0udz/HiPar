@@ -38,9 +38,12 @@ function run(task) {
     
     
     // Analysis testcases with Jalangi
-    utils.runAnalysis(task.startFile, targetPath)
+    if(task.args)
+        utils.runAnalysis(task.startFile, targetPath,task.args);
+    else
+        utils.runAnalysis(task.startFile, targetPath);
 
-    console.log("Finished executing " + task.startFile)
+    console.log("Finished executing " + task.startFile);
 
     if (tasks.length > 0) {
         run(tasks.shift());

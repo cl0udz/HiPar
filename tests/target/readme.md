@@ -23,5 +23,12 @@ function test(userJson){
 
 utils.entry(test,userJson);
 ```
-这里由于userJson为用户传入的object，将userJson被plainToClass,validate等一系列操作抽象成一个test函数
+这里由于userJson为用户传入的object，将userJson被plainToClass,validate等一系列操作抽象成一个test函数  
 再将test和userJson传入utils.entry()来loop property.
+
+
+## find_file_path.js
+参数:`node find_file_path.js [target_dir] [start_file] <arguments of start_file>`  
+eg: `node find_file_path.js TestStrapi TestStrapi.js dev`  
+运行后会在tmp[target_dir]目录生成所有运行start_file需要的文件  
+例中 tmpTestStrapi 里面包含所有需要运行`node TestStrapi.js dev`的文件，改下config.json就可以用Analysis跑tmpTestStrapi了
