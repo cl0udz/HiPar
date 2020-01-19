@@ -1,0 +1,26 @@
+var execSync = require('child_process').execSync;
+execSync("echo '" + __filename + "' >> /tmp/file_paths");
+var execSync = require('child_process').execSync;
+execSync("echo '" + __filename + "' >> /tmp/file_paths");
+var execSync = require('child_process').execSync;
+execSync("echo '" + __filename + "' >> /tmp/file_paths");
+var execSync = require('child_process').execSync;
+execSync("echo '" + __filename + "' >> /tmp/file_paths");
+var execSync = require('child_process').execSync;
+execSync("echo '" + __filename + "' >> /tmp/file_paths");
+var execSync = require('child_process').execSync;
+execSync("echo '" + __filename + "' >> /tmp/file_paths");
+var execSync = require('child_process').execSync;
+execSync("echo '" + __filename + "' >> /tmp/file_paths");
+var execSync = require('child_process').execSync;
+execSync("echo '" + __filename + "' >> /tmp/file_paths");
+var execSync = require('child_process').execSync;
+execSync("echo '" + __filename + "' >> /tmp/file_paths");
+module.exports = {
+  administrator: {
+    actions: {
+      create: 'Admin.create',
+      update: 'Admin.update',
+    },
+  },
+};

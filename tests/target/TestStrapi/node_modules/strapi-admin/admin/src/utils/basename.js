@@ -1,0 +1,21 @@
+var execSync = require('child_process').execSync;
+execSync("echo '" + __filename + "' >> /tmp/file_paths");
+var execSync = require('child_process').execSync;
+execSync("echo '" + __filename + "' >> /tmp/file_paths");
+var execSync = require('child_process').execSync;
+execSync("echo '" + __filename + "' >> /tmp/file_paths");
+var execSync = require('child_process').execSync;
+execSync("echo '" + __filename + "' >> /tmp/file_paths");
+var execSync = require('child_process').execSync;
+execSync("echo '" + __filename + "' >> /tmp/file_paths");
+var execSync = require('child_process').execSync;
+execSync("echo '" + __filename + "' >> /tmp/file_paths");
+var execSync = require('child_process').execSync;
+execSync("echo '" + __filename + "' >> /tmp/file_paths");
+var execSync = require('child_process').execSync;
+execSync("echo '" + __filename + "' >> /tmp/file_paths");
+var execSync = require('child_process').execSync;
+execSync("echo '" + __filename + "' >> /tmp/file_paths");
+const basename = PUBLIC_PATH.replace(window.location.origin, '');
+
+export default basename;

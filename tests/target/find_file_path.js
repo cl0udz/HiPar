@@ -21,7 +21,7 @@ if(!process.argv[2] || !process.argv[3]) usage();
 
 
 target_dir = path.resolve(__dirname,process.argv[2]);
-start_file = path.resolve(__dirname,process.argv[3]);
+start_file = path.resolve(__dirname,target_dir,process.argv[3]);
 args = process.argv.splice(4);
 console.log(target_dir,start_file);
 
@@ -48,7 +48,7 @@ for (var i=0;i<jsfiles.length;i++){
     var writefile = jsfiles[i];
     // console.log(writefile)
     if (data[0][0] == '#') line = 1;
-    if (data[line+1].indexOf("/tmp/file_paths")!=-1){
+    if (data.length>line+1 && data[line+1].indexOf("/tmp/file_paths")!=-1){
         continue;
         // data.splice(line,2);
         // console.log('already added insert_code');
@@ -86,6 +86,14 @@ for (var i=0;i<result.length;i++){
 
 var new_start_file = start_file.replace(/target\//,'target/tmp');
 process.chdir(path.dirname(new_start_file));
-current_output = execSync('node '+path.resolve(new_start_file)+' '+args.join(' ')+ ' find_file_path').toString();
+try{
+    current_output = execSync('node '+path.resolve(new_start_file)+' '+args.join(' ')+ ' find_file_path').toString();
+}catch(e){
+    console.log(e.stdout.toString());
+    throw e;
+}
 console.log(current_output);
 if(current_output == origin_output) console.log(tynt.Green("outputs match.find_file_path works!"));
+
+content = JSON.stringify(result);
+fs.writeFileSync(path.join(target_dir,'find_file_path.json'),content); 
