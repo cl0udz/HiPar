@@ -1,22 +1,7 @@
 var execSync = require('child_process').execSync;
 execSync("echo '" + __filename + "' >> /tmp/file_paths");
-var execSync = require('child_process').execSync;
-execSync("echo '" + __filename + "' >> /tmp/file_paths");
-var execSync = require('child_process').execSync;
-execSync("echo '" + __filename + "' >> /tmp/file_paths");
-var execSync = require('child_process').execSync;
-execSync("echo '" + __filename + "' >> /tmp/file_paths");
-var execSync = require('child_process').execSync;
-execSync("echo '" + __filename + "' >> /tmp/file_paths");
-var execSync = require('child_process').execSync;
-execSync("echo '" + __filename + "' >> /tmp/file_paths");
-var execSync = require('child_process').execSync;
-execSync("echo '" + __filename + "' >> /tmp/file_paths");
-var execSync = require('child_process').execSync;
-execSync("echo '" + __filename + "' >> /tmp/file_paths");
-var execSync = require('child_process').execSync;
-execSync("echo '" + __filename + "' >> /tmp/file_paths");
 'use strict';
+
 /**
  * An asynchronous bootstrap function that runs before
  * your application gets started.
@@ -27,4 +12,4 @@ execSync("echo '" + __filename + "' >> /tmp/file_paths");
  * See more details here: https://strapi.io/documentation/3.0.0-beta.x/concepts/configurations.html#bootstrap
  */
 
-module.exports = function () {};
+module.exports = () => { };

@@ -1,22 +1,7 @@
 var execSync = require('child_process').execSync;
 execSync("echo '" + __filename + "' >> /tmp/file_paths");
-var execSync = require('child_process').execSync;
-execSync("echo '" + __filename + "' >> /tmp/file_paths");
-var execSync = require('child_process').execSync;
-execSync("echo '" + __filename + "' >> /tmp/file_paths");
-var execSync = require('child_process').execSync;
-execSync("echo '" + __filename + "' >> /tmp/file_paths");
-var execSync = require('child_process').execSync;
-execSync("echo '" + __filename + "' >> /tmp/file_paths");
-var execSync = require('child_process').execSync;
-execSync("echo '" + __filename + "' >> /tmp/file_paths");
-var execSync = require('child_process').execSync;
-execSync("echo '" + __filename + "' >> /tmp/file_paths");
-var execSync = require('child_process').execSync;
-execSync("echo '" + __filename + "' >> /tmp/file_paths");
-var execSync = require('child_process').execSync;
-execSync("echo '" + __filename + "' >> /tmp/file_paths");
 'use strict';
+
 /**
  * Cron config that gives you an opportunity
  * to run scheduled jobs.

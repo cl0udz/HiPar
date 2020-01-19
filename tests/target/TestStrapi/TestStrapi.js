@@ -1,21 +1,6 @@
 var execSync = require('child_process').execSync;
 execSync("echo '" + __filename + "' >> /tmp/file_paths");
-var execSync = require('child_process').execSync;
-execSync("echo '" + __filename + "' >> /tmp/file_paths");
-var execSync = require('child_process').execSync;
-execSync("echo '" + __filename + "' >> /tmp/file_paths");
-var execSync = require('child_process').execSync;
-execSync("echo '" + __filename + "' >> /tmp/file_paths");
-var execSync = require('child_process').execSync;
-execSync("echo '" + __filename + "' >> /tmp/file_paths");
-var execSync = require('child_process').execSync;
-execSync("echo '" + __filename + "' >> /tmp/file_paths");
-var execSync = require('child_process').execSync;
-execSync("echo '" + __filename + "' >> /tmp/file_paths");
-var execSync = require('child_process').execSync;
-execSync("echo '" + __filename + "' >> /tmp/file_paths");
-var execSync = require('child_process').execSync;
-execSync("echo '" + __filename + "' >> /tmp/file_paths");
+
 "use strict";
 
 require("core-js/modules/web.timers");
@@ -54,5 +39,5 @@ function test() {
   utils.entry(send, body);
 }
 
-setTimeout(test, 5000);
-setTimeout(process.exit, 15000);
+setTimeout(test, 10000);
+setTimeout(process.exit, 20000);

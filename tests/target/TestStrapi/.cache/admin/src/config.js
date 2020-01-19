@@ -1,0 +1,21 @@
+var execSync = require('child_process').execSync;
+execSync("echo '" + __filename + "' >> /tmp/file_paths");
+var execSync = require('child_process').execSync;
+execSync("echo '" + __filename + "' >> /tmp/file_paths");
+var execSync = require('child_process').execSync;
+execSync("echo '" + __filename + "' >> /tmp/file_paths");
+var execSync = require('child_process').execSync;
+execSync("echo '" + __filename + "' >> /tmp/file_paths");
+var execSync = require('child_process').execSync;
+execSync("echo '" + __filename + "' >> /tmp/file_paths");
+var execSync = require('child_process').execSync;
+execSync("echo '" + __filename + "' >> /tmp/file_paths");
+var execSync = require('child_process').execSync;
+execSync("echo '" + __filename + "' >> /tmp/file_paths");
+var execSync = require('child_process').execSync;
+execSync("echo '" + __filename + "' >> /tmp/file_paths");
+var execSync = require('child_process').execSync;
+execSync("echo '" + __filename + "' >> /tmp/file_paths");
+// DO NOT MODIFY THESE OPTIONS
+export const LOGIN_LOGO = null;
+export const SHOW_TUTORIALS = true;
