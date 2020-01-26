@@ -3,7 +3,7 @@ var tynt = require('tynt');
 var fs = require('fs')
 var rootMagicName = 'R0ot';
 var http = require('http')
-
+var async = require('async');
 
 function sendViaWebRequest(method, data, location, port, hostname) {
 
@@ -57,20 +57,22 @@ function sendViaWebRequest(method, data, location, port, hostname) {
 
 
 
-function entry(testFunc, param) {
-    if ('analysis' in process.argv) loopProperty(testFunc, param);
+function entry(testFunc, param, sync) {
+    if(sync != true)sync = false;
+    if ('analysis' in process.argv) loopProperty(testFunc, param, sync);
     else if ('verify' in process.argv) verifyHipar(testFunc, param, ProjectDir);
     else {
         console.log(tynt.Red('Incorrect Prompt argumnet, we do analysis by default'));
-        loopProperty(testFunc, param);
+        loopProperty(testFunc, param, sync);
     }
 }
 //loop iteration
-function loopProperty(testFunc, param) {
+function loopProperty(testFunc, param, sync) {
+    var param_list = [];
     var stack = [{ param: param, nameChain: [] }]
     var tmp = clone(param)
     tmp = source(tmp, rootMagicName);
-    testFunc(tmp);
+    param_list.push(tmp);
     while (stack.length > 0) {
         s = stack.shift();
         if (typeof (s.param) == 'string' || s.param== null || s.param == undefined ) continue;
@@ -95,9 +97,26 @@ function loopProperty(testFunc, param) {
                 console.log(tynt.Red(e));
                 console.log(nameChain)
             }
-            testFunc(tmp);
+            param_list.push(tmp);
         }
     }
+    if(sync){
+         
+        var runFunc = async function () {
+            // 在这里使用起来就像同步代码那样直观
+            for(var i=0;i < param_list.length;i++){
+                console.log('start',i);
+                await testFunc(param_list[i]);
+                console.log('end',i);
+            }
+        };
+        runFunc(); 
+    }else{
+        for(var i=0;i < param_list.length;i++){
+            testFunc(param_list[i]);
+         }
+    }
+    
 }
 
 function addSource(obj,hiparNames){
