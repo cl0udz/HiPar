@@ -13,7 +13,7 @@
 
     function instrumentSync(projectDir, files2Instru, testName, callback) {
 
-        var projectCache = path.resolve(cacheRoot, projectDir.split('/target/')[1])
+        var projectCache = path.join(cacheRoot, projectDir.split('/target/')[1])
         var completed = path.resolve(projectCache, "complete_instrumented");
         console.log("instrumentSync:" + projectDir);
         var files = [];
@@ -30,7 +30,7 @@
             });
             console.log("[+]Copying all project files to projectCache ...done");
             // add module files to file list
-            files = files.concat(getFilesRec(path.resolve(projectDir, "./node_modules/")))
+            files = files.concat(getFilesRec(path.resolve(projectDir)))
         }
 
         process.chdir(cacheRoot);
@@ -45,7 +45,9 @@
         // instrument all files in file list
         console.log("Start instrumenting....")
         for (var i = 0; i < files.length; i++) {
+
             instrumentFile(files[i], cacheRoot);
+            console.log("Process:",i,"/",files.length);
         }
         if (!fs.existsSync(completed))
             fs.mkdirSync(completed);
