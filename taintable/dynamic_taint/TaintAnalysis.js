@@ -154,14 +154,14 @@ J$.analysis = {};
                 name_data = get_loc_by_iid(iid);
                 if(name_data == null)
                     return val;
-                var file_path = name_data[0];
-                var variable_name = name_data[1];
+                var file_path = name_data[0].toString();
+                var variable_name = name_data[1].toString();
 
                 if(typeof(val) == "object"){
                	    if(omap.get(base) == undefined){
                   	    omap.set(val, variable_name + "." + offset);
                     } else {
-       	                omap.set(val, omap.get(base) + "." + offset);
+       	                omap.set(val, omap.get(base).toString() + "." + offset);
                     }
                 }
 
