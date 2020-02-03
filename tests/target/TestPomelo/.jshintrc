@@ -5,11 +5,8 @@
     "before",
     "after",
     "window",
-    "__resources__",
-    "$",
-    "alert"
+    "__resources__"
   ],
-  "browser": true,
   "es5": true,
   "node": true,
   "eqeqeq": true,
@@ -21,6 +18,5 @@
   "nonew": true,
   "white": false,
   "smarttabs": true,
-  "multistr": true,
   "strict": false
 }
