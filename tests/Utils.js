@@ -33,7 +33,7 @@
             files = files.concat(getFilesRec(path.resolve(projectDir)))
         }
 
-        process.chdir(cacheRoot);
+        process.chdir(projectCache);
 
         console.log(files2Instru.length + " Files to be instrumented.");
         // add Testxxx files to file list 
@@ -79,7 +79,7 @@
             cmd += ' ' + args.join(' ');
         cmd += ' analysis';
         
-        // console.log(cmd);
+        console.log(cmd);
         //var runProcCtrlFlow = execSync("node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + ctrlFlowMonPath + " --analysis " + analysisPath + " " + escapeShell(file));
         console.log("[+] Analysis Result :");
         try {
