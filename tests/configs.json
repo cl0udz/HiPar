@@ -477,7 +477,7 @@
         "startFile": "./TestBusboy.js",
         "args": ["dev"],
         "instrFiles": ["./TestBusboy.js","../TestcaseUtils.js"],
-        "enable" : true
+        "enable" : false
 
     },
     {
@@ -505,6 +505,15 @@
         "args": ["dev"],
         "instrFiles": ["./TestChecktypes.js","../TestcaseUtils.js"],
         "enable" : false
+
+    },
+    {
+        "testName": "Test-bunyan",
+        "projPath": "./target/TestBunyan",
+        "startFile": "./TestBunyan.js",
+        "args": ["dev"],
+        "instrFiles": ["./TestBunyan.js","../TestcaseUtils.js"],
+        "enable" : true
 
     }
 
