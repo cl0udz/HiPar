@@ -445,6 +445,7 @@ if (typeof J$ === 'undefined') {
                     var tmp_rrEngine = rrEngine;
                     rrEngine = null;
                     try {
+			console.log(iid);
                         val = sandbox.analysis.getField(iid, base, offset, val);
                     } catch (e) {
                         clientAnalysisException(e);

@@ -214,7 +214,7 @@
         "projPath": "./target/TestJpv",
         "startFile": "./TestJpv.js",
         "instrFiles": ["./TestJpv.js","../TestcaseUtils.js"],
-        "enable" : false 
+        "enable" : false
 
     },
     {
@@ -326,7 +326,7 @@
         "projPath": "./target/TestObject-is",
         "startFile": "./TestObject-is.js",
         "instrFiles": ["./TestObject-is.js","../TestcaseUtils.js"],
-        "enable" : false 
+        "enable" : false
 
     },
     {
@@ -432,9 +432,84 @@
         "startFile": "./TestStrapi.js",
         "args": ["dev"],
         "instrFiles": ["./TestStrapi.js","../TestcaseUtils.js"],
+        "enable" : false
+
+    },
+    {
+        "testName": "Test-papaparse-two",
+        "projPath": "./target/TestPapaparse",
+        "startFile": "./TestPapaparse.js",
+        "args": ["dev"],
+        "instrFiles": ["./TestPapaparse.js","../TestcaseUtils.js"],
+        "enable" : false
+
+    },
+    {
+        "testName": "Test-mongoist",
+        "projPath": "./target/TestMongoist",
+        "startFile": "./TestMongoist.js",
+        "args": ["dev"],
+        "instrFiles": ["./TestMongoist.js","../TestcaseUtils.js"],
+        "enable" : false
+
+    },
+    {
+        "testName": "Test-jsonfile",
+        "projPath": "./target/TestJsonfile",
+        "startFile": "./TestJsonfile.js",
+        "args": ["dev"],
+        "instrFiles": ["./TestJsonfile.js","../TestcaseUtils.js"],
+        "enable" : false
+
+    },
+    {
+        "testName": "Test-mongoose",
+        "projPath": "./target/TestMongoose",
+        "startFile": "./TestMongoose.js",
+        "args": ["dev"],
+        "instrFiles": ["./TestMongoose.js","../TestcaseUtils.js"],
+        "enable" : false
+
+    },
+    {
+        "testName": "Test-busboy",
+        "projPath": "./target/TestBusboy",
+        "startFile": "./TestBusboy.js",
+        "args": ["dev"],
+        "instrFiles": ["./TestBusboy.js","../TestcaseUtils.js"],
         "enable" : true
 
+    },
+    {
+        "testName": "Test-multer",
+        "projPath": "./target/TestMulter",
+        "startFile": "./TestMulter.js",
+        "args": ["dev"],
+        "instrFiles": ["./TestMulter.js","../TestcaseUtils.js"],
+        "enable" : false
+
+    },
+    {
+        "testName": "Test-immutability-helper",
+        "projPath": "./target/TestImmutability-helper",
+        "startFile": "./TestImmutability-helper.js",
+        "args": ["dev"],
+        "instrFiles": ["./TestImmutability-helper.js","../TestcaseUtils.js"],
+        "enable" : false
+
+    },
+    {
+        "testName": "Test-checktypes",
+        "projPath": "./target/TestChecktypes",
+        "startFile": "./TestChecktypes.js",
+        "args": ["dev"],
+        "instrFiles": ["./TestChecktypes.js","../TestcaseUtils.js"],
+        "enable" : false
+
     }
+
+
+
 
 ]
 

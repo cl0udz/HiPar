@@ -1,34 +1,47 @@
 "use strict";
 
-var jpv = require('jpv');
-var path = require('path');
-var utils = require("../TestcaseUtils.js");
+var mongoose = require('mongoose');
 
-var json = {
-    key1: null,
-    key2: {
-        url: "http://example.com"
-    },
-    key3: "17850",
-    key4: "OK",
-    key5: "2012-10-06T04:13:00+00:00",
-    key6: [1, 2, 3],
-    key7: {"a":1}
-};
-var pattern = {
-    key1: '(null)',
-    key2: {
-        url: "[url]"
-    },
-    key3: /[0-9]+/i,
-    key4: "OK",
-    key5: '[datetime]',
-    key6: '![empty]',
-    key7: '(object)'
-};
+require('./person.js')();
 
-function test(userJson){
-   return  jpv.validate(userJson, pattern);
+var Person = mongoose.model('Person');
+
+function Testcreate(query) {
+  mongoose.connect('mongodb://localhost/persons', function (err) {
+    if (err) throw err;
+    Person.create(query, function (err, doc) {
+      if (err) throw err;
+      mongoose.disconnect();
+    });
+  });
 }
-// console.log(test(json));
-utils.entry(test, json);
+
+function Testfind(query) {
+  mongoose.connect('mongodb://localhost/persons', function (err) {
+    if (err) throw err;
+    Person.findOne(query, function (err, doc) {
+      if (err) throw err;
+      mongoose.disconnect();
+      process.exit();
+    });
+  });
+}
+
+var initdata = {
+  name: 'bill',
+  age: 25,
+  birthday: new Date().setFullYear(new Date().getFullYear() - 25),
+  gender: 'Male',
+  likes: ['movies', 'games', 'dogs']
+};
+
+var utils = require('../TestcaseUtils.js');
+
+function main() {
+  utils.entry(Testcreate, initdata);
+  utils.entry(Testfind, {
+    "name": "bill"
+  });
+}
+
+main();
