@@ -540,9 +540,19 @@
         "startFile": "./TestJsonrecords.js",
         "args": ["dev"],
         "instrFiles": ["./TestJsonrecords.js","../TestcaseUtils.js"],
+        "enable" : false
+
+    },
+    {
+        "testName": "Test-warehouse",
+        "projPath": "./target/TestWarehouse",
+        "startFile": "./TestWarehouse.js",
+        "args": ["dev"],
+        "instrFiles": ["./TestWarehouse.js","../TestcaseUtils.js"],
         "enable" : true
 
     }
+
 
 
 

@@ -1,0 +1,7 @@
+{
+  "name": "testwarehouse",
+  "version": "1.0.0",
+  "dependencies": {
+    "warehouse": "*"
+  }
+}
