@@ -549,6 +549,15 @@
         "startFile": "./TestWarehouse.js",
         "args": ["dev"],
         "instrFiles": ["./TestWarehouse.js","../TestcaseUtils.js"],
+        "enable" : false
+
+    },
+    {
+        "testName": "Test-jsonsql",
+        "projPath": "./target/TestJsonsql",
+        "startFile": "./TestJsonsql.js",
+        "args": ["dev"],
+        "instrFiles": ["./TestJsonsql.js","../TestcaseUtils.js"],
         "enable" : true
 
     }
