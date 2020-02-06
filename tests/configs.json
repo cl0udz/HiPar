@@ -531,6 +531,15 @@
         "startFile": "./TestLevelup.js",
         "args": ["dev"],
         "instrFiles": ["./TestLevelup.js","../TestcaseUtils.js"],
+        "enable" : false
+
+    },
+    {
+        "testName": "Test-jsonrecords",
+        "projPath": "./target/TestJsonrecords",
+        "startFile": "./TestJsonrecords.js",
+        "args": ["dev"],
+        "instrFiles": ["./TestJsonrecords.js","../TestcaseUtils.js"],
         "enable" : true
 
     }
