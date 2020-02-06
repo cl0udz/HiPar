@@ -11,8 +11,8 @@ function testselect(query) {
 }
 
 console.log("[*] result of hipar : cast\n");
-testselect({"name":"wupco","id":{"cast":"aaa'\"bbb"}});
+testselect({"name":"jack","id":{"cast":"aaa'\"bbb"}});
 console.log("\n[*] result of hipar : alias\n");
-testselect({"name":"wupco","id":{"alias":"aaa'\"bbb"}});
+testselect({"name":"jack","id":{"alias":"aaa'\"bbb"}});
 
 
