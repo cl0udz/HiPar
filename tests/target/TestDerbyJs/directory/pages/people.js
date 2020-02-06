@@ -2,6 +2,10 @@
 
 require("core-js/modules/es.array.sort");
 
+require("core-js/modules/es.array.sort");
+
+require("core-js/modules/es.array.sort");
+
 require("core-js/modules/es.function.name");
 
 require("core-js/modules/es.object.define-property");

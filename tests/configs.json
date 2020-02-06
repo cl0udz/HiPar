@@ -513,6 +513,24 @@
         "startFile": "./TestBunyan.js",
         "args": ["dev"],
         "instrFiles": ["./TestBunyan.js","../TestcaseUtils.js"],
+        "enable" : false
+
+    },
+    {
+        "testName": "Test-derby",
+        "projPath": "./target/TestDerbyJs",
+        "startFile": "./TestDerbyJs.js",
+        "args": ["dev"],
+        "instrFiles": ["./TestDerbyJs.js","../TestcaseUtils.js"],
+        "enable" : false
+
+    },
+    {
+        "testName": "Test-levelup",
+        "projPath": "./target/TestLevelup",
+        "startFile": "./TestLevelup.js",
+        "args": ["dev"],
+        "instrFiles": ["./TestLevelup.js","../TestcaseUtils.js"],
         "enable" : true
 
     }
