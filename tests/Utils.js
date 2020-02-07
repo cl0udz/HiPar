@@ -54,7 +54,7 @@
             files = files.concat(getFilesRec(path.resolve(projectDir, files2Instru[i])));
         }
 
-        files = files.filter(ele => checkPath(ele));
+        //files = files.filter(ele => checkPath(ele));
 
         // instrument all files in file list
         console.log("Start instrumenting....")
