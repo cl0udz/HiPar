@@ -483,14 +483,5 @@
         "instrFiles": ["./TestExpressCart.js","../TestcaseUtils.js"],
         "enable" : false
     }
-<<<<<<< HEAD
-    
-=======
-
-
-
-
-
->>>>>>> refs/remotes/origin/master
 ]
 
