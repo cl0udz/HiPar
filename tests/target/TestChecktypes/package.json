@@ -1,0 +1,7 @@
+{
+  "name": "testchecktypes",
+  "version": "1.0.0",
+  "dependencies": {
+    "check-types": "*"
+  }
+}
