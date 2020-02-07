@@ -432,9 +432,57 @@
         "startFile": "./TestStrapi.js",
         "args": ["dev"],
         "instrFiles": ["./TestStrapi.js","../TestcaseUtils.js"],
+        "enable" : false
+    },
+    {
+        "testName": "TestMongo-express",
+        "projPath": "./target/TestMongo-express",
+        "startFile": "./TestMongo-express.js",
+        "instrFiles": ["./TestMongo-express.js","../TestcaseUtils.js"],
+        "enable" : false
+    },
+    {
+        "testName": "TestCezerin",
+        "projPath": "./target/TestCezerin",
+        "startFile": "./TestCezerin.js",
+        "instrFiles": ["./TestCezerin.js","../TestcaseUtils.js"],
+        "enable" : false
+    },
+    {
+        "testName": "TestTotalJs",
+        "projPath": "./target/TestTotalJs",
+        "startFile": "./TestTotalJs.js",
+        "instrFiles": ["./TestTotalJs.js","../TestcaseUtils.js"],
+        "enable" : false
+    },
+    {
+        "testName": "TestPomelo",
+        "projPath": "./target/TestPomelo",
+        "startFile": "./TestPomelo.js",
+        "instrFiles": ["./TestPomelo.js","../TestcaseUtils.js"],
         "enable" : true
-
+    },
+    {
+        "testName": "TestPapaparse",
+        "projPath": "./target/TestPapaparse",
+        "startFile": "./TestPapaparse.js",
+        "instrFiles": ["./TestPapaparse.js","../TestcaseUtils.js"],
+        "enable" : false
+    },
+    {
+        "testName": "TestDerbyJs",
+        "projPath": "./target/TestDerbyJs",
+        "startFile": "./TestDerbyJs.js",
+        "instrFiles": ["./TestDerbyJs.js","../TestcaseUtils.js"],
+        "enable" : false
+    },
+    {
+        "testName": "TestExpressCart",
+        "projPath": "./target/TestExpressCart",
+        "startFile": "./TestExpressCart.js",
+        "instrFiles": ["./TestExpressCart.js","../TestcaseUtils.js"],
+        "enable" : false
     }
-
+    
 ]
 
