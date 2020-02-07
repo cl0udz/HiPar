@@ -8,12 +8,12 @@ J$.analysis = {};
         var fs = require("fs");
 
         var taint_state = true;
-        var source_executed = false; // if source() has never been called, nothing will be tainted. In most cases, 
+        var source_executed = false; // if source() has never been called, nothing will be tainted. In most cases,
 
         // API provided by Jalangi
         var iidToLocation = sandbox.iidToLocation;
         var smemory = sandbox.smemory;
-        
+
         // internal variables
         var taint_tag_to_input = {};
         var omap = new WeakMap();
@@ -44,7 +44,7 @@ J$.analysis = {};
             if(/.*:\d*:\d*:\d*:\d*/.test(vlocation)){
                 var content = vlocation.slice(1,-1).split(":");
                 var loc = {};
-                
+
                 loc['file_loc'] = content[0];
                 loc['var_loc'] = {};
                 loc['var_loc']['start'] = {};
@@ -55,10 +55,10 @@ J$.analysis = {};
                 loc['var_loc']['end']['line'] = parseInt(content[3], 10);
                 loc['var_loc']['end']['column'] = parseInt(content[4], 10) - 1;
                 // console.log(JSON.stringify(loc));
-                
+
                 name = af.get_name_by_loc(loc, af);
                 // console.log("[get name] " + name);
-                
+
                 return [loc['file_loc'], name];
             } else {
                 return null;
@@ -74,7 +74,8 @@ J$.analysis = {};
         };
 
         this.invokeFunPre = function(iid, f, base, args, isConstructor){
-           //  console.log("Entering " + f.name);
+           //console.log("Entering " + f.name);
+	   //console.log(get_loc_by_iid(iid));
         }
 
         this.invokeFun = function(iid, f, base, args, val, isConstructor) {
@@ -128,7 +129,7 @@ J$.analysis = {};
             // base     ->      object a
             // offset   ->      the string "b"
             // val      ->      object c
-            
+
             try{
                 if(val && Object.prototype.hasOwnProperty.call(val,'tainted') && val.tainted == "source"){
                     taint_tag_to_input[val.tainted_iiid].location = iidToLocation(iid);
@@ -149,7 +150,7 @@ J$.analysis = {};
             // base     ->      object a
             // offset   ->      the string "b"
             // val      ->      object c
-            
+
             if(taint_state && val ){//&& source_executed){
                 name_data = get_loc_by_iid(iid);
                 if(name_data == null)
@@ -159,9 +160,9 @@ J$.analysis = {};
 
                 if(typeof(val) == "object"){
                	    if(omap.get(base) == undefined){
-                  	    omap.set(val, variable_name + "." + offset);
+                  	    omap.set(val, variable_name + "." + offset.toString());
                     } else {
-       	                omap.set(val, omap.get(base).toString() + "." + offset);
+       	                omap.set(val, omap.get(base).toString() + "." + offset.toString());
                     }
                 }
 
@@ -170,7 +171,7 @@ J$.analysis = {};
                     if(name_data != null){
                         //hidden_list = af.analyze_hidden_attr(name_data[0], [omap.get(val)], af);
                         //console.log(tynt.Green("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + JSON.stringify(hidden_list)));
-                           
+
                         var input_name = taint_tag_to_input[val.tainted].name;
                         if(tainted_var[input_name][file_path] == undefined)
                             tainted_var[input_name][file_path] = [omap.get(val)];
@@ -183,7 +184,7 @@ J$.analysis = {};
 		            if(name_data != null){
         		        //hidden_list = af.analyze_hidden_attr(name_data[0], [variable_name], af);
         	            //console.log(tynt.Green("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[base.tainted].name + ": " + JSON.stringify(hidden_list)));
-                         
+
                         var input_name = taint_tag_to_input[base.tainted].name;
                         if(tainted_var[input_name][file_path] == undefined)
                             tainted_var[input_name][file_path] = [variable_name];
@@ -208,12 +209,12 @@ J$.analysis = {};
                 try{
 	                if(val && Object.prototype.hasOwnProperty.call(val, 'tainted') && val.tainted > 0){
                         name_data = get_loc_by_iid(iid);
-                        var file_path = name_data[0];
-                        var variable_name = name_data[1];
+                        var file_path = name_data[0].toString();
+                        var variable_name = name_data[1].toString();
                         if(name_data != null){
 				            //hidden_list = af.analyze_hidden_attr(name_data[0], [variable_name], af);
 	                        //console.log(tynt.Green("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + JSON.stringify(hidden_list)));
-                         
+
                             var input_name = taint_tag_to_input[val.tainted].name;
                             if(tainted_var[input_name][file_path] == undefined)
                                 tainted_var[input_name][file_path] = [variable_name];

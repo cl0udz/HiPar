@@ -1,0 +1,7 @@
+{
+  "name": "testjsonrecords",
+  "version": "1.0.0",
+  "dependencies": {
+    "json-records": "*"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "name": "testbunyan",
+  "version": "1.0.0",
+  "dependencies": {
+    "bunyan": "*"
+  }
+}

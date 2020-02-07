@@ -214,7 +214,7 @@
         "projPath": "./target/TestJpv",
         "startFile": "./TestJpv.js",
         "instrFiles": ["./TestJpv.js","../TestcaseUtils.js"],
-        "enable" : false 
+        "enable" : false
 
     },
     {
@@ -326,7 +326,7 @@
         "projPath": "./target/TestObject-is",
         "startFile": "./TestObject-is.js",
         "instrFiles": ["./TestObject-is.js","../TestcaseUtils.js"],
-        "enable" : false 
+        "enable" : false
 
     },
     {
@@ -483,6 +483,14 @@
         "instrFiles": ["./TestExpressCart.js","../TestcaseUtils.js"],
         "enable" : false
     }
+<<<<<<< HEAD
     
+=======
+
+
+
+
+
+>>>>>>> refs/remotes/origin/master
 ]
 

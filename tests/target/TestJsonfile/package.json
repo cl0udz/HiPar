@@ -1,0 +1,7 @@
+{
+  "name": "testjsonfile",
+  "version": "1.0.0",
+  "dependencies": {
+    "jsonfile": "*"
+  }
+}
