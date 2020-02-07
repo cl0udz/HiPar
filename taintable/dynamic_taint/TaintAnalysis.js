@@ -74,7 +74,8 @@ J$.analysis = {};
         };
 
         this.invokeFunPre = function(iid, f, base, args, isConstructor){
-           //  console.log("Entering " + f.name);
+           //console.log("Entering " + f.name);
+	   //console.log(get_loc_by_iid(iid));
         }
 
         this.invokeFun = function(iid, f, base, args, val, isConstructor) {
