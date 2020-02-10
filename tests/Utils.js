@@ -9,6 +9,19 @@
         return cmd.replace(/(["\s'$`\\])/g, '\\$1');
     };
 
+    var lib_ignore = fs.readFileSync('lib_ignore.config').toString().split("\n");
+
+
+    function checkPath(path){
+        for(var lib_index in lib_ignore){
+	    if(path.indexOf("node_modules/"+lib_ignore[lib_index]+"/") != -1){
+		console.log("Remove " + path);
+		return false;
+	    }
+	}
+	return true;
+    }
+
     // instrument js files 
 
     function instrumentSync(projectDir, files2Instru, testName, callback) {
@@ -30,7 +43,7 @@
             });
             console.log("[+]Copying all project files to projectCache ...done");
             // add module files to file list
-            files = files.concat(getFilesRec(path.resolve(projectDir)))
+            files = files.concat(getFilesRec(path.resolve(projectDir)));
         }
 
         process.chdir(projectCache);
@@ -41,6 +54,7 @@
             files = files.concat(getFilesRec(path.resolve(projectDir, files2Instru[i])));
         }
 
+        //files = files.filter(ele => checkPath(ele));
 
         // instrument all files in file list
         console.log("Start instrumenting....")
