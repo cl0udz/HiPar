@@ -433,56 +433,114 @@
         "args": ["dev"],
         "instrFiles": ["./TestStrapi.js","../TestcaseUtils.js"],
         "enable" : false
+
     },
     {
-        "testName": "TestMongo-express",
-        "projPath": "./target/TestMongo-express",
-        "startFile": "./TestMongo-express.js",
-        "instrFiles": ["./TestMongo-express.js","../TestcaseUtils.js"],
-        "enable" : false
-    },
-    {
-        "testName": "TestCezerin",
-        "projPath": "./target/TestCezerin",
-        "startFile": "./TestCezerin.js",
-        "instrFiles": ["./TestCezerin.js","../TestcaseUtils.js"],
-        "enable" : false
-    },
-    {
-        "testName": "TestTotalJs",
-        "projPath": "./target/TestTotalJs",
-        "startFile": "./TestTotalJs.js",
-        "instrFiles": ["./TestTotalJs.js","../TestcaseUtils.js"],
-        "enable" : false
-    },
-    {
-        "testName": "TestPomelo",
-        "projPath": "./target/TestPomelo",
-        "startFile": "./TestPomelo.js",
-        "instrFiles": ["./TestPomelo.js","../TestcaseUtils.js"],
-        "enable" : true
-    },
-    {
-        "testName": "TestPapaparse",
+        "testName": "Test-papaparse-two",
         "projPath": "./target/TestPapaparse",
         "startFile": "./TestPapaparse.js",
+        "args": ["dev"],
         "instrFiles": ["./TestPapaparse.js","../TestcaseUtils.js"],
         "enable" : false
+
     },
     {
-        "testName": "TestDerbyJs",
+        "testName": "Test-mongoist",
+        "projPath": "./target/TestMongoist",
+        "startFile": "./TestMongoist.js",
+        "args": ["dev"],
+        "instrFiles": ["./TestMongoist.js","../TestcaseUtils.js"],
+        "enable" : false
+
+    },
+    {
+        "testName": "Test-jsonfile",
+        "projPath": "./target/TestJsonfile",
+        "startFile": "./TestJsonfile.js",
+        "args": ["dev"],
+        "instrFiles": ["./TestJsonfile.js","../TestcaseUtils.js"],
+        "enable" : false
+
+    },
+    {
+        "testName": "Test-mongoose",
+        "projPath": "./target/TestMongoose",
+        "startFile": "./TestMongoose.js",
+        "args": ["dev"],
+        "instrFiles": ["./TestMongoose.js","../TestcaseUtils.js"],
+        "enable" : false
+
+    },
+    {
+        "testName": "Test-busboy",
+        "projPath": "./target/TestBusboy",
+        "startFile": "./TestBusboy.js",
+        "args": ["dev"],
+        "instrFiles": ["./TestBusboy.js","../TestcaseUtils.js"],
+        "enable" : false
+
+    },
+    {
+        "testName": "Test-multer",
+        "projPath": "./target/TestMulter",
+        "startFile": "./TestMulter.js",
+        "args": ["dev"],
+        "instrFiles": ["./TestMulter.js","../TestcaseUtils.js"],
+        "enable" : false
+
+    },
+    {
+        "testName": "Test-immutability-helper",
+        "projPath": "./target/TestImmutability-helper",
+        "startFile": "./TestImmutability-helper.js",
+        "args": ["dev"],
+        "instrFiles": ["./TestImmutability-helper.js","../TestcaseUtils.js"],
+        "enable" : false
+
+    },
+    {
+        "testName": "Test-checktypes",
+        "projPath": "./target/TestChecktypes",
+        "startFile": "./TestChecktypes.js",
+        "args": ["dev"],
+        "instrFiles": ["./TestChecktypes.js","../TestcaseUtils.js"],
+        "enable" : false
+
+    },
+    {
+        "testName": "Test-bunyan",
+        "projPath": "./target/TestBunyan",
+        "startFile": "./TestBunyan.js",
+        "args": ["dev"],
+        "instrFiles": ["./TestBunyan.js","../TestcaseUtils.js"],
+        "enable" : false
+
+    },
+    {
+        "testName": "Test-derby",
         "projPath": "./target/TestDerbyJs",
         "startFile": "./TestDerbyJs.js",
+        "args": ["dev"],
         "instrFiles": ["./TestDerbyJs.js","../TestcaseUtils.js"],
         "enable" : false
+
     },
     {
-        "testName": "TestExpressCart",
-        "projPath": "./target/TestExpressCart",
-        "startFile": "./TestExpressCart.js",
-        "instrFiles": ["./TestExpressCart.js","../TestcaseUtils.js"],
+        "testName": "Test-levelup",
+        "projPath": "./target/TestLevelup",
+        "startFile": "./TestLevelup.js",
+        "args": ["dev"],
+        "instrFiles": ["./TestLevelup.js","../TestcaseUtils.js"],
         "enable" : false
-<<<<<<< HEAD
+
+    },
+    {
+        "testName": "Test-jsonrecords",
+        "projPath": "./target/TestJsonrecords",
+        "startFile": "./TestJsonrecords.js",
+        "args": ["dev"],
+        "instrFiles": ["./TestJsonrecords.js","../TestcaseUtils.js"],
+        "enable" : false
 
     },
     {
@@ -518,10 +576,22 @@
         "startFile": "./TestJson-to-pretty-yaml.js",
         "args": ["dev"],
         "instrFiles": ["./TestJson-to-pretty-yaml.js","../TestcaseUtils.js"],
+        "enable" : false
+
+    },
+    {
+        "testName": "Test-object-hash",
+        "projPath": "./target/TestObject-hash",
+        "startFile": "./TestObject-hash.js",
+        "args": ["dev"],
+        "instrFiles": ["./TestObject-hash.js","../TestcaseUtils.js"],
         "enable" : true
 
-=======
->>>>>>> 9921ed0cb9fba265570eb434fd83f6d3133ccb6b
     }
+
+
+
+
+
 ]
 
