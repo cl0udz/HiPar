@@ -558,6 +558,24 @@
         "startFile": "./TestJsonsql.js",
         "args": ["dev"],
         "instrFiles": ["./TestJsonsql.js","../TestcaseUtils.js"],
+        "enable" : false
+
+    },
+    {
+        "testName": "Test-js2xmlparser",
+        "projPath": "./target/TestJs2xmlparser",
+        "startFile": "./TestJs2xmlparser.js",
+        "args": ["dev"],
+        "instrFiles": ["./TestJs2xmlparser.js","../TestcaseUtils.js"],
+        "enable" : false
+
+    },
+    {
+        "testName": "Test-json-to-pretty-yaml",
+        "projPath": "./target/TestJson-to-pretty-yaml",
+        "startFile": "./TestJson-to-pretty-yaml.js",
+        "args": ["dev"],
+        "instrFiles": ["./TestJson-to-pretty-yaml.js","../TestcaseUtils.js"],
         "enable" : true
 
     }
