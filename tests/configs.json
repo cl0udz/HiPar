@@ -585,6 +585,15 @@
         "startFile": "./TestObject-hash.js",
         "args": ["dev"],
         "instrFiles": ["./TestObject-hash.js","../TestcaseUtils.js"],
+        "enable" : false
+
+    },
+    {
+        "testName": "Test-node-cache",
+        "projPath": "./target/TestNode-cache",
+        "startFile": "./TestNode-cache.js",
+        "args": ["dev"],
+        "instrFiles": ["./TestNode-cache.js","../TestcaseUtils.js"],
         "enable" : true
 
     }

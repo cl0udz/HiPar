@@ -1,0 +1,7 @@
+{
+  "name": "testnode-cache",
+  "version": "1.0.0",
+  "dependencies": {
+    "node-cache": "*"
+  }
+}
