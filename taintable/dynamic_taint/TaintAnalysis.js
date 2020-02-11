@@ -3,12 +3,9 @@ J$.analysis = {};
 (function(sandbox) {
     function TaintAnalysis() {
         var tynt = require('tynt');
-	var attr_finder = require(__dirname + '/../utils/attrFinder.js');
-	var af = new attr_finder();
+        var attr_finder = require(__dirname + '/../utils/attrFinder.js');
+        var af = new attr_finder();
         var fs = require("fs");
-
-        var taint_state = true;
-        var source_executed = false; // if source() has never been called, nothing will be tainted. In most cases,
 
         // API provided by Jalangi
         var iidToLocation = sandbox.iidToLocation;
@@ -21,10 +18,16 @@ J$.analysis = {};
         var currentFunc;
         var valueID = 0;
         var analysis_property = ['tainted', 'tainted_iiid'];
+        var function_queue = [];
+        var carrier_list = {};  // carrier_list = {"function_name": [carrier_0, carrier_1, ..., carrier_n]}
+        var taint_state = true;
+        var source_executed = false; // if source() has never been called, nothing will be tainted. In most cases,
+        var anon_cnt = 0;
 
         // results
         var hidden_attr = {}; // hidden_attr = {"tainted_property_in_user_input" : { "hidden_param" : {"base": base_variable, "file_path": file_path} }}
         var sname = "";
+        var carrier_cnt = 0;
 
 	    function convertString(val){
 	        return new String(val);
@@ -34,11 +37,27 @@ J$.analysis = {};
             return new Number(val);
         }
 
+        // get function name of given location. For anonymous function, the name will be like anon_111
+        function getFunc(line_start, col_start, line_end, col_end){
+            for(i in function_queue){
+                if((function_queue[i][0] == line_start && function_queue[i][1] <= col_start) || function_queue[i][0] < line_start){
+                    if((function_queue[i][2] == line_end && function_queue[i][3] >= col_end) || function_queue[i][2] > line_end){
+                        return i;
+                    }
+                }                       
+            }
+
+            return null;
+        }
+
         // return location of given iid
         // input: iid of (function, variable ...)
         // output: [file_path, the name of something]
-        function get_loc_by_iid(iid){
+        function get_loc_by_iid(iid, mode){
+            if(mode == undefined)
+                mode == 0;
             var vlocation = iidToLocation(iid);
+
             // original location format: {file_path:start_line:start_column:end_line:end_column}
             // all the numbers start from 1 while not 0
             if(/.*:\d*:\d*:\d*:\d*/.test(vlocation)){
@@ -59,7 +78,10 @@ J$.analysis = {};
                 name = af.get_name_by_loc(loc, af);
                 // console.log("[get name] " + name);
 
-                return [loc['file_loc'], name];
+                if(mode == 0)
+                    return [loc['file_loc'], name];
+                else if(mode == 1)
+                    return loc['var_loc'];
             } else {
                 return null;
             }
@@ -123,6 +145,53 @@ J$.analysis = {};
             return val;
         };
 
+        this.functionEnter = function(iid, f, dis, args){
+            var vlocation = iidToLocation(iid);
+            if(/.*:\d*:\d*:\d*:\d*/.test(vlocation)){
+                var content = vlocation.slice(1,-1).split(":");
+                var line_start = parseInt(content[1], 10);
+                var col_start = parseInt(content[2], 10)-1;
+                var line_end = parseInt(content[3], 10);
+                var col_end = parseInt(content[4], 10)-1;
+
+                if(f.name == ""){
+                    fname = "anon_" + anon_cnt;
+                    anon_cnt++;
+                } else {
+                    fname = f.name;
+                }
+                function_queue[fname] = [line_start,col_start,line_end,col_end];
+                console.log("Entering " + fname);
+            }
+        }
+
+        this.functionExit = function(iid, ret, wrappedExceptionVal){
+            var vlocation = iidToLocation(iid);
+            if(/.*:\d*:\d*:\d*:\d*/.test(vlocation)){
+                var content = vlocation.slice(1,-1).split(":");
+                var line_start = parseInt(content[1], 10);
+                var col_start = parseInt(content[2], 10)-1;
+                var line_end = parseInt(content[3], 10);
+                var col_end = parseInt(content[4], 10)-1;
+
+                var fname = getFunc(line_start, col_start, line_end, col_end);
+
+                function_queue[fname] = [line_start,col_start,line_end,col_end];
+                var i = -1;
+                for(index in function_queue){
+                    if(function_queue[index][0] == line_start 
+                       && function_queue[index][1] == col_start
+                       && function_queue[index][2] == line_end 
+                       && function_queue[index][3] == col_end){
+                        i = index;
+                        break;
+                    }
+                }
+                console.log("Exiting " + fname);
+                function_queue.splice(i, 1);
+            }
+        }
+
         this.putField = function(iid, base, offset, val){
             // For a putField statement a[b] = c;
             // iid      ->      the putField statement.
@@ -173,10 +242,28 @@ J$.analysis = {};
                         //console.log(tynt.Green("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + JSON.stringify(hidden_list)));
 
                         var input_name = taint_tag_to_input[val.tainted].name;
-                        if(tainted_var[input_name][file_path] == undefined)
+                        if(tainted_var[input_name][file_path] == undefined){
                             tainted_var[input_name][file_path] = [omap.get(val)];
-                        else if(tainted_var[input_name][file_path].indexOf(omap.get(val)) == -1)
+                            var loc = get_loc_by_iid(iid, 1);
+                            if(loc != null){
+                                var func = getFunc(loc['start']['line'], loc['start']['column'], loc['end']['line'], loc['end']['column']);
+                                if(carrier_list[func] == undefined)
+                                    carrier_list[func] = [iid];
+                                else if(carrier_list[func].indexOf(iid) == -1)
+                                    carrier_list[func].push(iid);
+                            }
+                        }
+                        else if(tainted_var[input_name][file_path].indexOf(omap.get(val)) == -1){
                             tainted_var[input_name][file_path].push(omap.get(val));
+                            var loc = get_loc_by_iid(iid, 1);
+                            if(loc != null){
+                                var func = getFunc(loc['start']['line'], loc['start']['column'], loc['end']['line'], loc['end']['column']);
+                                if(carrier_list[func] == undefined)
+                                    carrier_list[func] = [iid];
+                                else if(carrier_list[func].indexOf(iid) == -1)
+                                    carrier_list[func].push(iid);
+                            }
+                        }
                     }
                 }
 
@@ -186,10 +273,31 @@ J$.analysis = {};
         	            //console.log(tynt.Green("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[base.tainted].name + ": " + JSON.stringify(hidden_list)));
 
                         var input_name = taint_tag_to_input[base.tainted].name;
-                        if(tainted_var[input_name][file_path] == undefined)
+                        if(tainted_var[input_name][file_path] == undefined){
                             tainted_var[input_name][file_path] = [variable_name];
-                        else if(tainted_var[input_name][file_path].indexOf(variable_name) == -1)
+                            var loc = get_loc_by_iid(iid, 1);
+                            if(loc != null){
+                                var func = getFunc(loc['start']['line'], loc['start']['column'], loc['end']['line'], loc['end']['column']);
+                                if(carrier_list[func] == undefined)
+                                    carrier_list[func] = [iid];
+                                else if(carrier_list[func].indexOf(iid) == -1)
+                                    carrier_list[func].push(iid);
+                            }
+
+                            
+                        }
+                        else if(tainted_var[input_name][file_path].indexOf(variable_name) == -1){
                             tainted_var[input_name][file_path].push(variable_name);
+                            var loc = get_loc_by_iid(iid, 1);
+                            if(loc != null){
+                                var func = getFunc(loc['start']['line'], loc['start']['column'], loc['end']['line'], loc['end']['column']);
+                                if(carrier_list[func] == undefined)
+                                    carrier_list[func] = [iid];
+                                else if(carrier_list[func].indexOf(iid) == -1)
+                                    carrier_list[func].push(iid);
+                            }
+
+                        }
         		    }
         		}
             }
@@ -216,10 +324,30 @@ J$.analysis = {};
 	                        //console.log(tynt.Green("[Hi!Parameters] hidden_list for input " + taint_tag_to_input[val.tainted].name + ": " + JSON.stringify(hidden_list)));
 
                             var input_name = taint_tag_to_input[val.tainted].name;
-                            if(tainted_var[input_name][file_path] == undefined)
+                            if(tainted_var[input_name][file_path] == undefined){
                                 tainted_var[input_name][file_path] = [variable_name];
-                            else if(tainted_var[input_name][file_path].indexOf(variable_name) == -1)
+                                var loc = get_loc_by_iid(iid, 1);
+                                if(loc != null){
+                                    var func = getFunc(loc['start']['line'], loc['start']['column'], loc['end']['line'], loc['end']['column']);
+                                    if(carrier_list[func] == undefined)
+                                        carrier_list[func] = [iid];
+                                    else if(carrier_list[func].indexOf(iid) == -1)
+                                        carrier_list[func].push(iid);
+                                }
+
+                            }
+                            else if(tainted_var[input_name][file_path].indexOf(variable_name) == -1){
                                 tainted_var[input_name][file_path].push(variable_name);
+                                var loc = get_loc_by_iid(iid, 1);
+                                if(loc != null){
+                                    var func = getFunc(loc['start']['line'], loc['start']['column'], loc['end']['line'], loc['end']['column']);
+                                    if(carrier_list[func] == undefined)
+                                        carrier_list[func] = [iid];
+                                    else if(carrier_list[func].indexOf(iid) == -1)
+                                        carrier_list[func].push(iid);
+                                }
+
+                            }
 	                    }
                     }
                 } catch (e){
@@ -285,6 +413,10 @@ J$.analysis = {};
                 console.log(tynt.Red("[Error]@TaintAnalysis - endExecution. source function has never been called."));
                 return;
             }
+
+            for(var i in carrier_list)
+                carrier_cnt = carrier_cnt + carrier_list[i];
+            console.log("# of carrier: " + carrier_cnt);
 
             get_hidden_attr(tainted_var);
             console.log(JSON.stringify(tainted_var));

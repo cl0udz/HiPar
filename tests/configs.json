@@ -44,7 +44,7 @@
         "projPath": "./target/TestBson-object",
         "startFile": "./TestBson-object.js",
         "instrFiles": ["./TestBson-object.js","../TestcaseUtils.js"],
-        "enable" : false
+        "enable" : true
 
     },
     {
@@ -196,8 +196,8 @@
     {
         "testName": "TestJSON-strictify",
         "projPath": "./target/TestJSON-strictify",
-        "startFile": "./TestJSON-strictify.js",
-        "instrFiles": ["./TestJSON-strictify.js","../TestcaseUtils.js"],
+        "startFile": "./TestJSON_strictify.js",
+        "instrFiles": ["./TestJSON_strictify.js","../TestcaseUtils.js"],
         "enable" : false
 
     },
@@ -577,7 +577,6 @@
         "args": ["dev"],
         "instrFiles": ["./TestJson-to-pretty-yaml.js","../TestcaseUtils.js"],
         "enable" : false
-
     },
     {
         "testName": "Test-object-hash",
@@ -586,7 +585,6 @@
         "args": ["dev"],
         "instrFiles": ["./TestObject-hash.js","../TestcaseUtils.js"],
         "enable" : false
-
     },
     {
         "testName": "Test-node-cache",
@@ -594,13 +592,7 @@
         "startFile": "./TestNode-cache.js",
         "args": ["dev"],
         "instrFiles": ["./TestNode-cache.js","../TestcaseUtils.js"],
-        "enable" : true
-
+        "enable" : false
     }
-
-
-
-
-
 ]
 
