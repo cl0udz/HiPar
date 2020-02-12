@@ -36,7 +36,7 @@
         "projPath": "./target/TestAvsc",
         "startFile": "./TestAvsc.js",
         "instrFiles": ["./TestAvsc.js","../TestcaseUtils.js"],
-        "enable" : false
+        "enable" : true
 
     },
     {
@@ -44,7 +44,7 @@
         "projPath": "./target/TestBson-object",
         "startFile": "./TestBson-object.js",
         "instrFiles": ["./TestBson-object.js","../TestcaseUtils.js"],
-        "enable" : true
+        "enable" : false
 
     },
     {

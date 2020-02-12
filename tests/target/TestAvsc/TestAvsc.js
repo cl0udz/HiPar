@@ -8,13 +8,13 @@ var type = avro.Type.forSchema({
 });
 
 
-function test(input,input2){
-    var buf = type.toBuffer({kind: 'CAT', name: 'Albert'}); // Encoded buffer.
-    var val = type.fromBuffer(input2);// = {kind: 'CAT', name: 'Albert'}
 
+function test2(input2){
+    var val2 = type.toBuffer(input2);
 }
 
 var utils = require('../TestcaseUtils.js');
+utils.entry(test2, {kind: 'CAT', name: 'Albert'});
+//var buf2 = type.toBuffer({kind: 'CAT', name: 'Albert'}); // Encoded buffer.
+//utils.entry(test, buf2);
 
-var buf2 = type.toBuffer({kind: 'CAT', name: 'Albert'}); // Encoded buffer.
-utils.entry(test, type , buf2);
