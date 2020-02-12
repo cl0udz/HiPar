@@ -18,7 +18,7 @@ J$.analysis = {};
         var currentFunc;
         var valueID = 0;
         var analysis_property = ['tainted', 'tainted_iiid'];
-        var function_queue = [];
+        var function_queue = {};
         var carrier_list = {};  // carrier_list = {"function_name": [carrier_0, carrier_1, ..., carrier_n]}
         var taint_state = true;
         var source_executed = false; // if source() has never been called, nothing will be tainted. In most cases,
