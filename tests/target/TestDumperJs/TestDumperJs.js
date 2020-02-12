@@ -11,6 +11,6 @@ var users = [{
 
 var utils = require('../TestcaseUtils.js');
 
-dump(users); // Above variable will be printed and the process will continue
+// dump(users); // Above variable will be printed and the process will continue
 
-console.log('end');
+utils.entry(dump, users);
