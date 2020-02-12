@@ -37,6 +37,12 @@ J$.analysis = {};
             return new Number(val);
         }
 
+        function countCarrier(){
+            for(var i in carrier_list)
+                carrier_cnt = carrier_cnt + carrier_list[i].length;
+            console.log("# of carrier: " + carrier_cnt);
+        }
+
         // get function name of given location. For anonymous function, the name will be like anon_111
         function getFunc(line_start, col_start, line_end, col_end){
             for(i in function_queue){
@@ -53,9 +59,7 @@ J$.analysis = {};
         // return location of given iid
         // input: iid of (function, variable ...)
         // output: [file_path, the name of something]
-        function get_loc_by_iid(iid, mode){
-            if(mode == undefined)
-                mode == 0;
+        function get_loc_by_iid(iid, mode=0){
             var vlocation = iidToLocation(iid);
 
             // original location format: {file_path:start_line:start_column:end_line:end_column}
@@ -103,17 +107,6 @@ J$.analysis = {};
         this.invokeFun = function(iid, f, base, args, val, isConstructor) {
             // hook source to insert taint tag
             if (f.name === "source") {
-		        //if(typeof(args[0]) == "string"){
-		        //    args[0] = convertString(args[0]);
-                //} else if(typeof(args[0] == "number")){
-                //    args[0] = convertNumber(args[0]);
-                //} else if(args[0] == null || args[0] == undefined){
-                //    return val;
-                //}
-
-                //if(typeof(args[0] == "object"))
-    		    //    args[0].tainted = "source";
-
 		        if(typeof(val) == "string"){
 		            val = convertString(val);
                 } else if (typeof(val) == "number"){
@@ -126,11 +119,7 @@ J$.analysis = {};
                     return val;
 
                 var source_id = ++valueID;
-		        //val.tainted = "source";
-                //val.tainted_iiid = valueID;
-                //Object.defineProperty(val, "tainted", {configurable: true, get: function() {return "source";}});
 		        val.tainted = "source";
-                //Object.defineProperty(val, "tainted_iiid", {configurable: true, get: function() {return source_id;}});
         		val.tainted_iiid = source_id;
 
                 taint_tag_to_input[valueID] = {"name": args[1], "location": "undefined"};
@@ -141,6 +130,8 @@ J$.analysis = {};
 
                 taint_state = true;
                 source_executed = true;
+
+                countCarrier();
             }
             return val;
         };
@@ -414,9 +405,8 @@ J$.analysis = {};
                 return;
             }
 
-            for(var i in carrier_list)
-                carrier_cnt = carrier_cnt + carrier_list[i];
-            console.log("# of carrier: " + carrier_cnt);
+            countCarrier();
+            console.log(carrier_list);
 
             get_hidden_attr(tainted_var);
             console.log(JSON.stringify(tainted_var));
