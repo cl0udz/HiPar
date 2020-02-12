@@ -36,7 +36,7 @@
         "projPath": "./target/TestAvsc",
         "startFile": "./TestAvsc.js",
         "instrFiles": ["./TestAvsc.js","../TestcaseUtils.js"],
-        "enable" : true
+        "enable" : false 
 
     },
     {
@@ -190,7 +190,7 @@
         "projPath": "./target/TestJs-yaml",
         "startFile": "./TestJs-yaml.js",
         "instrFiles": ["./TestJs-yaml.js","../TestcaseUtils.js"],
-        "enable" : false
+        "enable" : true
 
     },
     {
