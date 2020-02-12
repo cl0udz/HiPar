@@ -246,7 +246,7 @@
         "projPath": "./target/TestKindof",
         "startFile": "./TestKindof.js",
         "instrFiles": ["./TestKindof.js","../TestcaseUtils.js"],
-        "enable" : false
+        "enable" : true
 
     },
     {
@@ -460,7 +460,7 @@
         "projPath": "./target/TestPomelo",
         "startFile": "./TestPomelo.js",
         "instrFiles": ["./TestPomelo.js","../TestcaseUtils.js"],
-        "enable" : true
+        "enable" : false
     },
     {
         "testName": "TestPapaparse",
@@ -483,14 +483,6 @@
         "instrFiles": ["./TestExpressCart.js","../TestcaseUtils.js"],
         "enable" : false
     }
-<<<<<<< HEAD
     
-=======
-
-
-
-
-
->>>>>>> refs/remotes/origin/master
 ]
 
