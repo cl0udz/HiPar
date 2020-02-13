@@ -10,11 +10,20 @@ function testselect(query) {
     console.log(sql);
 }
 
+<<<<<<< HEAD
+//console.log("[*] result of hipar : cast\n");
+//testselect({"name":"wupco","id":{"cast":"aaa'\"bbb"}});
+//console.log("\n[*] result of hipar : alias\n");
+//testselect({"name":"wupco","id":{"alias":"aaa'\"bbb"}});
+
+testselect({"name":"wupco","id":{"a":"b"}});
+=======
 console.log("[*] result of hipar : cast\n");
 testselect({"name":"jack","id":{"cast":"aaa'\"bbb"}});
 console.log("\n[*] result of hipar : alias\n");
 testselect({"name":"jack","id":{"alias":"aaa'\"bbb"}});
 /*
+>>>>>>> 9921ed0cb9fba265570eb434fd83f6d3133ccb6b
 
 [*] result of hipar : cast
 

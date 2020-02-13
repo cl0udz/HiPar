@@ -16,6 +16,5 @@ var json = {
 function test(userJson){
     return inspect(userJson);
 }
-console.log(inspect(json));
-// console.log(utils.entry(test, json));
+console.log(utils.entry(test, json));
 

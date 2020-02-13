@@ -15,9 +15,19 @@ var schema = Joi.object({
     }
   })
 })["with"]('username', 'birth_year').xor('password', 'access_token')["with"]('password', 'repeat_password');
-schema.validate({
+
+
+function test(tt){
+schema.validate(tt); // -> { value: { username: 'abc', birth_year: 1994 } }
+
+}
+
+var json = {
   username: 'abc',
   birth_year: 1994
-}); // -> { value: { username: 'abc', birth_year: 1994 } }
+};
 
-schema.validate({}); // -> { value: {}, error: '"username" is required' }
+
+var utils = require('../TestcaseUtils');
+
+utils.entry(test, json);
