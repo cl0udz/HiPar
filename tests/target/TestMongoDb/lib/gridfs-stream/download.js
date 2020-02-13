@@ -1,10 +1,23 @@
 'use strict';
 
+require("core-js/modules/es.array.filter");
+
+require("core-js/modules/es.array.find");
+
+require("core-js/modules/es.array.slice");
+
+require("core-js/modules/es.array.sort");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.object.to-string");
+
+require("core-js/modules/es.regexp.to-string");
+
 var stream = require('stream'),
-  util = require('util');
+    util = require('util');
 
 module.exports = GridFSBucketReadStream;
-
 /**
  * A readable stream that enables you to read buffers from GridFS.
  *
@@ -39,12 +52,10 @@ function GridFSBucketReadStream(chunks, files, readPreference, filter, options) 
     options: options,
     readPreference: readPreference
   };
-
   stream.Readable.call(this);
 }
 
 util.inherits(GridFSBucketReadStream, stream.Readable);
-
 /**
  * An error occurred
  *
@@ -86,17 +97,17 @@ util.inherits(GridFSBucketReadStream, stream.Readable);
  * @method
  */
 
-GridFSBucketReadStream.prototype._read = function() {
+GridFSBucketReadStream.prototype._read = function () {
   var _this = this;
+
   if (this.destroyed) {
     return;
   }
 
-  waitForFile(_this, function() {
+  waitForFile(_this, function () {
     doRead(_this);
   });
 };
-
 /**
  * Sets the 0-based offset in bytes to start streaming from. Throws
  * an error if this stream has entered flowing mode
@@ -106,12 +117,12 @@ GridFSBucketReadStream.prototype._read = function() {
  * @return {GridFSBucketReadStream}
  */
 
-GridFSBucketReadStream.prototype.start = function(start) {
+
+GridFSBucketReadStream.prototype.start = function (start) {
   throwIfInitialized(this);
   this.s.options.start = start;
   return this;
 };
-
 /**
  * Sets the 0-based offset in bytes to start streaming from. Throws
  * an error if this stream has entered flowing mode
@@ -121,12 +132,12 @@ GridFSBucketReadStream.prototype.start = function(start) {
  * @return {GridFSBucketReadStream}
  */
 
-GridFSBucketReadStream.prototype.end = function(end) {
+
+GridFSBucketReadStream.prototype.end = function (end) {
   throwIfInitialized(this);
   this.s.options.end = end;
   return this;
 };
-
 /**
  * Marks this stream as aborted (will never push another `data` event)
  * and kills the underlying cursor. Will emit the 'end' event, and then
@@ -138,13 +149,17 @@ GridFSBucketReadStream.prototype.end = function(end) {
  * @fires GridFSBucketWriteStream#end
  */
 
-GridFSBucketReadStream.prototype.abort = function(callback) {
+
+GridFSBucketReadStream.prototype.abort = function (callback) {
   var _this = this;
+
   this.push(null);
   this.destroyed = true;
+
   if (this.s.cursor) {
-    this.s.cursor.close(function(error) {
+    this.s.cursor.close(function (error) {
       _this.emit('close');
+
       callback && callback(error);
     });
   } else {
@@ -153,50 +168,53 @@ GridFSBucketReadStream.prototype.abort = function(callback) {
       // get a cursor
       _this.emit('close');
     }
+
     callback && callback();
   }
 };
-
 /**
  * @ignore
  */
+
 
 function throwIfInitialized(self) {
   if (self.s.init) {
     throw new Error('You cannot change options after the stream has entered' + 'flowing mode!');
   }
 }
-
 /**
  * @ignore
  */
+
 
 function doRead(_this) {
   if (_this.destroyed) {
     return;
   }
 
-  _this.s.cursor.next(function(error, doc) {
+  _this.s.cursor.next(function (error, doc) {
     if (_this.destroyed) {
       return;
     }
+
     if (error) {
       return __handleError(_this, error);
     }
+
     if (!doc) {
       _this.push(null);
 
-      process.nextTick(() => {
-        _this.s.cursor.close(function(error) {
+      process.nextTick(function () {
+        _this.s.cursor.close(function (error) {
           if (error) {
             __handleError(_this, error);
+
             return;
           }
 
           _this.emit('close');
         });
       });
-
       return;
     }
 
@@ -222,8 +240,7 @@ function doRead(_this) {
         return __handleError(_this, new Error(errmsg));
       }
 
-      errmsg =
-        'ChunkIsWrongSize: Got unexpected length: ' + buf.length + ', expected: ' + expectedLength;
+      errmsg = 'ChunkIsWrongSize: Got unexpected length: ' + buf.length + ', expected: ' + expectedLength;
       return __handleError(_this, new Error(errmsg));
     }
 
@@ -241,8 +258,9 @@ function doRead(_this) {
       _this.s.bytesToSkip = 0;
     }
 
-    const atEndOfStream = expectedN === _this.s.expectedEnd - 1;
-    const bytesLeftToRead = _this.s.options.end - _this.s.bytesToSkip;
+    var atEndOfStream = expectedN === _this.s.expectedEnd - 1;
+    var bytesLeftToRead = _this.s.options.end - _this.s.bytesToSkip;
+
     if (atEndOfStream && _this.s.bytesToTrim != null) {
       sliceEnd = _this.s.file.chunkSize - _this.s.bytesToTrim;
     } else if (_this.s.options.end && bytesLeftToRead < doc.data.length()) {
@@ -256,37 +274,41 @@ function doRead(_this) {
     _this.push(buf);
   });
 }
-
 /**
  * @ignore
  */
 
+
 function init(self) {
   var findOneOptions = {};
+
   if (self.s.readPreference) {
     findOneOptions.readPreference = self.s.readPreference;
   }
+
   if (self.s.options && self.s.options.sort) {
     findOneOptions.sort = self.s.options.sort;
   }
+
   if (self.s.options && self.s.options.skip) {
     findOneOptions.skip = self.s.options.skip;
   }
 
-  self.s.files.findOne(self.s.filter, findOneOptions, function(error, doc) {
+  self.s.files.findOne(self.s.filter, findOneOptions, function (error, doc) {
     if (error) {
       return __handleError(self, error);
     }
+
     if (!doc) {
       var identifier = self.s.filter._id ? self.s.filter._id.toString() : self.s.filter.filename;
       var errmsg = 'FileNotFound: file ' + identifier + ' was not found';
       var err = new Error(errmsg);
       err.code = 'ENOENT';
       return __handleError(self, err);
-    }
-
-    // If document is empty, kill the stream immediately and don't
+    } // If document is empty, kill the stream immediately and don't
     // execute any reads
+
+
     if (doc.length <= 0) {
       self.push(null);
       return;
@@ -301,19 +323,25 @@ function init(self) {
     }
 
     self.s.bytesToSkip = handleStartOption(self, doc, self.s.options);
-
-    var filter = { files_id: doc._id };
-
-    // Currently (MongoDB 3.4.4) skip function does not support the index,
+    var filter = {
+      files_id: doc._id
+    }; // Currently (MongoDB 3.4.4) skip function does not support the index,
     // it needs to retrieve all the documents first and then skip them. (CS-25811)
     // As work around we use $gte on the "n" field.
+
     if (self.s.options && self.s.options.start != null) {
       var skip = Math.floor(self.s.options.start / doc.chunkSize);
+
       if (skip > 0) {
-        filter['n'] = { $gte: skip };
+        filter['n'] = {
+          $gte: skip
+        };
       }
     }
-    self.s.cursor = self.s.chunks.find(filter).sort({ n: 1 });
+
+    self.s.cursor = self.s.chunks.find(filter).sort({
+      n: 1
+    });
 
     if (self.s.readPreference) {
       self.s.cursor.setReadPreference(self.s.readPreference);
@@ -325,10 +353,10 @@ function init(self) {
     self.emit('file', doc);
   });
 }
-
 /**
  * @ignore
  */
+
 
 function waitForFile(_this, callback) {
   if (_this.s.file) {
@@ -340,81 +368,59 @@ function waitForFile(_this, callback) {
     _this.s.init = true;
   }
 
-  _this.once('file', function() {
+  _this.once('file', function () {
     callback();
   });
 }
-
 /**
  * @ignore
  */
+
 
 function handleStartOption(stream, doc, options) {
   if (options && options.start != null) {
     if (options.start > doc.length) {
-      throw new Error(
-        'Stream start (' +
-          options.start +
-          ') must not be ' +
-          'more than the length of the file (' +
-          doc.length +
-          ')'
-      );
+      throw new Error('Stream start (' + options.start + ') must not be ' + 'more than the length of the file (' + doc.length + ')');
     }
+
     if (options.start < 0) {
       throw new Error('Stream start (' + options.start + ') must not be ' + 'negative');
     }
+
     if (options.end != null && options.end < options.start) {
-      throw new Error(
-        'Stream start (' +
-          options.start +
-          ') must not be ' +
-          'greater than stream end (' +
-          options.end +
-          ')'
-      );
+      throw new Error('Stream start (' + options.start + ') must not be ' + 'greater than stream end (' + options.end + ')');
     }
 
     stream.s.bytesRead = Math.floor(options.start / doc.chunkSize) * doc.chunkSize;
     stream.s.expected = Math.floor(options.start / doc.chunkSize);
-
     return options.start - stream.s.bytesRead;
   }
 }
-
 /**
  * @ignore
  */
 
+
 function handleEndOption(stream, doc, cursor, options) {
   if (options && options.end != null) {
     if (options.end > doc.length) {
-      throw new Error(
-        'Stream end (' +
-          options.end +
-          ') must not be ' +
-          'more than the length of the file (' +
-          doc.length +
-          ')'
-      );
+      throw new Error('Stream end (' + options.end + ') must not be ' + 'more than the length of the file (' + doc.length + ')');
     }
+
     if (options.start < 0) {
       throw new Error('Stream end (' + options.end + ') must not be ' + 'negative');
     }
 
     var start = options.start != null ? Math.floor(options.start / doc.chunkSize) : 0;
-
     cursor.limit(Math.ceil(options.end / doc.chunkSize) - start);
-
     stream.s.expectedEnd = Math.ceil(options.end / doc.chunkSize);
-
     return Math.ceil(options.end / doc.chunkSize) * doc.chunkSize - options.end;
   }
 }
-
 /**
  * @ignore
  */
+
 
 function __handleError(_this, error) {
   _this.emit('error', error);

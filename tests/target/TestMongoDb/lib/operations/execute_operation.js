@@ -1,13 +1,24 @@
 'use strict';
 
-const MongoError = require('../core/error').MongoError;
-const Aspect = require('./operation').Aspect;
-const OperationBase = require('./operation').OperationBase;
-const ReadPreference = require('../core/topologies/read_preference');
-const isRetryableError = require('../core/error').isRetryableError;
-const maxWireVersion = require('../core/utils').maxWireVersion;
-const isUnifiedTopology = require('../core/utils').isUnifiedTopology;
+require("core-js/modules/es.symbol");
 
+require("core-js/modules/es.symbol.description");
+
+require("core-js/modules/es.object.to-string");
+
+var MongoError = require('../core/error').MongoError;
+
+var Aspect = require('./operation').Aspect;
+
+var OperationBase = require('./operation').OperationBase;
+
+var ReadPreference = require('../core/topologies/read_preference');
+
+var isRetryableError = require('../core/error').isRetryableError;
+
+var maxWireVersion = require('../core/utils').maxWireVersion;
+
+var isUnifiedTopology = require('../core/utils').isUnifiedTopology;
 /**
  * Executes the given operation with provided arguments.
  *
@@ -21,6 +32,8 @@ const isUnifiedTopology = require('../core/utils').isUnifiedTopology;
  * @param {Operation} operation The operation to execute
  * @param {function} callback The command result callback
  */
+
+
 function executeOperation(topology, operation, callback) {
   if (topology == null) {
     throw new TypeError('This method requires a valid topology instance');
@@ -30,36 +43,35 @@ function executeOperation(topology, operation, callback) {
     throw new TypeError('This method requires a valid operation instance');
   }
 
-  if (
-    isUnifiedTopology(topology) &&
-    !operation.hasAspect(Aspect.SKIP_SESSION) &&
-    topology.shouldCheckForSessionSupport()
-  ) {
+  if (isUnifiedTopology(topology) && !operation.hasAspect(Aspect.SKIP_SESSION) && topology.shouldCheckForSessionSupport()) {
     return selectServerForSessionSupport(topology, operation, callback);
   }
 
-  const Promise = topology.s.promiseLibrary;
-
-  // The driver sessions spec mandates that we implicitly create sessions for operations
+  var Promise = topology.s.promiseLibrary; // The driver sessions spec mandates that we implicitly create sessions for operations
   // that are not explicitly provided with a session.
-  let session, owner;
+
+  var session, owner;
+
   if (!operation.hasAspect(Aspect.SKIP_SESSION) && topology.hasSessionSupport()) {
     if (operation.session == null) {
       owner = Symbol();
-      session = topology.startSession({ owner });
+      session = topology.startSession({
+        owner: owner
+      });
       operation.session = session;
     } else if (operation.session.hasEnded) {
       throw new MongoError('Use of expired sessions is not permitted');
     }
   }
 
-  const makeExecuteCallback = (resolve, reject) =>
-    function executeCallback(err, result) {
+  var makeExecuteCallback = function makeExecuteCallback(resolve, reject) {
+    return function executeCallback(err, result) {
       if (session && session.owner === owner) {
-        session.endSession(() => {
+        session.endSession(function () {
           if (operation.session === session) {
             operation.clearSession();
           }
+
           if (err) return reject(err);
           resolve(result);
         });
@@ -68,13 +80,15 @@ function executeOperation(topology, operation, callback) {
         resolve(result);
       }
     };
+  }; // Execute using callback
 
-  // Execute using callback
+
   if (typeof callback === 'function') {
-    const handler = makeExecuteCallback(
-      result => callback(null, result),
-      err => callback(err, null)
-    );
+    var handler = makeExecuteCallback(function (result) {
+      return callback(null, result);
+    }, function (err) {
+      return callback(err, null);
+    });
 
     try {
       if (operation.hasAspect(Aspect.EXECUTE_WITH_SELECTION)) {
@@ -88,8 +102,8 @@ function executeOperation(topology, operation, callback) {
     }
   }
 
-  return new Promise(function(resolve, reject) {
-    const handler = makeExecuteCallback(resolve, reject);
+  return new Promise(function (resolve, reject) {
+    var handler = makeExecuteCallback(resolve, reject);
 
     try {
       if (operation.hasAspect(Aspect.EXECUTE_WITH_SELECTION)) {
@@ -108,21 +122,16 @@ function supportsRetryableReads(server) {
 }
 
 function executeWithServerSelection(topology, operation, callback) {
-  const readPreference = operation.readPreference || ReadPreference.primary;
-  const inTransaction = operation.session && operation.session.inTransaction();
+  var readPreference = operation.readPreference || ReadPreference.primary;
+  var inTransaction = operation.session && operation.session.inTransaction();
 
   if (inTransaction && !readPreference.equals(ReadPreference.primary)) {
-    callback(
-      new MongoError(
-        `Read preference in a transaction must be primary, not: ${readPreference.mode}`
-      )
-    );
-
+    callback(new MongoError("Read preference in a transaction must be primary, not: ".concat(readPreference.mode)));
     return;
   }
 
-  const serverSelectionOptions = {
-    readPreference,
+  var serverSelectionOptions = {
+    readPreference: readPreference,
     session: operation.session
   };
 
@@ -133,10 +142,10 @@ function executeWithServerSelection(topology, operation, callback) {
 
     if (!isRetryableError(err)) {
       return callback(err);
-    }
+    } // select a new server, and attempt to retry the operation
 
-    // select a new server, and attempt to retry the operation
-    topology.selectServer(serverSelectionOptions, (err, server) => {
+
+    topology.selectServer(serverSelectionOptions, function (err, server) {
       if (err || !supportsRetryableReads(server)) {
         callback(err, null);
         return;
@@ -144,20 +153,16 @@ function executeWithServerSelection(topology, operation, callback) {
 
       operation.execute(server, callback);
     });
-  }
+  } // select a server, and execute the operation against it
 
-  // select a server, and execute the operation against it
-  topology.selectServer(serverSelectionOptions, (err, server) => {
+
+  topology.selectServer(serverSelectionOptions, function (err, server) {
     if (err) {
       callback(err, null);
       return;
     }
 
-    const shouldRetryReads =
-      topology.s.options.retryReads !== false &&
-      (operation.session && !inTransaction) &&
-      supportsRetryableReads(server) &&
-      operation.canRetryRead;
+    var shouldRetryReads = topology.s.options.retryReads !== false && operation.session && !inTransaction && supportsRetryableReads(server) && operation.canRetryRead;
 
     if (operation.hasAspect(Aspect.RETRYABLE) && shouldRetryReads) {
       operation.execute(server, callbackWithRetry);
@@ -166,24 +171,24 @@ function executeWithServerSelection(topology, operation, callback) {
 
     operation.execute(server, callback);
   });
-}
-
-// TODO: This is only supported for unified topology, it should go away once
+} // TODO: This is only supported for unified topology, it should go away once
 //       we remove support for legacy topology types.
-function selectServerForSessionSupport(topology, operation, callback) {
-  const Promise = topology.s.promiseLibrary;
 
-  let result;
+
+function selectServerForSessionSupport(topology, operation, callback) {
+  var Promise = topology.s.promiseLibrary;
+  var result;
+
   if (typeof callback !== 'function') {
-    result = new Promise((resolve, reject) => {
-      callback = (err, result) => {
+    result = new Promise(function (resolve, reject) {
+      callback = function callback(err, result) {
         if (err) return reject(err);
         resolve(result);
       };
     });
   }
 
-  topology.selectServer(ReadPreference.primaryPreferred, err => {
+  topology.selectServer(ReadPreference.primaryPreferred, function (err) {
     if (err) {
       callback(err);
       return;
@@ -191,7 +196,6 @@ function selectServerForSessionSupport(topology, operation, callback) {
 
     executeOperation(topology, operation, callback);
   });
-
   return result;
 }
 

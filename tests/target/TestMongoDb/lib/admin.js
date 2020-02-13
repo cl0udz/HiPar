@@ -1,15 +1,38 @@
 'use strict';
 
-const applyWriteConcern = require('./utils').applyWriteConcern;
+require("core-js/modules/es.symbol");
 
-const AddUserOperation = require('./operations/add_user');
-const ExecuteDbAdminCommandOperation = require('./operations/execute_db_admin_command');
-const RemoveUserOperation = require('./operations/remove_user');
-const ValidateCollectionOperation = require('./operations/validate_collection');
-const ListDatabasesOperation = require('./operations/list_databases');
+require("core-js/modules/es.symbol.description");
 
-const executeOperation = require('./operations/execute_operation');
+require("core-js/modules/es.symbol.iterator");
 
+require("core-js/modules/es.array.iterator");
+
+require("core-js/modules/es.array.slice");
+
+require("core-js/modules/es.object.assign");
+
+require("core-js/modules/es.object.to-string");
+
+require("core-js/modules/es.string.iterator");
+
+require("core-js/modules/web.dom-collections.iterator");
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+var applyWriteConcern = require('./utils').applyWriteConcern;
+
+var AddUserOperation = require('./operations/add_user');
+
+var ExecuteDbAdminCommandOperation = require('./operations/execute_db_admin_command');
+
+var RemoveUserOperation = require('./operations/remove_user');
+
+var ValidateCollectionOperation = require('./operations/validate_collection');
+
+var ListDatabasesOperation = require('./operations/list_databases');
+
+var executeOperation = require('./operations/execute_operation');
 /**
  * @fileOverview The **Admin** class is an internal class that allows convenient access to
  * the admin functionality and commands for MongoDB.
@@ -42,17 +65,17 @@ const executeOperation = require('./operations/execute_operation');
  * @class
  * @return {Admin} a collection instance.
  */
-function Admin(db, topology, promiseLibrary) {
-  if (!(this instanceof Admin)) return new Admin(db, topology);
 
-  // Internal state
+
+function Admin(db, topology, promiseLibrary) {
+  if (!(this instanceof Admin)) return new Admin(db, topology); // Internal state
+
   this.s = {
     db: db,
     topology: topology,
     promiseLibrary: promiseLibrary
   };
 }
-
 /**
  * The callback format for results
  * @callback Admin~resultCallback
@@ -70,16 +93,15 @@ function Admin(db, topology, promiseLibrary) {
  * @param {Admin~resultCallback} [callback] The command result callback
  * @return {Promise} returns Promise if no callback passed
  */
-Admin.prototype.command = function(command, options, callback) {
-  const args = Array.prototype.slice.call(arguments, 1);
+
+
+Admin.prototype.command = function (command, options, callback) {
+  var args = Array.prototype.slice.call(arguments, 1);
   callback = typeof args[args.length - 1] === 'function' ? args.pop() : undefined;
   options = args.length ? args.shift() : {};
-
-  const commandOperation = new ExecuteDbAdminCommandOperation(this.s.db, command, options);
-
+  var commandOperation = new ExecuteDbAdminCommandOperation(this.s.db, command, options);
   return executeOperation(this.s.db.s.topology, commandOperation, callback);
 };
-
 /**
  * Retrieve the server information for the current
  * instance of the db client
@@ -89,17 +111,17 @@ Admin.prototype.command = function(command, options, callback) {
  * @param {Admin~resultCallback} [callback] The command result callback
  * @return {Promise} returns Promise if no callback passed
  */
-Admin.prototype.buildInfo = function(options, callback) {
-  if (typeof options === 'function') (callback = options), (options = {});
+
+
+Admin.prototype.buildInfo = function (options, callback) {
+  if (typeof options === 'function') callback = options, options = {};
   options = options || {};
-
-  const cmd = { buildinfo: 1 };
-
-  const buildInfoOperation = new ExecuteDbAdminCommandOperation(this.s.db, cmd, options);
-
+  var cmd = {
+    buildinfo: 1
+  };
+  var buildInfoOperation = new ExecuteDbAdminCommandOperation(this.s.db, cmd, options);
   return executeOperation(this.s.db.s.topology, buildInfoOperation, callback);
 };
-
 /**
  * Retrieve the server information for the current
  * instance of the db client
@@ -109,17 +131,17 @@ Admin.prototype.buildInfo = function(options, callback) {
  * @param {Admin~resultCallback} [callback] The command result callback
  * @return {Promise} returns Promise if no callback passed
  */
-Admin.prototype.serverInfo = function(options, callback) {
-  if (typeof options === 'function') (callback = options), (options = {});
+
+
+Admin.prototype.serverInfo = function (options, callback) {
+  if (typeof options === 'function') callback = options, options = {};
   options = options || {};
-
-  const cmd = { buildinfo: 1 };
-
-  const serverInfoOperation = new ExecuteDbAdminCommandOperation(this.s.db, cmd, options);
-
+  var cmd = {
+    buildinfo: 1
+  };
+  var serverInfoOperation = new ExecuteDbAdminCommandOperation(this.s.db, cmd, options);
   return executeOperation(this.s.db.s.topology, serverInfoOperation, callback);
 };
-
 /**
  * Retrieve this db's server status.
  *
@@ -128,19 +150,16 @@ Admin.prototype.serverInfo = function(options, callback) {
  * @param {Admin~resultCallback} [callback] The command result callback
  * @return {Promise} returns Promise if no callback passed
  */
-Admin.prototype.serverStatus = function(options, callback) {
-  if (typeof options === 'function') (callback = options), (options = {});
+
+
+Admin.prototype.serverStatus = function (options, callback) {
+  if (typeof options === 'function') callback = options, options = {};
   options = options || {};
-
-  const serverStatusOperation = new ExecuteDbAdminCommandOperation(
-    this.s.db,
-    { serverStatus: 1 },
-    options
-  );
-
+  var serverStatusOperation = new ExecuteDbAdminCommandOperation(this.s.db, {
+    serverStatus: 1
+  }, options);
   return executeOperation(this.s.db.s.topology, serverStatusOperation, callback);
 };
-
 /**
  * Ping the MongoDB server and retrieve results
  *
@@ -149,17 +168,17 @@ Admin.prototype.serverStatus = function(options, callback) {
  * @param {Admin~resultCallback} [callback] The command result callback
  * @return {Promise} returns Promise if no callback passed
  */
-Admin.prototype.ping = function(options, callback) {
-  if (typeof options === 'function') (callback = options), (options = {});
+
+
+Admin.prototype.ping = function (options, callback) {
+  if (typeof options === 'function') callback = options, options = {};
   options = options || {};
-
-  const cmd = { ping: 1 };
-
-  const pingOperation = new ExecuteDbAdminCommandOperation(this.s.db, cmd, options);
-
+  var cmd = {
+    ping: 1
+  };
+  var pingOperation = new ExecuteDbAdminCommandOperation(this.s.db, cmd, options);
   return executeOperation(this.s.db.s.topology, pingOperation, callback);
 };
-
 /**
  * Add a user to the database.
  * @method
@@ -176,28 +195,28 @@ Admin.prototype.ping = function(options, callback) {
  * @param {Admin~resultCallback} [callback] The command result callback
  * @return {Promise} returns Promise if no callback passed
  */
-Admin.prototype.addUser = function(username, password, options, callback) {
-  const args = Array.prototype.slice.call(arguments, 2);
-  callback = typeof args[args.length - 1] === 'function' ? args.pop() : undefined;
 
-  // Special case where there is no password ($external users)
-  if (typeof username === 'string' && password != null && typeof password === 'object') {
+
+Admin.prototype.addUser = function (username, password, options, callback) {
+  var args = Array.prototype.slice.call(arguments, 2);
+  callback = typeof args[args.length - 1] === 'function' ? args.pop() : undefined; // Special case where there is no password ($external users)
+
+  if (typeof username === 'string' && password != null && _typeof(password) === 'object') {
     options = password;
     password = null;
   }
 
   options = args.length ? args.shift() : {};
-  options = Object.assign({}, options);
-  // Get the options
-  options = applyWriteConcern(options, { db: this.s.db });
-  // Set the db name to admin
+  options = Object.assign({}, options); // Get the options
+
+  options = applyWriteConcern(options, {
+    db: this.s.db
+  }); // Set the db name to admin
+
   options.dbName = 'admin';
-
-  const addUserOperation = new AddUserOperation(this.s.db, username, password, options);
-
+  var addUserOperation = new AddUserOperation(this.s.db, username, password, options);
   return executeOperation(this.s.db.s.topology, addUserOperation, callback);
 };
-
 /**
  * Remove a user from a database
  * @method
@@ -211,22 +230,22 @@ Admin.prototype.addUser = function(username, password, options, callback) {
  * @param {Admin~resultCallback} [callback] The command result callback
  * @return {Promise} returns Promise if no callback passed
  */
-Admin.prototype.removeUser = function(username, options, callback) {
-  const args = Array.prototype.slice.call(arguments, 1);
+
+
+Admin.prototype.removeUser = function (username, options, callback) {
+  var args = Array.prototype.slice.call(arguments, 1);
   callback = typeof args[args.length - 1] === 'function' ? args.pop() : undefined;
-
   options = args.length ? args.shift() : {};
-  options = Object.assign({}, options);
-  // Get the options
-  options = applyWriteConcern(options, { db: this.s.db });
-  // Set the db name
+  options = Object.assign({}, options); // Get the options
+
+  options = applyWriteConcern(options, {
+    db: this.s.db
+  }); // Set the db name
+
   options.dbName = 'admin';
-
-  const removeUserOperation = new RemoveUserOperation(this.s.db, username, options);
-
+  var removeUserOperation = new RemoveUserOperation(this.s.db, username, options);
   return executeOperation(this.s.db.s.topology, removeUserOperation, callback);
 };
-
 /**
  * Validate an existing collection
  *
@@ -236,19 +255,14 @@ Admin.prototype.removeUser = function(username, options, callback) {
  * @param {Admin~resultCallback} [callback] The command result callback.
  * @return {Promise} returns Promise if no callback passed
  */
-Admin.prototype.validateCollection = function(collectionName, options, callback) {
-  if (typeof options === 'function') (callback = options), (options = {});
+
+
+Admin.prototype.validateCollection = function (collectionName, options, callback) {
+  if (typeof options === 'function') callback = options, options = {};
   options = options || {};
-
-  const validateCollectionOperation = new ValidateCollectionOperation(
-    this,
-    collectionName,
-    options
-  );
-
+  var validateCollectionOperation = new ValidateCollectionOperation(this, collectionName, options);
   return executeOperation(this.s.db.s.topology, validateCollectionOperation, callback);
 };
-
 /**
  * List the available databases
  *
@@ -258,17 +272,13 @@ Admin.prototype.validateCollection = function(collectionName, options, callback)
  * @param {Admin~resultCallback} [callback] The command result callback.
  * @return {Promise} returns Promise if no callback passed
  */
-Admin.prototype.listDatabases = function(options, callback) {
-  if (typeof options === 'function') (callback = options), (options = {});
+
+
+Admin.prototype.listDatabases = function (options, callback) {
+  if (typeof options === 'function') callback = options, options = {};
   options = options || {};
-
-  return executeOperation(
-    this.s.db.s.topology,
-    new ListDatabasesOperation(this.s.db, options),
-    callback
-  );
+  return executeOperation(this.s.db.s.topology, new ListDatabasesOperation(this.s.db, options), callback);
 };
-
 /**
  * Get ReplicaSet status
  *
@@ -277,16 +287,14 @@ Admin.prototype.listDatabases = function(options, callback) {
  * @param {Admin~resultCallback} [callback] The command result callback.
  * @return {Promise} returns Promise if no callback passed
  */
-Admin.prototype.replSetGetStatus = function(options, callback) {
-  if (typeof options === 'function') (callback = options), (options = {});
+
+
+Admin.prototype.replSetGetStatus = function (options, callback) {
+  if (typeof options === 'function') callback = options, options = {};
   options = options || {};
-
-  const replSetGetStatusOperation = new ExecuteDbAdminCommandOperation(
-    this.s.db,
-    { replSetGetStatus: 1 },
-    options
-  );
-
+  var replSetGetStatusOperation = new ExecuteDbAdminCommandOperation(this.s.db, {
+    replSetGetStatus: 1
+  }, options);
   return executeOperation(this.s.db.s.topology, replSetGetStatusOperation, callback);
 };
 

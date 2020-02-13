@@ -1,21 +1,29 @@
 'use strict';
 
-var fs = require('fs');
+require("core-js/modules/es.date.now");
 
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.function.name");
+
+var fs = require('fs');
 /* Note: because this plugin uses process.on('uncaughtException'), only one
  * of these can exist at any given time. This plugin and anything else that
  * uses process.on('uncaughtException') will conflict. */
-exports.attachToRunner = function(runner, outputFile) {
-  var smokeOutput = { results: [] };
-  var runningTests = {};
 
+
+exports.attachToRunner = function (runner, outputFile) {
+  var smokeOutput = {
+    results: []
+  };
+  var runningTests = {};
   var integraPlugin = {
-    beforeTest: function(test, callback) {
+    beforeTest: function beforeTest(test, callback) {
       test.startTime = Date.now();
       runningTests[test.name] = test;
       callback();
     },
-    afterTest: function(test, callback) {
+    afterTest: function afterTest(test, callback) {
       smokeOutput.results.push({
         status: test.status,
         start: test.startTime,
@@ -27,15 +35,14 @@ exports.attachToRunner = function(runner, outputFile) {
       delete runningTests[test.name];
       callback();
     },
-    beforeExit: function(obj, callback) {
-      fs.writeFile(outputFile, JSON.stringify(smokeOutput), function() {
+    beforeExit: function beforeExit(obj, callback) {
+      fs.writeFile(outputFile, JSON.stringify(smokeOutput), function () {
         callback();
       });
     }
-  };
+  }; // In case of exception, make sure we write file
 
-  // In case of exception, make sure we write file
-  process.on('uncaughtException', function(err) {
+  process.on('uncaughtException', function (err) {
     // Mark all currently running tests as failed
     for (var testName in runningTests) {
       smokeOutput.results.push({
@@ -46,16 +53,14 @@ exports.attachToRunner = function(runner, outputFile) {
         exit_code: 0,
         url: ''
       });
-    }
+    } // write file
 
-    // write file
-    fs.writeFileSync(outputFile, JSON.stringify(smokeOutput));
 
-    // Standard NodeJS uncaught exception handler
+    fs.writeFileSync(outputFile, JSON.stringify(smokeOutput)); // Standard NodeJS uncaught exception handler
+
     console.error(err.stack);
     process.exit(1);
   });
-
   runner.plugin(integraPlugin);
   return integraPlugin;
 };

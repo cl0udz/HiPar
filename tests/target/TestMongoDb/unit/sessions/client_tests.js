@@ -1,66 +1,80 @@
 'use strict';
 
-const expect = require('chai').expect;
-const mock = require('mongodb-mock-server');
+require("core-js/modules/es.object.assign");
 
-const test = {};
-describe('Sessions', function() {
-  describe('Client', function() {
-    afterEach(() => mock.cleanup());
-    beforeEach(() => {
-      return mock.createServer().then(server => {
-        test.server = server;
+var expect = require('chai').expect;
+
+var mock = require('mongodb-mock-server');
+
+var _test = {};
+describe('Sessions', function () {
+  describe('Client', function () {
+    afterEach(function () {
+      return mock.cleanup();
+    });
+    beforeEach(function () {
+      return mock.createServer().then(function (server) {
+        _test.server = server;
       });
     });
-
     it('should throw an exception if sessions are not supported', {
-      metadata: { requires: { topology: 'single' } },
-      test: function(done) {
-        test.server.setMessageHandler(request => {
+      metadata: {
+        requires: {
+          topology: 'single'
+        }
+      },
+      test: function test(done) {
+        _test.server.setMessageHandler(function (request) {
           var doc = request.document;
+
           if (doc.ismaster) {
             request.reply(Object.assign({}, mock.DEFAULT_ISMASTER));
           } else if (doc.endSessions) {
-            request.reply({ ok: 1 });
+            request.reply({
+              ok: 1
+            });
           }
         });
 
-        const client = this.configuration.newClient(`mongodb://${test.server.uri()}/test`);
-        client.connect(function(err, client) {
+        var client = this.configuration.newClient("mongodb://".concat(_test.server.uri(), "/test"));
+        client.connect(function (err, client) {
           expect(err).to.not.exist;
-          expect(() => {
+          expect(function () {
             client.startSession();
-          }).to.throw(/Current topology does not support sessions/);
-
+          }).to["throw"](/Current topology does not support sessions/);
           client.close(done);
         });
       }
     });
-
     it('should return a client session when requested if the topology supports it', {
-      metadata: { requires: { topology: 'single' } },
-
-      test: function(done) {
-        test.server.setMessageHandler(request => {
+      metadata: {
+        requires: {
+          topology: 'single'
+        }
+      },
+      test: function test(done) {
+        _test.server.setMessageHandler(function (request) {
           var doc = request.document;
+
           if (doc.ismaster) {
-            request.reply(
-              Object.assign({}, mock.DEFAULT_ISMASTER, {
-                logicalSessionTimeoutMinutes: 10
-              })
-            );
+            request.reply(Object.assign({}, mock.DEFAULT_ISMASTER, {
+              logicalSessionTimeoutMinutes: 10
+            }));
           } else if (doc.endSessions) {
-            request.reply({ ok: 1 });
+            request.reply({
+              ok: 1
+            });
           }
         });
 
-        const client = this.configuration.newClient(`mongodb://${test.server.uri()}/test`);
-        client.connect(function(err, client) {
+        var client = this.configuration.newClient("mongodb://".concat(_test.server.uri(), "/test"));
+        client.connect(function (err, client) {
           expect(err).to.not.exist;
-          let session = client.startSession();
+          var session = client.startSession();
           expect(session).to.exist;
-
-          session.endSession({ skipCommand: true });
+          session.endSession({
+            skipCommand: true
+          });
           client.close(done);
         });
       }

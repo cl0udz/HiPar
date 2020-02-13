@@ -1,18 +1,36 @@
 'use strict';
 
-const MongoError = require('../error').MongoError;
+require("core-js/modules/es.array.filter");
 
+require("core-js/modules/es.array.slice");
+
+require("core-js/modules/es.array.some");
+
+require("core-js/modules/es.object.define-property");
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var MongoError = require('../error').MongoError;
 /**
  * Creates a new AuthProvider, which dictates how to authenticate for a given
  * mechanism.
  * @class
  */
-class AuthProvider {
-  constructor(bson) {
+
+
+var AuthProvider =
+/*#__PURE__*/
+function () {
+  function AuthProvider(bson) {
+    _classCallCheck(this, AuthProvider);
+
     this.bson = bson;
     this.authStore = [];
   }
-
   /**
    * Authenticate
    * @method
@@ -21,117 +39,146 @@ class AuthProvider {
    * @param {MongoCredentials} credentials Authentication credentials
    * @param {authResultCallback} callback The callback to return the result from the authentication
    */
-  auth(sendAuthCommand, connections, credentials, callback) {
-    // Total connections
-    let count = connections.length;
 
-    if (count === 0) {
-      callback(null, null);
-      return;
-    }
 
-    // Valid connections
-    let numberOfValidConnections = 0;
-    let errorObject = null;
+  _createClass(AuthProvider, [{
+    key: "auth",
+    value: function auth(sendAuthCommand, connections, credentials, callback) {
+      var _this = this;
 
-    const execute = connection => {
-      this._authenticateSingleConnection(sendAuthCommand, connection, credentials, (err, r) => {
-        // Adjust count
-        count = count - 1;
+      // Total connections
+      var count = connections.length;
 
-        // If we have an error
-        if (err) {
-          errorObject = new MongoError(err);
-        } else if (r && (r.$err || r.errmsg)) {
-          errorObject = new MongoError(r);
-        } else {
-          numberOfValidConnections = numberOfValidConnections + 1;
-        }
+      if (count === 0) {
+        callback(null, null);
+        return;
+      } // Valid connections
 
-        // Still authenticating against other connections.
-        if (count !== 0) {
-          return;
-        }
 
-        // We have authenticated all connections
-        if (numberOfValidConnections > 0) {
-          // Store the auth details
-          this.addCredentials(credentials);
-          // Return correct authentication
-          callback(null, true);
-        } else {
-          if (errorObject == null) {
-            errorObject = new MongoError(`failed to authenticate using ${credentials.mechanism}`);
+      var numberOfValidConnections = 0;
+      var errorObject = null;
+
+      var execute = function execute(connection) {
+        _this._authenticateSingleConnection(sendAuthCommand, connection, credentials, function (err, r) {
+          // Adjust count
+          count = count - 1; // If we have an error
+
+          if (err) {
+            errorObject = new MongoError(err);
+          } else if (r && (r.$err || r.errmsg)) {
+            errorObject = new MongoError(r);
+          } else {
+            numberOfValidConnections = numberOfValidConnections + 1;
+          } // Still authenticating against other connections.
+
+
+          if (count !== 0) {
+            return;
+          } // We have authenticated all connections
+
+
+          if (numberOfValidConnections > 0) {
+            // Store the auth details
+            _this.addCredentials(credentials); // Return correct authentication
+
+
+            callback(null, true);
+          } else {
+            if (errorObject == null) {
+              errorObject = new MongoError("failed to authenticate using ".concat(credentials.mechanism));
+            }
+
+            callback(errorObject, false);
           }
-          callback(errorObject, false);
-        }
+        });
+      };
+
+      var executeInNextTick = function executeInNextTick(_connection) {
+        return process.nextTick(function () {
+          return execute(_connection);
+        });
+      }; // For each connection we need to authenticate
+
+
+      while (connections.length > 0) {
+        executeInNextTick(connections.shift());
+      }
+    }
+    /**
+     * Implementation of a single connection authenticating. Is meant to be overridden.
+     * Will error if called directly
+     * @ignore
+     */
+
+  }, {
+    key: "_authenticateSingleConnection",
+    value: function _authenticateSingleConnection()
+    /*sendAuthCommand, connection, credentials, callback*/
+    {
+      throw new Error('_authenticateSingleConnection must be overridden');
+    }
+    /**
+     * Adds credentials to store only if it does not exist
+     * @param {MongoCredentials} credentials credentials to add to store
+     */
+
+  }, {
+    key: "addCredentials",
+    value: function addCredentials(credentials) {
+      var found = this.authStore.some(function (cred) {
+        return cred.equals(credentials);
       });
-    };
 
-    const executeInNextTick = _connection => process.nextTick(() => execute(_connection));
-
-    // For each connection we need to authenticate
-    while (connections.length > 0) {
-      executeInNextTick(connections.shift());
+      if (!found) {
+        this.authStore.push(credentials);
+      }
     }
-  }
+    /**
+     * Re authenticate pool
+     * @method
+     * @param {SendAuthCommand} sendAuthCommand Writes an auth command directly to a specific connection
+     * @param {Connection[]} connections Connections to authenticate using this authenticator
+     * @param {authResultCallback} callback The callback to return the result from the authentication
+     */
 
-  /**
-   * Implementation of a single connection authenticating. Is meant to be overridden.
-   * Will error if called directly
-   * @ignore
-   */
-  _authenticateSingleConnection(/*sendAuthCommand, connection, credentials, callback*/) {
-    throw new Error('_authenticateSingleConnection must be overridden');
-  }
+  }, {
+    key: "reauthenticate",
+    value: function reauthenticate(sendAuthCommand, connections, callback) {
+      var authStore = this.authStore.slice(0);
+      var count = authStore.length;
 
-  /**
-   * Adds credentials to store only if it does not exist
-   * @param {MongoCredentials} credentials credentials to add to store
-   */
-  addCredentials(credentials) {
-    const found = this.authStore.some(cred => cred.equals(credentials));
+      if (count === 0) {
+        return callback(null, null);
+      }
 
-    if (!found) {
-      this.authStore.push(credentials);
+      for (var i = 0; i < authStore.length; i++) {
+        this.auth(sendAuthCommand, connections, authStore[i], function (err) {
+          count = count - 1;
+
+          if (count === 0) {
+            callback(err, null);
+          }
+        });
+      }
     }
-  }
+    /**
+     * Remove credentials that have been previously stored in the auth provider
+     * @method
+     * @param {string} source Name of database we are removing authStore details about
+     * @return {object}
+     */
 
-  /**
-   * Re authenticate pool
-   * @method
-   * @param {SendAuthCommand} sendAuthCommand Writes an auth command directly to a specific connection
-   * @param {Connection[]} connections Connections to authenticate using this authenticator
-   * @param {authResultCallback} callback The callback to return the result from the authentication
-   */
-  reauthenticate(sendAuthCommand, connections, callback) {
-    const authStore = this.authStore.slice(0);
-    let count = authStore.length;
-    if (count === 0) {
-      return callback(null, null);
-    }
-
-    for (let i = 0; i < authStore.length; i++) {
-      this.auth(sendAuthCommand, connections, authStore[i], function(err) {
-        count = count - 1;
-        if (count === 0) {
-          callback(err, null);
-        }
+  }, {
+    key: "logout",
+    value: function logout(source) {
+      this.authStore = this.authStore.filter(function (credentials) {
+        return credentials.source !== source;
       });
     }
-  }
+  }]);
 
-  /**
-   * Remove credentials that have been previously stored in the auth provider
-   * @method
-   * @param {string} source Name of database we are removing authStore details about
-   * @return {object}
-   */
-  logout(source) {
-    this.authStore = this.authStore.filter(credentials => credentials.source !== source);
-  }
-}
-
+  return AuthProvider;
+}();
 /**
  * A function that writes authentication commands to a specific connection
  * @callback SendAuthCommand
@@ -155,4 +202,7 @@ class AuthProvider {
  * @param {boolean} result The result of the authentication process
  */
 
-module.exports = { AuthProvider };
+
+module.exports = {
+  AuthProvider: AuthProvider
+};

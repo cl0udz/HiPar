@@ -1,15 +1,23 @@
 'use strict';
 
-const MongoNetworkError = require('./core').MongoNetworkError;
-const mongoErrorContextSymbol = require('./core').mongoErrorContextSymbol;
+require("core-js/modules/es.array.iterator");
 
-const GET_MORE_NON_RESUMABLE_CODES = new Set([
-  136, // CappedPositionLost
-  237, // CursorKilled
-  11601 // Interrupted
-]);
+require("core-js/modules/es.object.to-string");
 
-// From spec@https://github.com/mongodb/specifications/blob/7a2e93d85935ee4b1046a8d2ad3514c657dc74fa/source/change-streams/change-streams.rst#resumable-error:
+require("core-js/modules/es.set");
+
+require("core-js/modules/es.string.iterator");
+
+require("core-js/modules/web.dom-collections.iterator");
+
+var MongoNetworkError = require('./core').MongoNetworkError;
+
+var mongoErrorContextSymbol = require('./core').mongoErrorContextSymbol;
+
+var GET_MORE_NON_RESUMABLE_CODES = new Set([136, // CappedPositionLost
+237, // CursorKilled
+11601 // Interrupted
+]); // From spec@https://github.com/mongodb/specifications/blob/7a2e93d85935ee4b1046a8d2ad3514c657dc74fa/source/change-streams/change-streams.rst#resumable-error:
 //
 // An error is considered resumable if it meets any of the following criteria:
 // - any error encountered which is not a server error (e.g. a timeout error or network error)
@@ -36,10 +44,10 @@ function isResumableError(error) {
     return true;
   }
 
-  return !(
-    GET_MORE_NON_RESUMABLE_CODES.has(error.code) ||
-    error.hasErrorLabel('NonRetryableChangeStreamError')
-  );
+  return !(GET_MORE_NON_RESUMABLE_CODES.has(error.code) || error.hasErrorLabel('NonRetryableChangeStreamError'));
 }
 
-module.exports = { GET_MORE_NON_RESUMABLE_CODES, isResumableError };
+module.exports = {
+  GET_MORE_NON_RESUMABLE_CODES: GET_MORE_NON_RESUMABLE_CODES,
+  isResumableError: isResumableError
+};

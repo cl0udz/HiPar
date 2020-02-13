@@ -1,63 +1,86 @@
 'use strict';
 
-const TopologyBase = require('./topology_base').TopologyBase;
-const MongoError = require('../core').MongoError;
-const CMongos = require('../core').Mongos;
-const Cursor = require('../cursor');
-const Server = require('./server');
-const Store = require('./topology_base').Store;
-const MAX_JS_INT = require('../utils').MAX_JS_INT;
-const translateOptions = require('../utils').translateOptions;
-const filterOptions = require('../utils').filterOptions;
-const mergeOptions = require('../utils').mergeOptions;
+require("core-js/modules/es.symbol");
 
+require("core-js/modules/es.symbol.description");
+
+require("core-js/modules/es.symbol.iterator");
+
+require("core-js/modules/es.array.for-each");
+
+require("core-js/modules/es.array.iterator");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.object.assign");
+
+require("core-js/modules/es.object.create");
+
+require("core-js/modules/es.object.define-property");
+
+require("core-js/modules/es.object.get-prototype-of");
+
+require("core-js/modules/es.object.keys");
+
+require("core-js/modules/es.object.set-prototype-of");
+
+require("core-js/modules/es.object.to-string");
+
+require("core-js/modules/es.promise");
+
+require("core-js/modules/es.set");
+
+require("core-js/modules/es.string.iterator");
+
+require("core-js/modules/web.dom-collections.iterator");
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var TopologyBase = require('./topology_base').TopologyBase;
+
+var MongoError = require('../core').MongoError;
+
+var CMongos = require('../core').Mongos;
+
+var Cursor = require('../cursor');
+
+var Server = require('./server');
+
+var Store = require('./topology_base').Store;
+
+var MAX_JS_INT = require('../utils').MAX_JS_INT;
+
+var translateOptions = require('../utils').translateOptions;
+
+var filterOptions = require('../utils').filterOptions;
+
+var mergeOptions = require('../utils').mergeOptions;
 /**
  * @fileOverview The **Mongos** class is a class that represents a Mongos Proxy topology and is
  * used to construct connections.
  *
  * **Mongos Should not be used, use MongoClient.connect**
  */
-
 // Allowed parameters
-var legalOptionNames = [
-  'ha',
-  'haInterval',
-  'acceptableLatencyMS',
-  'poolSize',
-  'ssl',
-  'checkServerIdentity',
-  'sslValidate',
-  'sslCA',
-  'sslCRL',
-  'sslCert',
-  'ciphers',
-  'ecdhCurve',
-  'sslKey',
-  'sslPass',
-  'socketOptions',
-  'bufferMaxEntries',
-  'store',
-  'auto_reconnect',
-  'autoReconnect',
-  'emitError',
-  'keepAlive',
-  'keepAliveInitialDelay',
-  'noDelay',
-  'connectTimeoutMS',
-  'socketTimeoutMS',
-  'loggerLevel',
-  'logger',
-  'reconnectTries',
-  'appname',
-  'domainsEnabled',
-  'servername',
-  'promoteLongs',
-  'promoteValues',
-  'promoteBuffers',
-  'promiseLibrary',
-  'monitorCommands'
-];
 
+
+var legalOptionNames = ['ha', 'haInterval', 'acceptableLatencyMS', 'poolSize', 'ssl', 'checkServerIdentity', 'sslValidate', 'sslCA', 'sslCRL', 'sslCert', 'ciphers', 'ecdhCurve', 'sslKey', 'sslPass', 'socketOptions', 'bufferMaxEntries', 'store', 'auto_reconnect', 'autoReconnect', 'emitError', 'keepAlive', 'keepAliveInitialDelay', 'noDelay', 'connectTimeoutMS', 'socketTimeoutMS', 'loggerLevel', 'logger', 'reconnectTries', 'appname', 'domainsEnabled', 'servername', 'promoteLongs', 'promoteValues', 'promoteBuffers', 'promiseLibrary', 'monitorCommands'];
 /**
  * Creates a new Mongos instance
  * @class
@@ -103,17 +126,25 @@ var legalOptionNames = [
  * @property {string} parserType the parser type used (c++ or js).
  * @return {Mongos} a Mongos instance.
  */
-class Mongos extends TopologyBase {
-  constructor(servers, options) {
-    super();
 
+var Mongos =
+/*#__PURE__*/
+function (_TopologyBase) {
+  _inherits(Mongos, _TopologyBase);
+
+  function Mongos(servers, options) {
+    var _this;
+
+    _classCallCheck(this, Mongos);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Mongos).call(this));
     options = options || {};
-    var self = this;
 
-    // Filter the options
-    options = filterOptions(options, legalOptionNames);
+    var self = _assertThisInitialized(_this); // Filter the options
 
-    // Ensure all the instances are Server
+
+    options = filterOptions(options, legalOptionNames); // Ensure all the instances are Server
+
     for (var i = 0; i < servers.length; i++) {
       if (!(servers[i] instanceof Server)) {
         throw MongoError.create({
@@ -121,62 +152,51 @@ class Mongos extends TopologyBase {
           driver: true
         });
       }
-    }
+    } // Stored options
 
-    // Stored options
+
     var storeOptions = {
       force: false,
-      bufferMaxEntries:
-        typeof options.bufferMaxEntries === 'number' ? options.bufferMaxEntries : MAX_JS_INT
-    };
+      bufferMaxEntries: typeof options.bufferMaxEntries === 'number' ? options.bufferMaxEntries : MAX_JS_INT
+    }; // Shared global store
 
-    // Shared global store
-    var store = options.store || new Store(self, storeOptions);
+    var store = options.store || new Store(self, storeOptions); // Build seed list
 
-    // Build seed list
-    var seedlist = servers.map(function(x) {
-      return { host: x.host, port: x.port };
-    });
+    var seedlist = servers.map(function (x) {
+      return {
+        host: x.host,
+        port: x.port
+      };
+    }); // Get the reconnect option
 
-    // Get the reconnect option
     var reconnect = typeof options.auto_reconnect === 'boolean' ? options.auto_reconnect : true;
-    reconnect = typeof options.autoReconnect === 'boolean' ? options.autoReconnect : reconnect;
+    reconnect = typeof options.autoReconnect === 'boolean' ? options.autoReconnect : reconnect; // Clone options
 
-    // Clone options
-    var clonedOptions = mergeOptions(
-      {},
-      {
-        disconnectHandler: store,
-        cursorFactory: Cursor,
-        reconnect: reconnect,
-        emitError: typeof options.emitError === 'boolean' ? options.emitError : true,
-        size: typeof options.poolSize === 'number' ? options.poolSize : 5,
-        monitorCommands:
-          typeof options.monitorCommands === 'boolean' ? options.monitorCommands : false
-      }
-    );
+    var clonedOptions = mergeOptions({}, {
+      disconnectHandler: store,
+      cursorFactory: Cursor,
+      reconnect: reconnect,
+      emitError: typeof options.emitError === 'boolean' ? options.emitError : true,
+      size: typeof options.poolSize === 'number' ? options.poolSize : 5,
+      monitorCommands: typeof options.monitorCommands === 'boolean' ? options.monitorCommands : false
+    }); // Translate any SSL options and other connectivity options
 
-    // Translate any SSL options and other connectivity options
-    clonedOptions = translateOptions(clonedOptions, options);
+    clonedOptions = translateOptions(clonedOptions, options); // Socket options
 
-    // Socket options
-    var socketOptions =
-      options.socketOptions && Object.keys(options.socketOptions).length > 0
-        ? options.socketOptions
-        : options;
+    var socketOptions = options.socketOptions && Object.keys(options.socketOptions).length > 0 ? options.socketOptions : options; // Translate all the options to the core types
 
-    // Translate all the options to the core types
-    clonedOptions = translateOptions(clonedOptions, socketOptions);
+    clonedOptions = translateOptions(clonedOptions, socketOptions); // Build default client information
 
-    // Build default client information
-    clonedOptions.clientInfo = this.clientInfo;
-    // Do we have an application specific string
+    clonedOptions.clientInfo = _this.clientInfo; // Do we have an application specific string
+
     if (options.appname) {
-      clonedOptions.clientInfo.application = { name: options.appname };
-    }
+      clonedOptions.clientInfo.application = {
+        name: options.appname
+      };
+    } // Internal state
 
-    // Internal state
-    this.s = {
+
+    _this.s = {
       // Create the Mongos
       coreTopology: new CMongos(seedlist, clonedOptions),
       // Server capabilities
@@ -198,158 +218,134 @@ class Mongos extends TopologyBase {
       // Promise library
       promiseLibrary: options.promiseLibrary || Promise
     };
-  }
+    return _this;
+  } // Connect
 
-  // Connect
-  connect(_options, callback) {
-    var self = this;
-    if ('function' === typeof _options) (callback = _options), (_options = {});
-    if (_options == null) _options = {};
-    if (!('function' === typeof callback)) callback = null;
-    _options = Object.assign({}, this.s.clonedOptions, _options);
-    self.s.options = _options;
 
-    // Update bufferMaxEntries
-    self.s.storeOptions.bufferMaxEntries =
-      typeof _options.bufferMaxEntries === 'number' ? _options.bufferMaxEntries : -1;
+  _createClass(Mongos, [{
+    key: "connect",
+    value: function connect(_options, callback) {
+      var self = this;
+      if ('function' === typeof _options) callback = _options, _options = {};
+      if (_options == null) _options = {};
+      if (!('function' === typeof callback)) callback = null;
+      _options = Object.assign({}, this.s.clonedOptions, _options);
+      self.s.options = _options; // Update bufferMaxEntries
 
-    // Error handler
-    var connectErrorHandler = function() {
-      return function(err) {
-        // Remove all event handlers
-        var events = ['timeout', 'error', 'close'];
-        events.forEach(function(e) {
-          self.removeListener(e, connectErrorHandler);
-        });
+      self.s.storeOptions.bufferMaxEntries = typeof _options.bufferMaxEntries === 'number' ? _options.bufferMaxEntries : -1; // Error handler
 
-        self.s.coreTopology.removeListener('connect', connectErrorHandler);
-        // Force close the topology
-        self.close(true);
+      var connectErrorHandler = function connectErrorHandler() {
+        return function (err) {
+          // Remove all event handlers
+          var events = ['timeout', 'error', 'close'];
+          events.forEach(function (e) {
+            self.removeListener(e, connectErrorHandler);
+          });
+          self.s.coreTopology.removeListener('connect', connectErrorHandler); // Force close the topology
 
-        // Try to callback
+          self.close(true); // Try to callback
+
+          try {
+            callback(err);
+          } catch (err) {
+            process.nextTick(function () {
+              throw err;
+            });
+          }
+        };
+      }; // Actual handler
+
+
+      var errorHandler = function errorHandler(event) {
+        return function (err) {
+          if (event !== 'error') {
+            self.emit(event, err);
+          }
+        };
+      }; // Error handler
+
+
+      var reconnectHandler = function reconnectHandler() {
+        self.emit('reconnect');
+        self.s.store.execute();
+      }; // relay the event
+
+
+      var relay = function relay(event) {
+        return function (t, server) {
+          self.emit(event, t, server);
+        };
+      }; // Connect handler
+
+
+      var connectHandler = function connectHandler() {
+        // Clear out all the current handlers left over
+        var events = ['timeout', 'error', 'close', 'fullsetup'];
+        events.forEach(function (e) {
+          self.s.coreTopology.removeAllListeners(e);
+        }); // Set up listeners
+
+        self.s.coreTopology.on('timeout', errorHandler('timeout'));
+        self.s.coreTopology.on('error', errorHandler('error'));
+        self.s.coreTopology.on('close', errorHandler('close')); // Set up serverConfig listeners
+
+        self.s.coreTopology.on('fullsetup', function () {
+          self.emit('fullsetup', self);
+        }); // Emit open event
+
+        self.emit('open', null, self); // Return correctly
+
         try {
-          callback(err);
+          callback(null, self);
         } catch (err) {
-          process.nextTick(function() {
+          process.nextTick(function () {
             throw err;
           });
         }
-      };
-    };
+      }; // Clear out all the current handlers left over
 
-    // Actual handler
-    var errorHandler = function(event) {
-      return function(err) {
-        if (event !== 'error') {
-          self.emit(event, err);
-        }
-      };
-    };
 
-    // Error handler
-    var reconnectHandler = function() {
-      self.emit('reconnect');
-      self.s.store.execute();
-    };
-
-    // relay the event
-    var relay = function(event) {
-      return function(t, server) {
-        self.emit(event, t, server);
-      };
-    };
-
-    // Connect handler
-    var connectHandler = function() {
-      // Clear out all the current handlers left over
-      var events = ['timeout', 'error', 'close', 'fullsetup'];
-      events.forEach(function(e) {
+      var events = ['timeout', 'error', 'close', 'serverOpening', 'serverDescriptionChanged', 'serverHeartbeatStarted', 'serverHeartbeatSucceeded', 'serverHeartbeatFailed', 'serverClosed', 'topologyOpening', 'topologyClosed', 'topologyDescriptionChanged', 'commandStarted', 'commandSucceeded', 'commandFailed'];
+      events.forEach(function (e) {
         self.s.coreTopology.removeAllListeners(e);
-      });
+      }); // Set up SDAM listeners
 
-      // Set up listeners
-      self.s.coreTopology.on('timeout', errorHandler('timeout'));
-      self.s.coreTopology.on('error', errorHandler('error'));
-      self.s.coreTopology.on('close', errorHandler('close'));
+      self.s.coreTopology.on('serverDescriptionChanged', relay('serverDescriptionChanged'));
+      self.s.coreTopology.on('serverHeartbeatStarted', relay('serverHeartbeatStarted'));
+      self.s.coreTopology.on('serverHeartbeatSucceeded', relay('serverHeartbeatSucceeded'));
+      self.s.coreTopology.on('serverHeartbeatFailed', relay('serverHeartbeatFailed'));
+      self.s.coreTopology.on('serverOpening', relay('serverOpening'));
+      self.s.coreTopology.on('serverClosed', relay('serverClosed'));
+      self.s.coreTopology.on('topologyOpening', relay('topologyOpening'));
+      self.s.coreTopology.on('topologyClosed', relay('topologyClosed'));
+      self.s.coreTopology.on('topologyDescriptionChanged', relay('topologyDescriptionChanged'));
+      self.s.coreTopology.on('commandStarted', relay('commandStarted'));
+      self.s.coreTopology.on('commandSucceeded', relay('commandSucceeded'));
+      self.s.coreTopology.on('commandFailed', relay('commandFailed')); // Set up listeners
 
-      // Set up serverConfig listeners
-      self.s.coreTopology.on('fullsetup', function() {
-        self.emit('fullsetup', self);
-      });
+      self.s.coreTopology.once('timeout', connectErrorHandler('timeout'));
+      self.s.coreTopology.once('error', connectErrorHandler('error'));
+      self.s.coreTopology.once('close', connectErrorHandler('close'));
+      self.s.coreTopology.once('connect', connectHandler); // Join and leave events
 
-      // Emit open event
-      self.emit('open', null, self);
+      self.s.coreTopology.on('joined', relay('joined'));
+      self.s.coreTopology.on('left', relay('left')); // Reconnect server
 
-      // Return correctly
-      try {
-        callback(null, self);
-      } catch (err) {
-        process.nextTick(function() {
-          throw err;
-        });
-      }
-    };
+      self.s.coreTopology.on('reconnect', reconnectHandler); // Start connection
 
-    // Clear out all the current handlers left over
-    var events = [
-      'timeout',
-      'error',
-      'close',
-      'serverOpening',
-      'serverDescriptionChanged',
-      'serverHeartbeatStarted',
-      'serverHeartbeatSucceeded',
-      'serverHeartbeatFailed',
-      'serverClosed',
-      'topologyOpening',
-      'topologyClosed',
-      'topologyDescriptionChanged',
-      'commandStarted',
-      'commandSucceeded',
-      'commandFailed'
-    ];
-    events.forEach(function(e) {
-      self.s.coreTopology.removeAllListeners(e);
-    });
+      self.s.coreTopology.connect(_options);
+    }
+  }]);
 
-    // Set up SDAM listeners
-    self.s.coreTopology.on('serverDescriptionChanged', relay('serverDescriptionChanged'));
-    self.s.coreTopology.on('serverHeartbeatStarted', relay('serverHeartbeatStarted'));
-    self.s.coreTopology.on('serverHeartbeatSucceeded', relay('serverHeartbeatSucceeded'));
-    self.s.coreTopology.on('serverHeartbeatFailed', relay('serverHeartbeatFailed'));
-    self.s.coreTopology.on('serverOpening', relay('serverOpening'));
-    self.s.coreTopology.on('serverClosed', relay('serverClosed'));
-    self.s.coreTopology.on('topologyOpening', relay('topologyOpening'));
-    self.s.coreTopology.on('topologyClosed', relay('topologyClosed'));
-    self.s.coreTopology.on('topologyDescriptionChanged', relay('topologyDescriptionChanged'));
-    self.s.coreTopology.on('commandStarted', relay('commandStarted'));
-    self.s.coreTopology.on('commandSucceeded', relay('commandSucceeded'));
-    self.s.coreTopology.on('commandFailed', relay('commandFailed'));
-
-    // Set up listeners
-    self.s.coreTopology.once('timeout', connectErrorHandler('timeout'));
-    self.s.coreTopology.once('error', connectErrorHandler('error'));
-    self.s.coreTopology.once('close', connectErrorHandler('close'));
-    self.s.coreTopology.once('connect', connectHandler);
-    // Join and leave events
-    self.s.coreTopology.on('joined', relay('joined'));
-    self.s.coreTopology.on('left', relay('left'));
-
-    // Reconnect server
-    self.s.coreTopology.on('reconnect', reconnectHandler);
-
-    // Start connection
-    self.s.coreTopology.connect(_options);
-  }
-}
+  return Mongos;
+}(TopologyBase);
 
 Object.defineProperty(Mongos.prototype, 'haInterval', {
   enumerable: true,
-  get: function() {
+  get: function get() {
     return this.s.coreTopology.s.haInterval;
   }
 });
-
 /**
  * A mongos connect event, used to verify that the connection is up and running
  *

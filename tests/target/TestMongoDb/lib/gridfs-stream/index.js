@@ -1,20 +1,48 @@
 'use strict';
 
+require("core-js/modules/es.symbol");
+
+require("core-js/modules/es.symbol.description");
+
+require("core-js/modules/es.symbol.iterator");
+
+require("core-js/modules/es.array.find");
+
+require("core-js/modules/es.array.iterator");
+
+require("core-js/modules/es.array.sort");
+
+require("core-js/modules/es.object.keys");
+
+require("core-js/modules/es.object.to-string");
+
+require("core-js/modules/es.promise");
+
+require("core-js/modules/es.string.iterator");
+
+require("core-js/modules/web.dom-collections.iterator");
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 var Emitter = require('events').EventEmitter;
+
 var GridFSBucketReadStream = require('./download');
+
 var GridFSBucketWriteStream = require('./upload');
+
 var shallowClone = require('../utils').shallowClone;
+
 var toError = require('../utils').toError;
+
 var util = require('util');
+
 var executeLegacyOperation = require('../utils').executeLegacyOperation;
 
 var DEFAULT_GRIDFS_BUCKET_OPTIONS = {
   bucketName: 'fs',
   chunkSizeBytes: 255 * 1024
 };
-
 module.exports = GridFSBucket;
-
 /**
  * Constructor for a streaming GridFS interface
  * @class
@@ -32,9 +60,10 @@ function GridFSBucket(db, options) {
   Emitter.apply(this);
   this.setMaxListeners(0);
 
-  if (options && typeof options === 'object') {
+  if (options && _typeof(options) === 'object') {
     options = shallowClone(options);
     var keys = Object.keys(DEFAULT_GRIDFS_BUCKET_OPTIONS);
+
     for (var i = 0; i < keys.length; ++i) {
       if (!options[keys[i]]) {
         options[keys[i]] = DEFAULT_GRIDFS_BUCKET_OPTIONS[keys[i]];
@@ -56,7 +85,6 @@ function GridFSBucket(db, options) {
 }
 
 util.inherits(GridFSBucket, Emitter);
-
 /**
  * When the first call to openUploadStream is made, the upload stream will
  * check to see if it needs to create the proper indexes on the chunks and
@@ -83,18 +111,19 @@ util.inherits(GridFSBucket, Emitter);
  * @return {GridFSBucketWriteStream}
  */
 
-GridFSBucket.prototype.openUploadStream = function(filename, options) {
+GridFSBucket.prototype.openUploadStream = function (filename, options) {
   if (options) {
     options = shallowClone(options);
   } else {
     options = {};
   }
+
   if (!options.chunkSizeBytes) {
     options.chunkSizeBytes = this.s.options.chunkSizeBytes;
   }
+
   return new GridFSBucketWriteStream(this, filename, options);
 };
-
 /**
  * Returns a writable stream (GridFSBucketWriteStream) for writing
  * buffers to GridFS for a custom file id. The stream's 'id' property contains the resulting
@@ -111,7 +140,8 @@ GridFSBucket.prototype.openUploadStream = function(filename, options) {
  * @return {GridFSBucketWriteStream}
  */
 
-GridFSBucket.prototype.openUploadStreamWithId = function(id, filename, options) {
+
+GridFSBucket.prototype.openUploadStreamWithId = function (id, filename, options) {
   if (options) {
     options = shallowClone(options);
   } else {
@@ -123,10 +153,8 @@ GridFSBucket.prototype.openUploadStreamWithId = function(id, filename, options) 
   }
 
   options.id = id;
-
   return new GridFSBucketWriteStream(this, filename, options);
 };
-
 /**
  * Returns a readable stream (GridFSBucketReadStream) for streaming file
  * data from GridFS.
@@ -138,22 +166,17 @@ GridFSBucket.prototype.openUploadStreamWithId = function(id, filename, options) 
  * @return {GridFSBucketReadStream}
  */
 
-GridFSBucket.prototype.openDownloadStream = function(id, options) {
-  var filter = { _id: id };
+
+GridFSBucket.prototype.openDownloadStream = function (id, options) {
+  var filter = {
+    _id: id
+  };
   options = {
     start: options && options.start,
     end: options && options.end
   };
-
-  return new GridFSBucketReadStream(
-    this.s._chunksCollection,
-    this.s._filesCollection,
-    this.s.options.readPreference,
-    filter,
-    options
-  );
+  return new GridFSBucketReadStream(this.s._chunksCollection, this.s._filesCollection, this.s.options.readPreference, filter, options);
 };
-
 /**
  * Deletes a file with the given id
  * @method
@@ -161,28 +184,33 @@ GridFSBucket.prototype.openDownloadStream = function(id, options) {
  * @param {GridFSBucket~errorCallback} [callback]
  */
 
-GridFSBucket.prototype.delete = function(id, callback) {
+
+GridFSBucket.prototype["delete"] = function (id, callback) {
   return executeLegacyOperation(this.s.db.s.topology, _delete, [this, id, callback], {
     skipSessions: true
   });
 };
-
 /**
  * @ignore
  */
 
+
 function _delete(_this, id, callback) {
-  _this.s._filesCollection.deleteOne({ _id: id }, function(error, res) {
+  _this.s._filesCollection.deleteOne({
+    _id: id
+  }, function (error, res) {
     if (error) {
       return callback(error);
     }
 
-    _this.s._chunksCollection.deleteMany({ files_id: id }, function(error) {
+    _this.s._chunksCollection.deleteMany({
+      files_id: id
+    }, function (error) {
       if (error) {
         return callback(error);
-      }
+      } // Delete orphaned chunks before returning FileNotFound
 
-      // Delete orphaned chunks before returning FileNotFound
+
       if (!res.result.n) {
         var errmsg = 'FileNotFound: no file with id ' + id + ' found';
         return callback(new Error(errmsg));
@@ -192,7 +220,6 @@ function _delete(_this, id, callback) {
     });
   });
 }
-
 /**
  * Convenience wrapper around find on the files collection
  * @method
@@ -207,7 +234,8 @@ function _delete(_this, id, callback) {
  * @return {Cursor}
  */
 
-GridFSBucket.prototype.find = function(filter, options) {
+
+GridFSBucket.prototype.find = function (filter, options) {
   filter = filter || {};
   options = options || {};
 
@@ -216,25 +244,29 @@ GridFSBucket.prototype.find = function(filter, options) {
   if (options.batchSize != null) {
     cursor.batchSize(options.batchSize);
   }
+
   if (options.limit != null) {
     cursor.limit(options.limit);
   }
+
   if (options.maxTimeMS != null) {
     cursor.maxTimeMS(options.maxTimeMS);
   }
+
   if (options.noCursorTimeout != null) {
     cursor.addCursorFlag('noCursorTimeout', options.noCursorTimeout);
   }
+
   if (options.skip != null) {
     cursor.skip(options.skip);
   }
+
   if (options.sort != null) {
     cursor.sort(options.sort);
   }
 
   return cursor;
 };
-
 /**
  * Returns a readable stream (GridFSBucketReadStream) for streaming the
  * file with the given name from GridFS. If there are multiple files with
@@ -250,34 +282,35 @@ GridFSBucket.prototype.find = function(filter, options) {
  * @return {GridFSBucketReadStream}
  */
 
-GridFSBucket.prototype.openDownloadStreamByName = function(filename, options) {
-  var sort = { uploadDate: -1 };
+
+GridFSBucket.prototype.openDownloadStreamByName = function (filename, options) {
+  var sort = {
+    uploadDate: -1
+  };
   var skip = null;
+
   if (options && options.revision != null) {
     if (options.revision >= 0) {
-      sort = { uploadDate: 1 };
+      sort = {
+        uploadDate: 1
+      };
       skip = options.revision;
     } else {
       skip = -options.revision - 1;
     }
   }
 
-  var filter = { filename: filename };
+  var filter = {
+    filename: filename
+  };
   options = {
     sort: sort,
     skip: skip,
     start: options && options.start,
     end: options && options.end
   };
-  return new GridFSBucketReadStream(
-    this.s._chunksCollection,
-    this.s._filesCollection,
-    this.s.options.readPreference,
-    filter,
-    options
-  );
+  return new GridFSBucketReadStream(this.s._chunksCollection, this.s._filesCollection, this.s.options.readPreference, filter, options);
 };
-
 /**
  * Renames the file with the given _id to the given string
  * @method
@@ -286,62 +319,74 @@ GridFSBucket.prototype.openDownloadStreamByName = function(filename, options) {
  * @param {GridFSBucket~errorCallback} [callback]
  */
 
-GridFSBucket.prototype.rename = function(id, filename, callback) {
+
+GridFSBucket.prototype.rename = function (id, filename, callback) {
   return executeLegacyOperation(this.s.db.s.topology, _rename, [this, id, filename, callback], {
     skipSessions: true
   });
 };
-
 /**
  * @ignore
  */
 
+
 function _rename(_this, id, filename, callback) {
-  var filter = { _id: id };
-  var update = { $set: { filename: filename } };
-  _this.s._filesCollection.updateOne(filter, update, function(error, res) {
+  var filter = {
+    _id: id
+  };
+  var update = {
+    $set: {
+      filename: filename
+    }
+  };
+
+  _this.s._filesCollection.updateOne(filter, update, function (error, res) {
     if (error) {
       return callback(error);
     }
+
     if (!res.result.n) {
       return callback(toError('File with id ' + id + ' not found'));
     }
+
     callback();
   });
 }
-
 /**
  * Removes this bucket's files collection, followed by its chunks collection.
  * @method
  * @param {GridFSBucket~errorCallback} [callback]
  */
 
-GridFSBucket.prototype.drop = function(callback) {
+
+GridFSBucket.prototype.drop = function (callback) {
   return executeLegacyOperation(this.s.db.s.topology, _drop, [this, callback], {
     skipSessions: true
   });
 };
-
 /**
  * Return the db logger
  * @method
  * @return {Logger} return the db logger
  * @ignore
  */
-GridFSBucket.prototype.getLogger = function() {
+
+
+GridFSBucket.prototype.getLogger = function () {
   return this.s.db.s.logger;
 };
-
 /**
  * @ignore
  */
 
+
 function _drop(_this, callback) {
-  _this.s._filesCollection.drop(function(error) {
+  _this.s._filesCollection.drop(function (error) {
     if (error) {
       return callback(error);
     }
-    _this.s._chunksCollection.drop(function(error) {
+
+    _this.s._chunksCollection.drop(function (error) {
       if (error) {
         return callback(error);
       }
@@ -350,7 +395,6 @@ function _drop(_this, callback) {
     });
   });
 }
-
 /**
  * Callback format for all GridFSBucket methods that can accept a callback.
  * @callback GridFSBucket~errorCallback

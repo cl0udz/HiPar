@@ -1,10 +1,52 @@
 'use strict';
 
-const ReadPreference = require('./core').ReadPreference;
-const MongoError = require('./core').MongoError;
-const Cursor = require('./cursor');
-const CursorState = require('./core/cursor').CursorState;
+require("core-js/modules/es.symbol");
 
+require("core-js/modules/es.symbol.description");
+
+require("core-js/modules/es.symbol.iterator");
+
+require("core-js/modules/es.array.iterator");
+
+require("core-js/modules/es.object.create");
+
+require("core-js/modules/es.object.define-property");
+
+require("core-js/modules/es.object.get-prototype-of");
+
+require("core-js/modules/es.object.set-prototype-of");
+
+require("core-js/modules/es.object.to-string");
+
+require("core-js/modules/es.string.iterator");
+
+require("core-js/modules/web.dom-collections.iterator");
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var ReadPreference = require('./core').ReadPreference;
+
+var MongoError = require('./core').MongoError;
+
+var Cursor = require('./cursor');
+
+var CursorState = require('./core/cursor').CursorState;
 /**
  * @fileOverview The **CommandCursor** class is an internal class that embodies a
  * generalized cursor based on a MongoDB command allowing for iteration over the
@@ -52,11 +94,18 @@ const CursorState = require('./core/cursor').CursorState;
  * @fires CommandCursor#readable
  * @return {CommandCursor} an CommandCursor instance.
  */
-class CommandCursor extends Cursor {
-  constructor(topology, ns, cmd, options) {
-    super(topology, ns, cmd, options);
-  }
 
+
+var CommandCursor =
+/*#__PURE__*/
+function (_Cursor) {
+  _inherits(CommandCursor, _Cursor);
+
+  function CommandCursor(topology, ns, cmd, options) {
+    _classCallCheck(this, CommandCursor);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(CommandCursor).call(this, topology, ns, cmd, options));
+  }
   /**
    * Set the ReadPreference for the cursor.
    * @method
@@ -64,81 +113,102 @@ class CommandCursor extends Cursor {
    * @throws {MongoError}
    * @return {Cursor}
    */
-  setReadPreference(readPreference) {
-    if (this.s.state === CursorState.CLOSED || this.isDead()) {
-      throw MongoError.create({ message: 'Cursor is closed', driver: true });
+
+
+  _createClass(CommandCursor, [{
+    key: "setReadPreference",
+    value: function setReadPreference(readPreference) {
+      if (this.s.state === CursorState.CLOSED || this.isDead()) {
+        throw MongoError.create({
+          message: 'Cursor is closed',
+          driver: true
+        });
+      }
+
+      if (this.s.state !== CursorState.INIT) {
+        throw MongoError.create({
+          message: 'cannot change cursor readPreference after cursor has been accessed',
+          driver: true
+        });
+      }
+
+      if (readPreference instanceof ReadPreference) {
+        this.options.readPreference = readPreference;
+      } else if (typeof readPreference === 'string') {
+        this.options.readPreference = new ReadPreference(readPreference);
+      } else {
+        throw new TypeError('Invalid read preference: ' + readPreference);
+      }
+
+      return this;
     }
+    /**
+     * Set the batch size for the cursor.
+     * @method
+     * @param {number} value The number of documents to return per batch. See {@link https://docs.mongodb.com/manual/reference/command/find/|find command documentation}.
+     * @throws {MongoError}
+     * @return {CommandCursor}
+     */
 
-    if (this.s.state !== CursorState.INIT) {
-      throw MongoError.create({
-        message: 'cannot change cursor readPreference after cursor has been accessed',
-        driver: true
-      });
+  }, {
+    key: "batchSize",
+    value: function batchSize(value) {
+      if (this.s.state === CursorState.CLOSED || this.isDead()) {
+        throw MongoError.create({
+          message: 'Cursor is closed',
+          driver: true
+        });
+      }
+
+      if (typeof value !== 'number') {
+        throw MongoError.create({
+          message: 'batchSize requires an integer',
+          driver: true
+        });
+      }
+
+      if (this.cmd.cursor) {
+        this.cmd.cursor.batchSize = value;
+      }
+
+      this.setCursorBatchSize(value);
+      return this;
     }
+    /**
+     * Add a maxTimeMS stage to the aggregation pipeline
+     * @method
+     * @param {number} value The state maxTimeMS value.
+     * @return {CommandCursor}
+     */
 
-    if (readPreference instanceof ReadPreference) {
-      this.options.readPreference = readPreference;
-    } else if (typeof readPreference === 'string') {
-      this.options.readPreference = new ReadPreference(readPreference);
-    } else {
-      throw new TypeError('Invalid read preference: ' + readPreference);
+  }, {
+    key: "maxTimeMS",
+    value: function maxTimeMS(value) {
+      if (this.topology.lastIsMaster().minWireVersion > 2) {
+        this.cmd.maxTimeMS = value;
+      }
+
+      return this;
     }
+    /**
+     * Return the cursor logger
+     * @method
+     * @return {Logger} return the cursor logger
+     * @ignore
+     */
 
-    return this;
-  }
-
-  /**
-   * Set the batch size for the cursor.
-   * @method
-   * @param {number} value The number of documents to return per batch. See {@link https://docs.mongodb.com/manual/reference/command/find/|find command documentation}.
-   * @throws {MongoError}
-   * @return {CommandCursor}
-   */
-  batchSize(value) {
-    if (this.s.state === CursorState.CLOSED || this.isDead()) {
-      throw MongoError.create({ message: 'Cursor is closed', driver: true });
+  }, {
+    key: "getLogger",
+    value: function getLogger() {
+      return this.logger;
     }
+  }]);
 
-    if (typeof value !== 'number') {
-      throw MongoError.create({ message: 'batchSize requires an integer', driver: true });
-    }
+  return CommandCursor;
+}(Cursor); // aliases
 
-    if (this.cmd.cursor) {
-      this.cmd.cursor.batchSize = value;
-    }
 
-    this.setCursorBatchSize(value);
-    return this;
-  }
-
-  /**
-   * Add a maxTimeMS stage to the aggregation pipeline
-   * @method
-   * @param {number} value The state maxTimeMS value.
-   * @return {CommandCursor}
-   */
-  maxTimeMS(value) {
-    if (this.topology.lastIsMaster().minWireVersion > 2) {
-      this.cmd.maxTimeMS = value;
-    }
-
-    return this;
-  }
-
-  /**
-   * Return the cursor logger
-   * @method
-   * @return {Logger} return the cursor logger
-   * @ignore
-   */
-  getLogger() {
-    return this.logger;
-  }
-}
-
-// aliases
 CommandCursor.prototype.get = CommandCursor.prototype.toArray;
-
 /**
  * CommandCursor stream data event, fired for each document in the cursor.
  *

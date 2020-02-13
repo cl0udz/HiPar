@@ -1,50 +1,43 @@
 'use strict';
-const MongoError = require('./error').MongoError;
 
-let TxnState;
-let stateMachine;
+require("core-js/modules/es.array.concat");
 
-(() => {
-  const NO_TRANSACTION = 'NO_TRANSACTION';
-  const STARTING_TRANSACTION = 'STARTING_TRANSACTION';
-  const TRANSACTION_IN_PROGRESS = 'TRANSACTION_IN_PROGRESS';
-  const TRANSACTION_COMMITTED = 'TRANSACTION_COMMITTED';
-  const TRANSACTION_COMMITTED_EMPTY = 'TRANSACTION_COMMITTED_EMPTY';
-  const TRANSACTION_ABORTED = 'TRANSACTION_ABORTED';
+require("core-js/modules/es.array.index-of");
 
+require("core-js/modules/es.object.define-property");
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var MongoError = require('./error').MongoError;
+
+var TxnState;
+var stateMachine;
+
+(function () {
+  var _stateMachine;
+
+  var NO_TRANSACTION = 'NO_TRANSACTION';
+  var STARTING_TRANSACTION = 'STARTING_TRANSACTION';
+  var TRANSACTION_IN_PROGRESS = 'TRANSACTION_IN_PROGRESS';
+  var TRANSACTION_COMMITTED = 'TRANSACTION_COMMITTED';
+  var TRANSACTION_COMMITTED_EMPTY = 'TRANSACTION_COMMITTED_EMPTY';
+  var TRANSACTION_ABORTED = 'TRANSACTION_ABORTED';
   TxnState = {
-    NO_TRANSACTION,
-    STARTING_TRANSACTION,
-    TRANSACTION_IN_PROGRESS,
-    TRANSACTION_COMMITTED,
-    TRANSACTION_COMMITTED_EMPTY,
-    TRANSACTION_ABORTED
+    NO_TRANSACTION: NO_TRANSACTION,
+    STARTING_TRANSACTION: STARTING_TRANSACTION,
+    TRANSACTION_IN_PROGRESS: TRANSACTION_IN_PROGRESS,
+    TRANSACTION_COMMITTED: TRANSACTION_COMMITTED,
+    TRANSACTION_COMMITTED_EMPTY: TRANSACTION_COMMITTED_EMPTY,
+    TRANSACTION_ABORTED: TRANSACTION_ABORTED
   };
-
-  stateMachine = {
-    [NO_TRANSACTION]: [NO_TRANSACTION, STARTING_TRANSACTION],
-    [STARTING_TRANSACTION]: [
-      TRANSACTION_IN_PROGRESS,
-      TRANSACTION_COMMITTED,
-      TRANSACTION_COMMITTED_EMPTY,
-      TRANSACTION_ABORTED
-    ],
-    [TRANSACTION_IN_PROGRESS]: [
-      TRANSACTION_IN_PROGRESS,
-      TRANSACTION_COMMITTED,
-      TRANSACTION_ABORTED
-    ],
-    [TRANSACTION_COMMITTED]: [
-      TRANSACTION_COMMITTED,
-      TRANSACTION_COMMITTED_EMPTY,
-      STARTING_TRANSACTION,
-      NO_TRANSACTION
-    ],
-    [TRANSACTION_ABORTED]: [STARTING_TRANSACTION, NO_TRANSACTION],
-    [TRANSACTION_COMMITTED_EMPTY]: [TRANSACTION_COMMITTED_EMPTY, NO_TRANSACTION]
-  };
+  stateMachine = (_stateMachine = {}, _defineProperty(_stateMachine, NO_TRANSACTION, [NO_TRANSACTION, STARTING_TRANSACTION]), _defineProperty(_stateMachine, STARTING_TRANSACTION, [TRANSACTION_IN_PROGRESS, TRANSACTION_COMMITTED, TRANSACTION_COMMITTED_EMPTY, TRANSACTION_ABORTED]), _defineProperty(_stateMachine, TRANSACTION_IN_PROGRESS, [TRANSACTION_IN_PROGRESS, TRANSACTION_COMMITTED, TRANSACTION_ABORTED]), _defineProperty(_stateMachine, TRANSACTION_COMMITTED, [TRANSACTION_COMMITTED, TRANSACTION_COMMITTED_EMPTY, STARTING_TRANSACTION, NO_TRANSACTION]), _defineProperty(_stateMachine, TRANSACTION_ABORTED, [STARTING_TRANSACTION, NO_TRANSACTION]), _defineProperty(_stateMachine, TRANSACTION_COMMITTED_EMPTY, [TRANSACTION_COMMITTED_EMPTY, NO_TRANSACTION]), _stateMachine);
 })();
-
 /**
  * The MongoDB ReadConcern, which allows for control of the consistency and isolation properties
  * of the data read from replica sets and replica set shards.
@@ -77,92 +70,115 @@ let stateMachine;
  * A class maintaining state related to a server transaction. Internal Only
  * @ignore
  */
-class Transaction {
+
+
+var Transaction =
+/*#__PURE__*/
+function () {
   /**
    * Create a transaction
    *
    * @ignore
    * @param {TransactionOptions} [options] Optional settings
    */
-  constructor(options) {
-    options = options || {};
+  function Transaction(options) {
+    _classCallCheck(this, Transaction);
 
+    options = options || {};
     this.state = TxnState.NO_TRANSACTION;
     this.options = {};
 
     if (options.writeConcern || typeof options.w !== 'undefined') {
-      const w = options.writeConcern ? options.writeConcern.w : options.w;
+      var w = options.writeConcern ? options.writeConcern.w : options.w;
+
       if (w <= 0) {
         throw new MongoError('Transactions do not support unacknowledged write concern');
       }
 
-      this.options.writeConcern = options.writeConcern ? options.writeConcern : { w: options.w };
+      this.options.writeConcern = options.writeConcern ? options.writeConcern : {
+        w: options.w
+      };
     }
 
     if (options.readConcern) this.options.readConcern = options.readConcern;
     if (options.readPreference) this.options.readPreference = options.readPreference;
-    if (options.maxCommitTimeMS) this.options.maxTimeMS = options.maxCommitTimeMS;
+    if (options.maxCommitTimeMS) this.options.maxTimeMS = options.maxCommitTimeMS; // TODO: This isn't technically necessary
 
-    // TODO: This isn't technically necessary
     this._pinnedServer = undefined;
     this._recoveryToken = undefined;
   }
 
-  get server() {
-    return this._pinnedServer;
-  }
+  _createClass(Transaction, [{
+    key: "transition",
 
-  get recoveryToken() {
-    return this._recoveryToken;
-  }
+    /**
+     * Transition the transaction in the state machine
+     * @ignore
+     * @param {TxnState} state The new state to transition to
+     */
+    value: function transition(nextState) {
+      var nextStates = stateMachine[this.state];
 
-  get isPinned() {
-    return !!this.server;
-  }
+      if (nextStates && nextStates.indexOf(nextState) !== -1) {
+        this.state = nextState;
 
-  /**
-   * @ignore
-   * @return Whether this session is presently in a transaction
-   */
-  get isActive() {
-    return (
-      [TxnState.STARTING_TRANSACTION, TxnState.TRANSACTION_IN_PROGRESS].indexOf(this.state) !== -1
-    );
-  }
+        if (this.state === TxnState.NO_TRANSACTION || this.state === TxnState.STARTING_TRANSACTION) {
+          this.unpinServer();
+        }
 
-  /**
-   * Transition the transaction in the state machine
-   * @ignore
-   * @param {TxnState} state The new state to transition to
-   */
-  transition(nextState) {
-    const nextStates = stateMachine[this.state];
-    if (nextStates && nextStates.indexOf(nextState) !== -1) {
-      this.state = nextState;
-      if (this.state === TxnState.NO_TRANSACTION || this.state === TxnState.STARTING_TRANSACTION) {
-        this.unpinServer();
+        return;
       }
-      return;
+
+      throw new MongoError("Attempted illegal state transition from [".concat(this.state, "] to [").concat(nextState, "]"));
     }
-
-    throw new MongoError(
-      `Attempted illegal state transition from [${this.state}] to [${nextState}]`
-    );
-  }
-
-  pinServer(server) {
-    if (this.isActive) {
-      this._pinnedServer = server;
+  }, {
+    key: "pinServer",
+    value: function pinServer(server) {
+      if (this.isActive) {
+        this._pinnedServer = server;
+      }
     }
-  }
+  }, {
+    key: "unpinServer",
+    value: function unpinServer() {
+      this._pinnedServer = undefined;
+    }
+  }, {
+    key: "server",
+    get: function get() {
+      return this._pinnedServer;
+    }
+  }, {
+    key: "recoveryToken",
+    get: function get() {
+      return this._recoveryToken;
+    }
+  }, {
+    key: "isPinned",
+    get: function get() {
+      return !!this.server;
+    }
+    /**
+     * @ignore
+     * @return Whether this session is presently in a transaction
+     */
 
-  unpinServer() {
-    this._pinnedServer = undefined;
-  }
-}
+  }, {
+    key: "isActive",
+    get: function get() {
+      return [TxnState.STARTING_TRANSACTION, TxnState.TRANSACTION_IN_PROGRESS].indexOf(this.state) !== -1;
+    }
+  }]);
+
+  return Transaction;
+}();
 
 function isTransactionCommand(command) {
   return !!(command.commitTransaction || command.abortTransaction);
 }
 
-module.exports = { TxnState, Transaction, isTransactionCommand };
+module.exports = {
+  TxnState: TxnState,
+  Transaction: Transaction,
+  isTransactionCommand: isTransactionCommand
+};

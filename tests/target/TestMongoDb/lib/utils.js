@@ -1,18 +1,83 @@
 'use strict';
 
-const MongoError = require('./core/error').MongoError;
-const ReadPreference = require('./core/topologies/read_preference');
-const WriteConcern = require('./write_concern');
+require("core-js/modules/es.symbol");
 
-var shallowClone = function(obj) {
+require("core-js/modules/es.symbol.description");
+
+require("core-js/modules/es.symbol.iterator");
+
+require("core-js/modules/es.array.concat");
+
+require("core-js/modules/es.array.for-each");
+
+require("core-js/modules/es.array.index-of");
+
+require("core-js/modules/es.array.is-array");
+
+require("core-js/modules/es.array.iterator");
+
+require("core-js/modules/es.array.join");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.number.constructor");
+
+require("core-js/modules/es.number.max-safe-integer");
+
+require("core-js/modules/es.object.assign");
+
+require("core-js/modules/es.object.define-property");
+
+require("core-js/modules/es.object.keys");
+
+require("core-js/modules/es.object.set-prototype-of");
+
+require("core-js/modules/es.object.to-string");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.regexp.to-string");
+
+require("core-js/modules/es.set");
+
+require("core-js/modules/es.string.iterator");
+
+require("core-js/modules/es.string.match");
+
+require("core-js/modules/web.dom-collections.for-each");
+
+require("core-js/modules/web.dom-collections.iterator");
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+var MongoError = require('./core/error').MongoError;
+
+var ReadPreference = require('./core/topologies/read_preference');
+
+var WriteConcern = require('./write_concern');
+
+var shallowClone = function shallowClone(obj) {
   var copy = {};
-  for (var name in obj) copy[name] = obj[name];
-  return copy;
-};
 
-// Figure out the read preference
-var translateReadPreference = function(options) {
+  for (var name in obj) {
+    copy[name] = obj[name];
+  }
+
+  return copy;
+}; // Figure out the read preference
+
+
+var translateReadPreference = function translateReadPreference(options) {
   var r = null;
+
   if (options.readPreference) {
     r = options.readPreference;
   } else {
@@ -21,8 +86,9 @@ var translateReadPreference = function(options) {
 
   if (typeof r === 'string') {
     options.readPreference = new ReadPreference(r);
-  } else if (r && !(r instanceof ReadPreference) && typeof r === 'object') {
-    const mode = r.mode || r.preference;
+  } else if (r && !(r instanceof ReadPreference) && _typeof(r) === 'object') {
+    var mode = r.mode || r.preference;
+
     if (mode && typeof mode === 'string') {
       options.readPreference = new ReadPreference(mode, r.tags, {
         maxStalenessSeconds: r.maxStalenessSeconds
@@ -33,19 +99,19 @@ var translateReadPreference = function(options) {
   }
 
   return options;
-};
+}; // Set simple property
 
-// Set simple property
-var getSingleProperty = function(obj, name, value) {
+
+var getSingleProperty = function getSingleProperty(obj, name, value) {
   Object.defineProperty(obj, name, {
     enumerable: true,
-    get: function() {
+    get: function get() {
       return value;
     }
   });
 };
 
-var formatSortValue = (exports.formatSortValue = function(sortDirection) {
+var formatSortValue = exports.formatSortValue = function (sortDirection) {
   var value = ('' + sortDirection).toLowerCase();
 
   switch (value) {
@@ -53,22 +119,21 @@ var formatSortValue = (exports.formatSortValue = function(sortDirection) {
     case 'asc':
     case '1':
       return 1;
+
     case 'descending':
     case 'desc':
     case '-1':
       return -1;
-    default:
-      throw new Error(
-        'Illegal sort clause, must be of the form ' +
-          "[['field1', '(ascending|descending)'], " +
-          "['field2', '(ascending|descending)']]"
-      );
-  }
-});
 
-var formattedOrderClause = (exports.formattedOrderClause = function(sortValue) {
+    default:
+      throw new Error('Illegal sort clause, must be of the form ' + "[['field1', '(ascending|descending)'], " + "['field2', '(ascending|descending)']]");
+  }
+};
+
+var formattedOrderClause = exports.formattedOrderClause = function (sortValue) {
   var orderBy = {};
   if (sortValue == null) return null;
+
   if (Array.isArray(sortValue)) {
     if (sortValue.length === 0) {
       return null;
@@ -81,19 +146,16 @@ var formattedOrderClause = (exports.formattedOrderClause = function(sortValue) {
         orderBy[sortValue[i][0]] = formatSortValue(sortValue[i][1]);
       }
     }
-  } else if (sortValue != null && typeof sortValue === 'object') {
+  } else if (sortValue != null && _typeof(sortValue) === 'object') {
     orderBy = sortValue;
   } else if (typeof sortValue === 'string') {
     orderBy[sortValue] = 1;
   } else {
-    throw new Error(
-      'Illegal sort clause, must be of the form ' +
-        "[['field1', '(ascending|descending)'], ['field2', '(ascending|descending)']]"
-    );
+    throw new Error('Illegal sort clause, must be of the form ' + "[['field1', '(ascending|descending)'], ['field2', '(ascending|descending)']]");
   }
 
   return orderBy;
-});
+};
 
 var checkCollectionName = function checkCollectionName(collectionName) {
   if ('string' !== typeof collectionName) {
@@ -104,24 +166,21 @@ var checkCollectionName = function checkCollectionName(collectionName) {
     throw new MongoError('collection names cannot be empty');
   }
 
-  if (
-    collectionName.indexOf('$') !== -1 &&
-    collectionName.match(/((^\$cmd)|(oplog\.\$main))/) == null
-  ) {
+  if (collectionName.indexOf('$') !== -1 && collectionName.match(/((^\$cmd)|(oplog\.\$main))/) == null) {
     throw new MongoError("collection names must not contain '$'");
   }
 
   if (collectionName.match(/^\.|\.$/) != null) {
     throw new MongoError("collection names must not start or end with '.'");
-  }
+  } // Validate that we are not passing 0x00 in the collection name
 
-  // Validate that we are not passing 0x00 in the collection name
+
   if (collectionName.indexOf('\x00') !== -1) {
     throw new MongoError('collection names cannot contain a null character');
   }
 };
 
-var handleCallback = function(callback, err, value1, value2) {
+var handleCallback = function handleCallback(callback, err, value1, value2) {
   try {
     if (callback == null) return;
 
@@ -129,7 +188,7 @@ var handleCallback = function(callback, err, value1, value2) {
       return value2 ? callback(err, value1, value2) : callback(err, value1);
     }
   } catch (err) {
-    process.nextTick(function() {
+    process.nextTick(function () {
       throw err;
     });
     return false;
@@ -137,35 +196,37 @@ var handleCallback = function(callback, err, value1, value2) {
 
   return true;
 };
-
 /**
  * Wrap a Mongo error document in an Error instance
  * @ignore
  * @api private
  */
-var toError = function(error) {
+
+
+var toError = function toError(error) {
   if (error instanceof Error) return error;
-
   var msg = error.err || error.errmsg || error.errMessage || error;
-  var e = MongoError.create({ message: msg, driver: true });
+  var e = MongoError.create({
+    message: msg,
+    driver: true
+  }); // Get all object keys
 
-  // Get all object keys
-  var keys = typeof error === 'object' ? Object.keys(error) : [];
+  var keys = _typeof(error) === 'object' ? Object.keys(error) : [];
 
   for (var i = 0; i < keys.length; i++) {
     try {
       e[keys[i]] = error[keys[i]];
-    } catch (err) {
-      // continue
+    } catch (err) {// continue
     }
   }
 
   return e;
 };
-
 /**
  * @ignore
  */
+
+
 var normalizeHintField = function normalizeHintField(hint) {
   var finalHint = null;
 
@@ -173,12 +234,12 @@ var normalizeHintField = function normalizeHintField(hint) {
     finalHint = hint;
   } else if (Array.isArray(hint)) {
     finalHint = {};
-
-    hint.forEach(function(param) {
+    hint.forEach(function (param) {
       finalHint[param] = 1;
     });
-  } else if (hint != null && typeof hint === 'object') {
+  } else if (hint != null && _typeof(hint) === 'object') {
     finalHint = {};
+
     for (var name in hint) {
       finalHint[name] = hint[name];
     }
@@ -186,25 +247,25 @@ var normalizeHintField = function normalizeHintField(hint) {
 
   return finalHint;
 };
-
 /**
  * Create index name based on field spec
  *
  * @ignore
  * @api private
  */
-var parseIndexOptions = function(fieldOrSpec) {
+
+
+var parseIndexOptions = function parseIndexOptions(fieldOrSpec) {
   var fieldHash = {};
   var indexes = [];
-  var keys;
+  var keys; // Get all the fields accordingly
 
-  // Get all the fields accordingly
   if ('string' === typeof fieldOrSpec) {
     // 'type'
     indexes.push(fieldOrSpec + '_' + 1);
     fieldHash[fieldOrSpec] = 1;
   } else if (Array.isArray(fieldOrSpec)) {
-    fieldOrSpec.forEach(function(f) {
+    fieldOrSpec.forEach(function (f) {
       if ('string' === typeof f) {
         // [{location:'2d'}, 'type']
         indexes.push(f + '_' + 1);
@@ -216,18 +277,17 @@ var parseIndexOptions = function(fieldOrSpec) {
       } else if (isObject(f)) {
         // [{location:'2d'}, {type:1}]
         keys = Object.keys(f);
-        keys.forEach(function(k) {
+        keys.forEach(function (k) {
           indexes.push(k + '_' + f[k]);
           fieldHash[k] = f[k];
         });
-      } else {
-        // undefined (ignore)
+      } else {// undefined (ignore)
       }
     });
   } else if (isObject(fieldOrSpec)) {
     // {location:'2d', type:1}
     keys = Object.keys(fieldOrSpec);
-    keys.forEach(function(key) {
+    keys.forEach(function (key) {
       indexes.push(key + '_' + fieldOrSpec[key]);
       fieldHash[key] = fieldOrSpec[key];
     });
@@ -240,20 +300,19 @@ var parseIndexOptions = function(fieldOrSpec) {
   };
 };
 
-var isObject = (exports.isObject = function(arg) {
+var isObject = exports.isObject = function (arg) {
   return '[object Object]' === Object.prototype.toString.call(arg);
-});
+};
 
-var debugOptions = function(debugFields, options) {
+var debugOptions = function debugOptions(debugFields, options) {
   var finaloptions = {};
-  debugFields.forEach(function(n) {
+  debugFields.forEach(function (n) {
     finaloptions[n] = options[n];
   });
-
   return finaloptions;
 };
 
-var decorateCommand = function(command, options, exclude) {
+var decorateCommand = function decorateCommand(command, options, exclude) {
   for (var name in options) {
     if (exclude.indexOf(name) === -1) command[name] = options[name];
   }
@@ -261,16 +320,16 @@ var decorateCommand = function(command, options, exclude) {
   return command;
 };
 
-var mergeOptions = function(target, source) {
+var mergeOptions = function mergeOptions(target, source) {
   for (var name in source) {
     target[name] = source[name];
   }
 
   return target;
-};
+}; // Merge options with translation
 
-// Merge options with translation
-var translateOptions = function(target, source) {
+
+var translateOptions = function translateOptions(target, source) {
   var translations = {
     // SSL translation options
     sslCA: 'ca',
@@ -302,34 +361,33 @@ var translateOptions = function(target, source) {
   return target;
 };
 
-var filterOptions = function(options, names) {
+var filterOptions = function filterOptions(options, names) {
   var filterOptions = {};
 
   for (var name in options) {
     if (names.indexOf(name) !== -1) filterOptions[name] = options[name];
-  }
+  } // Filtered options
 
-  // Filtered options
+
   return filterOptions;
-};
+}; // Write concern keys
 
-// Write concern keys
-var writeConcernKeys = ['w', 'j', 'wtimeout', 'fsync'];
 
-// Merge the write concern options
-var mergeOptionsAndWriteConcern = function(targetOptions, sourceOptions, keys, mergeWriteConcern) {
+var writeConcernKeys = ['w', 'j', 'wtimeout', 'fsync']; // Merge the write concern options
+
+var mergeOptionsAndWriteConcern = function mergeOptionsAndWriteConcern(targetOptions, sourceOptions, keys, mergeWriteConcern) {
   // Mix in any allowed options
   for (var i = 0; i < keys.length; i++) {
     if (!targetOptions[keys[i]] && sourceOptions[keys[i]] !== undefined) {
       targetOptions[keys[i]] = sourceOptions[keys[i]];
     }
-  }
+  } // No merging of write concern
 
-  // No merging of write concern
-  if (!mergeWriteConcern) return targetOptions;
 
-  // Found no write Concern options
+  if (!mergeWriteConcern) return targetOptions; // Found no write Concern options
+
   var found = false;
+
   for (i = 0; i < writeConcernKeys.length; i++) {
     if (targetOptions[writeConcernKeys[i]]) {
       found = true;
@@ -347,7 +405,6 @@ var mergeOptionsAndWriteConcern = function(targetOptions, sourceOptions, keys, m
 
   return targetOptions;
 };
-
 /**
  * Executes the given operation with provided arguments.
  *
@@ -362,7 +419,9 @@ var mergeOptionsAndWriteConcern = function(targetOptions, sourceOptions, keys, m
  * @param {array} args Arguments to apply the provided operation
  * @param {object} [options] Options that modify the behavior of the method
  */
-const executeLegacyOperation = (topology, operation, args, options) => {
+
+
+var executeLegacyOperation = function executeLegacyOperation(topology, operation, args, options) {
   if (topology == null) {
     throw new TypeError('This method requires a valid topology instance');
   }
@@ -372,28 +431,33 @@ const executeLegacyOperation = (topology, operation, args, options) => {
   }
 
   options = options || {};
-  const Promise = topology.s.promiseLibrary;
-  let callback = args[args.length - 1];
-
-  // The driver sessions spec mandates that we implicitly create sessions for operations
+  var Promise = topology.s.promiseLibrary;
+  var callback = args[args.length - 1]; // The driver sessions spec mandates that we implicitly create sessions for operations
   // that are not explicitly provided with a session.
-  let session, opOptions, owner;
+
+  var session, opOptions, owner;
+
   if (!options.skipSessions && topology.hasSessionSupport()) {
     opOptions = args[args.length - 2];
+
     if (opOptions == null || opOptions.session == null) {
       owner = Symbol();
-      session = topology.startSession({ owner });
-      const optionsIndex = args.length - 2;
-      args[optionsIndex] = Object.assign({}, args[optionsIndex], { session: session });
+      session = topology.startSession({
+        owner: owner
+      });
+      var optionsIndex = args.length - 2;
+      args[optionsIndex] = Object.assign({}, args[optionsIndex], {
+        session: session
+      });
     } else if (opOptions.session && opOptions.session.hasEnded) {
       throw new MongoError('Use of expired sessions is not permitted');
     }
   }
 
-  const makeExecuteCallback = (resolve, reject) =>
-    function executeCallback(err, result) {
+  var makeExecuteCallback = function makeExecuteCallback(resolve, reject) {
+    return function executeCallback(err, result) {
       if (session && session.owner === owner && !options.returnsCursor) {
-        session.endSession(() => {
+        session.endSession(function () {
           delete opOptions.session;
           if (err) return reject(err);
           resolve(result);
@@ -403,14 +467,16 @@ const executeLegacyOperation = (topology, operation, args, options) => {
         resolve(result);
       }
     };
+  }; // Execute using callback
 
-  // Execute using callback
+
   if (typeof callback === 'function') {
     callback = args.pop();
-    const handler = makeExecuteCallback(
-      result => callback(null, result),
-      err => callback(err, null)
-    );
+    var handler = makeExecuteCallback(function (result) {
+      return callback(null, result);
+    }, function (err) {
+      return callback(err, null);
+    });
     args.push(handler);
 
     try {
@@ -419,15 +485,15 @@ const executeLegacyOperation = (topology, operation, args, options) => {
       handler(e);
       throw e;
     }
-  }
+  } // Return a Promise
 
-  // Return a Promise
+
   if (args[args.length - 1] != null) {
     throw new TypeError('final argument to `executeLegacyOperation` must be a callback');
   }
 
-  return new Promise(function(resolve, reject) {
-    const handler = makeExecuteCallback(resolve, reject);
+  return new Promise(function (resolve, reject) {
+    var handler = makeExecuteCallback(resolve, reject);
     args[args.length - 1] = handler;
 
     try {
@@ -437,13 +503,14 @@ const executeLegacyOperation = (topology, operation, args, options) => {
     }
   });
 };
-
 /**
  * Applies retryWrites: true to a command if retryWrites is set on the command's database.
  *
  * @param {object} target The target command to which we will apply retryWrites.
  * @param {object} db The database from which we can inherit a retryWrites value.
  */
+
+
 function applyRetryableWrites(target, db) {
   if (db && db.s.options.retryWrites) {
     target.retryWrites = true;
@@ -451,7 +518,6 @@ function applyRetryableWrites(target, db) {
 
   return target;
 }
-
 /**
  * Applies a write concern to a command based on well defined inheritance rules, optionally
  * detecting support for the write concern in the first place.
@@ -461,10 +527,12 @@ function applyRetryableWrites(target, db) {
  * @param {Object} [options] optional settings passed into a command for write concern overrides
  * @returns {Object} the (now) decorated target
  */
+
+
 function applyWriteConcern(target, sources, options) {
   options = options || {};
-  const db = sources.db;
-  const coll = sources.collection;
+  var db = sources.db;
+  var coll = sources.collection;
 
   if (options.session && options.session.inTransaction()) {
     // writeConcern is not allowed within a multi-statement transaction
@@ -475,22 +543,28 @@ function applyWriteConcern(target, sources, options) {
     return target;
   }
 
-  const writeConcern = WriteConcern.fromOptions(options);
+  var writeConcern = WriteConcern.fromOptions(options);
+
   if (writeConcern) {
-    return Object.assign(target, { writeConcern });
+    return Object.assign(target, {
+      writeConcern: writeConcern
+    });
   }
 
   if (coll && coll.writeConcern) {
-    return Object.assign(target, { writeConcern: Object.assign({}, coll.writeConcern) });
+    return Object.assign(target, {
+      writeConcern: Object.assign({}, coll.writeConcern)
+    });
   }
 
   if (db && db.writeConcern) {
-    return Object.assign(target, { writeConcern: Object.assign({}, db.writeConcern) });
+    return Object.assign(target, {
+      writeConcern: Object.assign({}, db.writeConcern)
+    });
   }
 
   return target;
 }
-
 /**
  * Resolves a read preference based on well-defined inheritance rules. This method will not only
  * determine the read preference (if there is one), but will also ensure the returned value is a
@@ -501,13 +575,14 @@ function applyWriteConcern(target, sources, options) {
  * @param {Object} options The options passed into the method, potentially containing a read preference
  * @returns {(ReadPreference|null)} The resolved read preference
  */
+
+
 function resolveReadPreference(parent, options) {
   options = options || {};
-  const session = options.session;
+  var session = options.session;
+  var inheritedReadPreference = parent.readPreference;
+  var readPreference;
 
-  const inheritedReadPreference = parent.readPreference;
-
-  let readPreference;
   if (options.readPreference) {
     readPreference = ReadPreference.fromOptions(options);
   } else if (session && session.inTransaction() && session.transaction.options.readPreference) {
@@ -521,17 +596,17 @@ function resolveReadPreference(parent, options) {
 
   return typeof readPreference === 'string' ? new ReadPreference(readPreference) : readPreference;
 }
-
 /**
  * Checks if a given value is a Promise
  *
  * @param {*} maybePromise
  * @return true if the provided value is a Promise
  */
+
+
 function isPromiseLike(maybePromise) {
   return maybePromise && typeof maybePromise.then === 'function';
 }
-
 /**
  * Applies collation to a given command.
  *
@@ -539,47 +614,60 @@ function isPromiseLike(maybePromise) {
  * @param {(Cursor|Collection)} [target] target of command
  * @param {object} [options] options containing collation settings
  */
+
+
 function decorateWithCollation(command, target, options) {
-  const topology = (target.s && target.s.topology) || target.topology;
+  var topology = target.s && target.s.topology || target.topology;
 
   if (!topology) {
     throw new TypeError('parameter "target" is missing a topology');
   }
 
-  const capabilities = topology.capabilities();
-  if (options.collation && typeof options.collation === 'object') {
+  var capabilities = topology.capabilities();
+
+  if (options.collation && _typeof(options.collation) === 'object') {
     if (capabilities && capabilities.commandsTakeCollation) {
       command.collation = options.collation;
     } else {
-      throw new MongoError(`Current topology does not support collation`);
+      throw new MongoError("Current topology does not support collation");
     }
   }
 }
-
 /**
  * Applies a read concern to a given command.
  *
  * @param {object} command the command on which to apply the read concern
  * @param {Collection} coll the parent collection of the operation calling this method
  */
+
+
 function decorateWithReadConcern(command, coll, options) {
   if (options && options.session && options.session.inTransaction()) {
     return;
   }
-  let readConcern = Object.assign({}, command.readConcern || {});
+
+  var readConcern = Object.assign({}, command.readConcern || {});
+
   if (coll.s.readConcern) {
     Object.assign(readConcern, coll.s.readConcern);
   }
 
   if (Object.keys(readConcern).length > 0) {
-    Object.assign(command, { readConcern: readConcern });
+    Object.assign(command, {
+      readConcern: readConcern
+    });
   }
 }
 
-const emitProcessWarning = msg => process.emitWarning(msg, 'DeprecationWarning');
-const emitConsoleWarning = msg => console.error(msg);
-const emitDeprecationWarning = process.emitWarning ? emitProcessWarning : emitConsoleWarning;
+var emitProcessWarning = function emitProcessWarning(msg) {
+  return process.emitWarning(msg, 'DeprecationWarning');
+};
 
+var emitConsoleWarning = function emitConsoleWarning(msg) {
+  return console.error(msg);
+};
+
+var emitDeprecationWarning = process.emitWarning ? emitProcessWarning : emitConsoleWarning;
 /**
  * Default message handler for generating deprecation warnings.
  *
@@ -589,10 +677,10 @@ const emitDeprecationWarning = process.emitWarning ? emitProcessWarning : emitCo
  * @ignore
  * @api private
  */
-function defaultMsgHandler(name, option) {
-  return `${name} option [${option}] is deprecated and will be removed in a later version.`;
-}
 
+function defaultMsgHandler(name, option) {
+  return "".concat(name, " option [").concat(option, "] is deprecated and will be removed in a later version.");
+}
 /**
  * Deprecates a given function's options.
  *
@@ -606,42 +694,47 @@ function defaultMsgHandler(name, option) {
  * @ignore
  * @api private
  */
+
+
 function deprecateOptions(config, fn) {
   if (process.noDeprecation === true) {
     return fn;
   }
 
-  const msgHandler = config.msgHandler ? config.msgHandler : defaultMsgHandler;
+  var msgHandler = config.msgHandler ? config.msgHandler : defaultMsgHandler;
+  var optionsWarned = new Set();
 
-  const optionsWarned = new Set();
   function deprecated() {
-    const options = arguments[config.optionsIndex];
+    var _this = this;
 
-    // ensure options is a valid, non-empty object, otherwise short-circuit
+    var options = arguments[config.optionsIndex]; // ensure options is a valid, non-empty object, otherwise short-circuit
+
     if (!isObject(options) || Object.keys(options).length === 0) {
       return fn.apply(this, arguments);
     }
 
-    config.deprecatedOptions.forEach(deprecatedOption => {
+    config.deprecatedOptions.forEach(function (deprecatedOption) {
       if (options.hasOwnProperty(deprecatedOption) && !optionsWarned.has(deprecatedOption)) {
         optionsWarned.add(deprecatedOption);
-        const msg = msgHandler(config.name, deprecatedOption);
+        var msg = msgHandler(config.name, deprecatedOption);
         emitDeprecationWarning(msg);
-        if (this && this.getLogger) {
-          const logger = this.getLogger();
+
+        if (_this && _this.getLogger) {
+          var logger = _this.getLogger();
+
           if (logger) {
             logger.warn(msg);
           }
         }
       }
     });
-
     return fn.apply(this, arguments);
-  }
-
-  // These lines copied from https://github.com/nodejs/node/blob/25e5ae41688676a5fd29b2e2e7602168eee4ceb5/lib/internal/util.js#L73-L80
+  } // These lines copied from https://github.com/nodejs/node/blob/25e5ae41688676a5fd29b2e2e7602168eee4ceb5/lib/internal/util.js#L73-L80
   // The wrapper will keep the same prototype as fn to maintain prototype chain
+
+
   Object.setPrototypeOf(deprecated, fn);
+
   if (fn.prototype) {
     // Setting this (rather than using Object.setPrototype, as above) ensures
     // that calling the unwrapped constructor gives an instanceof the wrapped
@@ -652,66 +745,78 @@ function deprecateOptions(config, fn) {
   return deprecated;
 }
 
-const SUPPORTS = {};
-// Test asyncIterator support
+var SUPPORTS = {}; // Test asyncIterator support
+
 try {
   require('./async/async_iterator');
+
   SUPPORTS.ASYNC_ITERATOR = true;
 } catch (e) {
   SUPPORTS.ASYNC_ITERATOR = false;
 }
 
-class MongoDBNamespace {
-  constructor(db, collection) {
+var MongoDBNamespace =
+/*#__PURE__*/
+function () {
+  function MongoDBNamespace(db, collection) {
+    _classCallCheck(this, MongoDBNamespace);
+
     this.db = db;
     this.collection = collection;
   }
 
-  toString() {
-    return this.collection ? `${this.db}.${this.collection}` : this.db;
-  }
-
-  withCollection(collection) {
-    return new MongoDBNamespace(this.db, collection);
-  }
-
-  static fromString(namespace) {
-    if (!namespace) {
-      throw new Error(`Cannot parse namespace from "${namespace}"`);
+  _createClass(MongoDBNamespace, [{
+    key: "toString",
+    value: function toString() {
+      return this.collection ? "".concat(this.db, ".").concat(this.collection) : this.db;
     }
+  }, {
+    key: "withCollection",
+    value: function withCollection(collection) {
+      return new MongoDBNamespace(this.db, collection);
+    }
+  }], [{
+    key: "fromString",
+    value: function fromString(namespace) {
+      if (!namespace) {
+        throw new Error("Cannot parse namespace from \"".concat(namespace, "\""));
+      }
 
-    const index = namespace.indexOf('.');
-    return new MongoDBNamespace(namespace.substring(0, index), namespace.substring(index + 1));
-  }
-}
+      var index = namespace.indexOf('.');
+      return new MongoDBNamespace(namespace.substring(0, index), namespace.substring(index + 1));
+    }
+  }]);
+
+  return MongoDBNamespace;
+}();
 
 module.exports = {
-  filterOptions,
-  mergeOptions,
-  translateOptions,
-  shallowClone,
-  getSingleProperty,
-  checkCollectionName,
-  toError,
-  formattedOrderClause,
-  parseIndexOptions,
-  normalizeHintField,
-  handleCallback,
-  decorateCommand,
-  isObject,
-  debugOptions,
+  filterOptions: filterOptions,
+  mergeOptions: mergeOptions,
+  translateOptions: translateOptions,
+  shallowClone: shallowClone,
+  getSingleProperty: getSingleProperty,
+  checkCollectionName: checkCollectionName,
+  toError: toError,
+  formattedOrderClause: formattedOrderClause,
+  parseIndexOptions: parseIndexOptions,
+  normalizeHintField: normalizeHintField,
+  handleCallback: handleCallback,
+  decorateCommand: decorateCommand,
+  isObject: isObject,
+  debugOptions: debugOptions,
   MAX_JS_INT: Number.MAX_SAFE_INTEGER + 1,
-  mergeOptionsAndWriteConcern,
-  translateReadPreference,
-  executeLegacyOperation,
-  applyRetryableWrites,
-  applyWriteConcern,
-  isPromiseLike,
-  decorateWithCollation,
-  decorateWithReadConcern,
-  deprecateOptions,
-  SUPPORTS,
-  MongoDBNamespace,
-  resolveReadPreference,
-  emitDeprecationWarning
+  mergeOptionsAndWriteConcern: mergeOptionsAndWriteConcern,
+  translateReadPreference: translateReadPreference,
+  executeLegacyOperation: executeLegacyOperation,
+  applyRetryableWrites: applyRetryableWrites,
+  applyWriteConcern: applyWriteConcern,
+  isPromiseLike: isPromiseLike,
+  decorateWithCollation: decorateWithCollation,
+  decorateWithReadConcern: decorateWithReadConcern,
+  deprecateOptions: deprecateOptions,
+  SUPPORTS: SUPPORTS,
+  MongoDBNamespace: MongoDBNamespace,
+  resolveReadPreference: resolveReadPreference,
+  emitDeprecationWarning: emitDeprecationWarning
 };

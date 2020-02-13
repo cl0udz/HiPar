@@ -1,55 +1,45 @@
 'use strict';
 
+require("core-js/modules/es.array.for-each");
+
+require("core-js/modules/es.array.index-of");
+
+require("core-js/modules/es.array.is-array");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.object.assign");
+
+require("core-js/modules/es.object.define-property");
+
+require("core-js/modules/web.timers");
+
 var inherits = require('util').inherits,
-  f = require('util').format,
-  EventEmitter = require('events').EventEmitter,
-  ReadPreference = require('./read_preference'),
-  Logger = require('../connection/logger'),
-  debugOptions = require('../connection/utils').debugOptions,
-  retrieveBSON = require('../connection/utils').retrieveBSON,
-  Pool = require('../connection/pool'),
-  MongoError = require('../error').MongoError,
-  MongoNetworkError = require('../error').MongoNetworkError,
-  wireProtocol = require('../wireprotocol'),
-  CoreCursor = require('../cursor').CoreCursor,
-  sdam = require('./shared'),
-  createClientInfo = require('./shared').createClientInfo,
-  createCompressionInfo = require('./shared').createCompressionInfo,
-  resolveClusterTime = require('./shared').resolveClusterTime,
-  SessionMixins = require('./shared').SessionMixins,
-  relayEvents = require('../utils').relayEvents;
+    f = require('util').format,
+    EventEmitter = require('events').EventEmitter,
+    ReadPreference = require('./read_preference'),
+    Logger = require('../connection/logger'),
+    debugOptions = require('../connection/utils').debugOptions,
+    retrieveBSON = require('../connection/utils').retrieveBSON,
+    Pool = require('../connection/pool'),
+    MongoError = require('../error').MongoError,
+    MongoNetworkError = require('../error').MongoNetworkError,
+    wireProtocol = require('../wireprotocol'),
+    CoreCursor = require('../cursor').CoreCursor,
+    sdam = require('./shared'),
+    createClientInfo = require('./shared').createClientInfo,
+    createCompressionInfo = require('./shared').createCompressionInfo,
+    resolveClusterTime = require('./shared').resolveClusterTime,
+    SessionMixins = require('./shared').SessionMixins,
+    relayEvents = require('../utils').relayEvents;
 
-const collationNotSupported = require('../utils').collationNotSupported;
+var collationNotSupported = require('../utils').collationNotSupported; // Used for filtering out fields for loggin
 
-// Used for filtering out fields for loggin
-var debugFields = [
-  'reconnect',
-  'reconnectTries',
-  'reconnectInterval',
-  'emitError',
-  'cursorFactory',
-  'host',
-  'port',
-  'size',
-  'keepAlive',
-  'keepAliveInitialDelay',
-  'noDelay',
-  'connectionTimeout',
-  'checkServerIdentity',
-  'socketTimeout',
-  'ssl',
-  'ca',
-  'crl',
-  'cert',
-  'key',
-  'rejectUnauthorized',
-  'promoteLongs',
-  'promoteValues',
-  'promoteBuffers',
-  'servername'
-];
 
-// Server instance id
+var debugFields = ['reconnect', 'reconnectTries', 'reconnectInterval', 'emitError', 'cursorFactory', 'host', 'port', 'size', 'keepAlive', 'keepAliveInitialDelay', 'noDelay', 'connectionTimeout', 'checkServerIdentity', 'socketTimeout', 'ssl', 'ca', 'crl', 'cert', 'key', 'rejectUnauthorized', 'promoteLongs', 'promoteValues', 'promoteBuffers', 'servername']; // Server instance id
+
 var id = 0;
 var serverAccounting = false;
 var servers = {};
@@ -58,7 +48,6 @@ var BSON = retrieveBSON();
 function topologyId(server) {
   return server.s.parent == null ? server.id : server.s.parent.id;
 }
-
 /**
  * Creates a new Server instance
  * @class
@@ -108,16 +97,15 @@ function topologyId(server) {
  * @property {string} type the topology type.
  * @property {string} parserType the parser type used (c++ or js).
  */
-var Server = function(options) {
-  options = options || {};
 
-  // Add event listener
-  EventEmitter.call(this);
 
-  // Server instance id
-  this.id = id++;
+var Server = function Server(options) {
+  options = options || {}; // Add event listener
 
-  // Internal state
+  EventEmitter.call(this); // Server instance id
+
+  this.id = id++; // Internal state
+
   this.s = {
     // Options
     options: options,
@@ -126,24 +114,7 @@ var Server = function(options) {
     // Factory overrides
     Cursor: options.cursorFactory || CoreCursor,
     // BSON instance
-    bson:
-      options.bson ||
-      new BSON([
-        BSON.Binary,
-        BSON.Code,
-        BSON.DBRef,
-        BSON.Decimal128,
-        BSON.Double,
-        BSON.Int32,
-        BSON.Long,
-        BSON.Map,
-        BSON.MaxKey,
-        BSON.MinKey,
-        BSON.ObjectId,
-        BSON.BSONRegExp,
-        BSON.Symbol,
-        BSON.Timestamp
-      ]),
+    bson: options.bson || new BSON([BSON.Binary, BSON.Code, BSON.DBRef, BSON.Decimal128, BSON.Double, BSON.Int32, BSON.Long, BSON.Map, BSON.MaxKey, BSON.MinKey, BSON.ObjectId, BSON.BSONRegExp, BSON.Symbol, BSON.Timestamp]),
     // Pool
     pool: null,
     // Disconnect handler
@@ -153,97 +124,92 @@ var Server = function(options) {
     // Is the server in a topology
     inTopology: !!options.parent,
     // Monitoring timeout
-    monitoringInterval:
-      typeof options.monitoringInterval === 'number' ? options.monitoringInterval : 5000,
-    compression: { compressors: createCompressionInfo(options) },
+    monitoringInterval: typeof options.monitoringInterval === 'number' ? options.monitoringInterval : 5000,
+    compression: {
+      compressors: createCompressionInfo(options)
+    },
     // Optional parent topology
     parent: options.parent
-  };
+  }; // If this is a single deployment we need to track the clusterTime here
 
-  // If this is a single deployment we need to track the clusterTime here
   if (!this.s.parent) {
     this.s.clusterTime = null;
-  }
+  } // Curent ismaster
 
-  // Curent ismaster
-  this.ismaster = null;
-  // Current ping time
-  this.lastIsMasterMS = -1;
-  // The monitoringProcessId
-  this.monitoringProcessId = null;
-  // Initial connection
-  this.initialConnect = true;
-  // Default type
-  this._type = 'server';
-  // Set the client info
-  this.clientInfo = createClientInfo(options);
 
-  // Max Stalleness values
+  this.ismaster = null; // Current ping time
+
+  this.lastIsMasterMS = -1; // The monitoringProcessId
+
+  this.monitoringProcessId = null; // Initial connection
+
+  this.initialConnect = true; // Default type
+
+  this._type = 'server'; // Set the client info
+
+  this.clientInfo = createClientInfo(options); // Max Stalleness values
   // last time we updated the ismaster state
-  this.lastUpdateTime = 0;
-  // Last write time
-  this.lastWriteDate = 0;
-  // Stalleness
+
+  this.lastUpdateTime = 0; // Last write time
+
+  this.lastWriteDate = 0; // Stalleness
+
   this.staleness = 0;
 };
 
 inherits(Server, EventEmitter);
 Object.assign(Server.prototype, SessionMixins);
-
 Object.defineProperty(Server.prototype, 'type', {
   enumerable: true,
-  get: function() {
+  get: function get() {
     return this._type;
   }
 });
-
 Object.defineProperty(Server.prototype, 'parserType', {
   enumerable: true,
-  get: function() {
-    return BSON.native ? 'c++' : 'js';
+  get: function get() {
+    return BSON["native"] ? 'c++' : 'js';
   }
 });
-
 Object.defineProperty(Server.prototype, 'logicalSessionTimeoutMinutes', {
   enumerable: true,
-  get: function() {
+  get: function get() {
     if (!this.ismaster) return null;
     return this.ismaster.logicalSessionTimeoutMinutes || null;
   }
-});
-
-// In single server deployments we track the clusterTime directly on the topology, however
+}); // In single server deployments we track the clusterTime directly on the topology, however
 // in Mongos and ReplSet deployments we instead need to delegate the clusterTime up to the
 // tracking objects so we can ensure we are gossiping the maximum time received from the
 // server.
+
 Object.defineProperty(Server.prototype, 'clusterTime', {
   enumerable: true,
-  set: function(clusterTime) {
-    const settings = this.s.parent ? this.s.parent : this.s;
+  set: function set(clusterTime) {
+    var settings = this.s.parent ? this.s.parent : this.s;
     resolveClusterTime(settings, clusterTime);
   },
-  get: function() {
-    const settings = this.s.parent ? this.s.parent : this.s;
+  get: function get() {
+    var settings = this.s.parent ? this.s.parent : this.s;
     return settings.clusterTime || null;
   }
 });
 
-Server.enableServerAccounting = function() {
+Server.enableServerAccounting = function () {
   serverAccounting = true;
   servers = {};
 };
 
-Server.disableServerAccounting = function() {
+Server.disableServerAccounting = function () {
   serverAccounting = false;
 };
 
-Server.servers = function() {
+Server.servers = function () {
   return servers;
 };
 
 Object.defineProperty(Server.prototype, 'name', {
   enumerable: true,
-  get: function() {
+  get: function get() {
     return this.s.options.host + ':' + this.s.options.port;
   }
 });
@@ -251,17 +217,12 @@ Object.defineProperty(Server.prototype, 'name', {
 function disconnectHandler(self, type, ns, cmd, options, callback) {
   // Topology is not connected, save the call in the provided store to be
   // Executed at some point when the handler deems it's reconnected
-  if (
-    !self.s.pool.isConnected() &&
-    self.s.options.reconnect &&
-    self.s.disconnectHandler != null &&
-    !options.monitoring
-  ) {
+  if (!self.s.pool.isConnected() && self.s.options.reconnect && self.s.disconnectHandler != null && !options.monitoring) {
     self.s.disconnectHandler.add(type, ns, cmd, options, callback);
     return true;
-  }
+  } // If we have no connection error
 
-  // If we have no connection error
+
   if (!self.s.pool.isConnected()) {
     callback(new MongoError(f('no connection available to server %s', self.name)));
     return true;
@@ -269,56 +230,49 @@ function disconnectHandler(self, type, ns, cmd, options, callback) {
 }
 
 function monitoringProcess(self) {
-  return function() {
+  return function () {
     // Pool was destroyed do not continue process
-    if (self.s.pool.isDestroyed()) return;
-    // Emit monitoring Process event
-    self.emit('monitoring', self);
-    // Perform ismaster call
-    // Get start time
-    var start = new Date().getTime();
+    if (self.s.pool.isDestroyed()) return; // Emit monitoring Process event
 
-    // Execute the ismaster query
-    self.command(
-      'admin.$cmd',
-      { ismaster: true },
-      {
-        socketTimeout:
-          typeof self.s.options.connectionTimeout !== 'number'
-            ? 2000
-            : self.s.options.connectionTimeout,
-        monitoring: true
-      },
-      (err, result) => {
-        // Set initial lastIsMasterMS
-        self.lastIsMasterMS = new Date().getTime() - start;
-        if (self.s.pool.isDestroyed()) return;
-        // Update the ismaster view if we have a result
-        if (result) {
-          self.ismaster = result.result;
-        }
-        // Re-schedule the monitoring process
-        self.monitoringProcessId = setTimeout(monitoringProcess(self), self.s.monitoringInterval);
-      }
-    );
+    self.emit('monitoring', self); // Perform ismaster call
+    // Get start time
+
+    var start = new Date().getTime(); // Execute the ismaster query
+
+    self.command('admin.$cmd', {
+      ismaster: true
+    }, {
+      socketTimeout: typeof self.s.options.connectionTimeout !== 'number' ? 2000 : self.s.options.connectionTimeout,
+      monitoring: true
+    }, function (err, result) {
+      // Set initial lastIsMasterMS
+      self.lastIsMasterMS = new Date().getTime() - start;
+      if (self.s.pool.isDestroyed()) return; // Update the ismaster view if we have a result
+
+      if (result) {
+        self.ismaster = result.result;
+      } // Re-schedule the monitoring process
+
+
+      self.monitoringProcessId = setTimeout(monitoringProcess(self), self.s.monitoringInterval);
+    });
   };
 }
 
-var eventHandler = function(self, event) {
-  return function(err, conn) {
+var eventHandler = function eventHandler(self, event) {
+  return function (err, conn) {
     // Log information of received information if in info mode
     if (self.s.logger.isInfo()) {
       var object = err instanceof MongoError ? JSON.stringify(err) : {};
-      self.s.logger.info(
-        f('server %s fired event %s out with message %s', self.name, event, object)
-      );
-    }
+      self.s.logger.info(f('server %s fired event %s out with message %s', self.name, event, object));
+    } // Handle connect event
 
-    // Handle connect event
+
     if (event === 'connect') {
       self.initialConnect = false;
       self.ismaster = conn.ismaster;
       self.lastIsMasterMS = conn.lastIsMasterMS;
+
       if (conn.agreedCompressor) {
         self.s.pool.options.agreedCompressor = conn.agreedCompressor;
       }
@@ -328,22 +282,22 @@ var eventHandler = function(self, event) {
       }
 
       if (conn.ismaster.$clusterTime) {
-        const $clusterTime = conn.ismaster.$clusterTime;
+        var $clusterTime = conn.ismaster.$clusterTime;
         self.clusterTime = $clusterTime;
-      }
-
-      // It's a proxy change the type so
+      } // It's a proxy change the type so
       // the wireprotocol will send $readPreference
+
+
       if (self.ismaster.msg === 'isdbgrid') {
         self._type = 'mongos';
-      }
+      } // Have we defined self monitoring
 
-      // Have we defined self monitoring
+
       if (self.s.monitoring) {
         self.monitoringProcessId = setTimeout(monitoringProcess(self), self.s.monitoringInterval);
-      }
+      } // Emit server description changed if something listening
 
-      // Emit server description changed if something listening
+
       sdam.emitServerDescriptionChanged(self, {
         address: self.name,
         arbiters: [],
@@ -356,44 +310,31 @@ var eventHandler = function(self, event) {
         // Emit topology description changed if something listening
         sdam.emitTopologyDescriptionChanged(self, {
           topologyType: 'Single',
-          servers: [
-            {
-              address: self.name,
-              arbiters: [],
-              hosts: [],
-              passives: [],
-              type: sdam.getTopologyType(self)
-            }
-          ]
+          servers: [{
+            address: self.name,
+            arbiters: [],
+            hosts: [],
+            passives: [],
+            type: sdam.getTopologyType(self)
+          }]
         });
-      }
+      } // Log the ismaster if available
 
-      // Log the ismaster if available
+
       if (self.s.logger.isInfo()) {
-        self.s.logger.info(
-          f('server %s connected with ismaster [%s]', self.name, JSON.stringify(self.ismaster))
-        );
-      }
+        self.s.logger.info(f('server %s connected with ismaster [%s]', self.name, JSON.stringify(self.ismaster)));
+      } // Emit connect
 
-      // Emit connect
+
       self.emit('connect', self);
-    } else if (
-      event === 'error' ||
-      event === 'parseError' ||
-      event === 'close' ||
-      event === 'timeout' ||
-      event === 'reconnect' ||
-      event === 'attemptReconnect' ||
-      'reconnectFailed'
-    ) {
+    } else if (event === 'error' || event === 'parseError' || event === 'close' || event === 'timeout' || event === 'reconnect' || event === 'attemptReconnect' || 'reconnectFailed') {
       // Remove server instance from accounting
-      if (
-        serverAccounting &&
-        ['close', 'timeout', 'error', 'parseError', 'reconnectFailed'].indexOf(event) !== -1
-      ) {
+      if (serverAccounting && ['close', 'timeout', 'error', 'parseError', 'reconnectFailed'].indexOf(event) !== -1) {
         // Emit toplogy opening event if not in topology
         if (!self.s.inTopology) {
-          self.emit('topologyOpening', { topologyId: self.id });
+          self.emit('topologyOpening', {
+            topologyId: self.id
+          });
         }
 
         delete servers[self.id];
@@ -408,35 +349,27 @@ var eventHandler = function(self, event) {
           passives: [],
           type: 'Unknown'
         });
-      }
+      } // Reconnect failed return error
 
-      // Reconnect failed return error
+
       if (event === 'reconnectFailed') {
-        self.emit('reconnectFailed', err);
-        // Emit error if any listeners
+        self.emit('reconnectFailed', err); // Emit error if any listeners
+
         if (self.listeners('error').length > 0) {
           self.emit('error', err);
-        }
-        // Terminate
+        } // Terminate
+
+
         return;
-      }
+      } // On first connect fail
 
-      // On first connect fail
-      if (
-        ['disconnected', 'connecting'].indexOf(self.s.pool.state) !== -1 &&
-        self.initialConnect &&
-        ['close', 'timeout', 'error', 'parseError'].indexOf(event) !== -1
-      ) {
+
+      if (['disconnected', 'connecting'].indexOf(self.s.pool.state) !== -1 && self.initialConnect && ['close', 'timeout', 'error', 'parseError'].indexOf(event) !== -1) {
         self.initialConnect = false;
-        return self.emit(
-          'error',
-          new MongoNetworkError(
-            f('failed to connect to server [%s] on first connect [%s]', self.name, err)
-          )
-        );
-      }
+        return self.emit('error', new MongoNetworkError(f('failed to connect to server [%s] on first connect [%s]', self.name, err)));
+      } // Reconnect event, emit the server
 
-      // Reconnect event, emit the server
+
       if (event === 'reconnect') {
         // Reconnecting emits a server description changed event going from unknown to the
         // current server type.
@@ -448,118 +381,125 @@ var eventHandler = function(self, event) {
           type: sdam.getTopologyType(self)
         });
         return self.emit(event, self);
-      }
+      } // Emit the event
 
-      // Emit the event
+
       self.emit(event, err);
     }
   };
 };
-
 /**
  * Initiate server connect
  */
-Server.prototype.connect = function(options) {
+
+
+Server.prototype.connect = function (options) {
   var self = this;
-  options = options || {};
+  options = options || {}; // Set the connections
 
-  // Set the connections
-  if (serverAccounting) servers[this.id] = this;
+  if (serverAccounting) servers[this.id] = this; // Do not allow connect to be called on anything that's not disconnected
 
-  // Do not allow connect to be called on anything that's not disconnected
   if (self.s.pool && !self.s.pool.isDisconnected() && !self.s.pool.isDestroyed()) {
     throw new MongoError(f('server instance in invalid state %s', self.s.pool.state));
-  }
+  } // Create a pool
 
-  // Create a pool
-  self.s.pool = new Pool(this, Object.assign(self.s.options, options, { bson: this.s.bson }));
 
-  // Set up listeners
+  self.s.pool = new Pool(this, Object.assign(self.s.options, options, {
+    bson: this.s.bson
+  })); // Set up listeners
+
   self.s.pool.on('close', eventHandler(self, 'close'));
   self.s.pool.on('error', eventHandler(self, 'error'));
   self.s.pool.on('timeout', eventHandler(self, 'timeout'));
   self.s.pool.on('parseError', eventHandler(self, 'parseError'));
   self.s.pool.on('connect', eventHandler(self, 'connect'));
   self.s.pool.on('reconnect', eventHandler(self, 'reconnect'));
-  self.s.pool.on('reconnectFailed', eventHandler(self, 'reconnectFailed'));
+  self.s.pool.on('reconnectFailed', eventHandler(self, 'reconnectFailed')); // Set up listeners for command monitoring
 
-  // Set up listeners for command monitoring
-  relayEvents(self.s.pool, self, ['commandStarted', 'commandSucceeded', 'commandFailed']);
+  relayEvents(self.s.pool, self, ['commandStarted', 'commandSucceeded', 'commandFailed']); // Emit toplogy opening event if not in topology
 
-  // Emit toplogy opening event if not in topology
   if (!self.s.inTopology) {
-    this.emit('topologyOpening', { topologyId: topologyId(self) });
-  }
+    this.emit('topologyOpening', {
+      topologyId: topologyId(self)
+    });
+  } // Emit opening server event
 
-  // Emit opening server event
-  self.emit('serverOpening', { topologyId: topologyId(self), address: self.name });
 
+  self.emit('serverOpening', {
+    topologyId: topologyId(self),
+    address: self.name
+  });
   self.s.pool.connect();
 };
-
 /**
  * Authenticate the topology.
  * @method
  * @param {MongoCredentials} credentials The credentials for authentication we are using
  * @param {authResultCallback} callback A callback function
  */
-Server.prototype.auth = function(credentials, callback) {
+
+
+Server.prototype.auth = function (credentials, callback) {
   if (typeof callback === 'function') callback(null, null);
 };
-
 /**
  * Get the server description
  * @method
  * @return {object}
  */
-Server.prototype.getDescription = function() {
+
+
+Server.prototype.getDescription = function () {
   var ismaster = this.ismaster || {};
   var description = {
     type: sdam.getTopologyType(this),
     address: this.name
-  };
+  }; // Add fields if available
 
-  // Add fields if available
   if (ismaster.hosts) description.hosts = ismaster.hosts;
   if (ismaster.arbiters) description.arbiters = ismaster.arbiters;
   if (ismaster.passives) description.passives = ismaster.passives;
   if (ismaster.setName) description.setName = ismaster.setName;
   return description;
 };
-
 /**
  * Returns the last known ismaster document for this server
  * @method
  * @return {object}
  */
-Server.prototype.lastIsMaster = function() {
+
+
+Server.prototype.lastIsMaster = function () {
   return this.ismaster;
 };
-
 /**
  * Unref all connections belong to this server
  * @method
  */
-Server.prototype.unref = function() {
+
+
+Server.prototype.unref = function () {
   this.s.pool.unref();
 };
-
 /**
  * Figure out if the server is connected
  * @method
  * @return {boolean}
  */
-Server.prototype.isConnected = function() {
+
+
+Server.prototype.isConnected = function () {
   if (!this.s.pool) return false;
   return this.s.pool.isConnected();
 };
-
 /**
  * Figure out if the server instance was destroyed by calling destroy
  * @method
  * @return {boolean}
  */
-Server.prototype.isDestroyed = function() {
+
+
+Server.prototype.isDestroyed = function () {
   if (!this.s.pool) return false;
   return this.s.pool.isDestroyed();
 };
@@ -576,7 +516,6 @@ function basicReadValidations(self, options) {
     throw new Error('readPreference must be an instance of ReadPreference');
   }
 }
-
 /**
  * Execute a command
  * @method
@@ -590,43 +529,36 @@ function basicReadValidations(self, options) {
  * @param {ClientSession} [options.session=null] Session to use for the operation
  * @param {opResultCallback} callback A callback function
  */
-Server.prototype.command = function(ns, cmd, options, callback) {
+
+
+Server.prototype.command = function (ns, cmd, options, callback) {
   var self = this;
+
   if (typeof options === 'function') {
-    (callback = options), (options = {}), (options = options || {});
+    callback = options, options = {}, options = options || {};
   }
 
   var result = basicReadValidations(self, options);
-  if (result) return callback(result);
+  if (result) return callback(result); // Clone the options
 
-  // Clone the options
-  options = Object.assign({}, options, { wireProtocolCommand: false });
+  options = Object.assign({}, options, {
+    wireProtocolCommand: false
+  }); // Debug log
 
-  // Debug log
-  if (self.s.logger.isDebug())
-    self.s.logger.debug(
-      f(
-        'executing command [%s] against %s',
-        JSON.stringify({
-          ns: ns,
-          cmd: cmd,
-          options: debugOptions(debugFields, options)
-        }),
-        self.name
-      )
-    );
+  if (self.s.logger.isDebug()) self.s.logger.debug(f('executing command [%s] against %s', JSON.stringify({
+    ns: ns,
+    cmd: cmd,
+    options: debugOptions(debugFields, options)
+  }), self.name)); // If we are not connected or have a disconnectHandler specified
 
-  // If we are not connected or have a disconnectHandler specified
-  if (disconnectHandler(self, 'command', ns, cmd, options, callback)) return;
+  if (disconnectHandler(self, 'command', ns, cmd, options, callback)) return; // error if collation not supported
 
-  // error if collation not supported
   if (collationNotSupported(this, cmd)) {
-    return callback(new MongoError(`server ${this.name} does not support collation`));
+    return callback(new MongoError("server ".concat(this.name, " does not support collation")));
   }
 
   wireProtocol.command(self, ns, cmd, options, callback);
 };
-
 /**
  * Execute a query against the server
  *
@@ -635,10 +567,11 @@ Server.prototype.command = function(ns, cmd, options, callback) {
  * @param {object} options Optional settings
  * @param {function} callback
  */
-Server.prototype.query = function(ns, cmd, cursorState, options, callback) {
+
+
+Server.prototype.query = function (ns, cmd, cursorState, options, callback) {
   wireProtocol.query(this, ns, cmd, cursorState, options, callback);
 };
-
 /**
  * Execute a `getMore` against the server
  *
@@ -647,10 +580,11 @@ Server.prototype.query = function(ns, cmd, cursorState, options, callback) {
  * @param {object} options Optional settings
  * @param {function} callback
  */
-Server.prototype.getMore = function(ns, cursorState, batchSize, options, callback) {
+
+
+Server.prototype.getMore = function (ns, cursorState, batchSize, options, callback) {
   wireProtocol.getMore(this, ns, cursorState, batchSize, options, callback);
 };
-
 /**
  * Execute a `killCursors` command against the server
  *
@@ -658,10 +592,11 @@ Server.prototype.getMore = function(ns, cursorState, batchSize, options, callbac
  * @param {object} cursorState State data associated with the cursor calling this method
  * @param {function} callback
  */
-Server.prototype.killCursors = function(ns, cursorState, callback) {
+
+
+Server.prototype.killCursors = function (ns, cursorState, callback) {
   wireProtocol.killCursors(this, ns, cursorState, callback);
 };
-
 /**
  * Insert one or more documents
  * @method
@@ -674,25 +609,24 @@ Server.prototype.killCursors = function(ns, cursorState, callback) {
  * @param {ClientSession} [options.session=null] Session to use for the operation
  * @param {opResultCallback} callback A callback function
  */
-Server.prototype.insert = function(ns, ops, options, callback) {
+
+
+Server.prototype.insert = function (ns, ops, options, callback) {
   var self = this;
+
   if (typeof options === 'function') {
-    (callback = options), (options = {}), (options = options || {});
+    callback = options, options = {}, options = options || {};
   }
 
   var result = basicWriteValidations(self, options);
-  if (result) return callback(result);
+  if (result) return callback(result); // If we are not connected or have a disconnectHandler specified
 
-  // If we are not connected or have a disconnectHandler specified
-  if (disconnectHandler(self, 'insert', ns, ops, options, callback)) return;
+  if (disconnectHandler(self, 'insert', ns, ops, options, callback)) return; // Setup the docs as an array
 
-  // Setup the docs as an array
-  ops = Array.isArray(ops) ? ops : [ops];
+  ops = Array.isArray(ops) ? ops : [ops]; // Execute write
 
-  // Execute write
   return wireProtocol.insert(self, ns, ops, options, callback);
 };
-
 /**
  * Perform one or more update operations
  * @method
@@ -705,29 +639,29 @@ Server.prototype.insert = function(ns, ops, options, callback) {
  * @param {ClientSession} [options.session=null] Session to use for the operation
  * @param {opResultCallback} callback A callback function
  */
-Server.prototype.update = function(ns, ops, options, callback) {
+
+
+Server.prototype.update = function (ns, ops, options, callback) {
   var self = this;
+
   if (typeof options === 'function') {
-    (callback = options), (options = {}), (options = options || {});
+    callback = options, options = {}, options = options || {};
   }
 
   var result = basicWriteValidations(self, options);
-  if (result) return callback(result);
+  if (result) return callback(result); // If we are not connected or have a disconnectHandler specified
 
-  // If we are not connected or have a disconnectHandler specified
-  if (disconnectHandler(self, 'update', ns, ops, options, callback)) return;
+  if (disconnectHandler(self, 'update', ns, ops, options, callback)) return; // error if collation not supported
 
-  // error if collation not supported
   if (collationNotSupported(this, options)) {
-    return callback(new MongoError(`server ${this.name} does not support collation`));
-  }
+    return callback(new MongoError("server ".concat(this.name, " does not support collation")));
+  } // Setup the docs as an array
 
-  // Setup the docs as an array
-  ops = Array.isArray(ops) ? ops : [ops];
-  // Execute write
+
+  ops = Array.isArray(ops) ? ops : [ops]; // Execute write
+
   return wireProtocol.update(self, ns, ops, options, callback);
 };
-
 /**
  * Perform one or more remove operations
  * @method
@@ -740,29 +674,29 @@ Server.prototype.update = function(ns, ops, options, callback) {
  * @param {ClientSession} [options.session=null] Session to use for the operation
  * @param {opResultCallback} callback A callback function
  */
-Server.prototype.remove = function(ns, ops, options, callback) {
+
+
+Server.prototype.remove = function (ns, ops, options, callback) {
   var self = this;
+
   if (typeof options === 'function') {
-    (callback = options), (options = {}), (options = options || {});
+    callback = options, options = {}, options = options || {};
   }
 
   var result = basicWriteValidations(self, options);
-  if (result) return callback(result);
+  if (result) return callback(result); // If we are not connected or have a disconnectHandler specified
 
-  // If we are not connected or have a disconnectHandler specified
-  if (disconnectHandler(self, 'remove', ns, ops, options, callback)) return;
+  if (disconnectHandler(self, 'remove', ns, ops, options, callback)) return; // error if collation not supported
 
-  // error if collation not supported
   if (collationNotSupported(this, options)) {
-    return callback(new MongoError(`server ${this.name} does not support collation`));
-  }
+    return callback(new MongoError("server ".concat(this.name, " does not support collation")));
+  } // Setup the docs as an array
 
-  // Setup the docs as an array
-  ops = Array.isArray(ops) ? ops : [ops];
-  // Execute write
+
+  ops = Array.isArray(ops) ? ops : [ops]; // Execute write
+
   return wireProtocol.remove(self, ns, ops, options, callback);
 };
-
 /**
  * Get a new cursor
  * @method
@@ -778,38 +712,39 @@ Server.prototype.remove = function(ns, ops, options, callback) {
  * @param {object} [options.topology] The internal topology of the created cursor
  * @returns {Cursor}
  */
-Server.prototype.cursor = function(ns, cmd, options) {
+
+
+Server.prototype.cursor = function (ns, cmd, options) {
   options = options || {};
-  const topology = options.topology || this;
+  var topology = options.topology || this; // Set up final cursor type
 
-  // Set up final cursor type
-  var FinalCursor = options.cursorFactory || this.s.Cursor;
+  var FinalCursor = options.cursorFactory || this.s.Cursor; // Return the cursor
 
-  // Return the cursor
   return new FinalCursor(topology, ns, cmd, options);
 };
-
 /**
  * Compare two server instances
  * @method
  * @param {Server} server Server to compare equality against
  * @return {boolean}
  */
-Server.prototype.equals = function(server) {
+
+
+Server.prototype.equals = function (server) {
   if (typeof server === 'string') return this.name.toLowerCase() === server.toLowerCase();
   if (server.name) return this.name.toLowerCase() === server.name.toLowerCase();
   return false;
 };
-
 /**
  * All raw connections
  * @method
  * @return {Connection[]}
  */
-Server.prototype.connections = function() {
+
+
+Server.prototype.connections = function () {
   return this.s.pool.allConnections();
 };
-
 /**
  * Selects a server
  * @method
@@ -818,17 +753,15 @@ Server.prototype.connections = function() {
  * @param {ClientSession} [options.session] Unused
  * @return {Server}
  */
-Server.prototype.selectServer = function(selector, options, callback) {
-  if (typeof selector === 'function' && typeof callback === 'undefined')
-    (callback = selector), (selector = undefined), (options = {});
-  if (typeof options === 'function')
-    (callback = options), (options = selector), (selector = undefined);
 
+
+Server.prototype.selectServer = function (selector, options, callback) {
+  if (typeof selector === 'function' && typeof callback === 'undefined') callback = selector, selector = undefined, options = {};
+  if (typeof options === 'function') callback = options, options = selector, selector = undefined;
   callback(null, this);
 };
 
 var listeners = ['close', 'error', 'timeout', 'parseError', 'connect'];
-
 /**
  * Destroy the server connection
  * @method
@@ -836,7 +769,8 @@ var listeners = ['close', 'error', 'timeout', 'parseError', 'connect'];
  * @param {boolean} [options.emitDestroy=false] Emit destroy event on destroy
  * @param {boolean} [options.force=false] Force destroy the pool
  */
-Server.prototype.destroy = function(options, callback) {
+
+Server.prototype.destroy = function (options, callback) {
   if (this._destroyed) {
     if (typeof callback === 'function') callback(null, null);
     return;
@@ -848,56 +782,55 @@ Server.prototype.destroy = function(options, callback) {
   }
 
   options = options || {};
-  var self = this;
+  var self = this; // Set the connections
 
-  // Set the connections
-  if (serverAccounting) delete servers[this.id];
+  if (serverAccounting) delete servers[this.id]; // Destroy the monitoring process if any
 
-  // Destroy the monitoring process if any
   if (this.monitoringProcessId) {
     clearTimeout(this.monitoringProcessId);
-  }
+  } // No pool, return
 
-  // No pool, return
+
   if (!self.s.pool) {
     this._destroyed = true;
     if (typeof callback === 'function') callback(null, null);
     return;
-  }
+  } // Emit close event
 
-  // Emit close event
+
   if (options.emitClose) {
     self.emit('close', self);
-  }
+  } // Emit destroy event
 
-  // Emit destroy event
+
   if (options.emitDestroy) {
     self.emit('destroy', self);
-  }
+  } // Remove all listeners
 
-  // Remove all listeners
-  listeners.forEach(function(event) {
+
+  listeners.forEach(function (event) {
     self.s.pool.removeAllListeners(event);
-  });
+  }); // Emit opening server event
 
-  // Emit opening server event
-  if (self.listeners('serverClosed').length > 0)
-    self.emit('serverClosed', { topologyId: topologyId(self), address: self.name });
+  if (self.listeners('serverClosed').length > 0) self.emit('serverClosed', {
+    topologyId: topologyId(self),
+    address: self.name
+  }); // Emit toplogy opening event if not in topology
 
-  // Emit toplogy opening event if not in topology
   if (self.listeners('topologyClosed').length > 0 && !self.s.inTopology) {
-    self.emit('topologyClosed', { topologyId: topologyId(self) });
+    self.emit('topologyClosed', {
+      topologyId: topologyId(self)
+    });
   }
 
   if (self.s.logger.isDebug()) {
     self.s.logger.debug(f('destroy called on server %s', self.name));
-  }
+  } // Destroy the pool
 
-  // Destroy the pool
+
   this.s.pool.destroy(options.force, callback);
   this._destroyed = true;
 };
-
 /**
  * A server connect event, used to verify that the connection is up and running
  *
@@ -981,5 +914,6 @@ Server.prototype.destroy = function(options, callback) {
  * @event Server#destroy
  * @type {Server}
  */
+
 
 module.exports = Server;
