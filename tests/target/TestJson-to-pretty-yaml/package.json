@@ -1,0 +1,7 @@
+{
+  "name": "testjson-to-pretty-yaml",
+  "version": "1.0.0",
+  "dependencies": {
+    "json-to-pretty-yaml": "*"
+  }
+}
