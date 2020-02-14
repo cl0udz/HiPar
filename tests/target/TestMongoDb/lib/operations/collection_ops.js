@@ -1,23 +1,70 @@
 'use strict';
 
-const applyWriteConcern = require('../utils').applyWriteConcern;
-const Code = require('../core').BSON.Code;
-const createIndexDb = require('./db_ops').createIndex;
-const decorateWithCollation = require('../utils').decorateWithCollation;
-const decorateWithReadConcern = require('../utils').decorateWithReadConcern;
-const ensureIndexDb = require('./db_ops').ensureIndex;
-const evaluate = require('./db_ops').evaluate;
-const executeCommand = require('./db_ops').executeCommand;
-const resolveReadPreference = require('../utils').resolveReadPreference;
-const handleCallback = require('../utils').handleCallback;
-const indexInformationDb = require('./db_ops').indexInformation;
-const Long = require('../core').BSON.Long;
-const MongoError = require('../core').MongoError;
-const ReadPreference = require('../core').ReadPreference;
-const toError = require('../utils').toError;
-const insertDocuments = require('./common_functions').insertDocuments;
-const updateDocuments = require('./common_functions').updateDocuments;
+require("core-js/modules/es.array.concat");
 
+require("core-js/modules/es.array.for-each");
+
+require("core-js/modules/es.array.is-array");
+
+require("core-js/modules/es.array.iterator");
+
+require("core-js/modules/es.array.join");
+
+require("core-js/modules/es.array.reduce");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.object.assign");
+
+require("core-js/modules/es.object.keys");
+
+require("core-js/modules/es.object.to-string");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.regexp.to-string");
+
+require("core-js/modules/es.string.replace");
+
+require("core-js/modules/web.dom-collections.for-each");
+
+require("core-js/modules/web.dom-collections.iterator");
+
+var applyWriteConcern = require('../utils').applyWriteConcern;
+
+var Code = require('../core').BSON.Code;
+
+var createIndexDb = require('./db_ops').createIndex;
+
+var decorateWithCollation = require('../utils').decorateWithCollation;
+
+var decorateWithReadConcern = require('../utils').decorateWithReadConcern;
+
+var ensureIndexDb = require('./db_ops').ensureIndex;
+
+var evaluate = require('./db_ops').evaluate;
+
+var executeCommand = require('./db_ops').executeCommand;
+
+var resolveReadPreference = require('../utils').resolveReadPreference;
+
+var handleCallback = require('../utils').handleCallback;
+
+var indexInformationDb = require('./db_ops').indexInformation;
+
+var Long = require('../core').BSON.Long;
+
+var MongoError = require('../core').MongoError;
+
+var ReadPreference = require('../core').ReadPreference;
+
+var toError = require('../utils').toError;
+
+var insertDocuments = require('./common_functions').insertDocuments;
+
+var updateDocuments = require('./common_functions').updateDocuments;
 /**
  * Group function helper
  * @ignore
@@ -49,18 +96,19 @@ const updateDocuments = require('./common_functions').updateDocuments;
 //
 //   return { "result": map.values() };
 // }.toString();
-const groupFunction =
-  'function () {\nvar c = db[ns].find(condition);\nvar map = new Map();\nvar reduce_function = reduce;\n\nwhile (c.hasNext()) {\nvar obj = c.next();\nvar key = {};\n\nfor (var i = 0, len = keys.length; i < len; ++i) {\nvar k = keys[i];\nkey[k] = obj[k];\n}\n\nvar aggObj = map.get(key);\n\nif (aggObj == null) {\nvar newObj = Object.extend({}, key);\naggObj = Object.extend(newObj, initial);\nmap.put(key, aggObj);\n}\n\nreduce_function(obj, aggObj);\n}\n\nreturn { "result": map.values() };\n}';
 
-// Check the update operation to ensure it has atomic operators.
+
+var groupFunction = 'function () {\nvar c = db[ns].find(condition);\nvar map = new Map();\nvar reduce_function = reduce;\n\nwhile (c.hasNext()) {\nvar obj = c.next();\nvar key = {};\n\nfor (var i = 0, len = keys.length; i < len; ++i) {\nvar k = keys[i];\nkey[k] = obj[k];\n}\n\nvar aggObj = map.get(key);\n\nif (aggObj == null) {\nvar newObj = Object.extend({}, key);\naggObj = Object.extend(newObj, initial);\nmap.put(key, aggObj);\n}\n\nreduce_function(obj, aggObj);\n}\n\nreturn { "result": map.values() };\n}'; // Check the update operation to ensure it has atomic operators.
+
 function checkForAtomicOperators(update) {
   if (Array.isArray(update)) {
-    return update.reduce((err, u) => err || checkForAtomicOperators(u), null);
+    return update.reduce(function (err, u) {
+      return err || checkForAtomicOperators(u);
+    }, null);
   }
 
-  const keys = Object.keys(update);
+  var keys = Object.keys(update); // same errors as the server would give for update doc lacking atomic operators
 
-  // same errors as the server would give for update doc lacking atomic operators
   if (keys.length === 0) {
     return toError('The update operation document must contain at least one atomic operator.');
   }
@@ -69,7 +117,6 @@ function checkForAtomicOperators(update) {
     return toError('the update operation document must contain atomic operators.');
   }
 }
-
 /**
  * Create an index on the db and collection.
  *
@@ -79,10 +126,11 @@ function checkForAtomicOperators(update) {
  * @param {object} [options] Optional settings. See Collection.prototype.createIndex for a list of options.
  * @param {Collection~resultCallback} [callback] The command result callback
  */
+
+
 function createIndex(coll, fieldOrSpec, options, callback) {
   createIndexDb(coll.s.db, coll.collectionName, fieldOrSpec, options, callback);
 }
-
 /**
  * Create multiple indexes in the collection. This method is only supported for
  * MongoDB 2.6 or higher. Earlier version of MongoDB will throw a command not supported
@@ -94,42 +142,37 @@ function createIndex(coll, fieldOrSpec, options, callback) {
  * @param {Object} [options] Optional settings. See Collection.prototype.createIndexes for a list of options.
  * @param {Collection~resultCallback} [callback] The command result callback
  */
+
+
 function createIndexes(coll, indexSpecs, options, callback) {
-  const capabilities = coll.s.topology.capabilities();
+  var capabilities = coll.s.topology.capabilities(); // Ensure we generate the correct name if the parameter is not set
 
-  // Ensure we generate the correct name if the parameter is not set
-  for (let i = 0; i < indexSpecs.length; i++) {
+  for (var i = 0; i < indexSpecs.length; i++) {
     if (indexSpecs[i].name == null) {
-      const keys = [];
+      var keys = []; // Did the user pass in a collation, check if our write server supports it
 
-      // Did the user pass in a collation, check if our write server supports it
       if (indexSpecs[i].collation && capabilities && !capabilities.commandsTakeCollation) {
         return callback(new MongoError('server/primary/mongos does not support collation'));
       }
 
-      for (let name in indexSpecs[i].key) {
-        keys.push(`${name}_${indexSpecs[i].key[name]}`);
-      }
+      for (var name in indexSpecs[i].key) {
+        keys.push("".concat(name, "_").concat(indexSpecs[i].key[name]));
+      } // Set the name
 
-      // Set the name
+
       indexSpecs[i].name = keys.join('_');
     }
   }
 
-  options = Object.assign({}, options, { readPreference: ReadPreference.PRIMARY });
+  options = Object.assign({}, options, {
+    readPreference: ReadPreference.PRIMARY
+  }); // Execute the index
 
-  // Execute the index
-  executeCommand(
-    coll.s.db,
-    {
-      createIndexes: coll.collectionName,
-      indexes: indexSpecs
-    },
-    options,
-    callback
-  );
+  executeCommand(coll.s.db, {
+    createIndexes: coll.collectionName,
+    indexes: indexSpecs
+  }, options, callback);
 }
-
 /**
  * Ensure that an index exists. If the index does not exist, this function creates it.
  *
@@ -139,10 +182,11 @@ function createIndexes(coll, indexSpecs, options, callback) {
  * @param {object} [options] Optional settings. See Collection.prototype.ensureIndex for a list of options.
  * @param {Collection~resultCallback} [callback] The command result callback
  */
+
+
 function ensureIndex(coll, fieldOrSpec, options, callback) {
   ensureIndexDb(coll.s.db, coll.collectionName, fieldOrSpec, options, callback);
 }
-
 /**
  * Run a group command across a collection.
  *
@@ -158,12 +202,13 @@ function ensureIndex(coll, fieldOrSpec, options, callback) {
  * @param {Collection~resultCallback} [callback] The command result callback
  * @deprecated MongoDB 3.6 or higher will no longer support the group command. We recommend rewriting using the aggregation framework.
  */
+
+
 function group(coll, keys, condition, initial, reduce, finalize, command, options, callback) {
   // Execute using the command
   if (command) {
-    const reduceFunction = reduce && reduce._bsontype === 'Code' ? reduce : new Code(reduce);
-
-    const selector = {
+    var reduceFunction = reduce && reduce._bsontype === 'Code' ? reduce : new Code(reduce);
+    var selector = {
       group: {
         ns: coll.collectionName,
         $reduce: reduceFunction,
@@ -171,59 +216,52 @@ function group(coll, keys, condition, initial, reduce, finalize, command, option
         initial: initial,
         out: 'inline'
       }
-    };
+    }; // if finalize is defined
 
-    // if finalize is defined
-    if (finalize != null) selector.group['finalize'] = finalize;
-    // Set up group selector
-    if ('function' === typeof keys || (keys && keys._bsontype === 'Code')) {
+    if (finalize != null) selector.group['finalize'] = finalize; // Set up group selector
+
+    if ('function' === typeof keys || keys && keys._bsontype === 'Code') {
       selector.group.$keyf = keys && keys._bsontype === 'Code' ? keys : new Code(keys);
     } else {
-      const hash = {};
-      keys.forEach(key => {
+      var hash = {};
+      keys.forEach(function (key) {
         hash[key] = 1;
       });
       selector.group.key = hash;
     }
 
-    options = Object.assign({}, options);
-    // Ensure we have the right read preference inheritance
-    options.readPreference = resolveReadPreference(coll, options);
+    options = Object.assign({}, options); // Ensure we have the right read preference inheritance
 
-    // Do we have a readConcern specified
-    decorateWithReadConcern(selector, coll, options);
+    options.readPreference = resolveReadPreference(coll, options); // Do we have a readConcern specified
 
-    // Have we specified collation
+    decorateWithReadConcern(selector, coll, options); // Have we specified collation
+
     try {
       decorateWithCollation(selector, coll, options);
     } catch (err) {
       return callback(err, null);
-    }
+    } // Execute command
 
-    // Execute command
-    executeCommand(coll.s.db, selector, options, (err, result) => {
+
+    executeCommand(coll.s.db, selector, options, function (err, result) {
       if (err) return handleCallback(callback, err, null);
       handleCallback(callback, null, result.retval);
     });
   } else {
     // Create execution scope
-    const scope = reduce != null && reduce._bsontype === 'Code' ? reduce.scope : {};
-
+    var scope = reduce != null && reduce._bsontype === 'Code' ? reduce.scope : {};
     scope.ns = coll.collectionName;
     scope.keys = keys;
     scope.condition = condition;
-    scope.initial = initial;
+    scope.initial = initial; // Pass in the function text to execute within mongodb.
 
-    // Pass in the function text to execute within mongodb.
-    const groupfn = groupFunction.replace(/ reduce;/, reduce.toString() + ';');
-
-    evaluate(coll.s.db, new Code(groupfn, scope), null, options, (err, results) => {
+    var groupfn = groupFunction.replace(/ reduce;/, reduce.toString() + ';');
+    evaluate(coll.s.db, new Code(groupfn, scope), null, options, function (err, results) {
       if (err) return handleCallback(callback, err, null);
       handleCallback(callback, null, results.result || results);
     });
   }
 }
-
 /**
  * Retrieve all the indexes on the collection.
  *
@@ -232,11 +270,14 @@ function group(coll, keys, condition, initial, reduce, finalize, command, option
  * @param {Object} [options] Optional settings. See Collection.prototype.indexes for a list of options.
  * @param {Collection~resultCallback} [callback] The command result callback
  */
+
+
 function indexes(coll, options, callback) {
-  options = Object.assign({}, { full: true }, options);
+  options = Object.assign({}, {
+    full: true
+  }, options);
   indexInformationDb(coll.s.db, coll.collectionName, options, callback);
 }
-
 /**
  * Check if one or more indexes exist on the collection. This fails on the first index that doesn't exist.
  *
@@ -246,25 +287,25 @@ function indexes(coll, options, callback) {
  * @param {Object} [options] Optional settings. See Collection.prototype.indexExists for a list of options.
  * @param {Collection~resultCallback} [callback] The command result callback
  */
+
+
 function indexExists(coll, indexes, options, callback) {
-  indexInformation(coll, options, (err, indexInformation) => {
+  indexInformation(coll, options, function (err, indexInformation) {
     // If we have an error return
-    if (err != null) return handleCallback(callback, err, null);
-    // Let's check for the index names
-    if (!Array.isArray(indexes))
-      return handleCallback(callback, null, indexInformation[indexes] != null);
-    // Check in list of indexes
-    for (let i = 0; i < indexes.length; i++) {
+    if (err != null) return handleCallback(callback, err, null); // Let's check for the index names
+
+    if (!Array.isArray(indexes)) return handleCallback(callback, null, indexInformation[indexes] != null); // Check in list of indexes
+
+    for (var i = 0; i < indexes.length; i++) {
       if (indexInformation[indexes[i]] == null) {
         return handleCallback(callback, null, false);
       }
-    }
+    } // All keys found return true
 
-    // All keys found return true
+
     return handleCallback(callback, null, true);
   });
 }
-
 /**
  * Retrieve this collection's index info.
  *
@@ -273,10 +314,11 @@ function indexExists(coll, indexes, options, callback) {
  * @param {object} [options] Optional settings. See Collection.prototype.indexInformation for a list of options.
  * @param {Collection~resultCallback} [callback] The command result callback
  */
+
+
 function indexInformation(coll, options, callback) {
   indexInformationDb(coll.s.db, coll.collectionName, options, callback);
 }
-
 /**
  * Return N parallel cursors for a collection to allow parallel reading of the entire collection. There are
  * no ordering guarantees for returned results.
@@ -286,48 +328,41 @@ function indexInformation(coll, options, callback) {
  * @param {object} [options] Optional settings. See Collection.prototype.parallelCollectionScan for a list of options.
  * @param {Collection~parallelCollectionScanCallback} [callback] The command result callback
  */
+
+
 function parallelCollectionScan(coll, options, callback) {
   // Create command object
-  const commandObject = {
+  var commandObject = {
     parallelCollectionScan: coll.collectionName,
     numCursors: options.numCursors
-  };
+  }; // Do we have a readConcern specified
 
-  // Do we have a readConcern specified
-  decorateWithReadConcern(commandObject, coll, options);
+  decorateWithReadConcern(commandObject, coll, options); // Store the raw value
 
-  // Store the raw value
-  const raw = options.raw;
-  delete options['raw'];
+  var raw = options.raw;
+  delete options['raw']; // Execute the command
 
-  // Execute the command
-  executeCommand(coll.s.db, commandObject, options, (err, result) => {
+  executeCommand(coll.s.db, commandObject, options, function (err, result) {
     if (err) return handleCallback(callback, err, null);
-    if (result == null)
-      return handleCallback(
-        callback,
-        new Error('no result returned for parallelCollectionScan'),
-        null
-      );
+    if (result == null) return handleCallback(callback, new Error('no result returned for parallelCollectionScan'), null);
+    options = Object.assign({
+      explicitlyIgnoreSession: true
+    }, options);
+    var cursors = []; // Add the raw back to the option
 
-    options = Object.assign({ explicitlyIgnoreSession: true }, options);
+    if (raw) options.raw = raw; // Create command cursors for each item
 
-    const cursors = [];
-    // Add the raw back to the option
-    if (raw) options.raw = raw;
-    // Create command cursors for each item
-    for (let i = 0; i < result.cursors.length; i++) {
-      const rawId = result.cursors[i].cursor.id;
-      // Convert cursorId to Long if needed
-      const cursorId = typeof rawId === 'number' ? Long.fromNumber(rawId) : rawId;
-      // Add a command cursor
+    for (var i = 0; i < result.cursors.length; i++) {
+      var rawId = result.cursors[i].cursor.id; // Convert cursorId to Long if needed
+
+      var cursorId = typeof rawId === 'number' ? Long.fromNumber(rawId) : rawId; // Add a command cursor
+
       cursors.push(coll.s.topology.cursor(coll.namespace, cursorId, options));
     }
 
     handleCallback(callback, null, cursors);
   });
 }
-
 /**
  * Save a document.
  *
@@ -338,21 +373,24 @@ function parallelCollectionScan(coll, options, callback) {
  * @param {Collection~writeOpCallback} [callback] The command result callback
  * @deprecated use insertOne, insertMany, updateOne or updateMany
  */
+
+
 function save(coll, doc, options, callback) {
   // Get the write concern options
-  const finalOptions = applyWriteConcern(
-    Object.assign({}, options),
-    { db: coll.s.db, collection: coll },
-    options
-  );
-  // Establish if we need to perform an insert or update
+  var finalOptions = applyWriteConcern(Object.assign({}, options), {
+    db: coll.s.db,
+    collection: coll
+  }, options); // Establish if we need to perform an insert or update
+
   if (doc._id != null) {
     finalOptions.upsert = true;
-    return updateDocuments(coll, { _id: doc._id }, doc, finalOptions, callback);
-  }
+    return updateDocuments(coll, {
+      _id: doc._id
+    }, doc, finalOptions, callback);
+  } // Insert the document
 
-  // Insert the document
-  insertDocuments(coll, [doc], finalOptions, (err, result) => {
+
+  insertDocuments(coll, [doc], finalOptions, function (err, result) {
     if (callback == null) return;
     if (doc == null) return handleCallback(callback, null, null);
     if (err) return handleCallback(callback, err, null);
@@ -361,14 +399,14 @@ function save(coll, doc, options, callback) {
 }
 
 module.exports = {
-  checkForAtomicOperators,
-  createIndex,
-  createIndexes,
-  ensureIndex,
-  group,
-  indexes,
-  indexExists,
-  indexInformation,
-  parallelCollectionScan,
-  save
+  checkForAtomicOperators: checkForAtomicOperators,
+  createIndex: createIndex,
+  createIndexes: createIndexes,
+  ensureIndex: ensureIndex,
+  group: group,
+  indexes: indexes,
+  indexExists: indexExists,
+  indexInformation: indexInformation,
+  parallelCollectionScan: parallelCollectionScan,
+  save: save
 };

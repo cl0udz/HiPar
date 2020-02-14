@@ -1,22 +1,23 @@
-'use strict';
+'use strict'; // shared state names
 
-// shared state names
-const STATE_CLOSING = 'closing';
-const STATE_CLOSED = 'closed';
-const STATE_CONNECTING = 'connecting';
-const STATE_CONNECTED = 'connected';
+require("core-js/modules/es.array.for-each");
 
-// An enumeration of topology types we know about
-const TopologyType = {
+require("core-js/modules/web.dom-collections.for-each");
+
+var STATE_CLOSING = 'closing';
+var STATE_CLOSED = 'closed';
+var STATE_CONNECTING = 'connecting';
+var STATE_CONNECTED = 'connected'; // An enumeration of topology types we know about
+
+var TopologyType = {
   Single: 'Single',
   ReplicaSetNoPrimary: 'ReplicaSetNoPrimary',
   ReplicaSetWithPrimary: 'ReplicaSetWithPrimary',
   Sharded: 'Sharded',
   Unknown: 'Unknown'
-};
+}; // An enumeration of server types we know about
 
-// An enumeration of server types we know about
-const ServerType = {
+var ServerType = {
   Standalone: 'Standalone',
   Mongos: 'Mongos',
   PossiblePrimary: 'PossiblePrimary',
@@ -27,8 +28,7 @@ const ServerType = {
   RSGhost: 'RSGhost',
   Unknown: 'Unknown'
 };
-
-const TOPOLOGY_DEFAULTS = {
+var TOPOLOGY_DEFAULTS = {
   useUnifiedTopology: true,
   localThresholdMS: 15,
   serverSelectionTimeoutMS: 30000,
@@ -43,17 +43,17 @@ function drainTimerQueue(queue) {
 
 function clearAndRemoveTimerFrom(timer, timers) {
   clearTimeout(timer);
-  return timers.delete(timer);
+  return timers["delete"](timer);
 }
 
 module.exports = {
-  STATE_CLOSING,
-  STATE_CLOSED,
-  STATE_CONNECTING,
-  STATE_CONNECTED,
-  TOPOLOGY_DEFAULTS,
-  TopologyType,
-  ServerType,
-  drainTimerQueue,
-  clearAndRemoveTimerFrom
+  STATE_CLOSING: STATE_CLOSING,
+  STATE_CLOSED: STATE_CLOSED,
+  STATE_CONNECTING: STATE_CONNECTING,
+  STATE_CONNECTED: STATE_CONNECTED,
+  TOPOLOGY_DEFAULTS: TOPOLOGY_DEFAULTS,
+  TopologyType: TopologyType,
+  ServerType: ServerType,
+  drainTimerQueue: drainTimerQueue,
+  clearAndRemoveTimerFrom: clearAndRemoveTimerFrom
 };

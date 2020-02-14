@@ -1,25 +1,37 @@
 'use strict';
 
-const expect = require('chai').expect;
-const executeLegacyOperation = require('../../lib/utils').executeLegacyOperation;
+require("core-js/modules/es.object.to-string");
 
-describe('executeLegacyOperation', function() {
-  it('should call callback with errors on throw errors, and rethrow error', function() {
-    const expectedError = new Error('THIS IS AN ERROR');
-    let callbackError, caughtError;
+require("core-js/modules/es.promise");
 
-    const topology = {
+require("core-js/modules/web.timers");
+
+var expect = require('chai').expect;
+
+var executeLegacyOperation = require('../../lib/utils').executeLegacyOperation;
+
+describe('executeLegacyOperation', function () {
+  it('should call callback with errors on throw errors, and rethrow error', function () {
+    var expectedError = new Error('THIS IS AN ERROR');
+    var callbackError, caughtError;
+    var topology = {
       logicalSessionTimeoutMinutes: null,
       s: {
         promiseLibrary: Promise
       }
     };
-    const operation = () => {
+
+    var operation = function operation() {
       throw expectedError;
     };
 
-    const callback = err => (callbackError = err);
-    const options = { skipSessions: true };
+    var callback = function callback(err) {
+      return callbackError = err;
+    };
+
+    var options = {
+      skipSessions: true
+    };
 
     try {
       executeLegacyOperation(topology, operation, [{}, callback], options);
@@ -30,27 +42,29 @@ describe('executeLegacyOperation', function() {
     expect(callbackError).to.equal(expectedError);
     expect(caughtError).to.equal(expectedError);
   });
-
-  it('should reject promise with errors on throw errors, and rethrow error', function(done) {
-    const expectedError = new Error('THIS IS AN ERROR');
-    let callbackError;
-
-    const topology = {
+  it('should reject promise with errors on throw errors, and rethrow error', function (done) {
+    var expectedError = new Error('THIS IS AN ERROR');
+    var callbackError;
+    var topology = {
       logicalSessionTimeoutMinutes: null,
       s: {
         promiseLibrary: Promise
       }
     };
-    const operation = () => {
+
+    var operation = function operation() {
       throw expectedError;
     };
 
-    const callback = err => (callbackError = err);
-    const options = { skipSessions: true };
+    var callback = function callback(err) {
+      return callbackError = err;
+    };
 
+    var options = {
+      skipSessions: true
+    };
     executeLegacyOperation(topology, operation, [{}, null], options).then(null, callback);
-
-    setTimeout(() => {
+    setTimeout(function () {
       try {
         expect(callbackError).to.equal(expectedError);
         done();

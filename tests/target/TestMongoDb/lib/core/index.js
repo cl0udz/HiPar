@@ -1,18 +1,21 @@
 'use strict';
 
-let BSON = require('bson');
-const require_optional = require('require_optional');
-const EJSON = require('./utils').retrieveEJSON();
+var BSON = require('bson');
+
+var require_optional = require('require_optional');
+
+var EJSON = require('./utils').retrieveEJSON();
 
 try {
   // Attempt to grab the native BSON parser
-  const BSONNative = require_optional('bson-ext');
-  // If we got the native parser, use it instead of the
+  var BSONNative = require_optional('bson-ext'); // If we got the native parser, use it instead of the
   // Javascript one
+
   if (BSONNative) {
     BSON = BSONNative;
   }
 } catch (err) {} // eslint-disable-line
+
 
 module.exports = {
   // Errors

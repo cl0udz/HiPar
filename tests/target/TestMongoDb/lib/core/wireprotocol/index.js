@@ -1,5 +1,6 @@
 'use strict';
-const writeCommand = require('./write_command');
+
+var writeCommand = require('./write_command');
 
 module.exports = {
   insert: function insert(server, ns, ops, options, callback) {

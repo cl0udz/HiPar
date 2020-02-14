@@ -1,10 +1,52 @@
 'use strict';
 
-const MongoError = require('./core').MongoError;
-const Cursor = require('./cursor');
-const CursorState = require('./core/cursor').CursorState;
-const deprecate = require('util').deprecate;
+require("core-js/modules/es.symbol");
 
+require("core-js/modules/es.symbol.description");
+
+require("core-js/modules/es.symbol.iterator");
+
+require("core-js/modules/es.array.iterator");
+
+require("core-js/modules/es.object.create");
+
+require("core-js/modules/es.object.define-property");
+
+require("core-js/modules/es.object.get-prototype-of");
+
+require("core-js/modules/es.object.set-prototype-of");
+
+require("core-js/modules/es.object.to-string");
+
+require("core-js/modules/es.string.iterator");
+
+require("core-js/modules/web.dom-collections.iterator");
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var MongoError = require('./core').MongoError;
+
+var Cursor = require('./cursor');
+
+var CursorState = require('./core/cursor').CursorState;
+
+var deprecate = require('util').deprecate;
 /**
  * @fileOverview The **AggregationCursor** class is an internal class that embodies an aggregation cursor on MongoDB
  * allowing for iteration over the results returned from the underlying query. It supports
@@ -53,11 +95,18 @@ const deprecate = require('util').deprecate;
  * @fires AggregationCursor#readable
  * @return {AggregationCursor} an AggregationCursor instance.
  */
-class AggregationCursor extends Cursor {
-  constructor(topology, operation, options) {
-    super(topology, operation, options);
-  }
 
+
+var AggregationCursor =
+/*#__PURE__*/
+function (_Cursor) {
+  _inherits(AggregationCursor, _Cursor);
+
+  function AggregationCursor(topology, operation, options) {
+    _classCallCheck(this, AggregationCursor);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(AggregationCursor).call(this, topology, operation, options));
+  }
   /**
    * Set the batch size for the cursor.
    * @method
@@ -65,172 +114,228 @@ class AggregationCursor extends Cursor {
    * @throws {MongoError}
    * @return {AggregationCursor}
    */
-  batchSize(value) {
-    if (this.s.state === CursorState.CLOSED || this.isDead()) {
-      throw MongoError.create({ message: 'Cursor is closed', driver: true });
+
+
+  _createClass(AggregationCursor, [{
+    key: "batchSize",
+    value: function batchSize(value) {
+      if (this.s.state === CursorState.CLOSED || this.isDead()) {
+        throw MongoError.create({
+          message: 'Cursor is closed',
+          driver: true
+        });
+      }
+
+      if (typeof value !== 'number') {
+        throw MongoError.create({
+          message: 'batchSize requires an integer',
+          driver: true
+        });
+      }
+
+      this.operation.options.batchSize = value;
+      this.setCursorBatchSize(value);
+      return this;
     }
+    /**
+     * Add a geoNear stage to the aggregation pipeline
+     * @method
+     * @param {object} document The geoNear stage document.
+     * @return {AggregationCursor}
+     */
 
-    if (typeof value !== 'number') {
-      throw MongoError.create({ message: 'batchSize requires an integer', driver: true });
+  }, {
+    key: "geoNear",
+    value: function geoNear(document) {
+      this.operation.addToPipeline({
+        $geoNear: document
+      });
+      return this;
     }
+    /**
+     * Add a group stage to the aggregation pipeline
+     * @method
+     * @param {object} document The group stage document.
+     * @return {AggregationCursor}
+     */
 
-    this.operation.options.batchSize = value;
-    this.setCursorBatchSize(value);
-    return this;
-  }
+  }, {
+    key: "group",
+    value: function group(document) {
+      this.operation.addToPipeline({
+        $group: document
+      });
+      return this;
+    }
+    /**
+     * Add a limit stage to the aggregation pipeline
+     * @method
+     * @param {number} value The state limit value.
+     * @return {AggregationCursor}
+     */
 
-  /**
-   * Add a geoNear stage to the aggregation pipeline
-   * @method
-   * @param {object} document The geoNear stage document.
-   * @return {AggregationCursor}
-   */
-  geoNear(document) {
-    this.operation.addToPipeline({ $geoNear: document });
-    return this;
-  }
+  }, {
+    key: "limit",
+    value: function limit(value) {
+      this.operation.addToPipeline({
+        $limit: value
+      });
+      return this;
+    }
+    /**
+     * Add a match stage to the aggregation pipeline
+     * @method
+     * @param {object} document The match stage document.
+     * @return {AggregationCursor}
+     */
 
-  /**
-   * Add a group stage to the aggregation pipeline
-   * @method
-   * @param {object} document The group stage document.
-   * @return {AggregationCursor}
-   */
-  group(document) {
-    this.operation.addToPipeline({ $group: document });
-    return this;
-  }
+  }, {
+    key: "match",
+    value: function match(document) {
+      this.operation.addToPipeline({
+        $match: document
+      });
+      return this;
+    }
+    /**
+     * Add a maxTimeMS stage to the aggregation pipeline
+     * @method
+     * @param {number} value The state maxTimeMS value.
+     * @return {AggregationCursor}
+     */
 
-  /**
-   * Add a limit stage to the aggregation pipeline
-   * @method
-   * @param {number} value The state limit value.
-   * @return {AggregationCursor}
-   */
-  limit(value) {
-    this.operation.addToPipeline({ $limit: value });
-    return this;
-  }
+  }, {
+    key: "maxTimeMS",
+    value: function maxTimeMS(value) {
+      this.operation.options.maxTimeMS = value;
+      return this;
+    }
+    /**
+     * Add a out stage to the aggregation pipeline
+     * @method
+     * @param {number} destination The destination name.
+     * @return {AggregationCursor}
+     */
 
-  /**
-   * Add a match stage to the aggregation pipeline
-   * @method
-   * @param {object} document The match stage document.
-   * @return {AggregationCursor}
-   */
-  match(document) {
-    this.operation.addToPipeline({ $match: document });
-    return this;
-  }
+  }, {
+    key: "out",
+    value: function out(destination) {
+      this.operation.addToPipeline({
+        $out: destination
+      });
+      return this;
+    }
+    /**
+     * Add a project stage to the aggregation pipeline
+     * @method
+     * @param {object} document The project stage document.
+     * @return {AggregationCursor}
+     */
 
-  /**
-   * Add a maxTimeMS stage to the aggregation pipeline
-   * @method
-   * @param {number} value The state maxTimeMS value.
-   * @return {AggregationCursor}
-   */
-  maxTimeMS(value) {
-    this.operation.options.maxTimeMS = value;
-    return this;
-  }
+  }, {
+    key: "project",
+    value: function project(document) {
+      this.operation.addToPipeline({
+        $project: document
+      });
+      return this;
+    }
+    /**
+     * Add a lookup stage to the aggregation pipeline
+     * @method
+     * @param {object} document The lookup stage document.
+     * @return {AggregationCursor}
+     */
 
-  /**
-   * Add a out stage to the aggregation pipeline
-   * @method
-   * @param {number} destination The destination name.
-   * @return {AggregationCursor}
-   */
-  out(destination) {
-    this.operation.addToPipeline({ $out: destination });
-    return this;
-  }
+  }, {
+    key: "lookup",
+    value: function lookup(document) {
+      this.operation.addToPipeline({
+        $lookup: document
+      });
+      return this;
+    }
+    /**
+     * Add a redact stage to the aggregation pipeline
+     * @method
+     * @param {object} document The redact stage document.
+     * @return {AggregationCursor}
+     */
 
-  /**
-   * Add a project stage to the aggregation pipeline
-   * @method
-   * @param {object} document The project stage document.
-   * @return {AggregationCursor}
-   */
-  project(document) {
-    this.operation.addToPipeline({ $project: document });
-    return this;
-  }
+  }, {
+    key: "redact",
+    value: function redact(document) {
+      this.operation.addToPipeline({
+        $redact: document
+      });
+      return this;
+    }
+    /**
+     * Add a skip stage to the aggregation pipeline
+     * @method
+     * @param {number} value The state skip value.
+     * @return {AggregationCursor}
+     */
 
-  /**
-   * Add a lookup stage to the aggregation pipeline
-   * @method
-   * @param {object} document The lookup stage document.
-   * @return {AggregationCursor}
-   */
-  lookup(document) {
-    this.operation.addToPipeline({ $lookup: document });
-    return this;
-  }
+  }, {
+    key: "skip",
+    value: function skip(value) {
+      this.operation.addToPipeline({
+        $skip: value
+      });
+      return this;
+    }
+    /**
+     * Add a sort stage to the aggregation pipeline
+     * @method
+     * @param {object} document The sort stage document.
+     * @return {AggregationCursor}
+     */
 
-  /**
-   * Add a redact stage to the aggregation pipeline
-   * @method
-   * @param {object} document The redact stage document.
-   * @return {AggregationCursor}
-   */
-  redact(document) {
-    this.operation.addToPipeline({ $redact: document });
-    return this;
-  }
+  }, {
+    key: "sort",
+    value: function sort(document) {
+      this.operation.addToPipeline({
+        $sort: document
+      });
+      return this;
+    }
+    /**
+     * Add a unwind stage to the aggregation pipeline
+     * @method
+     * @param {number} field The unwind field name.
+     * @return {AggregationCursor}
+     */
 
-  /**
-   * Add a skip stage to the aggregation pipeline
-   * @method
-   * @param {number} value The state skip value.
-   * @return {AggregationCursor}
-   */
-  skip(value) {
-    this.operation.addToPipeline({ $skip: value });
-    return this;
-  }
+  }, {
+    key: "unwind",
+    value: function unwind(field) {
+      this.operation.addToPipeline({
+        $unwind: field
+      });
+      return this;
+    }
+    /**
+     * Return the cursor logger
+     * @method
+     * @return {Logger} return the cursor logger
+     * @ignore
+     */
 
-  /**
-   * Add a sort stage to the aggregation pipeline
-   * @method
-   * @param {object} document The sort stage document.
-   * @return {AggregationCursor}
-   */
-  sort(document) {
-    this.operation.addToPipeline({ $sort: document });
-    return this;
-  }
+  }, {
+    key: "getLogger",
+    value: function getLogger() {
+      return this.logger;
+    }
+  }]);
 
-  /**
-   * Add a unwind stage to the aggregation pipeline
-   * @method
-   * @param {number} field The unwind field name.
-   * @return {AggregationCursor}
-   */
-  unwind(field) {
-    this.operation.addToPipeline({ $unwind: field });
-    return this;
-  }
+  return AggregationCursor;
+}(Cursor); // aliases
 
-  /**
-   * Return the cursor logger
-   * @method
-   * @return {Logger} return the cursor logger
-   * @ignore
-   */
-  getLogger() {
-    return this.logger;
-  }
-}
 
-// aliases
-AggregationCursor.prototype.get = AggregationCursor.prototype.toArray;
+AggregationCursor.prototype.get = AggregationCursor.prototype.toArray; // deprecated methods
 
-// deprecated methods
-deprecate(
-  AggregationCursor.prototype.geoNear,
-  'The `$geoNear` stage is deprecated in MongoDB 4.0, and removed in version 4.2.'
-);
-
+deprecate(AggregationCursor.prototype.geoNear, 'The `$geoNear` stage is deprecated in MongoDB 4.0, and removed in version 4.2.');
 /**
  * AggregationCursor stream data event, fired for each document in the cursor.
  *

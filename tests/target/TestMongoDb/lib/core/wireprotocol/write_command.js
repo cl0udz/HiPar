@@ -1,21 +1,27 @@
 'use strict';
 
-const MongoError = require('../error').MongoError;
-const collectionNamespace = require('./shared').collectionNamespace;
-const command = require('./command');
+require("core-js/modules/es.object.assign");
+
+require("core-js/modules/es.object.keys");
+
+var MongoError = require('../error').MongoError;
+
+var collectionNamespace = require('./shared').collectionNamespace;
+
+var command = require('./command');
 
 function writeCommand(server, type, opsField, ns, ops, options, callback) {
-  if (ops.length === 0) throw new MongoError(`${type} must contain at least one document`);
+  if (ops.length === 0) throw new MongoError("".concat(type, " must contain at least one document"));
+
   if (typeof options === 'function') {
     callback = options;
     options = {};
   }
 
   options = options || {};
-  const ordered = typeof options.ordered === 'boolean' ? options.ordered : true;
-  const writeConcern = options.writeConcern;
-
-  const writeCommand = {};
+  var ordered = typeof options.ordered === 'boolean' ? options.ordered : true;
+  var writeConcern = options.writeConcern;
+  var writeCommand = {};
   writeCommand[type] = collectionNamespace(ns);
   writeCommand[opsField] = ops;
   writeCommand.ordered = ordered;
@@ -25,7 +31,7 @@ function writeCommand(server, type, opsField, ns, ops, options, callback) {
   }
 
   if (options.collation) {
-    for (let i = 0; i < writeCommand[opsField].length; i++) {
+    for (var i = 0; i < writeCommand[opsField].length; i++) {
       if (!writeCommand[opsField][i].collation) {
         writeCommand[opsField][i].collation = options.collation;
       }
@@ -36,14 +42,10 @@ function writeCommand(server, type, opsField, ns, ops, options, callback) {
     writeCommand.bypassDocumentValidation = options.bypassDocumentValidation;
   }
 
-  const commandOptions = Object.assign(
-    {
-      checkKeys: type === 'insert',
-      numberToReturn: 1
-    },
-    options
-  );
-
+  var commandOptions = Object.assign({
+    checkKeys: type === 'insert',
+    numberToReturn: 1
+  }, options);
   command(server, ns, writeCommand, commandOptions, callback);
 }
 

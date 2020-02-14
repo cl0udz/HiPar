@@ -1,73 +1,106 @@
 'use strict';
 
-const os = require('os');
-const ReadPreference = require('./read_preference');
-const Buffer = require('safe-buffer').Buffer;
-const TopologyType = require('../sdam/common').TopologyType;
-const MongoError = require('../error').MongoError;
+require("core-js/modules/es.symbol");
 
-const MMAPv1_RETRY_WRITES_ERROR_CODE = 20;
+require("core-js/modules/es.symbol.description");
 
+require("core-js/modules/es.array.concat");
+
+require("core-js/modules/es.array.for-each");
+
+require("core-js/modules/es.array.includes");
+
+require("core-js/modules/es.array.is-array");
+
+require("core-js/modules/es.array.slice");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.object.to-string");
+
+require("core-js/modules/es.regexp.to-string");
+
+require("core-js/modules/es.string.includes");
+
+require("core-js/modules/web.dom-collections.for-each");
+
+require("core-js/modules/web.timers");
+
+var os = require('os');
+
+var ReadPreference = require('./read_preference');
+
+var Buffer = require('safe-buffer').Buffer;
+
+var TopologyType = require('../sdam/common').TopologyType;
+
+var MongoError = require('../error').MongoError;
+
+var MMAPv1_RETRY_WRITES_ERROR_CODE = 20;
 /**
  * Emit event if it exists
  * @method
  */
+
 function emitSDAMEvent(self, event, description) {
   if (self.listeners(event).length > 0) {
     self.emit(event, description);
   }
-}
+} // Get package.json variable
 
-// Get package.json variable
-const driverVersion = require('../../../node_modules/mongodb/package.json').version;
-const nodejsVersion = `'Node.js ${process.version}, ${os.endianness}`;
-const type = os.type();
-const name = process.platform;
-const architecture = process.arch;
-const release = os.release();
+
+var driverVersion = require('../../../node_modules/mongodb/package.json').version;
+
+var nodejsVersion = "'Node.js ".concat(process.version, ", ").concat(os.endianness);
+var type = os.type();
+var name = process.platform;
+var architecture = process.arch;
+var release = os.release();
 
 function createClientInfo(options) {
-  const clientInfo = options.clientInfo
-    ? clone(options.clientInfo)
-    : {
-        driver: {
-          name: 'nodejs',
-          version: driverVersion
-        },
-        os: {
-          type: type,
-          name: name,
-          architecture: architecture,
-          version: release
-        }
-      };
+  var clientInfo = options.clientInfo ? clone(options.clientInfo) : {
+    driver: {
+      name: 'nodejs',
+      version: driverVersion
+    },
+    os: {
+      type: type,
+      name: name,
+      architecture: architecture,
+      version: release
+    }
+  };
 
   if (options.useUnifiedTopology) {
-    clientInfo.platform = `${nodejsVersion} (${options.useUnifiedTopology ? 'unified' : 'legacy'})`;
-  }
+    clientInfo.platform = "".concat(nodejsVersion, " (").concat(options.useUnifiedTopology ? 'unified' : 'legacy', ")");
+  } // Do we have an application specific string
 
-  // Do we have an application specific string
+
   if (options.appname) {
     // Cut at 128 bytes
-    var buffer = Buffer.from(options.appname);
-    // Return the truncated appname
-    var appname = buffer.length > 128 ? buffer.slice(0, 128).toString('utf8') : options.appname;
-    // Add to the clientInfo
-    clientInfo.application = { name: appname };
-  }
+    var buffer = Buffer.from(options.appname); // Return the truncated appname
 
-  // support optionally provided wrapping driver info
+    var appname = buffer.length > 128 ? buffer.slice(0, 128).toString('utf8') : options.appname; // Add to the clientInfo
+
+    clientInfo.application = {
+      name: appname
+    };
+  } // support optionally provided wrapping driver info
+
+
   if (options.driverInfo) {
     if (options.driverInfo.name) {
-      clientInfo.driver.name = `${clientInfo.driver.name}|${options.driverInfo.name}`;
+      clientInfo.driver.name = "".concat(clientInfo.driver.name, "|").concat(options.driverInfo.name);
     }
 
     if (options.driverInfo.version) {
-      clientInfo.driver.version = `${clientInfo.driver.version}|${options.driverInfo.version}`;
+      clientInfo.driver.version = "".concat(clientInfo.driver.version, "|").concat(options.driverInfo.version);
     }
 
     if (options.driverInfo.platform) {
-      clientInfo.platform = `${clientInfo.platform}|${options.driverInfo.platform}`;
+      clientInfo.platform = "".concat(clientInfo.platform, "|").concat(options.driverInfo.platform);
     }
   }
 
@@ -77,15 +110,14 @@ function createClientInfo(options) {
 function createCompressionInfo(options) {
   if (!options.compression || !options.compression.compressors) {
     return [];
-  }
+  } // Check that all supplied compressors are valid
 
-  // Check that all supplied compressors are valid
-  options.compression.compressors.forEach(function(compressor) {
+
+  options.compression.compressors.forEach(function (compressor) {
     if (compressor !== 'snappy' && compressor !== 'zlib') {
       throw new Error('compressors must be at least one of snappy or zlib');
     }
   });
-
   return options.compression.compressors;
 }
 
@@ -93,7 +125,7 @@ function clone(object) {
   return JSON.parse(JSON.stringify(object));
 }
 
-var getPreviousDescription = function(self) {
+var getPreviousDescription = function getPreviousDescription(self) {
   if (!self.s.serverDescription) {
     self.s.serverDescription = {
       address: self.name,
@@ -107,7 +139,7 @@ var getPreviousDescription = function(self) {
   return self.s.serverDescription;
 };
 
-var emitServerDescriptionChanged = function(self, description) {
+var emitServerDescriptionChanged = function emitServerDescriptionChanged(self, description) {
   if (self.listeners('serverDescriptionChanged').length > 0) {
     // Emit the server description changed events
     self.emit('serverDescriptionChanged', {
@@ -116,31 +148,28 @@ var emitServerDescriptionChanged = function(self, description) {
       previousDescription: getPreviousDescription(self),
       newDescription: description
     });
-
     self.s.serverDescription = description;
   }
 };
 
-var getPreviousTopologyDescription = function(self) {
+var getPreviousTopologyDescription = function getPreviousTopologyDescription(self) {
   if (!self.s.topologyDescription) {
     self.s.topologyDescription = {
       topologyType: 'Unknown',
-      servers: [
-        {
-          address: self.name,
-          arbiters: [],
-          hosts: [],
-          passives: [],
-          type: 'Unknown'
-        }
-      ]
+      servers: [{
+        address: self.name,
+        arbiters: [],
+        hosts: [],
+        passives: [],
+        type: 'Unknown'
+      }]
     };
   }
 
   return self.s.topologyDescription;
 };
 
-var emitTopologyDescriptionChanged = function(self, description) {
+var emitTopologyDescriptionChanged = function emitTopologyDescriptionChanged(self, description) {
   if (self.listeners('topologyDescriptionChanged').length > 0) {
     // Emit the server description changed events
     self.emit('topologyDescriptionChanged', {
@@ -149,19 +178,18 @@ var emitTopologyDescriptionChanged = function(self, description) {
       previousDescription: getPreviousTopologyDescription(self),
       newDescription: description
     });
-
     self.s.serverDescription = description;
   }
 };
 
-var changedIsMaster = function(self, currentIsmaster, ismaster) {
+var changedIsMaster = function changedIsMaster(self, currentIsmaster, ismaster) {
   var currentType = getTopologyType(self, currentIsmaster);
   var newType = getTopologyType(self, ismaster);
   if (newType !== currentType) return true;
   return false;
 };
 
-var getTopologyType = function(self, ismaster) {
+var getTopologyType = function getTopologyType(self, ismaster) {
   if (!ismaster) {
     ismaster = self.ismaster;
   }
@@ -175,32 +203,33 @@ var getTopologyType = function(self, ismaster) {
   return 'Unknown';
 };
 
-var inquireServerState = function(self) {
-  return function(callback) {
-    if (self.s.state === 'destroyed') return;
-    // Record response time
-    var start = new Date().getTime();
+var inquireServerState = function inquireServerState(self) {
+  return function (callback) {
+    if (self.s.state === 'destroyed') return; // Record response time
 
-    // emitSDAMEvent
-    emitSDAMEvent(self, 'serverHeartbeatStarted', { connectionId: self.name });
+    var start = new Date().getTime(); // emitSDAMEvent
 
-    // Attempt to execute ismaster command
-    self.command('admin.$cmd', { ismaster: true }, { monitoring: true }, function(err, r) {
+    emitSDAMEvent(self, 'serverHeartbeatStarted', {
+      connectionId: self.name
+    }); // Attempt to execute ismaster command
+
+    self.command('admin.$cmd', {
+      ismaster: true
+    }, {
+      monitoring: true
+    }, function (err, r) {
       if (!err) {
         // Legacy event sender
-        self.emit('ismaster', r, self);
+        self.emit('ismaster', r, self); // Calculate latencyMS
 
-        // Calculate latencyMS
-        var latencyMS = new Date().getTime() - start;
+        var latencyMS = new Date().getTime() - start; // Server heart beat event
 
-        // Server heart beat event
         emitSDAMEvent(self, 'serverHeartbeatSucceeded', {
           durationMS: latencyMS,
           reply: r.result,
           connectionId: self.name
-        });
+        }); // Did the server change
 
-        // Did the server change
         if (changedIsMaster(self, self.s.ismaster, r.result)) {
           // Emit server description changed if something listening
           emitServerDescriptionChanged(self, {
@@ -210,12 +239,11 @@ var inquireServerState = function(self) {
             passives: [],
             type: !self.s.inTopology ? 'Standalone' : getTopologyType(self)
           });
-        }
+        } // Updat ismaster view
 
-        // Updat ismaster view
-        self.s.ismaster = r.result;
 
-        // Set server response time
+        self.s.ismaster = r.result; // Set server response time
+
         self.s.isMasterLatencyMS = latencyMS;
       } else {
         emitSDAMEvent(self, 'serverHeartbeatFailed', {
@@ -223,33 +251,35 @@ var inquireServerState = function(self) {
           failure: err,
           connectionId: self.name
         });
-      }
+      } // Peforming an ismaster monitoring callback operation
 
-      // Peforming an ismaster monitoring callback operation
+
       if (typeof callback === 'function') {
         return callback(err, r);
-      }
+      } // Perform another sweep
 
-      // Perform another sweep
+
       self.s.inquireServerStateTimeout = setTimeout(inquireServerState(self), self.s.haInterval);
     });
   };
-};
-
-//
+}; //
 // Clone the options
-var cloneOptions = function(options) {
+
+
+var cloneOptions = function cloneOptions(options) {
   var opts = {};
+
   for (var name in options) {
     opts[name] = options[name];
   }
+
   return opts;
 };
 
 function Interval(fn, time) {
   var timer = false;
 
-  this.start = function() {
+  this.start = function () {
     if (!this.isRunning()) {
       timer = setInterval(fn, time);
     }
@@ -257,13 +287,13 @@ function Interval(fn, time) {
     return this;
   };
 
-  this.stop = function() {
+  this.stop = function () {
     clearInterval(timer);
     timer = false;
     return this;
   };
 
-  this.isRunning = function() {
+  this.isRunning = function () {
     return timer !== false;
   };
 }
@@ -271,20 +301,21 @@ function Interval(fn, time) {
 function Timeout(fn, time) {
   var timer = false;
 
-  this.start = function() {
+  this.start = function () {
     if (!this.isRunning()) {
       timer = setTimeout(fn, time);
     }
+
     return this;
   };
 
-  this.stop = function() {
+  this.stop = function () {
     clearTimeout(timer);
     timer = false;
     return this;
   };
 
-  this.isRunning = function() {
+  this.isRunning = function () {
     if (timer && timer._called) return false;
     return timer !== false;
   };
@@ -294,14 +325,15 @@ function diff(previous, current) {
   // Difference document
   var diff = {
     servers: []
-  };
+  }; // Previous entry
 
-  // Previous entry
   if (!previous) {
-    previous = { servers: [] };
-  }
+    previous = {
+      servers: []
+    };
+  } // Check if we have any previous servers missing in the current ones
 
-  // Check if we have any previous servers missing in the current ones
+
   for (var i = 0; i < previous.servers.length; i++) {
     var found = false;
 
@@ -320,21 +352,20 @@ function diff(previous, current) {
         to: 'Unknown'
       });
     }
-  }
+  } // Check if there are any severs that don't exist
 
-  // Check if there are any severs that don't exist
+
   for (j = 0; j < current.servers.length; j++) {
-    found = false;
+    found = false; // Go over all the previous servers
 
-    // Go over all the previous servers
     for (i = 0; i < previous.servers.length; i++) {
       if (previous.servers[i].address.toLowerCase() === current.servers[j].address.toLowerCase()) {
         found = true;
         break;
       }
-    }
+    } // Add the server to the diff
 
-    // Add the server to the diff
+
     if (!found) {
       diff.servers.push({
         address: current.servers[j].address,
@@ -342,17 +373,15 @@ function diff(previous, current) {
         to: current.servers[j].type
       });
     }
-  }
+  } // Got through all the servers
 
-  // Got through all the servers
+
   for (i = 0; i < previous.servers.length; i++) {
-    var prevServer = previous.servers[i];
+    var prevServer = previous.servers[i]; // Go through all current servers
 
-    // Go through all current servers
     for (j = 0; j < current.servers.length; j++) {
-      var currServer = current.servers[j];
+      var currServer = current.servers[j]; // Matching server
 
-      // Matching server
       if (prevServer.address.toLowerCase() === currServer.address.toLowerCase()) {
         // We had a change in state
         if (prevServer.type !== currServer.type) {
@@ -364,18 +393,19 @@ function diff(previous, current) {
         }
       }
     }
-  }
+  } // Return difference
 
-  // Return difference
+
   return diff;
 }
-
 /**
  * Shared function to determine clusterTime for a given topology
  *
  * @param {*} topology
  * @param {*} clusterTime
  */
+
+
 function resolveClusterTime(topology, $clusterTime) {
   if (topology.clusterTime == null) {
     topology.clusterTime = $clusterTime;
@@ -384,31 +414,30 @@ function resolveClusterTime(topology, $clusterTime) {
       topology.clusterTime = $clusterTime;
     }
   }
-}
-
-// NOTE: this is a temporary move until the topologies can be more formally refactored
+} // NOTE: this is a temporary move until the topologies can be more formally refactored
 //       to share code.
-const SessionMixins = {
-  endSessions: function(sessions, callback) {
+
+
+var SessionMixins = {
+  endSessions: function endSessions(sessions, callback) {
     if (!Array.isArray(sessions)) {
       sessions = [sessions];
-    }
-
-    // TODO:
+    } // TODO:
     //   When connected to a sharded cluster the endSessions command
     //   can be sent to any mongos. When connected to a replica set the
     //   endSessions command MUST be sent to the primary if the primary
     //   is available, otherwise it MUST be sent to any available secondary.
     //   Is it enough to use: ReadPreference.primaryPreferred ?
-    this.command(
-      'admin.$cmd',
-      { endSessions: sessions },
-      { readPreference: ReadPreference.primaryPreferred },
-      () => {
-        // intentionally ignored, per spec
-        if (typeof callback === 'function') callback();
-      }
-    );
+
+
+    this.command('admin.$cmd', {
+      endSessions: sessions
+    }, {
+      readPreference: ReadPreference.primaryPreferred
+    }, function () {
+      // intentionally ignored, per spec
+      if (typeof callback === 'function') callback();
+    });
   }
 };
 
@@ -426,15 +455,16 @@ function topologyType(topology) {
   return TopologyType.Single;
 }
 
-const RETRYABLE_WIRE_VERSION = 6;
-
+var RETRYABLE_WIRE_VERSION = 6;
 /**
  * Determines whether the provided topology supports retryable writes
  *
  * @param {Mongos|Replset} topology
  */
-const isRetryableWritesSupported = function(topology) {
-  const maxWireVersion = topology.lastIsMaster().maxWireVersion;
+
+var isRetryableWritesSupported = function isRetryableWritesSupported(topology) {
+  var maxWireVersion = topology.lastIsMaster().maxWireVersion;
+
   if (maxWireVersion < RETRYABLE_WIRE_VERSION) {
     return false;
   }
@@ -450,17 +480,16 @@ const isRetryableWritesSupported = function(topology) {
   return true;
 };
 
-const MMAPv1_RETRY_WRITES_ERROR_MESSAGE =
-  'This MongoDB deployment does not support retryable writes. Please add retryWrites=false to your connection string.';
+var MMAPv1_RETRY_WRITES_ERROR_MESSAGE = 'This MongoDB deployment does not support retryable writes. Please add retryWrites=false to your connection string.';
 
 function getMMAPError(err) {
   if (err.code !== MMAPv1_RETRY_WRITES_ERROR_CODE || !err.errmsg.includes('Transaction numbers')) {
     return err;
-  }
-
-  // According to the retryable writes spec, we must replace the error message in this case.
+  } // According to the retryable writes spec, we must replace the error message in this case.
   // We need to replace err.message so the thrown message is correct and we need to replace err.errmsg to meet the spec requirement.
-  const newErr = new MongoError({
+
+
+  var newErr = new MongoError({
     message: MMAPv1_RETRY_WRITES_ERROR_MESSAGE,
     errmsg: MMAPv1_RETRY_WRITES_ERROR_MESSAGE,
     originalError: err

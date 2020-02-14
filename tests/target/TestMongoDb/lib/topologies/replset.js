@@ -1,71 +1,94 @@
 'use strict';
 
-const Server = require('./server');
-const Cursor = require('../cursor');
-const MongoError = require('../core').MongoError;
-const TopologyBase = require('./topology_base').TopologyBase;
-const Store = require('./topology_base').Store;
-const CReplSet = require('../core').ReplSet;
-const MAX_JS_INT = require('../utils').MAX_JS_INT;
-const translateOptions = require('../utils').translateOptions;
-const filterOptions = require('../utils').filterOptions;
-const mergeOptions = require('../utils').mergeOptions;
+require("core-js/modules/es.symbol");
 
+require("core-js/modules/es.symbol.description");
+
+require("core-js/modules/es.symbol.iterator");
+
+require("core-js/modules/es.array.for-each");
+
+require("core-js/modules/es.array.iterator");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.object.assign");
+
+require("core-js/modules/es.object.create");
+
+require("core-js/modules/es.object.define-property");
+
+require("core-js/modules/es.object.get-own-property-descriptor");
+
+require("core-js/modules/es.object.get-prototype-of");
+
+require("core-js/modules/es.object.keys");
+
+require("core-js/modules/es.object.set-prototype-of");
+
+require("core-js/modules/es.object.to-string");
+
+require("core-js/modules/es.promise");
+
+require("core-js/modules/es.reflect.get");
+
+require("core-js/modules/es.set");
+
+require("core-js/modules/es.string.iterator");
+
+require("core-js/modules/web.dom-collections.iterator");
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var Server = require('./server');
+
+var Cursor = require('../cursor');
+
+var MongoError = require('../core').MongoError;
+
+var TopologyBase = require('./topology_base').TopologyBase;
+
+var Store = require('./topology_base').Store;
+
+var CReplSet = require('../core').ReplSet;
+
+var MAX_JS_INT = require('../utils').MAX_JS_INT;
+
+var translateOptions = require('../utils').translateOptions;
+
+var filterOptions = require('../utils').filterOptions;
+
+var mergeOptions = require('../utils').mergeOptions;
 /**
  * @fileOverview The **ReplSet** class is a class that represents a Replicaset topology and is
  * used to construct connections.
  *
  * **ReplSet Should not be used, use MongoClient.connect**
  */
-
 // Allowed parameters
-var legalOptionNames = [
-  'ha',
-  'haInterval',
-  'replicaSet',
-  'rs_name',
-  'secondaryAcceptableLatencyMS',
-  'connectWithNoPrimary',
-  'poolSize',
-  'ssl',
-  'checkServerIdentity',
-  'sslValidate',
-  'sslCA',
-  'sslCert',
-  'ciphers',
-  'ecdhCurve',
-  'sslCRL',
-  'sslKey',
-  'sslPass',
-  'socketOptions',
-  'bufferMaxEntries',
-  'store',
-  'auto_reconnect',
-  'autoReconnect',
-  'emitError',
-  'keepAlive',
-  'keepAliveInitialDelay',
-  'noDelay',
-  'connectTimeoutMS',
-  'socketTimeoutMS',
-  'strategy',
-  'debug',
-  'family',
-  'loggerLevel',
-  'logger',
-  'reconnectTries',
-  'appname',
-  'domainsEnabled',
-  'servername',
-  'promoteLongs',
-  'promoteValues',
-  'promoteBuffers',
-  'maxStalenessSeconds',
-  'promiseLibrary',
-  'minSize',
-  'monitorCommands'
-];
 
+
+var legalOptionNames = ['ha', 'haInterval', 'replicaSet', 'rs_name', 'secondaryAcceptableLatencyMS', 'connectWithNoPrimary', 'poolSize', 'ssl', 'checkServerIdentity', 'sslValidate', 'sslCA', 'sslCert', 'ciphers', 'ecdhCurve', 'sslCRL', 'sslKey', 'sslPass', 'socketOptions', 'bufferMaxEntries', 'store', 'auto_reconnect', 'autoReconnect', 'emitError', 'keepAlive', 'keepAliveInitialDelay', 'noDelay', 'connectTimeoutMS', 'socketTimeoutMS', 'strategy', 'debug', 'family', 'loggerLevel', 'logger', 'reconnectTries', 'appname', 'domainsEnabled', 'servername', 'promoteLongs', 'promoteValues', 'promoteBuffers', 'maxStalenessSeconds', 'promiseLibrary', 'minSize', 'monitorCommands'];
 /**
  * Creates a new ReplSet instance
  * @class
@@ -114,17 +137,25 @@ var legalOptionNames = [
  * @property {string} parserType the parser type used (c++ or js).
  * @return {ReplSet} a ReplSet instance.
  */
-class ReplSet extends TopologyBase {
-  constructor(servers, options) {
-    super();
 
+var ReplSet =
+/*#__PURE__*/
+function (_TopologyBase) {
+  _inherits(ReplSet, _TopologyBase);
+
+  function ReplSet(servers, options) {
+    var _this;
+
+    _classCallCheck(this, ReplSet);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ReplSet).call(this));
     options = options || {};
-    var self = this;
 
-    // Filter the options
-    options = filterOptions(options, legalOptionNames);
+    var self = _assertThisInitialized(_this); // Filter the options
 
-    // Ensure all the instances are Server
+
+    options = filterOptions(options, legalOptionNames); // Ensure all the instances are Server
+
     for (var i = 0; i < servers.length; i++) {
       if (!(servers[i] instanceof Server)) {
         throw MongoError.create({
@@ -132,67 +163,55 @@ class ReplSet extends TopologyBase {
           driver: true
         });
       }
-    }
+    } // Stored options
 
-    // Stored options
+
     var storeOptions = {
       force: false,
-      bufferMaxEntries:
-        typeof options.bufferMaxEntries === 'number' ? options.bufferMaxEntries : MAX_JS_INT
-    };
+      bufferMaxEntries: typeof options.bufferMaxEntries === 'number' ? options.bufferMaxEntries : MAX_JS_INT
+    }; // Shared global store
 
-    // Shared global store
-    var store = options.store || new Store(self, storeOptions);
+    var store = options.store || new Store(self, storeOptions); // Build seed list
 
-    // Build seed list
-    var seedlist = servers.map(function(x) {
-      return { host: x.host, port: x.port };
-    });
+    var seedlist = servers.map(function (x) {
+      return {
+        host: x.host,
+        port: x.port
+      };
+    }); // Clone options
 
-    // Clone options
-    var clonedOptions = mergeOptions(
-      {},
-      {
-        disconnectHandler: store,
-        cursorFactory: Cursor,
-        reconnect: false,
-        emitError: typeof options.emitError === 'boolean' ? options.emitError : true,
-        size: typeof options.poolSize === 'number' ? options.poolSize : 5,
-        monitorCommands:
-          typeof options.monitorCommands === 'boolean' ? options.monitorCommands : false
-      }
-    );
+    var clonedOptions = mergeOptions({}, {
+      disconnectHandler: store,
+      cursorFactory: Cursor,
+      reconnect: false,
+      emitError: typeof options.emitError === 'boolean' ? options.emitError : true,
+      size: typeof options.poolSize === 'number' ? options.poolSize : 5,
+      monitorCommands: typeof options.monitorCommands === 'boolean' ? options.monitorCommands : false
+    }); // Translate any SSL options and other connectivity options
 
-    // Translate any SSL options and other connectivity options
-    clonedOptions = translateOptions(clonedOptions, options);
+    clonedOptions = translateOptions(clonedOptions, options); // Socket options
 
-    // Socket options
-    var socketOptions =
-      options.socketOptions && Object.keys(options.socketOptions).length > 0
-        ? options.socketOptions
-        : options;
+    var socketOptions = options.socketOptions && Object.keys(options.socketOptions).length > 0 ? options.socketOptions : options; // Translate all the options to the core types
 
-    // Translate all the options to the core types
-    clonedOptions = translateOptions(clonedOptions, socketOptions);
+    clonedOptions = translateOptions(clonedOptions, socketOptions); // Build default client information
 
-    // Build default client information
-    clonedOptions.clientInfo = this.clientInfo;
-    // Do we have an application specific string
+    clonedOptions.clientInfo = _this.clientInfo; // Do we have an application specific string
+
     if (options.appname) {
-      clonedOptions.clientInfo.application = { name: options.appname };
-    }
+      clonedOptions.clientInfo.application = {
+        name: options.appname
+      };
+    } // Create the ReplSet
 
-    // Create the ReplSet
-    var coreTopology = new CReplSet(seedlist, clonedOptions);
 
-    // Listen to reconnect event
-    coreTopology.on('reconnect', function() {
+    var coreTopology = new CReplSet(seedlist, clonedOptions); // Listen to reconnect event
+
+    coreTopology.on('reconnect', function () {
       self.emit('reconnect');
       store.execute();
-    });
+    }); // Internal state
 
-    // Internal state
-    this.s = {
+    _this.s = {
       // Replicaset
       coreTopology: coreTopology,
       // Server capabilities
@@ -213,187 +232,164 @@ class ReplSet extends TopologyBase {
       sessions: new Set(),
       // Promise library
       promiseLibrary: options.promiseLibrary || Promise
-    };
+    }; // Debug
 
-    // Debug
     if (clonedOptions.debug) {
       // Last ismaster
-      Object.defineProperty(this, 'replset', {
+      Object.defineProperty(_assertThisInitialized(_this), 'replset', {
         enumerable: true,
-        get: function() {
+        get: function get() {
           return coreTopology;
         }
       });
     }
-  }
 
-  // Connect method
-  connect(_options, callback) {
-    var self = this;
-    if ('function' === typeof _options) (callback = _options), (_options = {});
-    if (_options == null) _options = {};
-    if (!('function' === typeof callback)) callback = null;
-    _options = Object.assign({}, this.s.clonedOptions, _options);
-    self.s.options = _options;
+    return _this;
+  } // Connect method
 
-    // Update bufferMaxEntries
-    self.s.storeOptions.bufferMaxEntries =
-      typeof _options.bufferMaxEntries === 'number' ? _options.bufferMaxEntries : -1;
 
-    // Actual handler
-    var errorHandler = function(event) {
-      return function(err) {
-        if (event !== 'error') {
-          self.emit(event, err);
+  _createClass(ReplSet, [{
+    key: "connect",
+    value: function connect(_options, callback) {
+      var self = this;
+      if ('function' === typeof _options) callback = _options, _options = {};
+      if (_options == null) _options = {};
+      if (!('function' === typeof callback)) callback = null;
+      _options = Object.assign({}, this.s.clonedOptions, _options);
+      self.s.options = _options; // Update bufferMaxEntries
+
+      self.s.storeOptions.bufferMaxEntries = typeof _options.bufferMaxEntries === 'number' ? _options.bufferMaxEntries : -1; // Actual handler
+
+      var errorHandler = function errorHandler(event) {
+        return function (err) {
+          if (event !== 'error') {
+            self.emit(event, err);
+          }
+        };
+      }; // Clear out all the current handlers left over
+
+
+      var events = ['timeout', 'error', 'close', 'serverOpening', 'serverDescriptionChanged', 'serverHeartbeatStarted', 'serverHeartbeatSucceeded', 'serverHeartbeatFailed', 'serverClosed', 'topologyOpening', 'topologyClosed', 'topologyDescriptionChanged', 'commandStarted', 'commandSucceeded', 'commandFailed', 'joined', 'left', 'ping', 'ha'];
+      events.forEach(function (e) {
+        self.s.coreTopology.removeAllListeners(e);
+      }); // relay the event
+
+      var relay = function relay(event) {
+        return function (t, server) {
+          self.emit(event, t, server);
+        };
+      }; // Replset events relay
+
+
+      var replsetRelay = function replsetRelay(event) {
+        return function (t, server) {
+          self.emit(event, t, server.lastIsMaster(), server);
+        };
+      }; // Relay ha
+
+
+      var relayHa = function relayHa(t, state) {
+        self.emit('ha', t, state);
+
+        if (t === 'start') {
+          self.emit('ha_connect', t, state);
+        } else if (t === 'end') {
+          self.emit('ha_ismaster', t, state);
         }
-      };
-    };
+      }; // Set up serverConfig listeners
 
-    // Clear out all the current handlers left over
-    var events = [
-      'timeout',
-      'error',
-      'close',
-      'serverOpening',
-      'serverDescriptionChanged',
-      'serverHeartbeatStarted',
-      'serverHeartbeatSucceeded',
-      'serverHeartbeatFailed',
-      'serverClosed',
-      'topologyOpening',
-      'topologyClosed',
-      'topologyDescriptionChanged',
-      'commandStarted',
-      'commandSucceeded',
-      'commandFailed',
-      'joined',
-      'left',
-      'ping',
-      'ha'
-    ];
-    events.forEach(function(e) {
-      self.s.coreTopology.removeAllListeners(e);
-    });
 
-    // relay the event
-    var relay = function(event) {
-      return function(t, server) {
-        self.emit(event, t, server);
-      };
-    };
+      self.s.coreTopology.on('joined', replsetRelay('joined'));
+      self.s.coreTopology.on('left', relay('left'));
+      self.s.coreTopology.on('ping', relay('ping'));
+      self.s.coreTopology.on('ha', relayHa); // Set up SDAM listeners
 
-    // Replset events relay
-    var replsetRelay = function(event) {
-      return function(t, server) {
-        self.emit(event, t, server.lastIsMaster(), server);
-      };
-    };
+      self.s.coreTopology.on('serverDescriptionChanged', relay('serverDescriptionChanged'));
+      self.s.coreTopology.on('serverHeartbeatStarted', relay('serverHeartbeatStarted'));
+      self.s.coreTopology.on('serverHeartbeatSucceeded', relay('serverHeartbeatSucceeded'));
+      self.s.coreTopology.on('serverHeartbeatFailed', relay('serverHeartbeatFailed'));
+      self.s.coreTopology.on('serverOpening', relay('serverOpening'));
+      self.s.coreTopology.on('serverClosed', relay('serverClosed'));
+      self.s.coreTopology.on('topologyOpening', relay('topologyOpening'));
+      self.s.coreTopology.on('topologyClosed', relay('topologyClosed'));
+      self.s.coreTopology.on('topologyDescriptionChanged', relay('topologyDescriptionChanged'));
+      self.s.coreTopology.on('commandStarted', relay('commandStarted'));
+      self.s.coreTopology.on('commandSucceeded', relay('commandSucceeded'));
+      self.s.coreTopology.on('commandFailed', relay('commandFailed'));
+      self.s.coreTopology.on('fullsetup', function () {
+        self.emit('fullsetup', self, self);
+      });
+      self.s.coreTopology.on('all', function () {
+        self.emit('all', null, self);
+      }); // Connect handler
 
-    // Relay ha
-    var relayHa = function(t, state) {
-      self.emit('ha', t, state);
+      var connectHandler = function connectHandler() {
+        // Set up listeners
+        self.s.coreTopology.once('timeout', errorHandler('timeout'));
+        self.s.coreTopology.once('error', errorHandler('error'));
+        self.s.coreTopology.once('close', errorHandler('close')); // Emit open event
 
-      if (t === 'start') {
-        self.emit('ha_connect', t, state);
-      } else if (t === 'end') {
-        self.emit('ha_ismaster', t, state);
-      }
-    };
+        self.emit('open', null, self); // Return correctly
 
-    // Set up serverConfig listeners
-    self.s.coreTopology.on('joined', replsetRelay('joined'));
-    self.s.coreTopology.on('left', relay('left'));
-    self.s.coreTopology.on('ping', relay('ping'));
-    self.s.coreTopology.on('ha', relayHa);
-
-    // Set up SDAM listeners
-    self.s.coreTopology.on('serverDescriptionChanged', relay('serverDescriptionChanged'));
-    self.s.coreTopology.on('serverHeartbeatStarted', relay('serverHeartbeatStarted'));
-    self.s.coreTopology.on('serverHeartbeatSucceeded', relay('serverHeartbeatSucceeded'));
-    self.s.coreTopology.on('serverHeartbeatFailed', relay('serverHeartbeatFailed'));
-    self.s.coreTopology.on('serverOpening', relay('serverOpening'));
-    self.s.coreTopology.on('serverClosed', relay('serverClosed'));
-    self.s.coreTopology.on('topologyOpening', relay('topologyOpening'));
-    self.s.coreTopology.on('topologyClosed', relay('topologyClosed'));
-    self.s.coreTopology.on('topologyDescriptionChanged', relay('topologyDescriptionChanged'));
-    self.s.coreTopology.on('commandStarted', relay('commandStarted'));
-    self.s.coreTopology.on('commandSucceeded', relay('commandSucceeded'));
-    self.s.coreTopology.on('commandFailed', relay('commandFailed'));
-
-    self.s.coreTopology.on('fullsetup', function() {
-      self.emit('fullsetup', self, self);
-    });
-
-    self.s.coreTopology.on('all', function() {
-      self.emit('all', null, self);
-    });
-
-    // Connect handler
-    var connectHandler = function() {
-      // Set up listeners
-      self.s.coreTopology.once('timeout', errorHandler('timeout'));
-      self.s.coreTopology.once('error', errorHandler('error'));
-      self.s.coreTopology.once('close', errorHandler('close'));
-
-      // Emit open event
-      self.emit('open', null, self);
-
-      // Return correctly
-      try {
-        callback(null, self);
-      } catch (err) {
-        process.nextTick(function() {
-          throw err;
-        });
-      }
-    };
-
-    // Error handler
-    var connectErrorHandler = function() {
-      return function(err) {
-        ['timeout', 'error', 'close'].forEach(function(e) {
-          self.s.coreTopology.removeListener(e, connectErrorHandler);
-        });
-
-        self.s.coreTopology.removeListener('connect', connectErrorHandler);
-        // Destroy the replset
-        self.s.coreTopology.destroy();
-
-        // Try to callback
         try {
-          callback(err);
+          callback(null, self);
         } catch (err) {
-          if (!self.s.coreTopology.isConnected())
-            process.nextTick(function() {
+          process.nextTick(function () {
+            throw err;
+          });
+        }
+      }; // Error handler
+
+
+      var connectErrorHandler = function connectErrorHandler() {
+        return function (err) {
+          ['timeout', 'error', 'close'].forEach(function (e) {
+            self.s.coreTopology.removeListener(e, connectErrorHandler);
+          });
+          self.s.coreTopology.removeListener('connect', connectErrorHandler); // Destroy the replset
+
+          self.s.coreTopology.destroy(); // Try to callback
+
+          try {
+            callback(err);
+          } catch (err) {
+            if (!self.s.coreTopology.isConnected()) process.nextTick(function () {
               throw err;
             });
-        }
-      };
-    };
+          }
+        };
+      }; // Set up listeners
 
-    // Set up listeners
-    self.s.coreTopology.once('timeout', connectErrorHandler('timeout'));
-    self.s.coreTopology.once('error', connectErrorHandler('error'));
-    self.s.coreTopology.once('close', connectErrorHandler('close'));
-    self.s.coreTopology.once('connect', connectHandler);
 
-    // Start connection
-    self.s.coreTopology.connect(_options);
-  }
+      self.s.coreTopology.once('timeout', connectErrorHandler('timeout'));
+      self.s.coreTopology.once('error', connectErrorHandler('error'));
+      self.s.coreTopology.once('close', connectErrorHandler('close'));
+      self.s.coreTopology.once('connect', connectHandler); // Start connection
 
-  close(forceClosed, callback) {
-    ['timeout', 'error', 'close', 'joined', 'left'].forEach(e => this.removeAllListeners(e));
-    super.close(forceClosed, callback);
-  }
-}
+      self.s.coreTopology.connect(_options);
+    }
+  }, {
+    key: "close",
+    value: function close(forceClosed, callback) {
+      var _this2 = this;
+
+      ['timeout', 'error', 'close', 'joined', 'left'].forEach(function (e) {
+        return _this2.removeAllListeners(e);
+      });
+
+      _get(_getPrototypeOf(ReplSet.prototype), "close", this).call(this, forceClosed, callback);
+    }
+  }]);
+
+  return ReplSet;
+}(TopologyBase);
 
 Object.defineProperty(ReplSet.prototype, 'haInterval', {
   enumerable: true,
-  get: function() {
+  get: function get() {
     return this.s.coreTopology.s.haInterval;
   }
 });
-
 /**
  * A replset connect event, used to verify that the connection is up and running
  *
