@@ -30,6 +30,46 @@ require("core-js/modules/es.array.splice");
 
 require("core-js/modules/es.number.constructor");
 
+require("core-js/modules/web.dom-collections.for-each");
+
+require("core-js/modules/es.array.for-each");
+
+require("core-js/modules/es.array.splice");
+
+require("core-js/modules/es.number.constructor");
+
+require("core-js/modules/web.dom-collections.for-each");
+
+require("core-js/modules/es.array.for-each");
+
+require("core-js/modules/es.array.splice");
+
+require("core-js/modules/es.number.constructor");
+
+require("core-js/modules/web.dom-collections.for-each");
+
+require("core-js/modules/es.array.for-each");
+
+require("core-js/modules/es.array.splice");
+
+require("core-js/modules/es.number.constructor");
+
+require("core-js/modules/web.dom-collections.for-each");
+
+require("core-js/modules/es.array.for-each");
+
+require("core-js/modules/es.array.splice");
+
+require("core-js/modules/es.number.constructor");
+
+require("core-js/modules/web.dom-collections.for-each");
+
+require("core-js/modules/es.array.for-each");
+
+require("core-js/modules/es.array.splice");
+
+require("core-js/modules/es.number.constructor");
+
 require("core-js/modules/web.dom-collections.for-each"); // require json files
 
 

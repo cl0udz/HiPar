@@ -63,6 +63,86 @@ require("core-js/modules/es.regexp.exec");
 require("core-js/modules/es.string.replace");
 
 require("core-js/modules/web.dom-collections.for-each");
+
+require("core-js/modules/es.array.for-each");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.object.keys");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.string.replace");
+
+require("core-js/modules/web.dom-collections.for-each");
+
+require("core-js/modules/es.array.for-each");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.object.keys");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.string.replace");
+
+require("core-js/modules/web.dom-collections.for-each");
+
+require("core-js/modules/es.array.for-each");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.object.keys");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.string.replace");
+
+require("core-js/modules/web.dom-collections.for-each");
+
+require("core-js/modules/es.array.for-each");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.object.keys");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.string.replace");
+
+require("core-js/modules/web.dom-collections.for-each");
+
+require("core-js/modules/es.array.for-each");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.object.keys");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.string.replace");
+
+require("core-js/modules/web.dom-collections.for-each");
 /**
  * Module dependencies
  */
@@ -84,9 +164,11 @@ var handler = module.exports;
  * @return {Number}
  * @api private
  */
-var paths = require('path')
+
+var paths = require('path');
+
 var _getFileVersion = function _getFileVersion(path) {
-  path = paths.resolve(__dirname,'../../../../',path);
+  path = paths.resolve(__dirname, '../../../../', path);
   return new Date(fs.statSync(path).mtime).getTime();
 };
 

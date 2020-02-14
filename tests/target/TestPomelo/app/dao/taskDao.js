@@ -7,6 +7,16 @@ require("core-js/modules/es.regexp.exec");
 require("core-js/modules/es.regexp.exec");
 
 require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.regexp.exec");
 /**
  * task Dao, provide many function to operate dataBase
  */

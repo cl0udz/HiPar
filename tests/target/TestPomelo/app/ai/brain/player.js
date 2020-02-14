@@ -8,6 +8,16 @@ require("core-js/modules/es.function.name");
 
 require("core-js/modules/es.function.name");
 
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.function.name");
+
 var TryAndAdjust = require('../node/tryAndAdjust');
 
 var TryAttack = require('../action/tryAttack');

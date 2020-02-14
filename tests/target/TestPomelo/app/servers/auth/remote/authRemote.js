@@ -16,6 +16,26 @@ require("core-js/modules/es.date.now");
 
 require("core-js/modules/es.date.to-string");
 
+require("core-js/modules/es.date.now");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.date.now");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.date.now");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.date.now");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.date.now");
+
+require("core-js/modules/es.date.to-string");
+
 var tokenService = require('../../../../../shared/token');
 
 var userDao = require('../../../dao/userDao');

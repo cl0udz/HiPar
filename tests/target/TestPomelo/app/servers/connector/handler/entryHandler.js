@@ -16,6 +16,26 @@ require("core-js/modules/es.function.bind");
 
 require("core-js/modules/es.function.name");
 
+require("core-js/modules/es.function.bind");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.function.bind");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.function.bind");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.function.bind");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.function.bind");
+
+require("core-js/modules/es.function.name");
+
 var Code = require('../../../../../shared/code');
 
 var userDao = require('../../../dao/userDao');
@@ -32,7 +52,7 @@ module.exports = function (app) {
   return new Handler(app);
 };
 
-var Handler = function (app) {
+var Handler = function Handler(app) {
   this.app = app;
   if (!this.app) logger.error(app);
 };

@@ -16,6 +16,26 @@ require("core-js/modules/es.function.bind");
 
 require("core-js/modules/web.timers");
 
+require("core-js/modules/es.function.bind");
+
+require("core-js/modules/web.timers");
+
+require("core-js/modules/es.function.bind");
+
+require("core-js/modules/web.timers");
+
+require("core-js/modules/es.function.bind");
+
+require("core-js/modules/web.timers");
+
+require("core-js/modules/es.function.bind");
+
+require("core-js/modules/web.timers");
+
+require("core-js/modules/es.function.bind");
+
+require("core-js/modules/web.timers");
+
 var messageService = require('./../messageService');
 
 var EntityType = require('../../consts/consts').EntityType;

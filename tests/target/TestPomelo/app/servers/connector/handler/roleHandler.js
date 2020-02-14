@@ -16,6 +16,26 @@ require("core-js/modules/es.function.bind");
 
 require("core-js/modules/es.function.name");
 
+require("core-js/modules/es.function.bind");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.function.bind");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.function.bind");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.function.bind");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.function.bind");
+
+require("core-js/modules/es.function.name");
+
 var pomelo = require('pomelo');
 
 var logger = require('pomelo-logger').getLogger(__filename);

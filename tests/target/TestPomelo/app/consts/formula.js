@@ -8,6 +8,16 @@ require("core-js/modules/es.number.constructor");
 
 require("core-js/modules/es.number.constructor");
 
+require("core-js/modules/es.number.constructor");
+
+require("core-js/modules/es.number.constructor");
+
+require("core-js/modules/es.number.constructor");
+
+require("core-js/modules/es.number.constructor");
+
+require("core-js/modules/es.number.constructor");
+
 var formula = module.exports;
 
 var logger = require('pomelo-logger').getLogger(__filename);

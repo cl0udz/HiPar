@@ -7,6 +7,17 @@ require("core-js/modules/es.array.filter");
 require("core-js/modules/es.array.filter");
 
 require("core-js/modules/es.array.filter");
+
+require("core-js/modules/es.array.filter");
+
+require("core-js/modules/es.array.filter");
+
+require("core-js/modules/es.array.filter");
+
+require("core-js/modules/es.array.filter");
+
+require("core-js/modules/es.array.filter");
+
 var pomelo = require('pomelo');
 
 var areaService = require('./app/services/areaService');
@@ -32,7 +43,7 @@ var sync = require('pomelo-sync-plugin'); // var masterhaPlugin = require('pomel
  */
 
 
-var app = pomelo.createApp();
+var app = pomelo.createApp({base:__dirname});
 app.set('name', 'lord of pomelo'); // configure for global
 
 app.configure('production|development', function () {

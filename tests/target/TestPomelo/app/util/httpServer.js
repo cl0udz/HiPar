@@ -8,6 +8,16 @@ require("core-js/modules/es.function.name");
 
 require("core-js/modules/es.function.name");
 
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.function.name");
+
 var http = require('http');
 
 var port = 3006;

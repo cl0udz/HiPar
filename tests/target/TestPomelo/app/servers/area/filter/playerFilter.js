@@ -16,6 +16,26 @@ require("core-js/modules/es.regexp.exec");
 
 require("core-js/modules/es.string.search");
 
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.string.search");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.string.search");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.string.search");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.string.search");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.string.search");
+
 var logger = require('pomelo-logger').getLogger(__filename);
 
 var pomelo = require('pomelo');

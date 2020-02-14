@@ -24,6 +24,36 @@ require("core-js/modules/es.date.now");
 
 require("core-js/modules/es.date.to-string");
 
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.date.now");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.date.now");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.date.now");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.date.now");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.date.now");
+
+require("core-js/modules/es.date.to-string");
+
 var Action = require('./action');
 
 var messageService = require('../messageService');

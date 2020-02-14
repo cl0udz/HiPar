@@ -8,6 +8,16 @@ require("core-js/modules/es.array.map");
 
 require("core-js/modules/es.array.map");
 
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.array.map");
+
 var Area = require('./area');
 
 var Map = require('../map/map');

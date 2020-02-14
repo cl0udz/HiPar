@@ -24,6 +24,36 @@ require("core-js/modules/es.regexp.exec");
 
 require("core-js/modules/es.string.match");
 
+require("core-js/modules/es.number.constructor");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.string.match");
+
+require("core-js/modules/es.number.constructor");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.string.match");
+
+require("core-js/modules/es.number.constructor");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.string.match");
+
+require("core-js/modules/es.number.constructor");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.string.match");
+
+require("core-js/modules/es.number.constructor");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.string.match");
+
 var util = require('util');
 
 var Entity = require('./entity/entity');

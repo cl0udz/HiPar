@@ -40,6 +40,56 @@ require("core-js/modules/es.function.name");
 
 require("core-js/modules/es.number.constructor");
 
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.date.now");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.number.constructor");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.date.now");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.number.constructor");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.date.now");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.number.constructor");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.date.now");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.number.constructor");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.date.now");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.number.constructor");
+
 var buildFinder = require('pomelo-pathfinding').buildFinder;
 
 var geometry = require('../../util/geometry');
@@ -51,7 +101,9 @@ var utils = require('../../util/utils');
 var logger = require('pomelo-logger').getLogger(__filename);
 
 var formula = require('../../consts/formula');
-var paths = require('path')
+
+var paths = require('path');
+
 var fs = require('fs');
 /**
  * The data structure for map in the area
@@ -59,7 +111,7 @@ var fs = require('fs');
 
 
 var Map = function Map(opts) {
-  this.mapPath = paths.resolve(__dirname,"../../.."+opts.path);
+  this.mapPath = paths.resolve(__dirname, "../../.." + opts.path);
   this.map = null;
   this.weightMap = null;
   this.name = opts.name;
@@ -96,7 +148,7 @@ Map.prototype.init = function (opts) {
 
     if (weightMap) {
       //Use cache map first
-      var path = paths.resolve(__dirname,"../../.."+'/tmp/map.json');
+      var path = paths.resolve(__dirname, "../../.." + '/tmp/map.json');
       var maps = fs.existsSync(path) ? require(path) : {};
 
       if (!!maps[this.id]) {

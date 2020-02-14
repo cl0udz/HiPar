@@ -8,6 +8,16 @@ require("core-js/modules/es.array.map");
 
 require("core-js/modules/es.array.map");
 
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.array.map");
+
 var messageService = require('./../messageService');
 
 var api = require('../../util/dataApi');

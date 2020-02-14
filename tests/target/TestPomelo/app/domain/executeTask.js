@@ -23,6 +23,36 @@ require("core-js/modules/es.parse-int");
 require("core-js/modules/es.regexp.exec");
 
 require("core-js/modules/es.string.split");
+
+require("core-js/modules/es.parse-int");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.string.split");
+
+require("core-js/modules/es.parse-int");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.string.split");
+
+require("core-js/modules/es.parse-int");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.string.split");
+
+require("core-js/modules/es.parse-int");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.string.split");
+
+require("core-js/modules/es.parse-int");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.string.split");
 /**
  * Module dependencies
  */

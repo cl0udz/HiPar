@@ -8,6 +8,16 @@ require("core-js/modules/es.array.slice");
 
 require("core-js/modules/es.array.slice");
 
+require("core-js/modules/es.array.slice");
+
+require("core-js/modules/es.array.slice");
+
+require("core-js/modules/es.array.slice");
+
+require("core-js/modules/es.array.slice");
+
+require("core-js/modules/es.array.slice");
+
 var patrol = require('../patrol');
 /**
  * Loop mode: move the character around the path.

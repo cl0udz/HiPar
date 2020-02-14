@@ -18,6 +18,36 @@ require("core-js/modules/es.regexp.exec");
 
 require("core-js/modules/es.string.split");
 
+require("core-js/modules/es.array.splice");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.string.split");
+
+require("core-js/modules/es.array.splice");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.string.split");
+
+require("core-js/modules/es.array.splice");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.string.split");
+
+require("core-js/modules/es.array.splice");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.string.split");
+
+require("core-js/modules/es.array.splice");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.string.split");
+
 var fs = require('fs');
 
 exports = module.exports;

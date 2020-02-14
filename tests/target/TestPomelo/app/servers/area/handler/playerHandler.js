@@ -15,6 +15,26 @@ require("core-js/modules/es.function.name");
 require("core-js/modules/es.array.map");
 
 require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.function.name");
 /**
  * Module dependencies
  */

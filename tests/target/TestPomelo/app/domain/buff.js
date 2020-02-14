@@ -8,6 +8,16 @@ require("core-js/modules/web.timers");
 
 require("core-js/modules/web.timers");
 
+require("core-js/modules/web.timers");
+
+require("core-js/modules/web.timers");
+
+require("core-js/modules/web.timers");
+
+require("core-js/modules/web.timers");
+
+require("core-js/modules/web.timers");
+
 function Buff(opts) {
   this.type = opts.type;
   this.timeout = opts.timeout;

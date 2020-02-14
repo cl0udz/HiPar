@@ -8,6 +8,16 @@ require("core-js/modules/es.regexp.exec");
 
 require("core-js/modules/es.regexp.exec");
 
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.regexp.exec");
+
 var EntityType = require('../../consts/consts').EntityType;
 
 var pomelo = require('pomelo');

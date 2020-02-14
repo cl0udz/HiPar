@@ -15,6 +15,26 @@ require("core-js/modules/web.url.to-json");
 require("core-js/modules/es.date.to-json");
 
 require("core-js/modules/web.url.to-json");
+
+require("core-js/modules/es.date.to-json");
+
+require("core-js/modules/web.url.to-json");
+
+require("core-js/modules/es.date.to-json");
+
+require("core-js/modules/web.url.to-json");
+
+require("core-js/modules/es.date.to-json");
+
+require("core-js/modules/web.url.to-json");
+
+require("core-js/modules/es.date.to-json");
+
+require("core-js/modules/web.url.to-json");
+
+require("core-js/modules/es.date.to-json");
+
+require("core-js/modules/web.url.to-json");
 /**
  * Module dependencies
  */

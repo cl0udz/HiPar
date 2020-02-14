@@ -8,6 +8,16 @@ require("core-js/modules/es.array.slice");
 
 require("core-js/modules/es.array.slice");
 
+require("core-js/modules/es.array.slice");
+
+require("core-js/modules/es.array.slice");
+
+require("core-js/modules/es.array.slice");
+
+require("core-js/modules/es.array.slice");
+
+require("core-js/modules/es.array.slice");
+
 var utils = module.exports; // control variable of func "myPrint"
 
 var isPrintFlag = false; // var isPrintFlag = true;

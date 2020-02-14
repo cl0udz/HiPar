@@ -7,6 +7,16 @@ require("core-js/modules/es.function.name");
 require("core-js/modules/es.function.name");
 
 require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.function.name");
 /**
  * Module dependencies
  */

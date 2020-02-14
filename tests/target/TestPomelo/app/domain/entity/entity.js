@@ -7,6 +7,16 @@ require("core-js/modules/es.number.constructor");
 require("core-js/modules/es.number.constructor");
 
 require("core-js/modules/es.number.constructor");
+
+require("core-js/modules/es.number.constructor");
+
+require("core-js/modules/es.number.constructor");
+
+require("core-js/modules/es.number.constructor");
+
+require("core-js/modules/es.number.constructor");
+
+require("core-js/modules/es.number.constructor");
 /**
  * Module dependencies
  */

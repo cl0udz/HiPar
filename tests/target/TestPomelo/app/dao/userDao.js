@@ -24,6 +24,36 @@ require("core-js/modules/es.date.to-string");
 
 require("core-js/modules/es.function.name");
 
+require("core-js/modules/es.date.now");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.date.now");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.date.now");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.date.now");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.date.now");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.function.name");
+
 var logger = require('pomelo-logger').getLogger(__filename);
 
 var pomelo = require('pomelo');

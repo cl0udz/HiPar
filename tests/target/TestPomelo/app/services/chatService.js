@@ -8,7 +8,17 @@ require("core-js/modules/es.function.name");
 
 require("core-js/modules/es.function.name");
 
-var Code = require('../../../shared/code');
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.function.name");
+
+var Code = require('../../shared/code');
 
 var utils = require('../util/utils');
 

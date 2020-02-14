@@ -16,6 +16,26 @@ require("core-js/modules/es.array.map");
 
 require("core-js/modules/web.timers");
 
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/web.timers");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/web.timers");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/web.timers");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/web.timers");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/web.timers");
+
 var Instance = require('./instance');
 
 var dataApi = require('../../util/dataApi');

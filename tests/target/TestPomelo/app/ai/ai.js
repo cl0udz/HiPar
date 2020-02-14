@@ -24,6 +24,36 @@ require("core-js/modules/es.function.name");
 
 require("core-js/modules/web.dom-collections.for-each");
 
+require("core-js/modules/es.array.for-each");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/web.dom-collections.for-each");
+
+require("core-js/modules/es.array.for-each");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/web.dom-collections.for-each");
+
+require("core-js/modules/es.array.for-each");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/web.dom-collections.for-each");
+
+require("core-js/modules/es.array.for-each");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/web.dom-collections.for-each");
+
+require("core-js/modules/es.array.for-each");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/web.dom-collections.for-each");
+
 var AiManager = require('./service/aiManager');
 
 var BrainService = require('./service/brainService');

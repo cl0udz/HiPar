@@ -24,6 +24,46 @@ require("core-js/modules/es.regexp.to-string");
 
 require("core-js/modules/web.timers");
 
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.object.to-string");
+
+require("core-js/modules/es.regexp.to-string");
+
+require("core-js/modules/web.timers");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.object.to-string");
+
+require("core-js/modules/es.regexp.to-string");
+
+require("core-js/modules/web.timers");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.object.to-string");
+
+require("core-js/modules/es.regexp.to-string");
+
+require("core-js/modules/web.timers");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.object.to-string");
+
+require("core-js/modules/es.regexp.to-string");
+
+require("core-js/modules/web.timers");
+
+require("core-js/modules/es.date.to-string");
+
+require("core-js/modules/es.object.to-string");
+
+require("core-js/modules/es.regexp.to-string");
+
+require("core-js/modules/web.timers");
+
 var fs = require('fs');
 
 var path = require('path');
