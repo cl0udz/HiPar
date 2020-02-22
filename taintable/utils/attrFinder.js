@@ -185,6 +185,11 @@ function propertyVisitor(node, domain, cmd){
             return false;
         }
     }
+    if (node.type === "CallExpression"){
+        read_func_index_property(node, [...domain], domain.length, cmd);
+        return true;
+    }
+
     if (node.hasOwnProperty("type") || Array.isArray(node)) {
         return true;
     }
@@ -263,11 +268,23 @@ function read_standalone_or_base(node, path, cmd){
 
 }
 
+
+function read_func_index_property(node, path, offset, cmd){
+    // handle a.hasOwnProperty related
+    if (node.callee.type  != 'MemberExpression') return;
+    if (node.callee.property.name == 'hasOwnProperty'){
+        //handlpe arguments first
+        path.splice(offset, 0, node.arguments[0].value);
+        
+        // handle callee then
+        read_property(node.callee.object, path, offset, cmd);
+    }
+}
+
 // get a specifcy property referrenced in the file
 function read_property(node, path, offset, cmd){
     if (node.hasOwnProperty('property')) {
         // it is a member expr
-
         //[1] handle property here 
         if (node.property.type === "Literal"){
             // it is a array indexing expr (a['c'])
