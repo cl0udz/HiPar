@@ -3,23 +3,58 @@ var fs = require('fs');
 var esprima = require('esprima');
 
 
-
-function analyze_dopar(file_loc, hipar_lst, par_lst){
+// return the domain that where its elements are dopar
+function analyze_dopar(file_loc, domain_lst, par_lst){
     var cmd = {'res' : [], "loc":file_loc};
     var content = fs.readFileSync(file_loc, 'utf-8');
     search_all_attr(file_loc, content, cmd);
-    var do_lst = infer_dopar(hipar_lst, par_lst, cmd.res);
+    var do_lst = infer_dopar(domain_lst, par_lst, cmd.res);
     return do_lst;
 }
 
 //infer documented par  
-function infer_dopar(hipar_lst, par_lst, attr_lst){
-    var lst = {};
+function infer_dopar(domain_lst, par_lst, attr_lst){
+    var lst = [];
     var tree = build_tree(attr_lst);
-    lst.concat(detect_cluster_hipar(tree, hipar_lst));
-    lst.concat(detect_with_par(tree, ) 
-    return -1;
+    
+    // detect if there is a domain (with multiple hipar) under one or several IFCON
+    for (const domain of domain_lst) {
+        if (detect_cluster_hipar(tree, domain)) lst.push(domain);
+    }
+    for (const par of par_lst) {
+        //if (detect_cluster_hipar(tree, domain)) lst.push(domain);
+    }
+    console.log(lst);
     return lst;
+}
+
+function detect_cluster_hipar(tree, domain){
+    var flag = false;
+    var cnt = 0;
+    // preprocess domain 
+    domain = domain.split(".");
+    for (let i = 0; i < domain.length; i++){
+        var child = tree.getChild(domain[i]);
+        if (child == -1){
+            child = tree.getChild("IFCON");
+            if (child != -1) {
+                flag = true;
+                i -= 1;
+            }
+        }
+        tree = child;
+    }
+    // if under IFCON, count the hipars
+    if (flag){
+        for (const v of tree.children){
+            if (v.isNode) cnt += 1;
+        }
+    }
+    if (cnt >= 2) {
+        return true;
+    }else{
+        return false;
+    }
 }
 
 function build_tree(nodes){
@@ -32,7 +67,15 @@ function build_tree(nodes){
     for (let i = 0; i < nodes.length; ++i) {
         insert_node(rootNode, nodes[i]);
     }
+    // print_tree(rootNode, rootNode);
     return rootNode;
+}
+
+function print_tree(prev, tree){
+    console.log(prev.key, "->", tree.key);
+    for (const v of tree.children) {
+        print_tree(tree, v);
+    }
 }
 
 function insert_node(root, node){
@@ -98,7 +141,7 @@ function traverse(object, domain, Visitor, cmd) {
 
     if (object.type === 'IfStatement'){
         domain = [...domain]
-        domain.push("IFCON."+object.loc.start.line+'_'+object.loc.start.column);
+        domain.push("IFCON");//+object.loc.start.line+'_'+object.loc.start.column);
     }
     for (key in object) {
         if (object.hasOwnProperty(key)) {
