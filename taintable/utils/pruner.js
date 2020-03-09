@@ -4,29 +4,60 @@ var esprima = require('esprima');
 
 
 
-function analyze_dopar(file_loc, domain){
+function analyze_dopar(file_loc, hipar_lst, par_lst){
     var cmd = {'res' : [], "loc":file_loc};
     var content = fs.readFileSync(file_loc, 'utf-8');
     search_all_attr(file_loc, content, cmd);
-    console.log(cmd.res);
-    var do_lst = infer_dopar(domain, cmd.res);
-    //return do_lst;
+    var do_lst = infer_dopar(hipar_lst, par_lst, cmd.res);
+    return do_lst;
 }
 
 //infer documented par  
-function infer_dopar(domain, attr_lst){
+function infer_dopar(hipar_lst, par_lst, attr_lst){
     var lst = {};
-    for (const attr of attr_lst){
-        for (const d of domain){
-            if (attr == d) continue;
-            if (attr.startsWith(d + '.')){
-                if (!(d in taint_lst)) taint_lst[d] = [];
-                if (taint_lst[d].indexOf(attr) === -1) taint_lst[d].push(attr);
-            }
-        }
-    }
-
+    var tree = build_tree(attr_lst);
+    lst.concat(detect_cluster_hipar(tree, hipar_lst));
+    lst.concat(detect_with_par(tree, ) 
+    return -1;
     return lst;
+}
+
+function build_tree(nodes){
+    // preprocessing
+    for (let i = 0; i < nodes.length; ++i) {
+        nodes[i] = nodes[i].split(".");
+    }
+    // build tree
+    var rootNode = new TrieNode(null);
+    for (let i = 0; i < nodes.length; ++i) {
+        insert_node(rootNode, nodes[i]);
+    }
+    return rootNode;
+}
+
+function insert_node(root, node){
+    for (let i = 0; i < node.length; ++i) {
+        var child = root.getChild(node[i]);
+        if (child == -1) {
+            child = new TrieNode(node[i]);
+            root.children.push(child);
+        }
+        root = child;
+    }
+    root.isNode = true;
+}
+
+
+function TrieNode(key) {
+    this.key = key; 
+    this.children = []; 
+    this.isNode = false;
+    this.getChild = function (name){
+        for (let i = 0; i < this.children.length; i++){
+            if (this.children[i].key == name) return this.children[i];
+        }
+        return -1;
+    }
 }
 
 function search_all_attr(file_loc, text, cmd) {
@@ -67,7 +98,7 @@ function traverse(object, domain, Visitor, cmd) {
 
     if (object.type === 'IfStatement'){
         domain = [...domain]
-        domain.push("IFCON"+object.loc.start.line+'_'+object.loc.start.column);
+        domain.push("IFCON."+object.loc.start.line+'_'+object.loc.start.column);
     }
     for (key in object) {
         if (object.hasOwnProperty(key)) {
@@ -221,4 +252,4 @@ function read_property(node, path, offset, cmd){
 
 
 
-analyze_dopar('testp.js',['cfg.a']);
+analyze_dopar('testp.js',['cfg.a'], ['username']);
