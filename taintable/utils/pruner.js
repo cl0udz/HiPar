@@ -21,9 +21,6 @@ function infer_dopar(domain_lst, par_lst, attr_lst){
     for (const domain of domain_lst) {
         if (detect_cluster_hipar(tree, domain)) lst.push(domain);
     }
-    for (const par of par_lst) {
-        //if (detect_cluster_hipar(tree, domain)) lst.push(domain);
-    }
     console.log(lst);
     return lst;
 }
