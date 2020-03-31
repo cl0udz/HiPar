@@ -20,7 +20,7 @@ function parse_input(){
                 if (Object.prototype.hasOwnProperty.call(hipars, name)){
                     var hipar =  hipars[name];
                     if (!domain_lst.hasOwnProperty(hipar.file)) domain_lst[hipar.file] = new Set();
-                    domain_lst[hipar.file].add(hipar.base);
+                    domain_lst[hipar.file].add(hipar.domain);
                 }
             }
         }
@@ -40,6 +40,7 @@ function analyze_dopar(file_loc, domain_lst, par_lst){
     var cmd = {'res' : [], "loc":file_loc};
     var content = fs.readFileSync(file_loc, 'utf-8');
     search_all_attr(file_loc, content, cmd);
+    // for (const i of cmd.res) console.log(i);
     var do_lst = infer_dopar(domain_lst, par_lst, cmd.res);
     return do_lst;
 }
@@ -58,28 +59,31 @@ function infer_dopar(domain_lst, par_lst, attr_lst){
 }
 
 function detect_cluster_hipar(tree, domain){
+    function search(root, idx, domain, cnt){
+        var ret;
+        // if idx points to the property carrier
+        if (idx == domain.length) {
+            if (root != -1 ) cnt =  cnt > root.children.length ? cnt : root.children.length;
+            return cnt;
+        }
+        
+        var hasCon = root.getChild("IFCON");
+        if (hasCon != -1) {
+            ret = search(hasCon, idx, domain, cnt);
+            cnt = cnt ? cnt>ret : ret;
+        }
+        var child = root.getChild(domain[idx]);
+        ret = search(child, idx+1, domain);
+        return  cnt>ret? cnt : ret;
+    }
+
     var flag = false;
-    var cnt = 0;
     // preprocess domain 
     domain = domain.split(".");
-    for (let i = 0; i < domain.length; i++){
-        var child = tree.getChild(domain[i]);
-        if (child == -1){
-            child = tree.getChild("IFCON");
-            if (child != -1) {
-                flag = true;
-                i -= 1;
-            }
-        }
-        tree = child;
-    }
-    // if under IFCON, count the hipars
-    if (flag){
-        for (const v of tree.children){
-            if (v.isNode) cnt += 1;
-        }
-    }
-    if (cnt >= 2) {
+    // try to locate IFCON in the domain 
+    var cnt = search(tree, 0, domain, -1);
+    // inference based on the number of childs
+    if (cnt > 2) {
         return true;
     }else{
         return false;
@@ -324,4 +328,4 @@ function read_property(node, path, offset, cmd){
 
 
 parse_input();
-//analyze_dopar('testp.js',['cfg.a'], ['username']);
+// analyze_dopar('testp.js',['a'], ['username']);
