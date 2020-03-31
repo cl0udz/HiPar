@@ -2,7 +2,6 @@
 var fs = require('fs');
 var esprima = require('esprima');
 
-
 function parse_input(){
     // parse hidden propeties
     if (process.argv.length != 3){
@@ -59,14 +58,21 @@ function infer_dopar(domain_lst, par_lst, attr_lst){
 }
 
 function detect_cluster_hipar(tree, domain){
+    var black_lst = ["length", "toString"]; // black listed some internal attributes that are known to be non-documented parameters.
     function search(root, idx, domain, cnt){
-        var ret;
+        var ret = 0;
         // if idx points to the property carrier
         if (idx == domain.length) {
-            if (root != -1 ) cnt =  cnt > root.children.length ? cnt : root.children.length;
-            return cnt;
+            //console.log(root);
+            if (root != -1 ){
+                for (const c of root.children){
+                    if (c.isNode && !black_lst.includes(c.key)) ret += 1;
+                }
+            }
+            return cnt ? cnt>ret : ret;
         }
-        
+
+        if (root == -1) return cnt;
         var hasCon = root.getChild("IFCON");
         if (hasCon != -1) {
             ret = search(hasCon, idx, domain, cnt);
@@ -74,7 +80,7 @@ function detect_cluster_hipar(tree, domain){
         }
         var child = root.getChild(domain[idx]);
         ret = search(child, idx+1, domain);
-        return  cnt>ret? cnt : ret;
+        return  cnt > ret?cnt : ret;
     }
 
     var flag = false;
@@ -83,7 +89,7 @@ function detect_cluster_hipar(tree, domain){
     // try to locate IFCON in the domain 
     var cnt = search(tree, 0, domain, -1);
     // inference based on the number of childs
-    if (cnt > 2) {
+    if (cnt >= 2) {
         return true;
     }else{
         return false;
@@ -156,7 +162,6 @@ function traverse(object, domain, Visitor, cmd) {
     if (Visitor.call(null, object, domain, cmd) === false) {
         return;
     }
-    //console.log(object);
     // add new scope to the domain  when enter a new function or conidtional branch
     if (object.type === 'FunctionDeclaration'){
         domain = [...domain]
