@@ -3,6 +3,38 @@ var fs = require('fs');
 var esprima = require('esprima');
 
 
+function parse_input(){
+    // parse hidden propeties
+    if (process.argv.length != 3){
+        console.log("[Error] Please specify hidden property json file!");
+        return;
+    }
+    var attrs = JSON.parse(fs.readFileSync(process.argv[2]));
+
+    // select base from attrs group by file
+    var domain_lst = {};
+    for (const key in attrs) {
+        if (Object.prototype.hasOwnProperty.call(attrs, key)){
+            var hipars = attrs[key];
+            for (const name in hipars){
+                if (Object.prototype.hasOwnProperty.call(hipars, name)){
+                    var hipar =  hipars[name];
+                    if (!domain_lst.hasOwnProperty(hipar.file)) domain_lst[hipar.file] = new Set();
+                    domain_lst[hipar.file].add(hipar.base);
+                }
+            }
+        }
+    }
+
+    // search dopar in each file 
+    for (const file_loc in domain_lst){
+        if (Object.prototype.hasOwnProperty.call(domain_lst, file_loc)){
+            analyze_dopar(file_loc, Array.from(domain_lst[file_loc]), []);
+        }
+
+    }
+}
+
 // return the domain that where its elements are dopar
 function analyze_dopar(file_loc, domain_lst, par_lst){
     var cmd = {'res' : [], "loc":file_loc};
@@ -16,7 +48,7 @@ function analyze_dopar(file_loc, domain_lst, par_lst){
 function infer_dopar(domain_lst, par_lst, attr_lst){
     var lst = [];
     var tree = build_tree(attr_lst);
-    
+
     // detect if there is a domain (with multiple hipar) under one or several IFCON
     for (const domain of domain_lst) {
         if (detect_cluster_hipar(tree, domain)) lst.push(domain);
@@ -291,5 +323,5 @@ function read_property(node, path, offset, cmd){
 }
 
 
-
-analyze_dopar('testp.js',['cfg.a'], ['username']);
+parse_input();
+//analyze_dopar('testp.js',['cfg.a'], ['username']);
