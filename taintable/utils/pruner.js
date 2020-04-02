@@ -58,38 +58,48 @@ function infer_dopar(domain_lst, par_lst, attr_lst){
 }
 
 function detect_cluster_hipar(tree, domain){
-    var black_lst = ["length", "toString"]; // black listed some internal attributes that are known to be non-documented parameters.
-    function search(root, idx, domain, cnt){
-        var ret = 0;
+    var black_lst = ["length", "toString", "constructor", "0", "1"]; // black listed some internal attributes that are known to be non-documented parameters.
+    function search(root, idx, domain, flag, cnt){
+        var cur = 0;
+        if (root == -1) return cnt;
         // if idx points to the property carrier
         if (idx == domain.length) {
-            //console.log(root);
-            if (root != -1 ){
+            // console.log(root);
+            if (root != -1 && flag){   
+                // console.log(root);
                 for (const c of root.children){
-                    if (c.isNode && !black_lst.includes(c.key)) ret += 1;
+                    if (c.isNode) cur += 1;
+                    // if there are black listed properties indexed in current domain, give up this domain
+                    // property start with '_' indicates that they are internal
+                    if (black_lst.includes(c.key) || c.key.startsWith("_")) {
+                        cur = 0;
+                        break;
+                    }
                 }
             }
-            return cnt ? cnt>ret : ret;
+            return (cnt>cur) ? cnt : cur;
         }
 
-        if (root == -1) return cnt;
         var hasCon = root.getChild("IFCON");
         if (hasCon != -1) {
-            ret = search(hasCon, idx, domain, cnt);
-            cnt = cnt ? cnt>ret : ret;
+            cur = search(hasCon, idx, domain, true, cnt);
+            cnt = (cnt>cur) ? cnt : cur;
         }
+
         var child = root.getChild(domain[idx]);
-        ret = search(child, idx+1, domain);
-        return  cnt > ret?cnt : ret;
+        cur = search(child, idx+1, domain, flag, cnt);
+        cnt = (cnt>cur) ? cnt : cur;
+
+        return cnt;
     }
 
-    var flag = false;
     // preprocess domain 
     domain = domain.split(".");
-    // try to locate IFCON in the domain 
-    var cnt = search(tree, 0, domain, -1);
+    // try to locate IFCON in the domain
+    // print_tree("", tree);
+    var max = search(tree, 0, domain, false, -1);
     // inference based on the number of childs
-    if (cnt >= 2) {
+    if (max >= 2) {
         return true;
     }else{
         return false;
@@ -178,6 +188,7 @@ function traverse(object, domain, Visitor, cmd) {
     }
 
     if (object.type === 'IfStatement'){
+        // console.log(object);
         domain = [...domain]
         domain.push("IFCON");//+object.loc.start.line+'_'+object.loc.start.column);
     }
