@@ -393,7 +393,7 @@ J$.analysis = {};
                                 base_param = key_arr[key_arr.length - 1];
                             }
 
-                            hidden_attr[param][hidden_param] = {"base": base_param, "file": file};
+                            hidden_attr[param][hidden_param] = {"base": base_param, "file": file, "domain": key};
                         }
                     }
                 }

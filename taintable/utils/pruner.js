@@ -2,31 +2,154 @@
 var fs = require('fs');
 var esprima = require('esprima');
 
+function parse_input(){
+    // parse hidden propeties
+    if (process.argv.length != 3){
+        console.log("[Error] Please specify hidden property json file!");
+        return;
+    }
+    var attrs = JSON.parse(fs.readFileSync(process.argv[2]));
 
-
-function analyze_dopar(file_loc, domain){
-    var cmd = {'res' : [], "loc":file_loc};
-    var content = fs.readFileSync(file_loc, 'utf-8');
-    search_all_attr(file_loc, content, cmd);
-    console.log(cmd.res);
-    var do_lst = infer_dopar(domain, cmd.res);
-    //return do_lst;
-}
-
-//infer documented par  
-function infer_dopar(domain, attr_lst){
-    var lst = {};
-    for (const attr of attr_lst){
-        for (const d of domain){
-            if (attr == d) continue;
-            if (attr.startsWith(d + '.')){
-                if (!(d in taint_lst)) taint_lst[d] = [];
-                if (taint_lst[d].indexOf(attr) === -1) taint_lst[d].push(attr);
+    // select base from attrs group by file
+    var domain_lst = {};
+    for (const key in attrs) {
+        if (Object.prototype.hasOwnProperty.call(attrs, key)){
+            var hipars = attrs[key];
+            for (const name in hipars){
+                if (Object.prototype.hasOwnProperty.call(hipars, name)){
+                    var hipar =  hipars[name];
+                    if (!domain_lst.hasOwnProperty(hipar.file)) domain_lst[hipar.file] = new Set();
+                    domain_lst[hipar.file].add(hipar.domain);
+                }
             }
         }
     }
 
+    // search dopar in each file 
+    for (const file_loc in domain_lst){
+        if (Object.prototype.hasOwnProperty.call(domain_lst, file_loc)){
+            analyze_dopar(file_loc, Array.from(domain_lst[file_loc]), []);
+        }
+
+    }
+}
+
+// return the domain that where its elements are dopar
+function analyze_dopar(file_loc, domain_lst, par_lst){
+    var cmd = {'res' : [], "loc":file_loc};
+    var content = fs.readFileSync(file_loc, 'utf-8');
+    search_all_attr(file_loc, content, cmd);
+    // for (const i of cmd.res) console.log(i);
+    var do_lst = infer_dopar(domain_lst, par_lst, cmd.res);
+    return do_lst;
+}
+
+//infer documented par  
+function infer_dopar(domain_lst, par_lst, attr_lst){
+    var lst = [];
+    var tree = build_tree(attr_lst);
+
+    // detect if there is a domain (with multiple hipar) under one or several IFCON
+    for (const domain of domain_lst) {
+        if (detect_cluster_hipar(tree, domain)) lst.push(domain);
+    }
+    console.log(lst);
     return lst;
+}
+
+function detect_cluster_hipar(tree, domain){
+    var black_lst = ["length", "toString", "constructor", "0", "1"]; // black listed some internal attributes that are known to be non-documented parameters.
+    function search(root, idx, domain, flag, cnt){
+        var cur = 0;
+        if (root == -1) return cnt;
+        // if idx points to the property carrier
+        if (idx == domain.length) {
+            // console.log(root);
+            if (root != -1 && flag){   
+                // console.log(root);
+                for (const c of root.children){
+                    if (c.isNode) cur += 1;
+                    // if there are black listed properties indexed in current domain, give up this domain
+                    // property start with '_' indicates that they are internal
+                    if (black_lst.includes(c.key) || c.key.startsWith("_")) {
+                        cur = 0;
+                        break;
+                    }
+                }
+            }
+            return (cnt>cur) ? cnt : cur;
+        }
+
+        var hasCon = root.getChild("IFCON");
+        if (hasCon != -1) {
+            cur = search(hasCon, idx, domain, true, cnt);
+            cnt = (cnt>cur) ? cnt : cur;
+        }
+
+        var child = root.getChild(domain[idx]);
+        cur = search(child, idx+1, domain, flag, cnt);
+        cnt = (cnt>cur) ? cnt : cur;
+
+        return cnt;
+    }
+
+    // preprocess domain 
+    domain = domain.split(".");
+    // try to locate IFCON in the domain
+    // print_tree("", tree);
+    var max = search(tree, 0, domain, false, -1);
+    // inference based on the number of childs
+    if (max >= 2) {
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function build_tree(nodes){
+    // preprocessing
+    for (let i = 0; i < nodes.length; ++i) {
+        nodes[i] = nodes[i].split(".");
+    }
+    // build tree
+    var rootNode = new TrieNode(null);
+    for (let i = 0; i < nodes.length; ++i) {
+        insert_node(rootNode, nodes[i]);
+    }
+    // print_tree(rootNode, rootNode);
+    return rootNode;
+}
+
+function print_tree(prev, tree){
+    console.log(prev.key, "->", tree.key);
+    for (const v of tree.children) {
+        print_tree(tree, v);
+    }
+}
+
+function insert_node(root, node){
+    for (let i = 0; i < node.length; ++i) {
+        var child = root.getChild(node[i]);
+        if (child == -1) {
+            child = new TrieNode(node[i]);
+            root.children.push(child);
+        }
+        root = child;
+    }
+    root.isNode = true;
+}
+
+
+function TrieNode(key) {
+    this.key = key; 
+    this.children = []; 
+    this.isNode = false;
+    this.getChild = function (name){
+        for (let i = 0; i < this.children.length; i++){
+            if (this.children[i].key == name) return this.children[i];
+        }
+        return -1;
+    }
 }
 
 function search_all_attr(file_loc, text, cmd) {
@@ -49,7 +172,6 @@ function traverse(object, domain, Visitor, cmd) {
     if (Visitor.call(null, object, domain, cmd) === false) {
         return;
     }
-    //console.log(object);
     // add new scope to the domain  when enter a new function or conidtional branch
     if (object.type === 'FunctionDeclaration'){
         domain = [...domain]
@@ -66,8 +188,9 @@ function traverse(object, domain, Visitor, cmd) {
     }
 
     if (object.type === 'IfStatement'){
+        // console.log(object);
         domain = [...domain]
-        domain.push("IFCON"+object.loc.start.line+'_'+object.loc.start.column);
+        domain.push("IFCON");//+object.loc.start.line+'_'+object.loc.start.column);
     }
     for (key in object) {
         if (object.hasOwnProperty(key)) {
@@ -220,5 +343,5 @@ function read_property(node, path, offset, cmd){
 }
 
 
-
-analyze_dopar('testp.js',['cfg.a']);
+parse_input();
+// analyze_dopar('testp.js',['a'], ['username']);

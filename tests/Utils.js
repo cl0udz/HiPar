@@ -88,7 +88,11 @@
     function runAnalysis(filename, targetDir, args) {
         var file = path.resolve(targetDir + "/" + filename)
         var analysisPath = path.resolve(__dirname, "../taintable/dynamic_taint/TaintAnalysis.js");
-        var cmd = "node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/analyses/ChainedAnalyses.js") + " --analysis " + analysisPath + " " + escapeShell(file);
+
+        // Jianwei: Add coverage
+        var coveragePath = path.resolve(__dirname, "../taintable/dynamic_taint/Coverage.js");
+
+        var cmd = "node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/analyses/ChainedAnalyses.js") + " --analysis " + analysisPath + " --analysis " + coveragePath +  " " + escapeShell(file);
         if(args)
             cmd += ' ' + args.join(' ');
         cmd += ' analysis';
