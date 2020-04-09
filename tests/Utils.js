@@ -9,7 +9,7 @@
         return cmd.replace(/(["\s'$`\\])/g, '\\$1');
     };
 
-    var lib_ignore = fs.readFileSync('lib_ignore.config').toString().split("\n");
+    var lib_ignore = fs.readFileSync(path.resolve(__dirname,'lib_ignore.config')).toString().split("\n");
 
 
     function checkPath(path){

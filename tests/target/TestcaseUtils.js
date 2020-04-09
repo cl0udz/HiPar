@@ -41,6 +41,7 @@ var rootMagicName = 'R0ot';
 var http = require('http');
 
 var async = require('async');
+var request = require('request');
 
 function sendViaWebRequest(method, data, location, port, hostname) {
   var http = require('http');
@@ -92,7 +93,9 @@ function sendViaWebRequest(method, data, location, port, hostname) {
 
 function entry(testFunc, param, sync) {
   if (sync != true) sync = false;
-  if ('analysis' in process.argv) loopProperty(testFunc, param, sync);else if ('verify' in process.argv) verifyHipar(testFunc, param, ProjectDir);else {
+  if ('analysis' in process.argv) loopProperty(testFunc, param, sync);
+  else if ('verify' in process.argv) verifyHipar(testFunc, param, ProjectDir);
+  else {
     console.log(tynt.Red('Incorrect Prompt argumnet, we do analysis by default'));
     loopProperty(testFunc, param, sync);
   }
@@ -262,6 +265,41 @@ function verifyHipar(testFunc, param) {
   }
 }
 
+function sendFromDetail(input){
+  
+  var detail= global.detail
+  var bodyString = JSON.stringify(input)
+  var headers = {}
+  for(var i=0;i<detail.requestHeaders.length;i++){
+    headers[detail.requestHeaders[i].name]=detail.requestHeaders[i].value;
+  }
+
+  var burp01_options = {
+      url: detail.url,
+      headers: headers,
+      method: detail.method,
+      body: bodyString,
+  }
+  request(burp01_options, function (error, response, body) {
+      console.log('statusCode:', response && response.statusCode)
+      console.log('error: ', error)
+      console.log('body: ', body)
+  });
+}
+
+function requestFromLog(reqlist){
+  var request = require('request');
+  process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0
+  for (var i in reqlist){
+      global.detail = reqlist[i];
+      var input = JSON.parse(global.detail.postedString)
+      entry(sendFromDetail,input)
+      // console.log(i)
+      // console.log(detail)
+    }
+}
+
+
 function source(source_var, var_name) {
   console.log(tynt.Green(var_name));
   return source_var;
@@ -280,3 +318,4 @@ exports.loopProperty = loopProperty;
 exports.verifyHipar = verifyHipar;
 exports.entry = entry;
 exports.sendViaWebRequest = sendViaWebRequest;
+exports.requestFromLog = requestFromLog;
