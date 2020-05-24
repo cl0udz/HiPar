@@ -24,4 +24,4 @@ var rewrite = function(file_path, hipar_key, hipar_value){
     fs.writeFileSync(file_path.substring(0, file_path.length-3)+"_"+hipar_key+".js", new_code);
 }
 
-rewrite("test.js", "hipar", "value");
+//rewrite("test.js", "hipar", "value");

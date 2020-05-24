@@ -246,7 +246,7 @@
         "projPath": "./target/TestKindof",
         "startFile": "./TestKindof.js",
         "instrFiles": ["./TestKindof.js","../TestcaseUtils.js"],
-        "enable" : true
+        "enable" : false
 
     },
     {

@@ -1,0 +1,397 @@
+[
+{
+    "testName": "TestAerospike",
+        "projPath": "./target/TestAerospike",
+        "startFile": "./TestAerospike.js",
+        "instrFiles": ["./TestAerospike.js","../TestcaseUtils.js"],
+        "enable" : false
+
+},
+{
+    "testName": "TestAjv",
+    "projPath": "./target/TestAjv",
+    "startFile": "./TestAjv.js",
+    "instrFiles": ["./TestAjv.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestAnalytics",
+    "projPath": "./target/TestAnalytics",
+    "startFile": "./TestAnalytics.js",
+    "instrFiles": ["./TestAnalytics.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestAnotherJsonSchema",
+    "projPath": "./target/TestAnotherJsonSchema",
+    "startFile": "./TestAnotherJsonSchema.js",
+    "instrFiles": ["./TestAnotherJsonSchema.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestArchiver",
+    "projPath": "./target/TestArchiver",
+    "startFile": "./TestArchiver.js",
+    "instrFiles": ["./TestArchiver.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestAvsc",
+    "projPath": "./target/TestAvsc",
+    "startFile": "./TestAvsc.js",
+    "instrFiles": ["./TestAvsc.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestBlockchainInfo",
+    "projPath": "./target/TestBlockchainInfo",
+    "startFile": "./TestBlockchainInfo.js",
+    "instrFiles": ["./TestBlockchainInfo.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},    
+{
+    "testName": "TestBluebird",
+    "projPath": "./target/TestBluebird",
+    "startFile": "./TestBluebird.js",
+    "instrFiles": ["./TestBluebird.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestBodyParser",
+    "projPath": "./target/TestBodyParser",
+    "startFile": "./TestBodyParser.js",
+    "instrFiles": ["./TestBodyParser.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestBson-object",
+    "projPath": "./target/TestBson-object",
+    "startFile": "./TestBson-object.js",
+    "instrFiles": ["./TestBson-object.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestClassValidator",
+    "projPath": "./target/TestClassValidator",
+    "startFile": "./TestClassValidator.js",
+    "instrFiles": ["./TestClassValidator.js","../TestcaseUtils.js"],
+    "enable" : true
+
+},
+{
+    "testName": "TestCoinBasePro",
+    "projPath": "./target/TestCoinBasePro",
+    "startFile": "./TestCoinBasePro.js",
+    "instrFiles": ["./TestCoinBasePro.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestConsono",
+    "projPath": "./target/TestConsono",
+    "startFile": "./TestConsono.js",
+    "instrFiles": ["./TestConsono.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestCookie",
+    "projPath": "./target/TestCookie",
+    "startFile": "./TestCookie.js",
+    "instrFiles": ["./TestCookie.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestCouchDb",
+    "projPath": "./target/TestCouchDb",
+    "startFile": "./TestCouchDb.js",
+    "instrFiles": ["./TestCouchDb.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestCouchNode",
+    "projPath": "./target/TestCouchNode",
+    "startFile": "./TestCouchNode.js",
+    "instrFiles": ["./TestCouchNode.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestDataInspector",
+    "projPath": "./target/TestDataInspector",
+    "startFile": "./TestDataInspector.js",
+    "instrFiles": ["./TestDataInspector.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestDatalize",
+    "projPath": "./target/TestDatalize",
+    "startFile": "./TestDatalize.js",
+    "instrFiles": ["./TestDatalize.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestDate",
+    "projPath": "./target/TestDate",
+    "startFile": "./TestDate.js",
+    "instrFiles": ["./TestDate.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestDumperJs",
+    "projPath": "./target/TestDumperJs",
+    "startFile": "./TestDumperJs.js",
+    "instrFiles": ["./TestDumperJs.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestExpressForm",
+    "projPath": "./target/TestExpressForm",
+    "startFile": "./TestExpressForm.js",
+    "instrFiles": ["./TestExpressForm.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestFastify",
+    "projPath": "./target/TestFastify",
+    "startFile": "./TestFastify.js",
+    "instrFiles": ["./TestFastify.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestGhost-ignition",
+    "projPath": "./target/TestGhost-ignition",
+    "startFile": "./TestGhost-ignition.js",
+    "instrFiles": ["./TestGhost-ignition.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestIndicative",
+    "projPath": "./target/TestIndicative",
+    "startFile": "./TestIndicative.js",
+    "instrFiles": ["./TestIndicative.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestIsMyJsonValid",
+    "projPath": "./target/TestIsMyJsonValid",
+    "startFile": "./TestIsMyJsonValid.js",
+    "instrFiles": ["./TestIsMyJsonValid.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestJSON-strictify",
+    "projPath": "./target/TestJSON-strictify",
+    "startFile": "./TestJSON-strictify.js",
+    "instrFiles": ["./TestJSON-strictify.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestJoi",
+    "projPath": "./target/TestJoi",
+    "startFile": "./TestJoi.js",
+    "instrFiles": ["./TestJoi.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestJpv",
+    "projPath": "./target/TestJpv",
+    "startFile": "./TestJpv.js",
+    "instrFiles": ["./TestJpv.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestJsonschema",
+    "projPath": "./target/TestJsonschema",
+    "startFile": "./TestJsonschema.js",
+    "instrFiles": ["./TestJsonschema.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestLegalize",
+    "projPath": "./target/TestLegalize",
+    "startFile": "./TestLegalize.js",
+    "instrFiles": ["./TestLegalize.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestLokiJS",
+    "projPath": "./target/TestLokiJS",
+    "startFile": "./TestLokiJS.js",
+    "instrFiles": ["./TestLokiJS.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestLowdb",
+    "projPath": "./target/TestLowdb",
+    "startFile": "./TestLowdb.js",
+    "instrFiles": ["./TestLowdb.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestMixinPro",
+    "projPath": "./target/TestMixinPro",
+    "startFile": "./TestMixinPro.js",
+    "instrFiles": ["./TestMixinPro.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestMongoDb",
+    "projPath": "./target/TestMongoDb",
+    "startFile": "./TestMongoDb.js",
+    "instrFiles": ["./TestMongoDb.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestMongodbExtjson",
+    "projPath": "./target/TestMongodbExtjson",
+    "startFile": "./TestMongodbExtjson.js",
+    "instrFiles": ["./TestMongodbExtjson.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestNodeMailer",
+    "projPath": "./target/TestNodeMailer",
+    "startFile": "./TestNodeMailer.js",
+    "instrFiles": ["./TestNodeMailer.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestOW",
+    "projPath": "./target/TestOW",
+    "startFile": "./TestOW.js",
+    "instrFiles": ["./TestOW.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestObject-inspect",
+    "projPath": "./target/TestObject-inspect",
+    "startFile": "./TestObject-inspect.js",
+    "instrFiles": ["./TestObject-inspect.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestObject-is",
+    "projPath": "./target/TestObject-is",
+    "startFile": "./TestObject-is.js",
+    "instrFiles": ["./TestObject-is.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestProperty-Validator",
+    "projPath": "./target/TestProperty-Validator",
+    "startFile": "./TestProperty-Validator.js",
+    "instrFiles": ["./TestProperty-Validator.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestRegression",
+    "projPath": "./target/TestRegression",
+    "startFile": "./TestRegression.js",
+    "instrFiles": ["./TestRegression.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestRequest",
+    "projPath": "./target/TestRequest",
+    "startFile": "./TestRequest.js",
+    "instrFiles": ["./TestRequest.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestSchema-inspector",
+    "projPath": "./target/TestSchema-inspector",
+    "startFile": "./TestSchema-inspector.js",
+    "instrFiles": ["./TestSchema-inspector.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestTable",
+    "projPath": "./target/TestTable",
+    "startFile": "./TestTable.js",
+    "instrFiles": ["./TestTable.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestValib",
+    "projPath": "./target/TestValib",
+    "startFile": "./TestValib.js",
+    "instrFiles": ["./TestValib.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestValidateJS",
+    "projPath": "./target/TestValidateJS",
+    "startFile": "./TestValidateJS.js",
+    "instrFiles": ["./TestValidateJS.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestValidatorJS",
+    "projPath": "./target/TestValidatorJS",
+    "startFile": "./TestValidatorJS.js",
+    "instrFiles": ["./TestValidatorJS.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestWriteJsonFile",
+    "projPath": "./target/TestWriteJsonFile",
+    "startFile": "./TestWriteJsonFile.js",
+    "instrFiles": ["./TestWriteJsonFile.js","../TestcaseUtils.js"],
+    "enable" : false
+
+},
+{
+    "testName": "TestYup",
+    "projPath": "./target/TestYup",
+    "startFile": "./TestYup.js",
+    "instrFiles": ["./TestYup.js","../TestcaseUtils.js"],
+    "enable" : false
+
+}
+
+
+]
+
