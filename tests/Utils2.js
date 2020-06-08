@@ -87,13 +87,13 @@
 
     function runAnalysis(filename, targetDir, args) {
         var file = path.resolve(targetDir + "/" + filename)
-        var analysisPath = path.resolve(__dirname, "../taintable/dynamic_taint/TaintAnalysis.js");
+        var analysisPath = path.resolve(__dirname, "../taintable/dynamic_taint/TaintAnalysis2.js");
 
         // Jianwei: Add coverage
         var coveragePath = path.resolve(__dirname, "../taintable/dynamic_taint/Coverage.js");
 
         //var cmd = "node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/commands/direct.js") + " --smemory --analysis " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi/src/js/analyses/ChainedAnalyses.js") + " --analysis " + analysisPath + " --analysis " + coveragePath +  " " + escapeShell(file);
-        var cmd = "node  " + path.resolve(__dirname, "../taintable/dynamic_taint/jalangi2/src/js/commands/jalangi.js") + " --inlineIID --inlineSource --analysis " + path.resolve(__dirname, "../taintable/dynamic_taint/TaintAnalysis2.js") + " --analysis " + path.resolve(__dirname, "../taintable/dynamic_taint/Coverage.js") + " " + escapeShell(file);
+        var cmd = "node  " + path.resolve(__dirname, "../taintable/dynamic_taint/exposejs-jalangi2/src/js/commands/jalangi.js") + " --inlineIID --inlineSource --analysis " + path.resolve(__dirname, "../taintable/dynamic_taint/TaintAnalysis2.js") + " " + escapeShell(file);
         if(args)
             cmd += ' ' + args.join(' ');
         //cmd += ' analysis';

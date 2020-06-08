@@ -1,3 +1,6 @@
 [submodule "taintable/dynamic_taint/jalangi2"]
 	path = taintable/dynamic_taint/jalangi2
 	url = https://github.com/Samsung/jalangi2
+[submodule "taintable/dynamic_taint/exposejs-jalangi2"]
+	path = taintable/dynamic_taint/exposejs-jalangi2
+	url = https://github.com/ExpoSEJS/jalangi2
