@@ -1,0 +1,906 @@
+Running /home/james/nodejs/HiPar/tests/target/TestAnalytics
+instrumentSync:/home/james/nodejs/HiPar/tests/target/TestAnalytics
+[32mModule cache of project TestAnalytics found[0m
+2 Files to be instrumented.
+Start instrumenting....
+node /home/james/nodejs/HiPar/taintable/dynamic_taint/jalangi/src/js/instrument/esnstrument.js /home/james/nodejs/HiPar/tests/target/TestAnalytics/TestAnalytics.js --out /home/james/nodejs/HiPar/outputs/target_cache/TestAnalytics/TestAnalytics.jsnode /home/james/nodejs/HiPar/taintable/dynamic_taint/jalangi/src/js/instrument/esnstrument.js /home/james/nodejs/HiPar/tests/target/TestcaseUtils.js --out /home/james/nodejs/HiPar/outputs/target_cache/TestcaseUtils.js/home/james/nodejs/HiPar/outputs/target_cache/TestAnalytics TestAnalytics {
+  testName: 'TestAnalytics',
+  projPath: '/home/james/nodejs/HiPar/tests/target/TestAnalytics',
+  startFile: './TestAnalytics.js',
+  instrFiles: [ './TestAnalytics.js', '../TestcaseUtils.js' ],
+  enable: true
+}
+[+] Verify Result :
+[32m/home/james/nodejs/HiPar/outputs/hidden_attr/TestAnalytics.json
+[32m[-]Verifying hidden Parameter[0m
+{
+  userId: '019mr8mf4r',
+  traits: {
+    name: 'Michael Bolton',
+    email: 'mbolton@initech.com',
+    plan: 'Enterprise',
+    friends: 42
+  },
+  type: 'H1P4r'
+}
+{
+  userId: '019mr8mf4r',
+  traits: {
+    name: 'Michael Bolton',
+    email: 'mbolton@initech.com',
+    plan: 'Enterprise',
+    friends: 42
+  },
+  anonymousId: 'H1P4r'
+}
+{
+  userId: 'H1P4r',
+  traits: {
+    name: 'Michael Bolton',
+    email: 'mbolton@initech.com',
+    plan: 'Enterprise',
+    friends: 42
+  }
+}
+{
+  userId: '019mr8mf4r',
+  traits: {
+    name: 'Michael Bolton',
+    email: 'mbolton@initech.com',
+    plan: 'Enterprise',
+    friends: 42
+  },
+  nodeType: 'H1P4r'
+}
+{
+  userId: '019mr8mf4r',
+  traits: {
+    name: 'Michael Bolton',
+    email: 'mbolton@initech.com',
+    plan: 'Enterprise',
+    friends: 42
+  },
+  valueOf: 'H1P4r'
+}
+[31m[Verify Error]:[0m[31mTypeError: Function.prototype.apply was called on H1P4r, which is a string and not a function[0m
+{
+  userId: '019mr8mf4r',
+  traits: {
+    name: 'Michael Bolton',
+    email: 'mbolton@initech.com',
+    plan: 'Enterprise',
+    friends: 42
+  },
+  _isBuffer: 'H1P4r'
+}
+[31m[Verify Error]:[0m[31mAssertionError [ERR_ASSERTION]: You must pass a message object.[0m
+{
+  userId: '019mr8mf4r',
+  traits: {
+    name: 'Michael Bolton',
+    email: 'mbolton@initech.com',
+    plan: 'Enterprise',
+    friends: 42
+  },
+  constructor: 'H1P4r'
+}
+{ isBuffer: 'H1P4r' }
+[31m[Verify Error]:[0m[31mAssertionError [ERR_ASSERTION]: You must pass either an "anonymousId" or a "userId".[0m
+019mr8mf4r
+[31m[Verify Error]:[0m[31mAssertionError [ERR_ASSERTION]: You must pass a message object.[0m
+019mr8mf4r
+[31m[Verify Error]:[0m[31mAssertionError [ERR_ASSERTION]: You must pass a message object.[0m
+019mr8mf4r
+[31m[Verify Error]:[0m[31mAssertionError [ERR_ASSERTION]: You must pass a message object.[0m
+019mr8mf4r
+[31m[Verify Error]:[0m[31mAssertionError [ERR_ASSERTION]: You must pass a message object.[0m
+[Function: String] { isBuffer: 'H1P4r' }
+[31m[Verify Error]:[0m[31mAssertionError [ERR_ASSERTION]: You must pass a message object.[0m
+calling end execution callback
+[32m[+] HiparVerification HiPar verified[0m
+[
+  '/home/james/nodejs/HiPar/tests/target/TestAnalytics/node_modules/@segment/loosely-validate-event/index.js': [ 'event.type', 'event.anonymousId', 'event.userId' ],
+  '/home/james/nodejs/HiPar/tests/target/TestAnalytics/node_modules/component-type/index.js': [ 'val.nodeType', 'val.valueOf', 'obj._isBuffer', 'obj.constructor' ]
+]
+[0m
+Finished executing ./TestAnalytics.js
+Running /home/james/nodejs/HiPar/tests/target/TestBson-object
+instrumentSync:/home/james/nodejs/HiPar/tests/target/TestBson-object
+[32mModule cache of project TestBson-object found[0m
+2 Files to be instrumented.
+Start instrumenting....
+node /home/james/nodejs/HiPar/taintable/dynamic_taint/jalangi/src/js/instrument/esnstrument.js /home/james/nodejs/HiPar/tests/target/TestBson-object/TestBson-object.js --out /home/james/nodejs/HiPar/outputs/target_cache/TestBson-object/TestBson-object.jsnode /home/james/nodejs/HiPar/taintable/dynamic_taint/jalangi/src/js/instrument/esnstrument.js /home/james/nodejs/HiPar/tests/target/TestcaseUtils.js --out /home/james/nodejs/HiPar/outputs/target_cache/TestcaseUtils.js/home/james/nodejs/HiPar/outputs/target_cache/TestBson-object TestBson-object {
+  testName: 'TestBson-object',
+  projPath: '/home/james/nodejs/HiPar/tests/target/TestBson-object',
+  startFile: './TestBson-object.js',
+  instrFiles: [ './TestBson-object.js', '../TestcaseUtils.js' ],
+  enable: true
+}
+[+] Verify Result :
+[32m/home/james/nodejs/HiPar/outputs/hidden_attr/TestBson-object.json
+[32m[-]Verifying hidden Parameter[0m
+sss
+[31m[Verify Error]:[0m[31mError: Argument passed in must be a single String of 12 bytes or a string of 24 hex characters[0m
+[Function: String] { isBuffer: 'H1P4r' }
+sss
+[31m[Verify Error]:[0m[31mError: Argument passed in must be a single String of 12 bytes or a string of 24 hex characters[0m
+sss
+[31m[Verify Error]:[0m[31mError: Argument passed in must be a single String of 12 bytes or a string of 24 hex characters[0m
+calling end execution callback
+[32m[+] HiparVerification HiPar verified[0m
+[]
+[0m
+Finished executing ./TestBson-object.js
+Running /home/james/nodejs/HiPar/tests/target/TestClassValidator
+instrumentSync:/home/james/nodejs/HiPar/tests/target/TestClassValidator
+[32mModule cache of project TestClassValidator found[0m
+2 Files to be instrumented.
+Start instrumenting....
+node /home/james/nodejs/HiPar/taintable/dynamic_taint/jalangi/src/js/instrument/esnstrument.js /home/james/nodejs/HiPar/tests/target/TestClassValidator/TestClassValidator.js --out /home/james/nodejs/HiPar/outputs/target_cache/TestClassValidator/TestClassValidator.jsnode /home/james/nodejs/HiPar/taintable/dynamic_taint/jalangi/src/js/instrument/esnstrument.js /home/james/nodejs/HiPar/tests/target/TestcaseUtils.js --out /home/james/nodejs/HiPar/outputs/target_cache/TestcaseUtils.js/home/james/nodejs/HiPar/outputs/target_cache/TestClassValidator TestClassValidator {
+  testName: 'TestClassValidator',
+  projPath: '/home/james/nodejs/HiPar/tests/target/TestClassValidator',
+  startFile: './TestClassValidator.js',
+  instrFiles: [ './TestClassValidator.js', '../TestcaseUtils.js' ],
+  enable: true
+}
+[+] Verify Result :
+[32m/home/james/nodejs/HiPar/outputs/hidden_attr/TestClassValidator.json
+[32m[-]Verifying hidden Parameter[0m
+{ title: 'Hello', constructor: 'H1P4r' }
+{ title: 'Hello', forEach: 'H1P4r' }
+{ title: 'Hello', valueOf: 'H1P4r' }
+{ title: 'Hello', get: 'H1P4r' }
+{ prototype: 'H1P4r' }
+{ title: 'Hello', set: 'H1P4r' }
+{ title: 'Hello', keys: 'H1P4r' }
+{ name: 'H1P4r' }
+Hello
+[31m[Verify Error]:[0m[31mTypeError: Cannot read property 'constructor' of undefined[0m
+Hello
+[31m[Verify Error]:[0m[31mTypeError: Cannot read property 'constructor' of undefined[0m
+Hello
+[31m[Verify Error]:[0m[31mTypeError: Cannot read property 'constructor' of undefined[0m
+Hello
+[31m[Verify Error]:[0m[31mTypeError: Cannot read property 'constructor' of undefined[0m
+[Function: String]
+Hello
+[31m[Verify Error]:[0m[31mTypeError: Cannot read property 'constructor' of undefined[0m
+Hello
+[31m[Verify Error]:[0m[31mTypeError: Cannot read property 'constructor' of undefined[0m
+Hello
+[31m[Verify Error]:[0m[31mTypeError: Cannot read property 'constructor' of undefined[0m
+validation failed. errors:  [
+  ValidationError {
+    target: Post { title: 'Hello' },
+    value: 'Hello',
+    property: 'title',
+    children: [],
+    constraints: { length: 'title must be longer than or equal to 10 characters' }
+  },
+  ValidationError {
+    target: Post { title: 'Hello' },
+    value: undefined,
+    property: 'text',
+    children: [],
+    constraints: { contains: 'text must contain a hello string' }
+  },
+  ValidationError {
+    target: Post { title: 'Hello' },
+    value: undefined,
+    property: 'rating',
+    children: [],
+    constraints: {
+      max: 'rating must not be greater than 10',
+      min: 'rating must not be less than 0',
+      isInt: 'rating must be an integer number'
+    }
+  },
+  ValidationError {
+    target: Post { title: 'Hello' },
+    value: undefined,
+    property: 'email',
+    children: [],
+    constraints: { isEmail: 'email must be an email' }
+  },
+  ValidationError {
+    target: Post { title: 'Hello' },
+    value: undefined,
+    property: 'site',
+    children: [],
+    constraints: { isFqdn: 'site must be a valid domain name' }
+  },
+  ValidationError {
+    target: Post { title: 'Hello' },
+    value: undefined,
+    property: 'createDate',
+    children: [],
+    constraints: { isDate: 'createDate must be a Date instance' }
+  }
+]
+validation failed. errors:  [
+  ValidationError {
+    target: Post { title: 'Hello', forEach: 'H1P4r' },
+    value: 'Hello',
+    property: 'title',
+    children: [],
+    constraints: { length: 'title must be longer than or equal to 10 characters' }
+  },
+  ValidationError {
+    target: Post { title: 'Hello', forEach: 'H1P4r' },
+    value: undefined,
+    property: 'text',
+    children: [],
+    constraints: { contains: 'text must contain a hello string' }
+  },
+  ValidationError {
+    target: Post { title: 'Hello', forEach: 'H1P4r' },
+    value: undefined,
+    property: 'rating',
+    children: [],
+    constraints: {
+      max: 'rating must not be greater than 10',
+      min: 'rating must not be less than 0',
+      isInt: 'rating must be an integer number'
+    }
+  },
+  ValidationError {
+    target: Post { title: 'Hello', forEach: 'H1P4r' },
+    value: undefined,
+    property: 'email',
+    children: [],
+    constraints: { isEmail: 'email must be an email' }
+  },
+  ValidationError {
+    target: Post { title: 'Hello', forEach: 'H1P4r' },
+    value: undefined,
+    property: 'site',
+    children: [],
+    constraints: { isFqdn: 'site must be a valid domain name' }
+  },
+  ValidationError {
+    target: Post { title: 'Hello', forEach: 'H1P4r' },
+    value: undefined,
+    property: 'createDate',
+    children: [],
+    constraints: { isDate: 'createDate must be a Date instance' }
+  }
+]
+validation failed. errors:  [
+  ValidationError {
+    target: Post { title: 'Hello' },
+    value: 'Hello',
+    property: 'title',
+    children: [],
+    constraints: { length: 'title must be longer than or equal to 10 characters' }
+  },
+  ValidationError {
+    target: Post { title: 'Hello' },
+    value: undefined,
+    property: 'text',
+    children: [],
+    constraints: { contains: 'text must contain a hello string' }
+  },
+  ValidationError {
+    target: Post { title: 'Hello' },
+    value: undefined,
+    property: 'rating',
+    children: [],
+    constraints: {
+      max: 'rating must not be greater than 10',
+      min: 'rating must not be less than 0',
+      isInt: 'rating must be an integer number'
+    }
+  },
+  ValidationError {
+    target: Post { title: 'Hello' },
+    value: undefined,
+    property: 'email',
+    children: [],
+    constraints: { isEmail: 'email must be an email' }
+  },
+  ValidationError {
+    target: Post { title: 'Hello' },
+    value: undefined,
+    property: 'site',
+    children: [],
+    constraints: { isFqdn: 'site must be a valid domain name' }
+  },
+  ValidationError {
+    target: Post { title: 'Hello' },
+    value: undefined,
+    property: 'createDate',
+    children: [],
+    constraints: { isDate: 'createDate must be a Date instance' }
+  }
+]
+validation failed. errors:  [
+  ValidationError {
+    target: Post { title: 'Hello', get: 'H1P4r' },
+    value: 'Hello',
+    property: 'title',
+    children: [],
+    constraints: { length: 'title must be longer than or equal to 10 characters' }
+  },
+  ValidationError {
+    target: Post { title: 'Hello', get: 'H1P4r' },
+    value: undefined,
+    property: 'text',
+    children: [],
+    constraints: { contains: 'text must contain a hello string' }
+  },
+  ValidationError {
+    target: Post { title: 'Hello', get: 'H1P4r' },
+    value: undefined,
+    property: 'rating',
+    children: [],
+    constraints: {
+      max: 'rating must not be greater than 10',
+      min: 'rating must not be less than 0',
+      isInt: 'rating must be an integer number'
+    }
+  },
+  ValidationError {
+    target: Post { title: 'Hello', get: 'H1P4r' },
+    value: undefined,
+    property: 'email',
+    children: [],
+    constraints: { isEmail: 'email must be an email' }
+  },
+  ValidationError {
+    target: Post { title: 'Hello', get: 'H1P4r' },
+    value: undefined,
+    property: 'site',
+    children: [],
+    constraints: { isFqdn: 'site must be a valid domain name' }
+  },
+  ValidationError {
+    target: Post { title: 'Hello', get: 'H1P4r' },
+    value: undefined,
+    property: 'createDate',
+    children: [],
+    constraints: { isDate: 'createDate must be a Date instance' }
+  }
+]
+validation failed. errors:  [
+  ValidationError {
+    target: Post { prototype: 'H1P4r' },
+    value: undefined,
+    property: 'title',
+    children: [],
+    constraints: { length: 'title must be longer than or equal to 10 characters' }
+  },
+  ValidationError {
+    target: Post { prototype: 'H1P4r' },
+    value: undefined,
+    property: 'text',
+    children: [],
+    constraints: { contains: 'text must contain a hello string' }
+  },
+  ValidationError {
+    target: Post { prototype: 'H1P4r' },
+    value: undefined,
+    property: 'rating',
+    children: [],
+    constraints: {
+      max: 'rating must not be greater than 10',
+      min: 'rating must not be less than 0',
+      isInt: 'rating must be an integer number'
+    }
+  },
+  ValidationError {
+    target: Post { prototype: 'H1P4r' },
+    value: undefined,
+    property: 'email',
+    children: [],
+    constraints: { isEmail: 'email must be an email' }
+  },
+  ValidationError {
+    target: Post { prototype: 'H1P4r' },
+    value: undefined,
+    property: 'site',
+    children: [],
+    constraints: { isFqdn: 'site must be a valid domain name' }
+  },
+  ValidationError {
+    target: Post { prototype: 'H1P4r' },
+    value: undefined,
+    property: 'createDate',
+    children: [],
+    constraints: { isDate: 'createDate must be a Date instance' }
+  }
+]
+validation failed. errors:  [
+  ValidationError {
+    target: Post { title: 'Hello', set: 'H1P4r' },
+    value: 'Hello',
+    property: 'title',
+    children: [],
+    constraints: { length: 'title must be longer than or equal to 10 characters' }
+  },
+  ValidationError {
+    target: Post { title: 'Hello', set: 'H1P4r' },
+    value: undefined,
+    property: 'text',
+    children: [],
+    constraints: { contains: 'text must contain a hello string' }
+  },
+  ValidationError {
+    target: Post { title: 'Hello', set: 'H1P4r' },
+    value: undefined,
+    property: 'rating',
+    children: [],
+    constraints: {
+      max: 'rating must not be greater than 10',
+      min: 'rating must not be less than 0',
+      isInt: 'rating must be an integer number'
+    }
+  },
+  ValidationError {
+    target: Post { title: 'Hello', set: 'H1P4r' },
+    value: undefined,
+    property: 'email',
+    children: [],
+    constraints: { isEmail: 'email must be an email' }
+  },
+  ValidationError {
+    target: Post { title: 'Hello', set: 'H1P4r' },
+    value: undefined,
+    property: 'site',
+    children: [],
+    constraints: { isFqdn: 'site must be a valid domain name' }
+  },
+  ValidationError {
+    target: Post { title: 'Hello', set: 'H1P4r' },
+    value: undefined,
+    property: 'createDate',
+    children: [],
+    constraints: { isDate: 'createDate must be a Date instance' }
+  }
+]
+validation failed. errors:  [
+  ValidationError {
+    target: Post { title: 'Hello', keys: 'H1P4r' },
+    value: 'Hello',
+    property: 'title',
+    children: [],
+    constraints: { length: 'title must be longer than or equal to 10 characters' }
+  },
+  ValidationError {
+    target: Post { title: 'Hello', keys: 'H1P4r' },
+    value: undefined,
+    property: 'text',
+    children: [],
+    constraints: { contains: 'text must contain a hello string' }
+  },
+  ValidationError {
+    target: Post { title: 'Hello', keys: 'H1P4r' },
+    value: undefined,
+    property: 'rating',
+    children: [],
+    constraints: {
+      max: 'rating must not be greater than 10',
+      min: 'rating must not be less than 0',
+      isInt: 'rating must be an integer number'
+    }
+  },
+  ValidationError {
+    target: Post { title: 'Hello', keys: 'H1P4r' },
+    value: undefined,
+    property: 'email',
+    children: [],
+    constraints: { isEmail: 'email must be an email' }
+  },
+  ValidationError {
+    target: Post { title: 'Hello', keys: 'H1P4r' },
+    value: undefined,
+    property: 'site',
+    children: [],
+    constraints: { isFqdn: 'site must be a valid domain name' }
+  },
+  ValidationError {
+    target: Post { title: 'Hello', keys: 'H1P4r' },
+    value: undefined,
+    property: 'createDate',
+    children: [],
+    constraints: { isDate: 'createDate must be a Date instance' }
+  }
+]
+validation failed. errors:  [
+  ValidationError {
+    target: Post { name: 'H1P4r' },
+    value: undefined,
+    property: 'title',
+    children: [],
+    constraints: { length: 'title must be longer than or equal to 10 characters' }
+  },
+  ValidationError {
+    target: Post { name: 'H1P4r' },
+    value: undefined,
+    property: 'text',
+    children: [],
+    constraints: { contains: 'text must contain a hello string' }
+  },
+  ValidationError {
+    target: Post { name: 'H1P4r' },
+    value: undefined,
+    property: 'rating',
+    children: [],
+    constraints: {
+      max: 'rating must not be greater than 10',
+      min: 'rating must not be less than 0',
+      isInt: 'rating must be an integer number'
+    }
+  },
+  ValidationError {
+    target: Post { name: 'H1P4r' },
+    value: undefined,
+    property: 'email',
+    children: [],
+    constraints: { isEmail: 'email must be an email' }
+  },
+  ValidationError {
+    target: Post { name: 'H1P4r' },
+    value: undefined,
+    property: 'site',
+    children: [],
+    constraints: { isFqdn: 'site must be a valid domain name' }
+  },
+  ValidationError {
+    target: Post { name: 'H1P4r' },
+    value: undefined,
+    property: 'createDate',
+    children: [],
+    constraints: { isDate: 'createDate must be a Date instance' }
+  }
+]
+validation succeed
+calling end execution callback
+[32m[+] HiparVerification HiPar verified[0m
+[
+  '/home/james/nodejs/HiPar/tests/target/TestClassValidator/node_modules/class-transformer/TransformOperationExecutor.js': [
+    'value.forEach',
+    'value.valueOf',
+    'value.get',
+    'newValue.set',
+    'object.keys'
+  ]
+]
+[0m
+Finished executing ./TestClassValidator.js
+Running /home/james/nodejs/HiPar/tests/target/TestConsono
+instrumentSync:/home/james/nodejs/HiPar/tests/target/TestConsono
+[32mModule cache of project TestConsono found[0m
+2 Files to be instrumented.
+Start instrumenting....
+node /home/james/nodejs/HiPar/taintable/dynamic_taint/jalangi/src/js/instrument/esnstrument.js /home/james/nodejs/HiPar/tests/target/TestConsono/TestConsono.js --out /home/james/nodejs/HiPar/outputs/target_cache/TestConsono/TestConsono.jsnode /home/james/nodejs/HiPar/taintable/dynamic_taint/jalangi/src/js/instrument/esnstrument.js /home/james/nodejs/HiPar/tests/target/TestcaseUtils.js --out /home/james/nodejs/HiPar/outputs/target_cache/TestcaseUtils.js/home/james/nodejs/HiPar/outputs/target_cache/TestConsono TestConsono {
+  testName: 'TestConsono',
+  projPath: '/home/james/nodejs/HiPar/tests/target/TestConsono',
+  startFile: './TestConsono.js',
+  instrFiles: [ './TestConsono.js', '../TestcaseUtils.js' ],
+  enable: true
+}
+[+] Verify Result :
+[32m/home/james/nodejs/HiPar/outputs/hidden_attr/TestConsono.json
+[32m[-]Verifying hidden Parameter[0m
+{ key1: { a: 1 }, key2: [ 2, 3, 4 ], length: 'H1P4r' }
+[31m[Verify Error]:[0m[31mTypeError: Cannot read property 'rgb' of undefined[0m
+{ key1: { a: 1 }, key2: [ 2, 3, 4 ], size: 'H1P4r' }
+[31m[Verify Error]:[0m[31mTypeError: Cannot read property 'rgb' of undefined[0m
+{ key1: { a: 1 }, key2: [ 2, 3, 4 ], toString: 'H1P4r' }
+[31m[Verify Error]:[0m[31mTypeError: Cannot read property 'rgb' of undefined[0m
+{ key1: { a: 1 }, key2: [ 2, 3, 4 ], slice: 'H1P4r' }
+[31m[Verify Error]:[0m[31mTypeError: Cannot read property 'rgb' of undefined[0m
+calling end execution callback
+[32m[+] HiparVerification HiPar verified[0m
+[
+  '/home/james/nodejs/HiPar/tests/target/TestConsono/node_modules/consono/index.js': [ 't.length', 't.size', 't.slice' ]
+]
+[0m
+Finished executing ./TestConsono.js
+Running /home/james/nodejs/HiPar/tests/target/TestCookie
+instrumentSync:/home/james/nodejs/HiPar/tests/target/TestCookie
+[32mModule cache of project TestCookie found[0m
+2 Files to be instrumented.
+Start instrumenting....
+node /home/james/nodejs/HiPar/taintable/dynamic_taint/jalangi/src/js/instrument/esnstrument.js /home/james/nodejs/HiPar/tests/target/TestCookie/TestCookie.js --out /home/james/nodejs/HiPar/outputs/target_cache/TestCookie/TestCookie.jsnode /home/james/nodejs/HiPar/taintable/dynamic_taint/jalangi/src/js/instrument/esnstrument.js /home/james/nodejs/HiPar/tests/target/TestcaseUtils.js --out /home/james/nodejs/HiPar/outputs/target_cache/TestcaseUtils.js/home/james/nodejs/HiPar/outputs/target_cache/TestCookie TestCookie {
+  testName: 'TestCookie',
+  projPath: '/home/james/nodejs/HiPar/tests/target/TestCookie',
+  startFile: './TestCookie.js',
+  instrFiles: [ './TestCookie.js', '../TestcaseUtils.js' ],
+  enable: true
+}
+[+] Verify Result :
+[32m/home/james/nodejs/HiPar/outputs/hidden_attr/TestCookie.json
+[32m[-]Verifying hidden Parameter[0m
+[ 'H1P4r' ]
+Visit us at http://127.0.0.1:3001
+calling end execution callback
+[32m[+] HiparVerification HiPar verified[0m
+[
+  '/home/james/nodejs/HiPar/tests/target/TestCookie/node_modules/keygrip/index.js': [ 'keys.0' ]
+]
+[0m
+Finished executing ./TestCookie.js
+Running /home/james/nodejs/HiPar/tests/target/TestLokiJS
+instrumentSync:/home/james/nodejs/HiPar/tests/target/TestLokiJS
+[32mModule cache of project TestLokiJS found[0m
+2 Files to be instrumented.
+Start instrumenting....
+node /home/james/nodejs/HiPar/taintable/dynamic_taint/jalangi/src/js/instrument/esnstrument.js /home/james/nodejs/HiPar/tests/target/TestLokiJS/TestLokiJS.js --out /home/james/nodejs/HiPar/outputs/target_cache/TestLokiJS/TestLokiJS.jsnode /home/james/nodejs/HiPar/taintable/dynamic_taint/jalangi/src/js/instrument/esnstrument.js /home/james/nodejs/HiPar/tests/target/TestcaseUtils.js --out /home/james/nodejs/HiPar/outputs/target_cache/TestcaseUtils.js/home/james/nodejs/HiPar/outputs/target_cache/TestLokiJS TestLokiJS {
+  testName: 'TestLokiJS',
+  projPath: '/home/james/nodejs/HiPar/tests/target/TestLokiJS',
+  startFile: './TestLokiJS.js',
+  instrFiles: [ './TestLokiJS.js', '../TestcaseUtils.js' ],
+  enable: true
+}
+[+] Verify Result :
+[32m[
+  {
+    name: 'thor',
+    age: 35,
+    meta: { revision: 0, created: 1577136601769, version: 0 },
+    '$loki': 2
+  }
+]
+/home/james/nodejs/HiPar/outputs/hidden_attr/TestLokiJS.json
+[32m[-]Verifying hidden Parameter[0m
+{ name: 'ex1t', age: 18, constructor: 'H1P4r' }
+{ name: 'ex1t', age: 18, length: 'H1P4r' }
+18
+[31m[Verify Error]:[0m[31mTypeError: Document needs to be an object[0m
+/home/james/nodejs/HiPar/outputs/hidden_attr/TestLokiJS.json
+[32m[-]Verifying hidden Parameter[0m
+{ age: { '$lte': 35 }, constructor: 'H1P4r' }
+[
+  {
+    name: 'ex1t',
+    age: 18,
+    constructor: 'H1P4r',
+    meta: { revision: 0, created: 1577136601782, version: 0 },
+    '$loki': 3
+  }
+]
+{ age: { '$lte': 35 }, length: 'H1P4r' }
+[
+  {
+    name: 'ex1t',
+    age: 18,
+    length: 'H1P4r',
+    meta: { revision: 0, created: 1577136601782, version: 0 },
+    '$loki': 4
+  }
+]
+{ '$lte': 35, toString: 'H1P4r' }
+[]
+calling end execution callback
+[32m[+] HiparVerification HiPar verified[0m
+[
+  '/home/james/nodejs/HiPar/tests/target/TestLokiJS/node_modules/lokijs/src/lokijs.js': [ 'obj.constructor' ]
+]
+[0m
+Finished executing ./TestLokiJS.js
+Running /home/james/nodejs/HiPar/tests/target/TestKindof
+instrumentSync:/home/james/nodejs/HiPar/tests/target/TestKindof
+[32mModule cache of project TestKindof found[0m
+2 Files to be instrumented.
+Start instrumenting....
+node /home/james/nodejs/HiPar/taintable/dynamic_taint/jalangi/src/js/instrument/esnstrument.js /home/james/nodejs/HiPar/tests/target/TestKindof/TestKindof.js --out /home/james/nodejs/HiPar/outputs/target_cache/TestKindof/TestKindof.jsnode /home/james/nodejs/HiPar/taintable/dynamic_taint/jalangi/src/js/instrument/esnstrument.js /home/james/nodejs/HiPar/tests/target/TestcaseUtils.js --out /home/james/nodejs/HiPar/outputs/target_cache/TestcaseUtils.js/home/james/nodejs/HiPar/outputs/target_cache/TestKindof TestKindof {
+  testName: 'TestKindof',
+  projPath: '/home/james/nodejs/HiPar/tests/target/TestKindof',
+  startFile: './TestKindof.js',
+  instrFiles: [ './TestKindof.js', '../TestcaseUtils.js' ],
+  enable: true
+}
+[+] Verify Result :
+[32m/home/james/nodejs/HiPar/outputs/hidden_attr/TestKindof.json
+[32m[-]Verifying hidden Parameter[0m
+{ user: 'barney', age: 36, active: true, constructor: 'H1P4r' }
+{ name: 'H1P4r' }
+{ user: 'barney', age: 36, active: true, message: 'H1P4r' }
+{ stackTraceLimit: 'H1P4r' }
+{ user: 'barney', age: 36, active: true, toDateString: 'H1P4r' }
+{ user: 'barney', age: 36, active: true, getDate: 'H1P4r' }
+{ user: 'barney', age: 36, active: true, setDate: 'H1P4r' }
+{ user: 'barney', age: 36, active: true, flags: 'H1P4r' }
+{ user: 'barney', age: 36, active: true, ignoreCase: 'H1P4r' }
+{ user: 'barney', age: 36, active: true, multiline: 'H1P4r' }
+{ user: 'barney', age: 36, active: true, global: 'H1P4r' }
+{ user: 'barney', age: 36, active: true, throw: 'H1P4r' }
+{ user: 'barney', age: 36, active: true, return: 'H1P4r' }
+{ user: 'barney', age: 36, active: true, next: 'H1P4r' }
+{ user: 'barney', age: 36, active: true, length: 'H1P4r' }
+{ user: 'barney', age: 36, active: true, callee: 'H1P4r' }
+{ isBuffer: 'H1P4r' }
+calling end execution callback
+[32m[+] HiparVerification HiPar verified[0m
+[
+  '/home/james/nodejs/HiPar/tests/target/TestKindof/node_modules/kind-of/index.js': [
+    'val.constructor',  'val.message',
+    'val.toDateString', 'val.getDate',
+    'val.setDate',      'val.flags',
+    'val.ignoreCase',   'val.multiline',
+    'val.global',       'val.throw',
+    'val.return',       'val.next',
+    'val.length',       'val.callee'
+  ]
+]
+[0m
+Finished executing ./TestKindof.js
+Running /home/james/nodejs/HiPar/tests/target/TestSchema-inspector
+instrumentSync:/home/james/nodejs/HiPar/tests/target/TestSchema-inspector
+[32mModule cache of project TestSchema-inspector found[0m
+2 Files to be instrumented.
+Start instrumenting....
+node /home/james/nodejs/HiPar/taintable/dynamic_taint/jalangi/src/js/instrument/esnstrument.js /home/james/nodejs/HiPar/tests/target/TestSchema-inspector/TestSchema-inspector.js --out /home/james/nodejs/HiPar/outputs/target_cache/TestSchema-inspector/TestSchema-inspector.jsnode /home/james/nodejs/HiPar/taintable/dynamic_taint/jalangi/src/js/instrument/esnstrument.js /home/james/nodejs/HiPar/tests/target/TestcaseUtils.js --out /home/james/nodejs/HiPar/outputs/target_cache/TestcaseUtils.js/home/james/nodejs/HiPar/outputs/target_cache/TestSchema-inspector TestSchema-inspector {
+  testName: 'TestSchema-inspector',
+  projPath: '/home/james/nodejs/HiPar/tests/target/TestSchema-inspector',
+  startFile: './TestSchema-inspector.js',
+  instrFiles: [ './TestSchema-inspector.js', '../TestcaseUtils.js' ],
+  enable: true
+}
+[+] Verify Result :
+[32mProperty @.email: must match [email], but is equal to "never!"
+/home/james/nodejs/HiPar/outputs/hidden_attr/TestSchema-inspector.json
+[32m[-]Verifying hidden Parameter[0m
+{
+  firstname: 'Sterling',
+  lastname: 'Archer',
+  jobs: [ '{"name":"special Agent, Cocaine Dealer","hasownproperty":"jb"}' ],
+  email: 'never!',
+  constructor: 'H1P4r'
+}
+Property @: must be object, but is an instance of undefined
+Property @.email: must match [email], but is equal to "never!"
+Sterling
+Property @: must be object, but is string
+Sterling
+Property @: must be object, but is string
+Sterling
+Property @: must be object, but is string
+Sterling
+Property @: must be object, but is string
+Archer
+Property @: must be object, but is string
+Archer
+Property @: must be object, but is string
+Archer
+Property @: must be object, but is string
+Archer
+Property @: must be object, but is string
+[
+  '{"name":"special Agent, Cocaine Dealer","hasownproperty":"jb"}',
+  constructor: 'H1P4r'
+]
+Property @: must be object, but is an instance of undefined
+Property @.firstname: is missing and not optional
+Property @.lastname: is missing and not optional
+Property @.jobs: is missing and not optional
+Property @.email: is missing and not optional
+[
+  '{"name":"special Agent, Cocaine Dealer","hasownproperty":"jb"}',
+  hasOwnProperty: 'H1P4r'
+]
+Property @: must be object, but is array
+Property @.firstname: is missing and not optional
+Property @.lastname: is missing and not optional
+Property @.jobs: is missing and not optional
+Property @.email: is missing and not optional
+[
+  '{"name":"special Agent, Cocaine Dealer","hasownproperty":"jb"}',
+  substring: 'H1P4r'
+]
+Property @: must be object, but is array
+Property @.firstname: is missing and not optional
+Property @.lastname: is missing and not optional
+Property @.jobs: is missing and not optional
+Property @.email: is missing and not optional
+[
+  '{"name":"special Agent, Cocaine Dealer","hasownproperty":"jb"}',
+  slice: 'H1P4r'
+]
+Property @: must be object, but is array
+Property @.firstname: is missing and not optional
+Property @.lastname: is missing and not optional
+Property @.jobs: is missing and not optional
+Property @.email: is missing and not optional
+[
+  '{"name":"special Agent, Cocaine Dealer","hasownproperty":"jb"}',
+  split: 'H1P4r'
+]
+Property @: must be object, but is array
+Property @.firstname: is missing and not optional
+Property @.lastname: is missing and not optional
+Property @.jobs: is missing and not optional
+Property @.email: is missing and not optional
+calling end execution callback
+[32m[+] HiparVerification HiPar verified[0m
+[
+  '/home/james/nodejs/HiPar/tests/target/TestSchema-inspector/node_modules/schema-inspector/lib/schema-inspector.js': [
+    'element.constructor',
+    'post.hasOwnProperty',
+    'post.substring',
+    'post.slice',
+    'post.split'
+  ]
+]
+[0m
+Finished executing ./TestSchema-inspector.js
+Running /home/james/nodejs/HiPar/tests/target/TestValidatorJS
+instrumentSync:/home/james/nodejs/HiPar/tests/target/TestValidatorJS
+[32mModule cache of project TestValidatorJS found[0m
+2 Files to be instrumented.
+Start instrumenting....
+node /home/james/nodejs/HiPar/taintable/dynamic_taint/jalangi/src/js/instrument/esnstrument.js /home/james/nodejs/HiPar/tests/target/TestValidatorJS/TestValidatorJS.js --out /home/james/nodejs/HiPar/outputs/target_cache/TestValidatorJS/TestValidatorJS.jsnode /home/james/nodejs/HiPar/taintable/dynamic_taint/jalangi/src/js/instrument/esnstrument.js /home/james/nodejs/HiPar/tests/target/TestcaseUtils.js --out /home/james/nodejs/HiPar/outputs/target_cache/TestcaseUtils.js/home/james/nodejs/HiPar/outputs/target_cache/TestValidatorJS TestValidatorJS {
+  testName: 'TestValidatorJS',
+  projPath: '/home/james/nodejs/HiPar/tests/target/TestValidatorJS',
+  startFile: './TestValidatorJS.js',
+  instrFiles: [ './TestValidatorJS.js', '../TestcaseUtils.js' ],
+  enable: true
+}
+[+] Verify Result :
+[32m/home/james/nodejs/HiPar/outputs/hidden_attr/TestValidatorJS.json
+[32m[-]Verifying hidden Parameter[0m
+[
+  { name: 'John', bio: { age: 28, education: [Object] } },
+  constructor: 'H1P4r'
+]
+calling end execution callback
+[32m[+] HiparVerification HiPar verified[0m
+[
+  '/home/james/nodejs/HiPar/tests/target/TestValidatorJS/node_modules/validatorjs/src/validator.js': [ 'obj.constructor' ]
+]
+[0m
+Finished executing ./TestValidatorJS.js
+Running /home/james/nodejs/HiPar/tests/target/TestYup
+instrumentSync:/home/james/nodejs/HiPar/tests/target/TestYup
+[32mModule cache of project TestYup found[0m
+2 Files to be instrumented.
+Start instrumenting....
+node /home/james/nodejs/HiPar/taintable/dynamic_taint/jalangi/src/js/instrument/esnstrument.js /home/james/nodejs/HiPar/tests/target/TestYup/TestYup.js --out /home/james/nodejs/HiPar/outputs/target_cache/TestYup/TestYup.jsnode /home/james/nodejs/HiPar/taintable/dynamic_taint/jalangi/src/js/instrument/esnstrument.js /home/james/nodejs/HiPar/tests/target/TestcaseUtils.js --out /home/james/nodejs/HiPar/outputs/target_cache/TestcaseUtils.js/home/james/nodejs/HiPar/outputs/target_cache/TestYup TestYup {
+  testName: 'TestYup',
+  projPath: '/home/james/nodejs/HiPar/tests/target/TestYup',
+  startFile: './TestYup.js',
+  instrFiles: [ './TestYup.js', '../TestcaseUtils.js' ],
+  enable: true
+}
+[+] Verify Result :
+[32m/home/james/nodejs/HiPar/outputs/hidden_attr/TestYup.json
+[32m[-]Verifying hidden Parameter[0m
+{
+  name: 'jimmy',
+  age: '24',
+  createdOn: '2014-09-23T19:25:25Z',
+  length: 'H1P4r'
+}
+jimmy
+[31m[Verify Error]:[0m[31mTypeError: The value of field could not be cast to a value that satisfies the schema type: "object". 
+
+attempted value: jimmy 
+result of cast: null[0m
+jimmy
+[31m[Verify Error]:[0m[31mTypeError: The value of field could not be cast to a value that satisfies the schema type: "object". 
+
+attempted value: jimmy 
+result of cast: null[0m
+24
+[31m[Verify Error]:[0m[31mTypeError: The value of field could not be cast to a value that satisfies the schema type: "object". 
+
+attempted value: 24 
+result of cast: null[0m
+24
+[31m[Verify Error]:[0m[31mTypeError: The value of field could not be cast to a value that satisfies the schema type: "object". 
+
+attempted value: 24 
+result of cast: null[0m
+2014-09-23T19:25:25Z
+[31m[Verify Error]:[0m[31mTypeError: The value of field could not be cast to a value that satisfies the schema type: "object". 
+
+attempted value: 2014-09-23T19:25:25Z 
+result of cast: null[0m
+calling end execution callback
+[32m[+] HiparVerification HiPar verified[0m
+[
+  '/home/james/nodejs/HiPar/tests/target/TestYup/node_modules/lodash/_hasPath.js': [ 'object.length' ]
+]
+[0m
+Finished executing ./TestYup.js
