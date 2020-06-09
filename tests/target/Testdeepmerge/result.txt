@@ -1,0 +1,78 @@
+{
+  R0ot: {
+    x: {
+      base: 'input',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeepmerge/Testdeepmerge.js',
+      domain: 'test.input'
+    },
+    y: {
+      base: 'input',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeepmerge/Testdeepmerge.js',
+      domain: 'test.input'
+    }
+  },
+  x: {
+    '$$typeof': {
+      base: 'value',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeepmerge/node_modules/deepmerge/dist/cjs.js',
+      domain: 'isReactElement.value'
+    }
+  },
+  y: {},
+  foo: {
+    '$$typeof': {
+      base: 'value',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeepmerge/node_modules/deepmerge/dist/cjs.js',
+      domain: 'isReactElement.value'
+    }
+  },
+  array: {
+    '$$typeof': {
+      base: 'value',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeepmerge/node_modules/deepmerge/dist/cjs.js',
+      domain: 'isReactElement.value'
+    }
+  },
+  quux: {
+    '$$typeof': {
+      base: 'value',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeepmerge/node_modules/deepmerge/dist/cjs.js',
+      domain: 'isReactElement.value'
+    }
+  },
+  bar: {
+    '$$typeof': {
+      base: 'value',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeepmerge/node_modules/deepmerge/dist/cjs.js',
+      domain: 'isReactElement.value'
+    }
+  },
+  baz: {
+    '$$typeof': {
+      base: 'value',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeepmerge/node_modules/deepmerge/dist/cjs.js',
+      domain: 'isReactElement.value'
+    }
+  },
+  does: {
+    '$$typeof': {
+      base: 'value',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeepmerge/node_modules/deepmerge/dist/cjs.js',
+      domain: 'isReactElement.value'
+    }
+  },
+  too: {
+    '$$typeof': {
+      base: 'value',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeepmerge/node_modules/deepmerge/dist/cjs.js',
+      domain: 'isReactElement.value'
+    }
+  },
+  really: {
+    '$$typeof': {
+      base: 'value',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeepmerge/node_modules/deepmerge/dist/cjs.js',
+      domain: 'isReactElement.value'
+    }
+  }
+}

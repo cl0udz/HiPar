@@ -32,6 +32,7 @@ function send(data) {
     log: true
   }, function () {
     pomelo.request(route, data, function (data) {
+      console.log(data)
       pomelo.disconnect();
     });
   });
@@ -42,4 +43,4 @@ function test() {
 }
 
 setTimeout(test, 30000);
-setTimeout(process.exit, 40000);
+setTimeout(process.exit, 50000);

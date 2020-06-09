@@ -4,38 +4,6 @@ require("core-js/modules/es.object.to-string");
 
 require("core-js/modules/es.promise");
 
-require("core-js/modules/es.object.to-string");
-
-require("core-js/modules/es.promise");
-
-require("core-js/modules/es.object.to-string");
-
-require("core-js/modules/es.promise");
-
-require("core-js/modules/es.object.to-string");
-
-require("core-js/modules/es.promise");
-
-require("core-js/modules/es.object.to-string");
-
-require("core-js/modules/es.promise");
-
-require("core-js/modules/es.object.to-string");
-
-require("core-js/modules/es.promise");
-
-require("core-js/modules/es.object.to-string");
-
-require("core-js/modules/es.promise");
-
-require("core-js/modules/es.object.to-string");
-
-require("core-js/modules/es.promise");
-
-require("core-js/modules/es.object.to-string");
-
-require("core-js/modules/es.promise");
-
 var _poolModule = require('generic-pool');
 
 var mysql = require('mysql');
@@ -46,6 +14,7 @@ var mysql = require('mysql');
 
 var createMysqlPool = function createMysqlPool(app) {
   var mysqlConfig = app.get('mysql');
+  console.log(mysqlConfig);
   var factory = {
     create: function create() {
       return new Promise(function (resolve) {

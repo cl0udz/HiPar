@@ -1,0 +1,45 @@
+{
+  R0ot: {
+    getTime: {
+      base: 'target',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeep-copy/node_modules/deep-copy/index.js',
+      domain: 'anon_13_17_79_1.anon_22_9_61_3.target'
+    },
+    push: {
+      base: 'copy',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeep-copy/node_modules/deep-copy/index.js',
+      domain: 'anon_13_17_79_1.add.copy'
+    }
+  },
+  a: {
+    getTime: {
+      base: 'obj',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeep-copy/node_modules/deep-copy/index.js',
+      domain: 'anon_13_17_79_1.anon_22_9_61_3.walk.obj'
+    },
+    push: {
+      base: 'copy',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeep-copy/node_modules/deep-copy/index.js',
+      domain: 'anon_13_17_79_1.add.copy'
+    }
+  },
+  b: {
+    getTime: {
+      base: 'obj',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeep-copy/node_modules/deep-copy/index.js',
+      domain: 'anon_13_17_79_1.anon_22_9_61_3.walk.obj'
+    }
+  },
+  c: {
+    getTime: {
+      base: 'obj',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeep-copy/node_modules/deep-copy/index.js',
+      domain: 'anon_13_17_79_1.anon_22_9_61_3.walk.obj'
+    },
+    push: {
+      base: 'copy',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeep-copy/node_modules/deep-copy/index.js',
+      domain: 'anon_13_17_79_1.add.copy'
+    }
+  }
+}
