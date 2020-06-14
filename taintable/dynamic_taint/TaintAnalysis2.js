@@ -150,7 +150,9 @@ J$.analysis = {};
                     fname = "anon_" + anon_cnt;
                     anon_cnt++;
                 } else {
+                    console.log("f come");
                     fname = f.name;
+                    console.log("f go")
                 }
                 function_queue[fname] = [line_start,col_start,line_end,col_end];
                 //console.log("Entering " + fname);
@@ -206,7 +208,7 @@ J$.analysis = {};
             return {result: val};
         }
 
-        this.getField = function(iid, base, offset, val, isComputed, isOpAssign, isMethodCall) {
+        this.getField22 = function(iid, base, offset, val, isComputed, isOpAssign, isMethodCall) {
             // For a getField statement a[b] ;
             // iid      ->      the putField statement.
             // base     ->      object a
