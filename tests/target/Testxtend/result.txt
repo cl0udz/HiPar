@@ -1,0 +1,16 @@
+{
+  R0ot: {
+    a: {
+      base: 'input',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testxtend/Testxtend.js',
+      domain: 'test.input'
+    },
+    b: {
+      base: 'input',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testxtend/Testxtend.js',
+      domain: 'test.input'
+    }
+  },
+  a: {},
+  b: {}
+}

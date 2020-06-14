@@ -265,11 +265,53 @@ function verifyHipar(testFunc, param) {
   }
 }
 
-function sendFromDetail(input){
-  
-  var detail= global.detail
-  var bodyString = JSON.stringify(input)
-  var headers = {}
+
+function sendFromDetail_formData(input){
+  var detail= global.detail;
+  var headers = {};
+  for(var i=0;i<detail.requestHeaders.length;i++){
+    headers[detail.requestHeaders[i].name]=detail.requestHeaders[i].value;
+  }
+
+  var burp01_options = {
+      url: detail.url,
+      headers: headers,
+      method: detail.method,
+      formData: input
+  }
+  request(burp01_options, function (error, response, body) {
+      console.log('statusCode:', response && response.statusCode)
+      console.log('error: ', error)
+      console.log('body: ', body)
+  });
+}
+
+function sendFromDetail_notjson(input){
+  var detail= global.detail;
+  var bodyString = input.s +='&lable=1';
+  var headers = {};
+  for(var i=0;i<detail.requestHeaders.length;i++){
+    headers[detail.requestHeaders[i].name]=detail.requestHeaders[i].value;
+  }
+
+  var burp01_options = {
+      url: detail.url,
+      headers: headers,
+      method: detail.method,
+      body: bodyString,
+  }
+  request(burp01_options, function (error, response, body) {
+      console.log('statusCode:', response && response.statusCode)
+      console.log('error: ', error)
+      console.log('body: ', body)
+  });
+}
+
+
+function sendFromDetail(postBody){
+  var detail= global.detail;
+  var bodyString = JSON.stringify(input);
+  var headers = {};
   for(var i=0;i<detail.requestHeaders.length;i++){
     headers[detail.requestHeaders[i].name]=detail.requestHeaders[i].value;
   }
@@ -292,8 +334,17 @@ function requestFromLog(reqlist){
   process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0
   for (var i in reqlist){
       global.detail = reqlist[i];
-      var input = JSON.parse(global.detail.postedString)
-      entry(sendFromDetail,input)
+      if(global.detail.notjson){
+        var input = {s: global.detail.postedString };
+        entry(sendFromDetail_notjson,input)
+      }else if(global.detail.formData!= undefined){
+        var input = global.detail.formData;
+        entry(sendFromDetail_formData,input);
+      }else
+      {
+        var input = JSON.parse(global.detail.postedString)
+        entry(sendFromDetail,input)
+      }
       // console.log(i)
       // console.log(detail)
     }

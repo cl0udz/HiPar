@@ -1,0 +1,126 @@
+{
+  R0ot: {
+    obj1: {
+      base: 'input',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeep-extend/Testdeep-extend.js',
+      domain: 'test.input'
+    },
+    obj2: {
+      base: 'input',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeep-extend/Testdeep-extend.js',
+      domain: 'test.input'
+    }
+  },
+  obj1: {
+    constructor: {
+      base: 'obj',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeep-extend/node_modules/deep-extend/lib/deep-extend.js',
+      domain: '_typeof._typeof.obj'
+    }
+  },
+  obj2: {
+    constructor: {
+      base: 'obj',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeep-extend/node_modules/deep-extend/lib/deep-extend.js',
+      domain: '_typeof._typeof.obj'
+    }
+  },
+  a: {},
+  b: {
+    constructor: {
+      base: 'obj',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeep-extend/node_modules/deep-extend/lib/deep-extend.js',
+      domain: '_typeof._typeof.obj'
+    }
+  },
+  d: {
+    constructor: {
+      base: 'obj',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeep-extend/node_modules/deep-extend/lib/deep-extend.js',
+      domain: '_typeof._typeof.obj'
+    }
+  },
+  f: {
+    constructor: {
+      base: 'obj',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeep-extend/node_modules/deep-extend/lib/deep-extend.js',
+      domain: '_typeof._typeof.obj'
+    },
+    forEach: {
+      base: 'arr',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeep-extend/node_modules/deep-extend/lib/deep-extend.js',
+      domain: 'deepCloneArray.arr'
+    }
+  },
+  g: {},
+  i: {},
+  j: {
+    constructor: {
+      base: 'obj',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeep-extend/node_modules/deep-extend/lib/deep-extend.js',
+      domain: '_typeof._typeof.obj'
+    },
+    forEach: {
+      base: 'arr',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeep-extend/node_modules/deep-extend/lib/deep-extend.js',
+      domain: 'deepCloneArray.arr'
+    }
+  },
+  c: {
+    constructor: {
+      base: 'obj',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeep-extend/node_modules/deep-extend/lib/deep-extend.js',
+      domain: '_typeof._typeof.obj'
+    }
+  },
+  e: {
+    constructor: {
+      base: 'obj',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeep-extend/node_modules/deep-extend/lib/deep-extend.js',
+      domain: '_typeof._typeof.obj'
+    }
+  },
+  h: {
+    constructor: {
+      base: 'obj',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeep-extend/node_modules/deep-extend/lib/deep-extend.js',
+      domain: '_typeof._typeof.obj'
+    }
+  },
+  one: {
+    constructor: {
+      base: 'obj',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeep-extend/node_modules/deep-extend/lib/deep-extend.js',
+      domain: '_typeof._typeof.obj'
+    }
+  },
+  two: {
+    constructor: {
+      base: 'obj',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeep-extend/node_modules/deep-extend/lib/deep-extend.js',
+      domain: '_typeof._typeof.obj'
+    }
+  },
+  test1: {},
+  test2: {
+    constructor: {
+      base: 'obj',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeep-extend/node_modules/deep-extend/lib/deep-extend.js',
+      domain: '_typeof._typeof.obj'
+    }
+  },
+  first: {
+    constructor: {
+      base: 'obj',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeep-extend/node_modules/deep-extend/lib/deep-extend.js',
+      domain: '_typeof._typeof.obj'
+    }
+  },
+  second: {
+    constructor: {
+      base: 'obj',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testdeep-extend/node_modules/deep-extend/lib/deep-extend.js',
+      domain: '_typeof._typeof.obj'
+    }
+  }
+}

@@ -88,6 +88,7 @@ app.configure('production|development', function () {
 
   app.route('area', routeUtil.area);
   app.route('connector', routeUtil.connector);
+  console.log(app.getBase());
   app.loadConfig('mysql', app.getBase() + '/../shared/config/mysql.json');
   app.filter(pomelo.filters.timeout());
   /*

@@ -1,0 +1,45 @@
+{
+  R0ot: {
+    src: {
+      base: 'input',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testcopy-props/Testcopy-props.js',
+      domain: 'test.input'
+    },
+    dst: {
+      base: 'input',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testcopy-props/Testcopy-props.js',
+      domain: 'test.input'
+    }
+  },
+  src: {},
+  dst: {},
+  a: {
+    constructor: {
+      base: 'o',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testcopy-props/node_modules/is-plain-object/index.js',
+      domain: 'isPlainObject.o'
+    }
+  },
+  b: {
+    constructor: {
+      base: 'o',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testcopy-props/node_modules/is-plain-object/index.js',
+      domain: 'isPlainObject.o'
+    }
+  },
+  c: {
+    constructor: {
+      base: 'o',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testcopy-props/node_modules/is-plain-object/index.js',
+      domain: 'isPlainObject.o'
+    }
+  },
+  b1: {
+    constructor: {
+      base: 'o',
+      file: '/Users/ex1t/Desktop/node-analysis/HiPar/tests/target/Testcopy-props/node_modules/is-plain-object/index.js',
+      domain: 'isPlainObject.o'
+    }
+  },
+  b2: {}
+}

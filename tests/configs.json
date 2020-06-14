@@ -190,7 +190,7 @@
         "projPath": "./target/TestJs-yaml",
         "startFile": "./TestJs-yaml.js",
         "instrFiles": ["./TestJs-yaml.js","../TestcaseUtils.js"],
-        "enable" : true
+        "enable" : false
 
     },
     {
@@ -466,7 +466,7 @@
         "testName": "TestPomelo",
         "projPath": "./target/TestPomelo",
         "startFile": "./TestPomelo.js",
-        "instrFiles": ["./TestPomelo.js","../TestcaseUtils.js"],
+        "instrFiles": ["./TestPomelo.js","./app.js","../TestcaseUtils.js"],
         "enable" : false
     },
     {
@@ -506,30 +506,89 @@
 
     },
     {
-        "testName": "Test-bunyan",
-        "projPath": "./target/TestBunyan",
-        "startFile": "./TestBunyan.js",
-        "args": ["dev"],
-        "instrFiles": ["./TestBunyan.js","../TestcaseUtils.js"],
+        "testName": "TestExpressCart",
+        "projPath": "./target/TestExpressCart",
+        "startFile": "./TestExpressCart.js",
+        "instrFiles": ["./TestExpressCart.js","../TestcaseUtils.js"],
+        "enable" : false
+    },
+    {
+        "testName": "TestCezerin",
+        "projPath": "./target/TestCezerin",
+        "startFile": "./TestCezerin.js",
+        "instrFiles": ["./TestCezerin.js","../TestcaseUtils.js"],
+        "enable" : false
+    },
+    {
+        "testName": "TestMongo-express",
+        "projPath": "./target/TestMongo-express",
+        "startFile": "./TestMongo-express.js",
+        "instrFiles": ["./TestMongo-express.js","../TestcaseUtils.js"],
+        "enable" : false
+    },
+    {
+        "testName": "TestTotalJs",
+        "projPath": "./target/TestTotalJs",
+        "startFile": "./TestTotalJs.js",
+        "instrFiles": ["./TestTotalJs.js","../TestcaseUtils.js"],
         "enable" : false
 
     },
     {
-        "testName": "Test-derby",
+        "testName": "TestDerbyJs",
         "projPath": "./target/TestDerbyJs",
         "startFile": "./TestDerbyJs.js",
-        "args": ["dev"],
         "instrFiles": ["./TestDerbyJs.js","../TestcaseUtils.js"],
         "enable" : false
-
     },
     {
-        "testName": "Test-levelup",
-        "projPath": "./target/TestLevelup",
-        "startFile": "./TestLevelup.js",
-        "args": ["dev"],
-        "instrFiles": ["./TestLevelup.js","../TestcaseUtils.js"],
+        "testName": "Testjust-extend",
+        "projPath": "./target/Testjust-extend",
+        "startFile": "./Testjust-extend.js",
+        "instrFiles": ["./Testjust-extend.js","../TestcaseUtils.js"],
         "enable" : false
+    },
+    {
+        "testName": "Testdeep-extend",
+        "projPath": "./target/Testdeep-extend",
+        "startFile": "./Testdeep-extend.js",
+        "instrFiles": ["./Testdeep-extend.js","../TestcaseUtils.js"],
+        "enable" : false
+    },
+    {
+        "testName": "Testdeep-copy",
+        "projPath": "./target/Testdeep-copy",
+        "startFile": "./Testdeep-copy.js",
+        "instrFiles": ["./Testdeep-copy.js","../TestcaseUtils.js"],
+        "enable" : false
+    },
+    {
+        "testName": "Testdeepmerge",
+        "projPath": "./target/Testdeepmerge",
+        "startFile": "./Testdeepmerge.js",
+        "instrFiles": ["./Testdeepmerge.js","../TestcaseUtils.js"],
+        "enable" : false
+    },
+    {
+        "testName": "Testcopy-props",
+        "projPath": "./target/Testcopy-props",
+        "startFile": "./Testcopy-props.js",
+        "instrFiles": ["./Testcopy-props.js","../TestcaseUtils.js"],
+        "enable" : false
+    },
+    {
+        "testName": "Testfast-clone",
+        "projPath": "./target/Testfast-clone",
+        "startFile": "./Testfast-clone.js",
+        "instrFiles": ["./Testfast-clone.js","../TestcaseUtils.js"],
+        "enable" : false
+    },
+    {
+        "testName": "Testxtend",
+        "projPath": "./target/Testxtend",
+        "startFile": "./Testxtend.js",
+        "instrFiles": ["./Testxtend.js","../TestcaseUtils.js"],
+        "enable" : true
     }
     
 ]

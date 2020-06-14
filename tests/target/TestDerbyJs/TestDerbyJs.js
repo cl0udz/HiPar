@@ -1,35 +1,6 @@
-"use strict";
 
 require("core-js/modules/web.timers");
-
-require("core-js/modules/web.timers");
-
-require("core-js/modules/web.timers");
-
-require("core-js/modules/web.timers");
-
-require("core-js/modules/web.timers");
-
-require("core-js/modules/web.timers");
-
-require("core-js/modules/web.timers");
-
-require("core-js/modules/web.timers");
-
-require("core-js/modules/web.timers");
-
-require("core-js/modules/web.timers");
-
-require("core-js/modules/web.timers");
-
-require("core-js/modules/web.timers");
-
-require("core-js/modules/web.timers");
-
-require("core-js/modules/web.timers");
-
-require("core-js/modules/web.timers");
-
+  
 require('./charts/server');
 
 var utils = require('../TestcaseUtils');
