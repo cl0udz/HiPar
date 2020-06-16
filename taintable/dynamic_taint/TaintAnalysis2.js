@@ -208,7 +208,7 @@ J$.analysis = {};
             return {result: val};
         }
 
-        this.getField22 = function(iid, base, offset, val, isComputed, isOpAssign, isMethodCall) {
+        this.getField = function(iid, base, offset, val, isComputed, isOpAssign, isMethodCall) {
             // For a getField statement a[b] ;
             // iid      ->      the putField statement.
             // base     ->      object a
@@ -218,7 +218,7 @@ J$.analysis = {};
             if(taint_state && val ){//&& source_executed){
                 name_data = get_loc_by_iid(iid);
                 if(name_data == null)
-                    return val;
+                    return {result: val};
                 var file_path = name_data[0].toString();
                 var variable_name = name_data[1].toString();
 
