@@ -391,7 +391,7 @@
         "projPath": "./target/TestValidateJS",
         "startFile": "./TestValidateJS.js",
         "instrFiles": ["./TestValidateJS.js","../TestcaseUtils.js"],
-        "enable" : false
+        "enable" : true
 
     },
     {
@@ -588,7 +588,7 @@
         "projPath": "./target/Testxtend",
         "startFile": "./Testxtend.js",
         "instrFiles": ["./Testxtend.js","../TestcaseUtils.js"],
-        "enable" : true
+        "enable" : false
     }
     
 ]

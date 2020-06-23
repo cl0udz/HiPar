@@ -71,6 +71,7 @@ J$.analysis = {};
                 var content = vlocation.slice(1,-1).split(":");
                 var loc = {};
 
+                //console.log(content[0]);
                 loc['file_loc'] = content[0];
                 loc['var_loc'] = {};
                 loc['var_loc']['start'] = {};
@@ -96,6 +97,7 @@ J$.analysis = {};
 
         this.scriptEnter = function(iid, instrumentedFileName, originalFileName) {
             // get the name of current script
+            // console.log(originalFileName);
             if(sname == ""){
                 fnarray = instrumentedFileName.split("/");
                 sname = fnarray[fnarray.length - 1] + "on";

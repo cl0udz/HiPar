@@ -43,7 +43,7 @@ var f_g = function get_name_by_loc(loc, finder){
     }
     search_all_attr(loc.file_loc, content, cmd);
     if (cmd.res.length ===  0){
-        console.log(tynt.Red("[x] get_name_by_loc error: " + JSON.stringify(loc)+ ' not found'));
+        //console.log(tynt.Red("[x] get_name_by_loc error: " + JSON.stringify(loc)+ ' not found'));
         return -1;
     }
     //console.log(cmd.res);
