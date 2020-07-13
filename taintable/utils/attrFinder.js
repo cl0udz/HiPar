@@ -185,10 +185,11 @@ function propertyVisitor(node, domain, cmd){
             return false;
         }
     }
-    if (node.type === "CallExpression"){
+    /* if (node.type === "CallExpression"){
         read_func_index_property(node, [...domain], domain.length, cmd);
         return true;
     }
+    */
 
     if (node.hasOwnProperty("type") || Array.isArray(node)) {
         return true;
@@ -268,7 +269,7 @@ function read_standalone_or_base(node, path, cmd){
 
 }
 
-
+/*
 function read_func_index_property(node, path, offset, cmd){
     // handle a.hasOwnProperty related
     if (node.callee.type  != 'MemberExpression') return;
@@ -280,6 +281,7 @@ function read_func_index_property(node, path, offset, cmd){
         read_property(node.callee.object, path, offset, cmd);
     }
 }
+*/ 
 
 // get a specifcy property referrenced in the file
 function read_property(node, path, offset, cmd){
