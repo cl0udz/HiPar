@@ -32,3 +32,21 @@ utils.entry(test,userJson);
 eg: `node find_file_path.js TestStrapi TestStrapi.js dev`  
 运行后会在tmp[target_dir]目录生成所有运行start_file需要的文件  
 例中 tmpTestStrapi 里面包含所有需要运行`node TestStrapi.js dev`的文件，改下config.json就可以用Analysis跑tmpTestStrapi了
+
+## TestXX.js
+```
+// The name of the input variable is retricted to "input"
+// input has to be an object
+
+// input constructor or other init code
+// e.g. var input = {"input_key" : "input_value"};
+
+// reserved for stage 2 -- start
+function replace_me(){
+}
+replace_me();
+// reserved for stage 2 -- end
+
+// test code
+// e.g. var pp; Object.assign(pp, input); validate(pp);
+```
